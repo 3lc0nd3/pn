@@ -18,7 +18,7 @@
                         <%=titulo.getTexto3()%>
                     </div>
                 </div>
-            </div>--%> <%--SPAN 12--%>
+            </div>--%>  <%--SPAN 12--%>
             <%--<div class="span6">
                 <div class="form">
                     <form method="get" id="searchform" action="#" class="form-search">
