@@ -1,0 +1,224 @@
+div {
+    border: 0px solid red; 
+}
+
+label{
+    font-weight:bold;
+}
+
+
+#myHead{
+    background-color:white;
+    /*background-color:#f1f2f2;*/
+    /*height:155px;*/
+}
+#myMenu{
+    background-color: #f1f0f0;
+}
+
+#homepageDivider{
+    position: relative;
+    height: 10px;
+    margin-top: -30px;
+    margin-right: -20px;
+    margin-bottom: 0pt;
+    margin-left: -20px;
+    background-color: transparent;
+    /*background-image: url("../images/bg/home-divider.png");*/
+    background-repeat: repeat-x;
+    background-attachment: scroll;
+    background-position: center 0pt;
+    background-clip: border-box;
+    background-origin: padding-box;
+    background-size: auto auto;
+}
+
+#homepageContent{
+    /*background-color: #afe1e8;*/
+    /*background-color: #e6e4e4;*/
+    /*background-color: #f1f0f0;*/
+    background-color: #edebeb;
+    background-image: none;
+
+    background-repeat: repeat;
+    background-attachment: scroll;
+    background-position: 0% 0%;
+    background-clip: border-box;
+    background-origin: padding-box;
+    background-size: auto auto;
+    margin-top: -15pt;
+    /*margin-right: -20px;*/
+    /*margin-bottom: -40px;*/
+    /*margin-left: -20px;*/
+}
+
+.gris {
+    color:gray;
+}
+
+body.home {
+    background-color: gray;
+    margin: 0;
+    padding:0; 
+}
+
+#homeFooter{
+    background-color:gray;
+    /*margin-right: -20px;*/
+    margin-top: 20px;
+    margin-bottom: -40px;
+    /*margin-left: -20px;*/
+}
+
+
+footer {
+    padding: 0px 0 20px 0;
+    /*background: #56b0c3 url(../images/bg/footer.png) center 0 repeat-x; */
+    margin-top: 30px;
+}
+footer p, footer h5, footer a { color: #fff; }
+
+.esquinasRedondas {
+	border: 0px solid #ddd;
+    background-color:white;
+
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-khtml-border-radius: 10px;
+	border-radius: 10px;
+    padding: 5px 15px 5px 5px;
+    margin-top:0px;
+    margin-bottom:0px;
+    margin-left:5px;
+    margin-right:5px;
+}
+.esquinasRedondas4 {
+    background-color:white;
+
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-khtml-border-radius: 10px;
+	border-radius: 10px;
+    padding: 10px 10px 20px 10px;
+    /*margin-top:0px;*/
+    /*margin-bottom:0px;*/
+    /*margin-left:20px;*/
+    /*margin-right:5px;*/
+}
+.esquinasRedondas3 {
+	border: 1px solid #ddd;
+	/*-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	border-radius: 3px;*/
+    background-color: #f7f7ff;
+    padding: 5px 5px 5px 5px;
+    /*margin-top:0px;*/
+    /*margin-bottom:0px;*/
+    margin-left:2px;
+    /*margin-right:5px;*/
+}
+.esquinasRedondas5 {
+	border: 1px solid #ddd;
+	/*-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	border-radius: 3px;*/
+    background-color: #f7f7ff;
+    padding: 5px 5px 5px 5px;
+    /*margin-top:0px;*/
+    /*margin-bottom:0px;*/
+    margin-left:2px;
+    /*margin-right:5px;*/
+}
+
+.fbF{
+    color: #3b5998;
+    font-weight: bold;
+}
+
+#test {
+    text-align:center;
+}
+#test div {
+    display:inline-block;
+    text-align:left;
+    vertical-align:top;
+}
+
+.b{
+    /*border: solid 1px black;*/
+    background-color: #f7f7ff;
+    margin:10px;
+    width:280px;
+}
+
+.idea{
+    /*width:500px;*/
+    /*width:40%;*/
+    margin-bottom:20px;
+}
+
+.promedioStartup {
+    margin-top:3px;
+    color: orange;
+    font-size: xx-large;
+}
+
+.popularStartup {
+    margin-top:3px;
+    color: green;
+    font-size: xx-large;
+}
+
+.title_st{
+color: orange;
+font-size: 11px;
+font-weight: bold;
+}
+
+.campoValorMeta{
+    border:0;
+    color:#f6931f;
+    font-weight:bold;
+    background-color: #f7f7ff;
+    text-align:right;
+}
+
+.letraSmall{
+    font-size:smaller;
+    font-weight:lighter;
+}
+
+p {
+    text-align: justify;
+}
+
+p.comentario {
+    /*min-height: 200px;*/
+    width: 90%;
+    text-align: justify;
+    margin: 10px 0;
+    padding: 8px;
+        box-shadow: 0 0 3px #999;
+    border-radius: 5px;
+}
+p.comentario span {
+    display: block;
+    font-weight: bold;
+}
+p.comentario img {
+    float: left;
+    margin: 0 15px 0 0;
+    height: 200px;
+}
+
+img.floatLeft { 
+    float: left;
+    margin: 4px;
+}
+
+img.floatRight { 
+    float: right;
+    margin: 4px;
+}

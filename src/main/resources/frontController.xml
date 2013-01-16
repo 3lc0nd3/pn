@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CAT_SETUP>
+    <PARAMS>
+        <WELCOME request="index"/>
+        <ERROR src="error"/>
+    </PARAMS>
+    <FLOW_CTRL>
+        <REQUEST name="login">
+            <ACTION name="login.Login">
+                <REACTION response="form">
+                    <FORWARD src="00-inicio/login" type="jsp" inner="private/integrator"/>
+                </REACTION>
+                <REACTION response="ingresoOk">
+                    <FORWARD src="00-inicio/inicio" type="jsp" inner="private/integrator"/>
+                </REACTION>
+                <REACTION response="ingresoError">
+                    <FORWARD src="00-inicio/login" type="jsp" inner="private/integrator"/>
+                </REACTION>
+            </ACTION>
+        </REQUEST>
+        <REQUEST name="index">
+            <!--<ACTION name="zbasic.Exit"/>-->
+            <FORWARD src="00-inicio/inicio" type="jsp" inner="private/integrator"/>
+            <!--<FORWARD src="static/login" type="htm" inner="private/integrator"/>-->
+            <!--<FORWARD src="error" type="jsp" inner="private/integrator"/>-->
+        </REQUEST>
+
+        <REQUEST name="eventos">
+            <FORWARD src="01-eventos/eventos" type="jsp" inner="private/integrator"/> 
+        </REQUEST>
+
+        <REQUEST name="admonCertamen">
+            <FORWARD src="01-eventos/admonCertamen" type="jsp" inner="private/integrator"/> 
+        </REQUEST>
+
+        <REQUEST name="participantes">
+            <FORWARD src="04-participantes/participantes" type="jsp" inner="private/integrator"/> 
+        </REQUEST>
+
+        <REQUEST name="misProyectos">
+            <FORWARD src="03-ideas/misIdeas" type="jsp" inner="private/integrator"/>
+        </REQUEST>
+
+        <REQUEST name="proyectos">
+            <FORWARD src="03-ideas/ideas" type="jsp" inner="private/integrator"/>
+        </REQUEST>
+
+        <REQUEST name="admonProyecto">
+            <FORWARD src="03-ideas/admonProyecto" type="jsp" inner="private/integrator"/>
+        </REQUEST>
+
+        <REQUEST name="admonParticipante">
+            <FORWARD src="09-Participante/admonParticipante" type="jsp" inner="private/integrator"/>
+        </REQUEST>
+
+        <REQUEST name="home">
+            <ACTION name="home">
+                <REACTION response="ok">
+                    <FORWARD src="serv/home" type="jsp" inner="private/integrator"/>
+                </REACTION>
+                <REACTION response="tkt">
+                    <FORWARD src="cotizacion" type="request"/>
+                </REACTION>
+                <REACTION response="asesor">
+                    <FORWARD src="emiIndividualAsesor" type="request"/>
+                </REACTION>
+                <REACTION response="error">
+                    <FORWARD src="error&amp;error=2" type="request"/>
+                </REACTION>
+            </ACTION>
+        </REQUEST>
+
+        <REQUEST name="cuentaspagarReEmitidas">
+            <ACTION name="Generica">
+                <REACTION response="form">
+                    <ACTION name="reportes.CargarDatos"/>
+                    <FORWARD src="serv/reportes/cuentasPorPagarACorisReEmitidas" type="jsp" inner="private/integrator"/>
+                </REACTION>
+                <REACTION response="emitidas">
+                    <ACTION name="reportes.CuentasPorPagarACorisRe"/>
+                    <FORWARD src="reporteXls&amp;rep=cuentaPorPagarCorisRe" type="request"/>
+                </REACTION>
+                <REACTION response="anuladas">
+                    <ACTION name="reportes.CuentasPorPagarACorisReAnula"/>
+                    <FORWARD src="reporteXls&amp;rep=cuentaPorPagarCorisRe" type="request"/>
+                </REACTION>
+                <REACTION response="juntos">
+                    <ACTION name="reportes.CuentasPorPagarACorisReJuntos"/>
+                    <FORWARD src="reporteXls&amp;rep=cuentaPorPagarCorisRe" type="request"/>
+                </REACTION>
+                <REACTION response="pepe">
+                    <ACTION name="reportes.CuentasPorPagarACorisReJuntos"/>
+                    <FORWARD src="reporteXls&amp;rep=cuentaPorPagarCorisRePP" type="request"/>
+                </REACTION>
+                <REACTION response="resumen">
+                    <ACTION name="reportes.CuentasPorPagarACorisReResumen"/>
+                    <FORWARD src="reporteXls&amp;rep=cuentasCorisReResumen" type="request"/>
+                </REACTION>
+            </ACTION>
+        </REQUEST>
+
+        <REQUEST name="ventaPrepagoRep">
+            <ACTION name="Generica" >
+                <REACTION response="form">
+                    <ACTION name="prepago.PrepareVentaPrepagoRepresentante"/>
+                    <FORWARD src="serv/prepago/ventaDePrepagoRep" type="jsp" inner="private/integrator"/>
+                </REACTION>
+                <REACTION response="buscarPrepagoCRUD">
+                    <ACTION name="prepago.BuscarPrepagoRepresentante"/>
+                    <ACTION name="prepago.PrepareVentaPrepagoRepresentante"/>
+                    <FORWARD src="serv/prepago/ventaDePrepagoRep" type="jsp" inner="private/integrator"/>
+                </REACTION>
+                <REACTION response="cargarPrepagoCRUD">
+                    <ACTION name="prepago.CargaPrepagoCRUD"/>
+                    <FORWARD src="serv/prepago/ventaDePrepagoRep" type="jsp" inner="private/integrator"/>
+                </REACTION>
+                <REACTION response="crearPrepagoCRUD">
+                    <ACTION name="prepago.VerifiquePrepago">
+                        <REACTION response="error">
+                            <FORWARD src="serv/prepago/ventaDePrepagoRep" type="jsp" inner="private/integrator"/>
+                        </REACTION>
+                    </ACTION>
+                    <ACTION name="prepago.CrearPrepago">
+                        <REACTION response="error">
+                            <FORWARD src="serv/prepago/ventaDePrepagoRep" type="jsp" inner="private/integrator"/>
+                        </REACTION>
+                    </ACTION>
+                    <ACTION name="prepago.PrepareVentaPrepagoRepresentante"/>
+                    <FORWARD src="serv/prepago/ventaDePrepagoRep" type="jsp" inner="private/integrator"/>
+                </REACTION>
+                <REACTION response="cancelarPrepagoCRUD">
+                    <ACTION name="prepago.PrepareVentaPrepagoRepresentante"/>
+                    <FORWARD src="serv/prepago/ventaDePrepagoRep" type="jsp" inner="private/integrator"/>
+                </REACTION>
+                <REACTION response="modificarPrepagoCRUD">
+                    <ACTION name="prepago.VerifiquePrepago">
+                        <REACTION response="error">
+                            <FORWARD src="serv/prepago/ventaDePrepagoRep" type="jsp" inner="private/integrator"/>
+                        </REACTION>
+                    </ACTION>
+                    <ACTION name="prepago.ModificaPrepagoCRUD"/>
+                    <ACTION name="prepago.PrepareVentaPrepagoRepresentante"/>
+                    <FORWARD src="serv/prepago/ventaDePrepagoRep" type="jsp" inner="private/integrator"/>
+                </REACTION>
+                <REACTION response="eliminarPrepagoCRUD">
+                    <ACTION name="prepago.EliminaPrepagoCRUD"/>
+                    <FORWARD src="serv/prepago/ventaDePrepagoRep" type="jsp" inner="private/integrator"/>
+                </REACTION>
+            </ACTION>
+        </REQUEST>
+
+<!--COLOCAR ANTES DE ESTA LINEA LOS SERVICIOS        -->
+        <REQUEST name="error">
+            <!--<ACTION name="error"/>-->
+            <FORWARD src="error" type="jsp" inner="private/integrator"/>
+        </REQUEST>
+        <REQUEST name="*j">
+            <FORWARD src="static/query_error" type="html" inner="private/integrator"/>
+        </REQUEST>
+
+
+    </FLOW_CTRL>
+</CAT_SETUP>

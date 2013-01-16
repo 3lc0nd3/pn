@@ -1,0 +1,80 @@
+@charset "utf-8";
+#navMenu {
+	padding-left: 13px;
+	background:url(/img/nav_bar_r.png);
+}
+
+#navMenu ul {
+	margin:0;
+	padding:0;
+	line-height:40px; /**********ubcica el texto centrado veticalmente dentro de los botones. Este valor debe ser igual a: "height" en #navMenu ul il a**********/
+	text-align:center;
+}
+
+#navMenu li {	/**********afecta a los elementos del primer nivel del menu ej: Productos************/
+	margin:0;
+	padding:0;
+	list-style:none; /****elimina los bullets (viñetas)********/
+	float:left;
+	position:relative;
+}
+
+#navMenu ul li a {  /*********especifica el comportamiento de los elementos para los links debido al elemento a************/
+	/*text-align:left;*/
+	font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+	text-decoration:none;
+	height:40px; /****proporciona la altura de los botones*******/
+	width:auto; /****proporciona el ancho de los botones********/
+	display:block; /****permite que los botones se organicen proporcionalmente de forma horizontal**********/
+	color:#fff; /*****color del texto de los botones en todos los niveles********/
+	/*border:1px solid; /*******borde de los botones en todos los niveles. Tener en cuenta  la relacion con el num de px establecidos en #navMenu ul ul********/
+	text-shadow:1px 1px 1px #000;
+	padding-right: 15px; /****si se da margen en vez de padding, el hover no abarca toda el area del boton**********/
+	padding-left: 15px;
+	font-size: 0.9em;
+}
+
+
+#navMenu ul ul { /*****afecta a los botones de la lista de segundo nivel*********/
+	position:absolute; /******posiciona verticalmente los elementos*****/
+	visibility:hidden; /******mantiene ocultos los elementos para luego ser visibles por medio del hover******/
+	top:40px; /****punto desde el cual toman como referencia los elementos ocultos para ser mostrados. Este valor debe concordar con la altura del boton estabelcida en #navMenu ul li a********/ 
+}
+
+#navMenu ul li:hover ul { /*****permite que se muestren los elementos del segundo nivel al hacer hover******/
+	visibility:visible;
+}
+#navMenu ul li ul li a  { /******edita el los botones del segundo nivel********/
+	text-align: left;
+	background: #666;
+	font-size: 0.8em;
+	padding-left: 20px;
+	padding-right: 15px;
+	margin: 0px;
+	width: 148px;
+}
+
+/********************EFECTO DE HOVER*******************************/
+
+#navMenu li:hover{ /********efecto de hover a todos los botones en general*******/
+	color:#000;
+	text-shadow:1px 1px 1px #FFF;
+	background: url(/img/nav_bar_s.png); /******mantiene el fondo sobre el boton de primer nivel mientras se navega por los botones de segundo nivel********/
+}
+#navMenu ul li:hover ul li a:hover { /******efecto de hover a los botones del segundo nivel*********/
+	color:#000;
+	text-shadow:1px 1px 1px #FFF;
+	background: url(/img/nav_bar_s.png);
+}
+
+#navMenu a:hover {
+	color:#000;
+	text-shadow:1px 1px 1px #FFF;
+	background: url(/img/nav_bar_s.png);
+}
+
+.clearFloat {
+	clear:both;
+	margin:0;
+	padding:0;
+}

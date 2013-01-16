@@ -1,0 +1,90 @@
+package co.com.elramireza.sw.filter;
+
+import org.directwebremoting.AjaxFilter;
+import org.directwebremoting.AjaxFilterChain;
+import org.directwebremoting.WebContext;
+import org.directwebremoting.WebContextFactory;
+import org.directwebremoting.impl.LoginRequiredException;
+import org.apache.log4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Method;
+
+import co.com.elramireza.sw.model.Participante;
+
+/**
+ * Created by Edward L. Ramirez A.
+ * cel 300 554 3367
+ * email elramireza@gmail.com
+ * User: usuariox
+ * Date: Jul 27, 2011
+ * Time: 5:28:34 PM
+ */
+public class DwrFilter implements AjaxFilter {
+
+    Logger logger = Logger.getLogger(DwrFilter.class);
+
+    public Object doFilter(Object obj,
+                           Method method,
+                           Object[] params,
+                           AjaxFilterChain chain) throws Exception {
+//        logger.debug("");
+//        logger.debug("");
+//        logger.debug("/////////////////////////////***********************//////////////////////////////////////");
+//        logger.debug("/////////////////////////////****   DWR Filter 1 ***//////////////////////////////////////");
+//        logger.debug("/////////////////////////////***********************//////////////////////////////////////");
+
+
+        /**
+         * Con esto se obtiene el Objeto que hace la llamada
+         */
+        /*
+        NewsDAO newsDAO = (NewsDAO) obj;
+        logger.debug("newsDAO.getMedia(1).getName() = " + newsDAO.getMedia(1).getName());
+        */
+
+        /**
+         * Tambien se tiene acceso al metodo invocado
+         */
+        /*
+        logger.debug("method.getName() = " + method.getName());
+        */
+
+
+        WebContext webContext = WebContextFactory.get();
+        /*
+        Container c = webContext.getContainer();
+        Collection<String> g = c.getBeanNames();
+        for (String s : g) {
+            logger.debug("s = " + s);
+        }
+*/
+        HttpServletRequest req = webContext.getHttpServletRequest();
+        Participante participante = (Participante) req.getSession().getAttribute("participante");
+//        logger.info("participante = " + participante);
+//        logger.info("method.getName() = " + method.getName());
+        if (participante != null) {
+
+        } else if(method.getName().equals("popularidadStartup")){
+            logger.info("method.getName() = " + method.getName());
+        } else if(method.getName().equals("getHibernateTemplate")){
+            logger.info("method.getName() = " + method.getName());
+        } else if(method.getName().equals("restablecePass")){
+            logger.info("method.getName() = " + method.getName());
+        } else if(method.getName().equals("verMasStartupMobile")){
+            logger.info("method.getName() = " + method.getName());
+        } else if(method.getName().equals("verMasStartupDesk")){
+            logger.info("method.getName() = " + method.getName());
+        } else if(method.getName().equals("creaNuevoUsuarioRegistro")){
+            logger.info("method.getName() = " + method.getName());
+        } else {
+            logger.debug("Usuario Nulo - no hay usuario en session");
+            throw new LoginRequiredException("Por favor ingrese al sistema.") ;
+        }
+//        else {
+//            logger.debug("user.getCompleteName() = " + participante.getNombreParticipante());
+//        }
+
+        return chain.doFilter(obj, method, params);
+    }
+}
