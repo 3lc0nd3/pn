@@ -3,7 +3,7 @@
 <header>
     <div class="container">
         <div class="row">
-            <div class="span12">
+            <%--<div class="span12">
                 <div class="logo">
                     <h1><a href="#">
                         <%
@@ -18,7 +18,7 @@
                         <%=titulo.getTexto3()%>
                     </div>
                 </div>
-            </div>
+            </div>--%> <%--SPAN 12--%>
             <%--<div class="span6">
                 <div class="form">
                     <form method="get" id="searchform" action="#" class="form-search">
