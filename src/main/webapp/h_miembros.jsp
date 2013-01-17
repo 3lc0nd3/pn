@@ -24,7 +24,7 @@
                         <div class="control-group">
                             <label class="control-label" for="nombrePersona">Nombre</label>
                             <div class="controls">
-                                <input type="text" id="idPersona" >
+                                <input type="hidden" id="idPersona" >
                                 <input type="text" class="input-large required" name="nombrePersona" id="nombrePersona">
                             </div>
                         </div>
