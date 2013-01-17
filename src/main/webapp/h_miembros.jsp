@@ -1,12 +1,139 @@
 <%@ page import="java.util.List" %>
 <%@ page import="co.com.elramireza.pn.model.Persona" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="co.com.elramireza.pn.model.Texto" %>
+<%@ page import="co.com.elramireza.pn.model.LocEstado" %>
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 <%
+    Texto texto = pnManager.getTexto(12);
+
     List<Persona> personas = pnManager.getHibernateTemplate().find(
             "from Persona "
     );
 
 %>
+<div class="register">
+    <div class="row">
+        <div class="span10">
+            <div class="formy">
+                <h5>Datos de Persona</h5>
+                <div class="form">
+                    <!-- Login form (not working)-->
+                    <form id="registroPersona" class="form-horizontal" autocomplete="off">
+                        <!-- nombrePersona -->
+                        <div class="control-group">
+                            <label class="control-label" for="nombrePersona">Nombre</label>
+                            <div class="controls">
+                                <input type="text" id="idPersona" >
+                                <input type="text" class="input-large required" name="nombrePersona" id="nombrePersona">
+                            </div>
+                        </div>
+                        <!-- apellido -->
+                        <div class="control-group">
+                            <label class="control-label" for="apellido">Apellido</label>
+                            <div class="controls">
+                                <input type="text" class="input-large required" name="apellido" id="apellido">
+                            </div>
+                        </div>
+                        <!-- documentoIdentidad -->
+                        <div class="control-group">
+                            <label class="control-label" for="documentoIdentidad">Documento de Identidad</label>
+                            <div class="controls">
+                                <input type="text" class="input-large required" name="documentoIdentidad" id="documentoIdentidad">
+                            </div>
+                        </div>
+                        <!-- emailPersonal -->
+                        <div class="control-group">
+                            <label class="control-label" for="emailPersonal">Email Personal</label>
+                            <div class="controls">
+                                <input type="text" class="input-large required email" name="emailPersonal" id="emailPersonal">
+                            </div>
+                        </div>
+                        <!-- emailCorporativo -->
+                        <div class="control-group">
+                            <label class="control-label" for="emailCorporativo">Email Corporativo</label>
+                            <div class="controls">
+                                <input type="text" class="input-large email" name="emailCorporativo" id="emailCorporativo">
+                            </div>
+                        </div>
+                        <!-- twitter -->
+                        <div class="control-group">
+                            <label class="control-label" for="twitter">Twitter</label>
+                            <div class="controls">
+                                <input type="text" class="input-large" name="twitter" id="twitter"  placeholder="@">
+                            </div>
+                        </div>
+                        <!-- skype -->
+                        <div class="control-group">
+                            <label class="control-label" for="skype">Skype</label>
+                            <div class="controls">
+                                <input type="text" class="input-large" name="skype" id="skype">
+                            </div>
+                        </div>
+                        <!-- telefonoFijo -->
+                        <div class="control-group">
+                            <label class="control-label" for="telefonoFijo">Telefono Fijo</label>
+                            <div class="controls">
+                                <input type="text" class="input-large" name="telefonoFijo" id="telefonoFijo">
+                            </div>
+                        </div>
+                        <!-- celular -->
+                        <div class="control-group">
+                            <label class="control-label" for="celular">Celular</label>
+                            <div class="controls">
+                                <input type="text" class="input-large digits" name="celular" id="celular" maxlength="10">
+                            </div>
+                        </div>
+                        <!-- departamento -->
+                        <div class="control-group">
+                            <label class="control-label" for="departamento">Departamento</label>
+                            <div class="controls">
+                                <select id="departamento" onchange="changeEstado();">
+                                    <%
+                                        for (LocEstado estado: pnManager.getLocEstados()){
+                                    %>
+                                    <option value="<%=estado.getIdEstado()%>"><%=estado.getNombreEstado()%></option>
+                                    <%
+                                        }
+                                    %>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Select box -->
+                        <div class="control-group">
+                            <label class="control-label" for="locCiudadPersona">Ciudad</label>
+                            <div class="controls">
+                                <select id="locCiudadPersona"  name="locCiudadPersona" ><%--***********--%>
+                                    <option value="0">Seleccione...</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Buttons -->
+                        <div class="form-actions">
+                            <!-- Buttons -->
+                            <button type="submit" class="btn">Crear</button>
+                            <button type="submit" class="btn">Modificar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="span2">
+            <h2><%=texto.getTexto1()%></h2>
+            <p class="big grey">
+                <%=texto.getTexto2()%>
+            </p>
+            <p style="text-align:justify;">
+                <%=texto.getTexto3()%>
+            </p>
+
+        </div>
+    </div>
+</div> <%-- END MIEMBRO FORM --%>
+<div class="border"></div>
 <div class="miembros">
     <table cellpadding="0" cellspacing="0" border="0" class="display" id="miembros">
         <thead>
@@ -14,25 +141,29 @@
             <th> Documento </th>
             <th> Nombre </th>
             <th> Apellido </th>
-            <th> Email Corp.</th>
+            <th> Email Personal</th>
             <%--<th> Email Personal</th>--%>
             <th> Tel&eacute;fono </th>
             <th> Celular </th>
-            <%--<th> Ciudad </th>--%>
+            <th> &nbsp; </th>
         </tr>
         </thead>
         <%
-            for (int i = 0; i<100; i++)
+//            for (int i = 0; i<100; i++)
             for (Persona persona: personas){
+//            for (Persona persona: new ArrayList<Persona>()){
         %>
         <tr>
             <td> <%=persona.getDocumentoIdentidad() %></td>
             <td> <%=persona.getNombrePersona() %></td>
             <td> <%=persona.getApellido() %></td>
-            <td> <%=persona.getEmailCorporativo() %></td>
-            <%--<td> <%=persona.getEmailPersonal() %></td>--%>
+            <%--<td> <%=persona.getEmailCorporativo() %></td>--%>
+            <td> <%=persona.getEmailPersonal() %></td>
             <td> <%=persona.getTelefonoFijo() %></td>
             <td> <%=persona.getCelular() %></td>
+            <td>
+                <img width="36" onclick="cargaPersona(<%=persona.getIdPersona()%>);" src="img/edit.png" alt="edita" title="edita">
+            </td>
             <%--<td> <%=persona.getLocCiudadByIdCiudad().getNombreCiudad() %></td>--%>
         </tr>
         <%
@@ -44,20 +175,100 @@
 <jsp:include page="c_footer_r.jsp"/>
 
 <script type="text/javascript">
+
+    function cargaPersona(id){
+        pnRemoto.getPersona(id, function(data){
+            dwr.util.setValues(data);
+                dwr.util.setValue("departamento", data.locCiudadByIdCiudad.locEstadoByIdEstado.idEstado);
+                dwr.engine.beginBatch();
+                changeEstado();
+                dwr.util.setValue("locCiudadPersona", data.locCiudadByIdCiudad.idCiudad);
+                dwr.engine.endBatch();
+        });
+    }
+
+    function registarPersona(){
+        var persona = {
+            idPersona : null,
+            nombrePersona : null,
+            apellido : null,
+            documentoIdentidad : null,
+            emailPersonal : null,
+            emailCorporativo : null,
+            twitter : null,
+            skype : null,
+            telefonoFijo : null,
+            celular : null,
+            locCiudadPersona : null
+        };
+        dwr.util.getValues(persona);
+
+        pnRemoto.savePersona(persona, function(data){
+            if(data!= null){
+                if(data == 1){
+                    alert("Registro Correcto");
+                    window.location = "miembros.htm";
+                }
+            }
+        });
+    }
+
+    jQuery.validator.addMethod("fieldDiff", function(value, element, arg){
+        return arg != value;
+    }, jQuery.validator.messages.required);
+
+    jQuery.validator.addMethod("selectNoZero", function(value, element, arg){
+        return "0" != value;
+    }, jQuery.validator.messages.required);
+
+    jQuery(document).ready(function() {
+        jQuery("#registroPersona").validate({
+            rules: {
+                locCiudadPersona:   "selectNoZero"
+            }
+        });
+    });
+
+    jQuery.validator.setDefaults({
+        submitHandler: function() {
+            registarPersona();
+        }
+    });
+
+    function changeEstado(){
+        dwr.util.removeAllOptions("locCiudadPersona");
+        var idEstado = dwr.util.getValue("departamento");
+        pnRemoto.getLocCiudadesFromEstado(idEstado, function(data){
+            dwr.util.addOptions("locCiudadPersona", data, "idCiudad", "nombreCiudad");
+        });
+    }
+
     $(document).ready(function() {
         $('#miembros').dataTable( {
+            "aaSorting": [[ 1, "asc" ]],
             "sPaginationType": "full_numbers", 
             "oLanguage": {
-                "sLengthMenu": "Mostrar _MENU_ registros",
+//                "sLengthMenu": "Mostrar _MENU_ registros",
                 "sZeroRecords": "Sin resultados",
                 "sInfo": "Mostrando _START_ a _END_ de _TOTAL_ registros",
                 "sInfoEmpty": "Mostrando 0 a 0 de 0 registros",
                 "sInfoFiltered": "(Filtrado de _MAX_ registros en total)",
+                "sSearch": "Buscar en la tabla:",
                 "oPaginate": {
                     "sPrevious": "Anterior",
                     "sNext": "Siguiente",
-                    "sFirst": "First page"
-                }
+                    "sFirst": "Primera",
+                    "sLast": "&Uacute;ltima"
+                },
+                "sLengthMenu": 'Mostrar <select>'+
+                               '<option value="5">5</option>'+
+                               '<option value="10">10</option>'+
+                               '<option value="20">20</option>'+
+                               '<option value="30">30</option>'+
+                               '<option value="40">40</option>'+
+                               '<option value="50">50</option>'+
+                               '<option value="-1">All</option>'+
+                               '</select> registros'
             }
         } );
     } );

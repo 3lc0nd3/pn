@@ -87,10 +87,6 @@ public class PnDAO extends HibernateDaoSupport{
         return getHibernateTemplate().find("from CargoEmpleado where tipoCargoEmpleadoByIdTipoCargo.id = 1");
     }
 
-    public int savePersona(Persona persona){
-        return (Integer) getHibernateTemplate().save(persona);
-    }
-
     public int saveEmpresa(Empresa empresa){
         return (Integer) getHibernateTemplate().save(empresa);
     }
@@ -116,6 +112,10 @@ public class PnDAO extends HibernateDaoSupport{
         } else {
             return null;
         }
+    }
+
+    public Persona getPersona(int id){
+        return (Persona) getHibernateTemplate().get(Persona.class, id);
     }
 
     public Persona getPersonaFromDoc(String doc){
@@ -149,6 +149,24 @@ public class PnDAO extends HibernateDaoSupport{
         return (TipoEmpresa) getHibernateTemplate().get(TipoEmpresa.class, id);
     }
 
+    public int savePersona(Persona persona){
+        Persona personaOld = getPersonaFromDoc(persona.getDocumentoIdentidad());
+
+        persona.setLocCiudadByIdCiudad(getCiudad(persona.getLocCiudadPersona()));
+        persona.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
+        if(personaOld != null){ // EXISTE
+            persona.setIdPersona(personaOld.getIdPersona());
+            persona.setEstado(personaOld.getEstado());
+            getHibernateTemplate().update(persona);
+        } else {
+            persona.setEstado(0);
+            /*int idPersona = (Integer) */
+            getHibernateTemplate().saveOrUpdate(persona);
+//            persona.setIdPersona(idPersona);
+        }
+        return 1;
+    }
+
     public int saveInscrito(Empresa empresa,
                             Persona directivo,
                             Persona empleado){
@@ -157,22 +175,22 @@ public class PnDAO extends HibernateDaoSupport{
         HttpSession session = wctx.getSession(true);
         ServletContext context = wctx.getServletContext();
 
-        logger.info("empresa.getNit() = " + empresa.getNit());
-        logger.info("empresa.getNombreEmpresa() = " + empresa.getNombreEmpresa());
-        logger.info("empresa.getPublicaEmpresa() = " + empresa.getPublicaEmpresa());
-        logger.info("empresa.getIdEmpresaCategoriaTamano() = " + empresa.getIdEmpresaCategoriaTamano());
+        logger.debug("empresa.getNit() = " + empresa.getNit());
+        logger.debug("empresa.getNombreEmpresa() = " + empresa.getNombreEmpresa());
+        logger.debug("empresa.getPublicaEmpresa() = " + empresa.getPublicaEmpresa());
+        logger.debug("empresa.getIdEmpresaCategoriaTamano() = " + empresa.getIdEmpresaCategoriaTamano());
         empresa.setLocCiudadByIdCiudad(getCiudad(empresa.getLocCiudadEmpresa()));
-        logger.info("empresa.getLocCiudadByIdCiudad().getNombreCiudad() = " + empresa.getLocCiudadByIdCiudad().getNombreCiudad());
-        logger.info("empresa.getMarcas() = " + empresa.getMarcas());
+        logger.debug("empresa.getLocCiudadByIdCiudad().getNombreCiudad() = " + empresa.getLocCiudadByIdCiudad().getNombreCiudad());
+        logger.debug("empresa.getMarcas() = " + empresa.getMarcas());
 
         EmpresaCategoria categoriaEmpresa = getEmpresaCategoria(empresa.getIdEmpresaCategoria());
-        logger.info("categoriaEmpresa.getCategoria() = " + categoriaEmpresa.getCategoria());
+        logger.debug("categoriaEmpresa.getCategoria() = " + categoriaEmpresa.getCategoria());
         EmpresaCategoriaTamano empresaCategoriaTamano = getEmpresaCategoriaTamano(empresa.getIdEmpresaCategoriaTamano());
-        logger.info("empresaCategoriaTamano.getTamano() = " + empresaCategoriaTamano.getTamano());
+        logger.debug("empresaCategoriaTamano.getTamano() = " + empresaCategoriaTamano.getTamano());
 
-        logger.info("empresa.getFileCertificadoConstitucion() = " + empresa.getFileCertificadoConstitucion());
-        logger.info("empresa.getFileConsignacion() = " + empresa.getFileConsignacion());
-        logger.info("empresa.getFileEstadoFinancieroFile() = " + empresa.getFileEstadoFinancieroFile());
+        logger.debug("empresa.getFileCertificadoConstitucion() = " + empresa.getFileCertificadoConstitucion());
+        logger.debug("empresa.getFileConsignacion() = " + empresa.getFileConsignacion());
+        logger.debug("empresa.getFileEstadoFinancieroFile() = " + empresa.getFileEstadoFinancieroFile());
         
         
 
@@ -195,7 +213,7 @@ public class PnDAO extends HibernateDaoSupport{
             directivo.setLocCiudadByIdCiudad(empresa.getLocCiudadByIdCiudad());
             directivo.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
             int idDirectivo = (Integer) getHibernateTemplate().save(directivo);
-            directivo.setId(idDirectivo);
+            directivo.setIdPersona(idDirectivo);
         }
 
         Persona empleadoOld = getPersonaFromDoc(empleado.getDocumentoIdentidad());
@@ -206,7 +224,7 @@ public class PnDAO extends HibernateDaoSupport{
             empleado.setLocCiudadByIdCiudad(empresa.getLocCiudadByIdCiudad());
             empleado.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
             int idEmpleado = (Integer) getHibernateTemplate().save(empleado);
-            empleado.setId(idEmpleado);
+            empleado.setIdPersona(idEmpleado);
         }
 
         Empresa empresaOld = getEmpresaFromNit(empresa.getNit());
@@ -270,8 +288,8 @@ public class PnDAO extends HibernateDaoSupport{
     }
 
     public int savePnPremio(PnPremio premio ){
-        logger.info("Entro");
-        logger.info("premio.getIdPnPremio() = " + premio.getIdPnPremio());
+        logger.debug("Entro");
+        logger.debug("premio.getIdPnPremio() = " + premio.getIdPnPremio());
         try {
             premio.setFechaDesde(new Timestamp(df.parse(premio.getTmpFechaDesde()).getTime()));
             premio.setFechaHasta(new Timestamp(df.parse(premio.getTmpFechaHasta()).getTime()));

@@ -16,18 +16,18 @@ import java.sql.Timestamp;
 @Entity
 @Table(catalog = "pn", name = "persona")
 public class Persona {
-    private int id;
+    private int idPersona;
 
     @Id
     @GenericGenerator(name = "generator", strategy = "increment")
     @GeneratedValue(generator = "generator")
     @Column(name = "id")
-    public int getId() {
-        return id;
+    public int getIdPersona() {
+        return idPersona;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdPersona(int idPersona) {
+        this.idPersona = idPersona;
     }
 
     private String nombrePersona;
@@ -172,6 +172,17 @@ public class Persona {
 
     public void setEstado(int estado) {
         this.estado = estado;
+    }
+
+    private int locCiudadPersona;
+
+    @Transient
+    public int getLocCiudadPersona() {
+        return locCiudadPersona;
+    }
+
+    public void setLocCiudadPersona(int locCiudadPersona) {
+        this.locCiudadPersona = locCiudadPersona;
     }
 
     private LocCiudad locCiudadByIdCiudad;

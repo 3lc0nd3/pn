@@ -196,6 +196,8 @@
             <dwr:include method="getPersonaFromDoc"/>
             <dwr:include method="getPnPremio"/>
             <dwr:include method="savePnPremio"/>
+            <dwr:include method="savePersona"/>
+            <dwr:include method="getPersona"/>
 
             <!--LOS QUE NO VAN-->
             <!--
