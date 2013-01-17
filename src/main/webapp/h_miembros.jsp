@@ -25,6 +25,7 @@
                             <label class="control-label" for="nombrePersona">Nombre</label>
                             <div class="controls">
                                 <input type="hidden" id="idPersona" >
+                                
                                 <input type="text" class="input-large required" name="nombrePersona" id="nombrePersona">
                             </div>
                         </div>
