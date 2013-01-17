@@ -24,6 +24,11 @@
     <link rel="stylesheet" href="style/slider.css">
     <link href="style/style.css" rel="stylesheet">
 
+    <%-- Data Table--%>
+    <link href="js/datatable/css/demo_page.css" rel="stylesheet">
+    <link href="js/datatable/css/demo_table.css" rel="stylesheet">
+    <link href="js/datatable/css/shCore.css" rel="stylesheet">
+
     <!-- Colors - Orange, Purple, Green and Blue -->
     <%--<link href="style/orange.css" rel="stylesheet">--%>
     <%--<link href="style/purple.css" rel="stylesheet">--%>

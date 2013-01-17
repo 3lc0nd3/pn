@@ -110,7 +110,7 @@
 
 
     <script type="text/javascript">
-        jQuery.metadata.setType("attr", "validate");
+//        jQuery.metadata.setType("attr", "validate");
     </script>
 
 <script type='text/javascript' src='dwr/engine.js'></script>
@@ -128,6 +128,12 @@
 
 <script src="js/datePicker/bootstrap-datepicker.js"></script>
 <script src="js/datePicker/locales/bootstrap-datepicker.es.js"></script>
+
+
+    <%-- Data Table--%>
+
+<script src="js/datatable/js/jquery.dataTables.min.js"></script>
+<script src="js/datatable/js/shCore.js"></script>
 
 
 </body>
