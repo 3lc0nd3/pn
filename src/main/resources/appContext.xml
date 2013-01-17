@@ -198,6 +198,8 @@
             <dwr:include method="savePnPremio"/>
             <dwr:include method="savePersona"/>
             <dwr:include method="getPersona"/>
+            <dwr:include method="getEmpresa"/>
+            <dwr:include method="saveEmpresaR"/>
 
             <!--LOS QUE NO VAN-->
             <!--
@@ -220,7 +222,9 @@
             <dwr:convert class="co.com.elramireza.pn.model.LocPais" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.Participante" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.Perfil" type="bean"/>
-            <dwr:convert class="co.com.elramireza.pn.model.Persona" type="bean"/>
+            <dwr:convert class="co.com.elramireza.pn.model.Persona" type="bean">
+                <dwr:exclude method="password"/>
+            </dwr:convert>
             <dwr:convert class="co.com.elramireza.pn.model.PnAgenda" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.PnAgendaInvitado" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.PnCapitulo" type="bean"/>

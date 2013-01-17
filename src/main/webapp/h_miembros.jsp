@@ -16,7 +16,7 @@
     <div class="row">
         <div class="span10">
             <div class="formy">
-                <h5>Datos de Persona</h5>
+                <a name="datosDePersona"></a><h5>Datos de Persona</h5>
                 <div class="form">
                     <!-- Login form (not working)-->
                     <form id="registroPersona" class="form-horizontal" autocomplete="off">
@@ -142,8 +142,8 @@
             <th> Documento </th>
             <th> Nombre </th>
             <th> Apellido </th>
+            <th> Email Corp.</th>
             <th> Email Personal</th>
-            <%--<th> Email Personal</th>--%>
             <th> Tel&eacute;fono </th>
             <th> Celular </th>
             <th> &nbsp; </th>
@@ -158,10 +158,10 @@
             <td> <%=persona.getDocumentoIdentidad() %></td>
             <td> <%=persona.getNombrePersona() %></td>
             <td> <%=persona.getApellido() %></td>
-            <%--<td> <%=persona.getEmailCorporativo() %></td>--%>
-            <td> <%=persona.getEmailPersonal() %></td>
+            <td> <%=persona.getEmailCorporativo() %></td>
+            <td> <%=persona.getEmailPersonal()!=null?persona.getEmailPersonal():"" %></td>
             <td> <%=persona.getTelefonoFijo() %></td>
-            <td> <%=persona.getCelular() %></td>
+            <td> <%=persona.getCelular()!=null?persona.getCelular():""%></td>
             <td>
                 <img width="36" onclick="cargaPersona(<%=persona.getIdPersona()%>);" src="img/edit.png" alt="edita" title="edita">
             </td>
@@ -180,11 +180,12 @@
     function cargaPersona(id){
         pnRemoto.getPersona(id, function(data){
             dwr.util.setValues(data);
-                dwr.util.setValue("departamento", data.locCiudadByIdCiudad.locEstadoByIdEstado.idEstado);
-                dwr.engine.beginBatch();
-                changeEstado();
-                dwr.util.setValue("locCiudadPersona", data.locCiudadByIdCiudad.idCiudad);
-                dwr.engine.endBatch();
+            dwr.util.setValue("departamento", data.locCiudadByIdCiudad.locEstadoByIdEstado.idEstado);
+            dwr.engine.beginBatch();
+            changeEstado();
+            dwr.util.setValue("locCiudadPersona", data.locCiudadByIdCiudad.idCiudad);
+            dwr.engine.endBatch();
+            window.location = '#datosDePersona';
         });
     }
 

@@ -217,7 +217,7 @@
                         <div class="control-group">
                             <label class="control-label" for="alcanceMercado">Alcance del Mercado</label>
                             <div class="controls">
-                                <select id="alcanceMercado"  name="alcanceMercado"  onchange="changeEstado();">
+                                <select id="alcanceMercado"  name="alcanceMercado">
                                     <option value="0">Seleccione...</option>
                                     <option value="1">Nacional</option>
                                     <option value="2">Internacional</option>
@@ -381,7 +381,7 @@
 
                         <!-- TElefono Empleado-->
                         <div class="control-group">
-                            <label class="Empleadocontrol-label" for="telefonoEmpleado">Tel&eacute;fono Directo</label>
+                            <label class="control-label" for="telefonoEmpleado">Tel&eacute;fono Directo</label>
                             <div class="controls">
                                 <input type="text" class="input-large required" id="telefonoEmpleado" name="telefonoEmpleado">
                             </div>

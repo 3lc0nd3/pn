@@ -91,6 +91,31 @@ public class PnDAO extends HibernateDaoSupport{
         return (Integer) getHibernateTemplate().save(empresa);
     }
 
+    public int saveEmpresaR(Empresa empresa){
+        Empresa empresaOld = getEmpresaFromNit(empresa.getNit());
+
+        empresa.setLocCiudadByIdCiudad(getCiudad(empresa.getLocCiudadEmpresa()));
+        empresa.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
+        empresa.setTipoEmpresaByIdTipoEmpresa(getTipoEmpresa(2));
+
+        empresa.setEmpresaCategoriaByIdCategoriaEmpresa(
+                getEmpresaCategoria(empresa.getIdEmpresaCategoria()));
+        empresa.setEmpresaCategoriaTamanoByIdCategoriaTamanoEmpresa(
+                getEmpresaCategoriaTamano(empresa.getIdEmpresaCategoriaTamano())
+        );
+        if(empresaOld != null){ // EXISTE
+            empresa.setIdEmpresa(empresaOld.getIdEmpresa());
+            empresa.setEstado(empresaOld.getEstado());
+            empresa.setFechaCreacion(empresaOld.getFechaCreacion());
+            getHibernateTemplate().update(empresa);
+        } else {
+            empresa.setEstado(0);
+            getHibernateTemplate().save(empresa);
+
+        }
+        return 1;
+    }
+
     public int saveParticipante(Participante participante){
         return (Integer) getHibernateTemplate().save(participante);
     }
@@ -133,8 +158,8 @@ public class PnDAO extends HibernateDaoSupport{
         return (EmpresaCategoria) getHibernateTemplate().get(EmpresaCategoria.class, id);
     }
 
-    public EmpresaCategoriaTamano getEmpresaCategoriaTamano(int id){
-        return (EmpresaCategoriaTamano) getHibernateTemplate().get(EmpresaCategoriaTamano.class, id);
+    public EmpresaCategoriaTamano getEmpresaCategoriaTamano(int idEmpresaCategoriaTamano){
+        return (EmpresaCategoriaTamano) getHibernateTemplate().get(EmpresaCategoriaTamano.class, idEmpresaCategoriaTamano);
     }
 
     public LocCiudad getCiudad(int id){
@@ -157,6 +182,7 @@ public class PnDAO extends HibernateDaoSupport{
         if(personaOld != null){ // EXISTE
             persona.setIdPersona(personaOld.getIdPersona());
             persona.setEstado(personaOld.getEstado());
+            persona.setFechaCreacion(personaOld.getFechaCreacion());
             getHibernateTemplate().update(persona);
         } else {
             persona.setEstado(0);
@@ -271,7 +297,7 @@ public class PnDAO extends HibernateDaoSupport{
             empresa.setFileConsignacion(fileConsignacion);
 
             int idEmpresa = (Integer) saveEmpresa(empresa);
-            empresa.setId(idEmpresa);
+            empresa.setIdEmpresa(idEmpresa);
         }
         return 1;
     }
