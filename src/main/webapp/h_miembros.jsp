@@ -46,7 +46,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $('#miembros').dataTable( {
-            "sPaginationType": "full_numbers",
+            "sPaginationType": "full_numbers", 
             "oLanguage": {
                 "sLengthMenu": "Mostrar _MENU_ registros",
                 "sZeroRecords": "Sin resultados",
