@@ -68,7 +68,7 @@
 
 <div class="row-fluid">
     <br>
-    <table width="90%%" border="1">
+    <table cellpadding="0" cellspacing="0" border="0" class="display" id="premiosT">
         <thead>
         <tr>
             <th>Id</th>
@@ -165,4 +165,33 @@
         }
     });
 
+    $(document).ready(function() {
+        $('#premiosT').dataTable( {
+            "aaSorting": [[ 1, "asc" ]],
+            "sPaginationType": "full_numbers",
+            "oLanguage": {
+//                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "Sin resultados",
+                "sInfo": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando 0 a 0 de 0 registros",
+                "sInfoFiltered": "(Filtrado de _MAX_ registros en total)",
+                "sSearch": "Buscar en la tabla:",
+                "oPaginate": {
+                    "sPrevious": "Anterior",
+                    "sNext": "Siguiente",
+                    "sFirst": "Primera",
+                    "sLast": "&Uacute;ltima"
+                },
+                "sLengthMenu": 'Mostrar <select>'+
+                               '<option value="5">5</option>'+
+                               '<option value="10">10</option>'+
+                               '<option value="20">20</option>'+
+                               '<option value="30">30</option>'+
+                               '<option value="40">40</option>'+
+                               '<option value="50">50</option>'+
+                               '<option value="-1">All</option>'+
+                               '</select> registros'
+            }
+        } );
+    } );
 </script>
