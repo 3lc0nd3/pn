@@ -354,7 +354,7 @@ function solicitaIngresarAStartup(idParticipante, idStartup, nombreStartup, idCe
 }
 
 function vinculaProyectoEvento(idProyecto, idVinculo){
-    var idEvento = dwr.util.getValue("idCertamen");
+    var idEvento = dwr.util.getValue("widCertamen");
     swRemoto.vinculaStartupConCertamen(idProyecto, idEvento, function(data){
         if(data==1){
             window.location = "admonProyecto.htm?idProyecto="+idVinculo;

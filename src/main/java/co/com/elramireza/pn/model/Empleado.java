@@ -16,18 +16,18 @@ import java.sql.Timestamp;
 @Entity
 @Table(catalog = "pn", name = "empleado")
 public class Empleado {
-    private int id;
+    private int idEmpleado;
 
     @Id
     @GenericGenerator(name = "generator", strategy = "increment")
     @GeneratedValue(generator = "generator")
     @Column(name = "id")
-    public int getId() {
-        return id;
+    public int getIdEmpleado() {
+        return idEmpleado;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdEmpleado(int idEmpleado) {
+        this.idEmpleado = idEmpleado;
     }
 
     private Timestamp fechaIngreso;
@@ -49,7 +49,7 @@ public class Empleado {
 
         Empleado empleado = (Empleado) o;
 
-        if (id != empleado.id) return false;
+        if (idEmpleado != empleado.idEmpleado) return false;
         if (fechaIngreso != null ? !fechaIngreso.equals(empleado.fechaIngreso) : empleado.fechaIngreso != null)
             return false;
 
@@ -58,7 +58,7 @@ public class Empleado {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = idEmpleado;
         result = 31 * result + (fechaIngreso != null ? fechaIngreso.hashCode() : 0);
         return result;
     }

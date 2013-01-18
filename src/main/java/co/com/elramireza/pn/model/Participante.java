@@ -1,6 +1,7 @@
 package co.com.elramireza.pn.model;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -16,18 +17,18 @@ import java.sql.Timestamp;
 @Entity
 @Table(catalog = "pn", name = "participante")
 public class Participante {
-    private int id;
+    private int idParticipante;
 
     @Id
     @GenericGenerator(name = "generator", strategy = "increment")
     @GeneratedValue(generator = "generator")
     @Column(name = "id")
-    public int getId() {
-        return id;
+    public int getIdParticipante() {
+        return idParticipante;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdParticipante(int idParticipante) {
+        this.idParticipante = idParticipante;
     }
 
     private Timestamp fechaIngreso;
@@ -42,15 +43,16 @@ public class Participante {
         this.fechaIngreso = fechaIngreso;
     }
 
-    private int estado;
+    private boolean estado;
 
     @Basic
     @Column(name = "estado")
-    public int getEstado() {
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    public boolean getEstado() {
         return estado;
     }
 
-    public void setEstado(int estado) {
+    public void setEstado(boolean estado) {
         this.estado = estado;
     }
 
@@ -64,31 +66,6 @@ public class Participante {
 
     public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Participante that = (Participante) o;
-
-        if (estado != that.estado) return false;
-        if (id != that.id) return false;
-        if (fechaIngreso != null ? !fechaIngreso.equals(that.fechaIngreso) : that.fechaIngreso != null) return false;
-        if (observaciones != null ? !observaciones.equals(that.observaciones) : that.observaciones != null)
-            return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (fechaIngreso != null ? fechaIngreso.hashCode() : 0);
-        result = 31 * result + estado;
-        result = 31 * result + (observaciones != null ? observaciones.hashCode() : 0);
-        return result;
     }
 
     private Empresa empresaByIdEmpresa;

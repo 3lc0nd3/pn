@@ -1,0 +1,9 @@
+ALTER TABLE `participante` ADD UNIQUE (
+`id_empresa` ,
+`id_convocatoria`
+);
+
+ALTER TABLE `empleado` ADD UNIQUE (
+`id_participante` ,
+`id_persona`
+);

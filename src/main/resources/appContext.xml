@@ -203,6 +203,11 @@
             <dwr:include method="activeDesactiveEmpresa"/>
             <dwr:include method="activeDesactivePersona"/>
             <dwr:include method="activeDesactivePremioN"/>
+            <dwr:include method="activeDesactiveParticipante"/>
+            <dwr:include method="vinculeParticipantePremio"/>
+            <dwr:include method="desvincularParticipante"/>
+            <dwr:include method="vinculaEmpleado"/>
+            <dwr:include method="desvinculaEmpleado"/>
 
             
             <!--LOS QUE NO VAN-->
