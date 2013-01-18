@@ -139,20 +139,28 @@
     <table cellpadding="0" cellspacing="0" border="0" class="display" id="miembros">
         <thead>
         <tr>
-            <th> Documento </th>
+            <th> Doc. </th>
             <th> Nombre </th>
             <th> Apellido </th>
             <th> Email Corp.</th>
             <th> Email Personal</th>
             <th> Tel&eacute;fono </th>
             <th> Celular </th>
-            <th> &nbsp; </th>
+            <th> Estado </th>
+            <th width="28"> Editar </th>
         </tr>
         </thead>
         <%
-//            for (int i = 0; i<100; i++)
+            String imageActive;
+            String messaActive;
             for (Persona persona: personas){
-//            for (Persona persona: new ArrayList<Persona>()){
+                if(persona.getEstado()){
+                    imageActive = "img/positive.png";
+                    messaActive = "Desactivar?";
+                } else {
+                    imageActive = "img/negative.png";
+                    messaActive = "Activar?";
+                }
         %>
         <tr>
             <td> <%=persona.getDocumentoIdentidad() %></td>
@@ -162,6 +170,7 @@
             <td> <%=persona.getEmailPersonal()!=null?persona.getEmailPersonal():"" %></td>
             <td> <%=persona.getTelefonoFijo() %></td>
             <td> <%=persona.getCelular()!=null?persona.getCelular():""%></td>
+            <td><img id="imgActivePersona<%=persona.getIdPersona()%>" width="28" onclick="activaDesactiva(<%=persona.getIdPersona()%>);" src="<%=imageActive%>" alt="<%=messaActive%>" title="<%=messaActive%>"></td>
             <td>
                 <img width="36" onclick="cargaPersona(<%=persona.getIdPersona()%>);" src="img/edit.png" alt="edita" title="edita">
             </td>
@@ -176,6 +185,25 @@
 <jsp:include page="c_footer_r.jsp"/>
 
 <script type="text/javascript">
+
+    function activaDesactiva(id){
+        $("#imgActivePersona"+id).attr("src","images/loading.gif");
+        pnRemoto.activeDesactivePersona(id, function(data){
+            if(data!=null){
+                if(data){
+                    $("#imgActivePersona"+id).attr("src","img/positive.png");
+                    $("#imgActivePersona"+id).attr("title", "Desactivar?");
+                    $("#imgActivePersona"+id).attr("alt",   "Desactivar?");
+                } else {
+                    $("#imgActivePersona"+id).attr("src","img/negative.png");
+                    $("#imgActivePersona"+id).attr("title", "Activar?");
+                    $("#imgActivePersona"+id).attr("alt",   "Activar?");
+                }
+            } else {
+                alert("Problemas !");
+            }
+        });
+    }
 
     function cargaPersona(id){
         pnRemoto.getPersona(id, function(data){

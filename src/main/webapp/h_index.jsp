@@ -4,6 +4,7 @@
 <%
     Texto texto = pnManager.getTexto(1);
     Texto textoRegistro = pnManager.getTexto(10);
+    PnPremio premio = pnManager.getPnPremioActivo();
 %>
 
 <jsp:include page="c_slider01.jsp"/>
@@ -84,21 +85,24 @@
 <div class="border"></div>
 
 <%--  REGISTER  --%>
+<%
+    if(premio!=null){ // SI HAY UN PnPREMIO ACTIVO
+%>
 <div class="register">
     <div class="row">
         <div class="span4">
             <h2>
                 <%=textoRegistro.getTexto1()%>
             </h2>
-            <p class="big grey">
+            <p class="big grey">        
                 <%=textoRegistro.getTexto2()%>
+                a la versi&oacute;n <%=premio.getNombrePremio()%>
             </p>
             <p style="text-align:justify;">
                 <%=textoRegistro.getTexto3()%>
             </p>
 
         </div>
-
         <div class="span8">
             <div class="formy">
                 <div class="form">
@@ -462,6 +466,9 @@
         </div>
     </div>
 </div>
+<%
+    }  /* END IF HAY UN PREMIO PN ACTIVO */
+%>
 <%--  END REGISTER  --%>
 
 <jsp:include page="c_footer_r.jsp"/>
@@ -599,12 +606,4 @@
             registraP();
         }
     });
-
-    $(document).ready(function(){
-        $('.currency').blur(function(){
-            $('.currency').formatCurrency();
-            $('.currency').formatCurrency();
-        });
-    });
-
 </script>

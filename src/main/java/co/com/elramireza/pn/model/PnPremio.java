@@ -1,5 +1,7 @@
 package co.com.elramireza.pn.model;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -61,6 +63,20 @@ public class PnPremio {
     public void setFechaHasta(Timestamp fechaHasta) {
         this.fechaHasta = fechaHasta;
     }
+
+    private boolean estadoInscripcion;
+
+    @Basic
+    @Column(name = "estado_inscripcion")
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    public boolean getEstadoInscripcion() {
+        return estadoInscripcion;
+    }
+
+    public void setEstadoInscripcion(boolean estadoInscripcion) {
+        this.estadoInscripcion = estadoInscripcion;
+    }
+
 
     private Timestamp fechaCreacion;
 

@@ -1,6 +1,7 @@
 package co.com.elramireza.pn.model;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -162,15 +163,16 @@ public class Persona {
         this.password = password;
     }
 
-    private int estado;
+    private boolean estado;
 
     @Basic
     @Column(name = "estado")
-    public int getEstado() {
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    public boolean getEstado() {
         return estado;
     }
 
-    public void setEstado(int estado) {
+    public void setEstado(boolean estado) {
         this.estado = estado;
     }
 

@@ -138,3 +138,14 @@
 
 </body>
 </html>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.currency').blur(function(){
+            $('.currency').formatCurrency({
+                roundToDecimalPlace : 0,
+                colorize:true
+            });
+        });
+    });
+</script>

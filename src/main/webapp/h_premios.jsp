@@ -75,19 +75,29 @@
             <th>Nombre</th>
             <th>Fecha Desde</th>
             <th>Fecha Hasta</th>
-            <th>&nbsp;</th>
+            <th>Estado Inscripci&oacute;n</th>
+            <th>Editar</th>
         </tr>
         </thead>
         <%
+            String imageActive;
+            String messaActive;
             SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
             for (PnPremio premio : pnManager.getPnPremios()){
-                System.out.println("1");
+                if(premio.getEstadoInscripcion()){
+                    imageActive = "img/positive.png";
+                    messaActive = "Desactivar?";
+                } else {
+                    imageActive = "img/negative.png";
+                    messaActive = "Activar?";
+                }
         %>
         <tr>
             <td><%=premio.getIdPnPremio()%></td>
             <td><%=premio.getNombrePremio()%></td>
             <td><%=df.format(premio.getFechaDesde())%></td>
             <td><%=df.format(premio.getFechaHasta())%></td>
+            <td><img id="imgActiveInscripcion<%=premio.getIdPnPremio()%>" width="28" onclick="activaDesactiva(<%=premio.getIdPnPremio()%>);" src="<%=imageActive%>" alt="<%=messaActive%>" title="<%=messaActive%>"></td>
             <td>
                 <img width="36" onclick="editaPremio(<%=premio.getIdPnPremio()%>);" src="img/edit.png" alt="edita" title="edita">
             </td>
@@ -102,6 +112,30 @@
 <jsp:include page="c_footer_r.jsp"/>
 
 <script type="text/javascript">
+
+    function activaDesactiva(id){
+        $("#imgActiveInscripcion"+id).attr("src","images/loading.gif");
+        pnRemoto.activeDesactivePremioN(id, function(data){
+            if (data == 3) {
+                alert("Problemas !");
+            } else if (data == 2){
+                alert("No puede haber mas de un Premio Activo");
+                $("#imgActiveInscripcion" + id).attr("src", "img/negative.png");
+                $("#imgActiveInscripcion" + id).attr("title", "Activar?");
+                $("#imgActiveInscripcion" + id).attr("alt", "Activar?");
+            } else {
+                if (data == 1) {
+                    $("#imgActiveInscripcion" + id).attr("src", "img/positive.png");
+                    $("#imgActiveInscripcion" + id).attr("title", "Desactivar?");
+                    $("#imgActiveInscripcion" + id).attr("alt", "Desactivar?");
+                } else {
+                    $("#imgActiveInscripcion" + id).attr("src", "img/negative.png");
+                    $("#imgActiveInscripcion" + id).attr("title", "Activar?");
+                    $("#imgActiveInscripcion" + id).attr("alt", "Activar?");
+                }
+            }
+        });
+    }
 
     function editaPremio(id){
         pnRemoto.getPnPremio(id, function(data){

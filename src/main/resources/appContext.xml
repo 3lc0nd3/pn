@@ -200,7 +200,11 @@
             <dwr:include method="getPersona"/>
             <dwr:include method="getEmpresa"/>
             <dwr:include method="saveEmpresaR"/>
+            <dwr:include method="activeDesactiveEmpresa"/>
+            <dwr:include method="activeDesactivePersona"/>
+            <dwr:include method="activeDesactivePremioN"/>
 
+            
             <!--LOS QUE NO VAN-->
             <!--
             <dwr:convert class="co.com.elramireza.sw.model.Certamen" type="bean">

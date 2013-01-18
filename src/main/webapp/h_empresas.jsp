@@ -24,12 +24,11 @@
                                 <input type="text" class="input-large required" name="nit" id="nit">
                             </div>
                         </div>
-                        <!-- nombrePersona -->
+                        <!-- nombrePersona -->                   
                         <div class="control-group">
                             <label class="control-label" for="nombreEmpresa">Nombre</label>
                             <div class="controls">
-                                <%--<input type="hidden" id="idEmpresa" >--%>
-                                <input type="text" id="idEmpresa" >
+                                <input type="hidden" id="idEmpresa" >
 
                                 <input type="text" class="input-large required" name="nombreEmpresa" id="nombreEmpresa">
                             </div>
@@ -53,7 +52,7 @@
                         <div class="control-group">
                             <label class="control-label" for="locCiudadEmpresa">Ciudad</label>
                             <div class="controls">
-                                <select id="locCiudadEmpresa"  name="locCiudadEmpresa" ><%--***********--%>
+                                <select id="locCiudadEmpresa"  name="locCiudadEmpresa" >
                                     <option value="0">Seleccione...</option>
                                 </select>
                             </div>
@@ -65,14 +64,14 @@
                                 <input type="text" class="input-large required" name="direccionEmpresa" id="direccionEmpresa">
                             </div>
                         </div>
-                        <!-- documentoIdentidad -->
+                        <!-- tel fijo -->
                         <div class="control-group">
                             <label class="control-label" for="telFijoEmpresa">Tel&eacute;fono Fijo</label>
                             <div class="controls">
                                 <input type="text" class="input-large required" name="telFijoEmpresa" id="telFijoEmpresa"> 
                             </div>
                         </div>
-                        <!-- emailPersonal -->
+                        <!-- celular -->
                         <div class="control-group">
                             <label class="control-label" for="telMovilEmpresa">Tel&eacute;fono Celular</label>
                             <div class="controls">
@@ -220,37 +219,48 @@
 <div class="row">
 
 <div class="miembros">
-    <table cellpadding="0" cellspacing="0" border="0" class="display" id="empresas">
+    <table cellpadding="0" cellspacing="0" border="0" class="display" id="empresas" style="width:100%;">
         <thead>
         <tr>
             <th> Nit </th>
             <th> Nombre </th>
             <th> Direcci&oacute;n </th>
             <th> Categor&iacute;a </th>
-            <th> Tama&ntilde;o</th>
+            <%--<th> Tama&ntilde;o</th>--%>
             <%--<th> Email Personal</th>--%>
             <th> Tel&eacute;fono </th>
             <th> Email </th>
             <th> Ciudad </th>
-            <th width="40"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </th>
-            <th width="40"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </th>
+            <th width="28"> &nbsp;&nbsp;&nbsp;<%--&nbsp;&nbsp;&nbsp;--%> </th>
+            <th width="28"> &nbsp;&nbsp;&nbsp;<%--&nbsp;&nbsp;&nbsp;--%> </th>
+            <th width="28"> &nbsp;&nbsp;&nbsp;<%--&nbsp;&nbsp;&nbsp;--%> </th>
         </tr>
         </thead>
         <%
+            String imageActive;
+            String messaActive;
             for (Empresa empresa: empresas){
+                if(empresa.getEstado()){
+                    imageActive = "img/positive.png";
+                    messaActive = "Desactivar?";
+                } else {
+                    imageActive = "img/negative.png";
+                    messaActive = "Activar?";
+                }
         %>
         <tr>
             <td> <%=empresa.getNit() %></td>
             <td> <%=empresa.getNombreEmpresa() %></td>
             <td> <%=empresa.getDireccionEmpresa() %></td>
             <td> <%=empresa.getEmpresaCategoriaByIdCategoriaEmpresa().getCategoria() %></td>
-            <td> <%=empresa.getEmpresaCategoriaTamanoByIdCategoriaTamanoEmpresa().getTamano() %></td>
+            <%--<td> <%=empresa.getEmpresaCategoriaTamanoByIdCategoriaTamanoEmpresa().getTamano() %></td>--%>
             <td> <%=empresa.getTelFijoEmpresa() %></td>
             <td> <%=empresa.getEmailEmpresa() %></td>
             <td> <%=empresa.getLocCiudadByIdCiudad().getNombreCiudad() %></td>
-            <td><img width="36" onclick="revisaEmpresa(<%=empresa.getIdEmpresa()%>);" src="img/ojo.png" alt="ver" title="ver"></td>
+            <td><img id="imgActiveEmpresa<%=empresa.getIdEmpresa()%>" width="28" onclick="activaDesactiva(<%=empresa.getIdEmpresa()%>);" src="<%=imageActive%>" alt="<%=messaActive%>" title="<%=messaActive%>"></td>
+            <td><img width="28" onclick="revisaEmpresa(<%=empresa.getIdEmpresa()%>);" src="img/ojo.png" alt="ver" title="ver"></td>
             <td>
-                <img width="36" onclick="cargaEmpresa(<%=empresa.getIdEmpresa()%>);" src="img/edit.png" alt="edita" title="edita">
+                <img width="28" onclick="cargaEmpresa(<%=empresa.getIdEmpresa()%>);" src="img/edit.png" alt="edita" title="edita">
             </td>
         </tr>
         <%
@@ -364,6 +374,25 @@
         });
     }
 
+    function activaDesactiva(id){
+        $("#imgActiveEmpresa"+id).attr("src","images/loading.gif");
+        pnRemoto.activeDesactiveEmpresa(id, function(data){
+            if(data!=null){
+                if(data){
+                    $("#imgActiveEmpresa"+id).attr("src","img/positive.png");
+                    $("#imgActiveEmpresa"+id).attr("title", "Desactivar?");
+                    $("#imgActiveEmpresa"+id).attr("alt",   "Desactivar?");
+                } else {
+                    $("#imgActiveEmpresa"+id).attr("src","img/negative.png");
+                    $("#imgActiveEmpresa"+id).attr("title", "Activar?");
+                    $("#imgActiveEmpresa"+id).attr("alt",   "Activar?");
+                }
+            } else {
+                alert("Problemas !");
+            }
+        });
+    }
+
     $(document).ready(function() {
         $('#empresas').dataTable( {
             "aaSorting": [[ 1, "asc" ]],
@@ -393,4 +422,6 @@
             }
         } );
     } );
+
+
 </script>

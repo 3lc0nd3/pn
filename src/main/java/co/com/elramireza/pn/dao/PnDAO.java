@@ -1,22 +1,20 @@
 package co.com.elramireza.pn.dao;
 
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
-import org.springframework.dao.DataAccessException;
-import org.directwebremoting.WebContextFactory;
-import org.directwebremoting.WebContext;
-
-import java.util.List;
-import java.sql.Timestamp;
-import java.io.FileOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.text.ParseException;
-
 import co.com.elramireza.pn.model.*;
+import org.directwebremoting.WebContext;
+import org.directwebremoting.WebContextFactory;
+import org.springframework.dao.DataAccessException;
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-import javax.servlet.http.HttpSession;
 import javax.servlet.ServletContext;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import static java.lang.String.format;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 /**
  * Created by Edward L. Ramirez A.
@@ -52,7 +50,14 @@ public class PnDAO extends HibernateDaoSupport{
 
 
     public Texto getTexto(int id){
-        return (Texto) getHibernateTemplate().get(Texto.class, id);
+        Texto texto = (Texto) getHibernateTemplate().get(Texto.class, id);
+        if(texto==null){
+            texto =  new Texto();
+            texto.setTexto1(format("No hay texto %d", id));
+            texto.setTexto2("");
+            texto.setTexto3("");
+        }
+        return texto;
     }
 
     public List<Texto> getTextosSlider(String idSlider){
@@ -109,7 +114,7 @@ public class PnDAO extends HibernateDaoSupport{
             empresa.setFechaCreacion(empresaOld.getFechaCreacion());
             getHibernateTemplate().update(empresa);
         } else {
-            empresa.setEstado(0);
+            empresa.setEstado(false);
             getHibernateTemplate().save(empresa);
 
         }
@@ -185,7 +190,7 @@ public class PnDAO extends HibernateDaoSupport{
             persona.setFechaCreacion(personaOld.getFechaCreacion());
             getHibernateTemplate().update(persona);
         } else {
-            persona.setEstado(0);
+            persona.setEstado(false);
             /*int idPersona = (Integer) */
             getHibernateTemplate().saveOrUpdate(persona);
 //            persona.setIdPersona(idPersona);
@@ -198,7 +203,7 @@ public class PnDAO extends HibernateDaoSupport{
                             Persona empleado){
 
         WebContext wctx = WebContextFactory.get();
-        HttpSession session = wctx.getSession(true);
+//        HttpSession session = wctx.getSession(true);
         ServletContext context = wctx.getServletContext();
 
         logger.debug("empresa.getNit() = " + empresa.getNit());
@@ -235,7 +240,7 @@ public class PnDAO extends HibernateDaoSupport{
         if(directivoOld != null){  // SI EXISTE
             directivo = directivoOld;
         } else { // NO EXISTE
-            directivo.setEstado(0);
+            directivo.setEstado(true);
             directivo.setLocCiudadByIdCiudad(empresa.getLocCiudadByIdCiudad());
             directivo.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
             int idDirectivo = (Integer) getHibernateTemplate().save(directivo);
@@ -246,7 +251,7 @@ public class PnDAO extends HibernateDaoSupport{
         if(empleadoOld != null){
             empleado = empleadoOld;
         } else {
-            empleado.setEstado(0);
+            empleado.setEstado(false);
             empleado.setLocCiudadByIdCiudad(empresa.getLocCiudadByIdCiudad());
             empleado.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
             int idEmpleado = (Integer) getHibernateTemplate().save(empleado);
@@ -259,7 +264,7 @@ public class PnDAO extends HibernateDaoSupport{
         } else {
             empresa.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
             empresa.setTipoEmpresaByIdTipoEmpresa(getTipoEmpresa(2));
-            empresa.setEstado(0); // sin aprovar
+            empresa.setEstado(false); // sin aprovar
             empresa.setEmpresaCategoriaByIdCategoriaEmpresa(categoriaEmpresa);
             empresa.setEmpresaCategoriaTamanoByIdCategoriaTamanoEmpresa(empresaCategoriaTamano);
 
@@ -311,6 +316,77 @@ public class PnDAO extends HibernateDaoSupport{
         premio.setTmpFechaDesde(df.format(premio.getFechaDesde()));
         premio.setTmpFechaHasta(df.format(premio.getFechaHasta()));
         return premio;
+    }
+
+    public Boolean activeDesactiveEmpresa(final int idEmpresa){
+        try {
+            Empresa empresa = getEmpresa(idEmpresa);
+            empresa.setEstado(!empresa.getEstado());
+            getHibernateTemplate().update(empresa);
+            return empresa.getEstado();
+        } catch (DataAccessException e) {
+            logger.debug(e.getMessage());
+            return null;
+        }
+    }
+
+    public int hayPnPremiosActivos(){
+        List<PnPremio> premios = getHibernateTemplate().find(
+                "from PnPremio where estadoInscripcion = true"
+        );
+        if (premios.size()>0){
+            return premios.get(0).getIdPnPremio();
+        } else {
+            return 0;
+        }
+    }
+
+    /**
+     * Retorna el Premio PN activo. Solo puede haber uno
+     * @return p
+     */
+    public PnPremio getPnPremioActivo(){
+        List<PnPremio> premios = getHibernateTemplate().find(
+                "from PnPremio where estadoInscripcion = true"
+        );
+        if (premios.size()>0){
+            return premios.get(0);
+        } else {
+            return null;
+        }
+    }
+
+    public int activeDesactivePremioN(int idPremio){
+        try {
+            int hay = hayPnPremiosActivos();
+            if(hay >0 && hay !=idPremio){ // No hay mas Premios Activos y no es el mismo
+            return 2;
+            } else {
+                PnPremio premio = getPnPremio(idPremio);
+                premio.setEstadoInscripcion(!premio.getEstadoInscripcion());
+                getHibernateTemplate().update(premio);
+                if(premio.getEstadoInscripcion()){
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            return 3;
+        }
+    }
+
+    public Boolean activeDesactivePersona(int idPersona){
+        try {
+            Persona persona = getPersona(idPersona);
+            persona.setEstado(!persona.getEstado());
+            getHibernateTemplate().update(persona);
+            return persona.getEstado();
+        } catch (DataAccessException e) {
+            logger.debug(e.getMessage());
+            return null;
+        }
     }
 
     public int savePnPremio(PnPremio premio ){
