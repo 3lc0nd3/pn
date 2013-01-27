@@ -12,9 +12,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import static java.lang.String.format;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,6 +44,10 @@ public class PnDAO extends HibernateDaoSupport{
     public List<TipoCargoEmpleado> getTipoCargoEmpleados(){
         return getHibernateTemplate().find("from TipoCargoEmpleado order by tipoCargo ");
     }
+
+	public Servicio getServicio(int id){
+		return (Servicio) getHibernateTemplate().get(Servicio.class, id);
+	}
 
     public List<Servicio> getServiciosAjaxPublicos(){
         return getHibernateTemplate().find("from Servicio where tipo = 'a' and publico = 1");
@@ -590,4 +598,39 @@ public class PnDAO extends HibernateDaoSupport{
             return 0;
         }
     }
+
+	public List<Empleado> getEmpleosFromPersona(int idPersona){
+		List<Empleado> empleados = getHibernateTemplate().find(
+				"from Empleado where personaByIdPersona.idPersona = ?", idPersona
+		);
+		logger.info("empleados nro = " + empleados.size());
+		return empleados;
+	}
+
+	public Persona getPersonaFromLoginPassword(String login,
+											   String password){
+	 	return null;
+	}
+
+	public String getMD5(String yourString){
+//        yourString = "123456789";
+		byte[] bytesOfMessage = yourString.getBytes();
+
+		try {
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			byte[] thedigest = md.digest(bytesOfMessage);
+
+			StringBuffer hexString = new StringBuffer();
+			for (byte aThedigest : thedigest) {
+				String hex = Integer.toHexString(0xff & aThedigest);
+				if (hex.length() == 1) hexString.append('0');
+				hexString.append(hex);
+			}
+			logger.info("Digest(in hex format):: " + hexString.toString());
+			return hexString.toString();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			return "";
+		}
+	}
 }

@@ -76,15 +76,21 @@ public class DwrFilter implements AjaxFilter {
 //        logger.info("participante = " + participante);
 //        logger.info("method.getName() = " + method.getName());
 
+		Servicio servicioSeguridad = pnDAO.getServicio(1);
+		
         boolean publicoAjax = false;
 
-        for(Servicio servicio: pnDAO.getServiciosAjaxPublicos()){
-            if(method.getName().equals(servicio.getServicio())){
-                publicoAjax = true;
-            }
-        }
+		if (servicioSeguridad.getPublico()==0) {  // SI HAY SEGURIDAD
+			for(Servicio servicio: pnDAO.getServiciosAjaxPublicos()){
+				if(method.getName().equals(servicio.getServicio())){
+					publicoAjax = true;
+				}
+			}
+		} else { /* NO HAY SEGURIDAD */
+			publicoAjax = true;
+		}
 
-        if (participante == null && !publicoAjax) {
+		if (participante == null && !publicoAjax) {
             logger.debug("Usuario Nulo - no hay usuario en session");
             throw new LoginRequiredException("Por favor ingrese al sistema.") ;
         }

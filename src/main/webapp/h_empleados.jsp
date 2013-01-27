@@ -102,6 +102,7 @@
             <th>Premio</th>
             <th>Empresa</th>
             <th>Cargo</th>
+            <th>Perfil S</th>
             <th>Empleado</th>
             <th>Desvincular</th>
         </tr>
@@ -124,6 +125,7 @@
             <td> <%=participante.getPnPremioByIdConvocatoria().getNombrePremio()%></td>
             <td> <%=participante.getEmpresaByIdEmpresa().getNombreEmpresa()%></td>
             <td> <%=empleado.getCargoEmpleadoByIdCargo().getCargo()%></td>
+            <td> <%=empleado.getPerfilByIdPerfil().getPerfil()%></td>
             <td> <%=persona.getNombrePersona()%> <%=persona.getApellido()%> </td>
             <%--<td><img id="imgActive<%=participante.getIdParticipante()%>" width="28" onclick="activaDesactiva(<%=participante.getIdParticipante()%>);" src="<%=imageActive%>" alt="<%=messaActive%>" title="<%=messaActive%>"></td>--%>
             <td>

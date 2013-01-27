@@ -208,6 +208,9 @@
             <dwr:include method="desvincularParticipante"/>
             <dwr:include method="vinculaEmpleado"/>
             <dwr:include method="desvinculaEmpleado"/>
+            <dwr:include method="getMD5"/>
+            <dwr:include method="getEmpleosFromPersona"/>
+
 
             
             <!--LOS QUE NO VAN-->
