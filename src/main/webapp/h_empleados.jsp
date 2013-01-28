@@ -155,7 +155,7 @@
     }
 
     function vincule(){
-        if (dwr.util.getValue("idParticipante") == 1) {
+        if (dwr.util.getValue("idParticipante") == 1 && dwr.util.getValue("idPerfil") != 1) {
             alert("No puede hacer eso");
         } else {
             disableId('b2');
