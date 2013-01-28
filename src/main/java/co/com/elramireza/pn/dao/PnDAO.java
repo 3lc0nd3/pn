@@ -15,6 +15,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 import java.io.*;
 
 import static java.lang.String.format;
@@ -62,6 +63,12 @@ public class PnDAO extends HibernateDaoSupport{
 	public List<Servicio> getServiciosPublicosVisibles(){
 		return getHibernateTemplate().find("from Servicio where visible = 1 and publico = 1 order by orden ");
 	}
+
+    public List<ServicioRol> getServiciosFromPerfil(int idPerfil){
+        return getHibernateTemplate().find(
+                "from ServicioRol where perfilByIdRol.id = ? order by servicioByIdServicio.orden",
+                idPerfil);
+    }
 
 
 	public Texto getTexto(int id){
@@ -141,9 +148,13 @@ public class PnDAO extends HibernateDaoSupport{
 			empleado.setParticipanteByIdParticipante(getParticipante(idParticipante));
 			empleado.setFechaIngreso(new Timestamp(System.currentTimeMillis()));
 
-			notificaEmpleadoVinculo(empleado);
 
-			int idEmpleado = (Integer) getHibernateTemplate().save(empleado);
+            Integer idEmpleado = (Integer) getHibernateTemplate().save(empleado);
+
+            if(idEmpleado != null){
+                notificaEmpleadoVinculo(empleado);
+            }
+
 			empleado.setIdEmpleado(idEmpleado);
 			return empleado;
 		} catch (ConstraintViolationException e) {
@@ -161,7 +172,8 @@ public class PnDAO extends HibernateDaoSupport{
 	public void notificaEmpleadoVinculo(Empleado empleado){
 		Persona personaByIdPersona = empleado.getPersonaByIdPersona();
 		logger.info("personaByIdPersona = " + personaByIdPersona);
-		String asunto = "Vinculado a PNEIG - " + empleado.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getNombrePremio();
+		String asunto = "Vinculado a PNEIG - " + empleado.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getNombrePremio()+
+                ", " + empleado.getParticipanteByIdParticipante().getEmpresaByIdEmpresa().getNombreEmpresa();
 		logger.info("asunto = " + asunto);
 		String mensaje =
 				"Cordial saludo" +
@@ -187,11 +199,11 @@ public class PnDAO extends HibernateDaoSupport{
 			String password = getRandomPassword();
 			logger.info("password = " + password);
 			personaByIdPersona.setPassword(getMD5(password));
-//			getHibernateTemplate().update(personaByIdPersona);
+			getHibernateTemplate().update(personaByIdPersona);
 			mensaje += "Password: " + password;
 		}
 		logger.info("mensaje = " + mensaje);
-		String[] emails = {personaByIdPersona.getEmailPersonal(), personaByIdPersona.getEmailCorporativo()};
+		String[] emails = {personaByIdPersona.getEmailPersonal()};
 		enviaEmail(emails, asunto, mensaje, null, SUSCRIBE);
 	}
 
@@ -337,6 +349,71 @@ public class PnDAO extends HibernateDaoSupport{
 		return 1;
 	}
 
+    public boolean isAdministrador(int idPersona){
+        List<Empleado> empleados = getHibernateTemplate().find(
+                "from Empleado where personaByIdPersona.idPersona = ? and perfilByIdPerfil.id = 1",
+                idPersona
+        );
+        return empleados.size()>0;
+    }
+
+    public Empleado selEmpleo(int id){
+        try {
+            Empleado empleado = getEmpleado(id);
+            WebContext wctx = WebContextFactory.get();
+            HttpSession session = wctx.getSession(true);
+            Empleado empleadoOld = (Empleado) session.getAttribute("empleo");
+            if(empleadoOld != null){
+                logger.info("empleadoOld.getPerfilByIdPerfil() = " + empleadoOld.getPerfilByIdPerfil());
+            } else {
+                logger.info("No habia empleo en session");
+            }
+            session.setAttribute("empleo", empleado);
+            return empleado;
+        } catch (Exception e) {
+            logger.debug(e.getMessage());
+            return null;
+        }
+    }
+
+    public void notificaEvaluadorAspiranteRegitro(Persona aspirante){
+        String asunto = "Registro de Aspirante";
+        String mensaje =
+                "Cordial saludo" +
+                        "<br>" +
+                        "<br>" +
+                        "Le informamos que hemos recibido su solicitud como Aspirante a Evaluador del PNEIG." +
+                        "<br>" +
+                        "Estamos evaluando su solicitud, en breve le comunicaremos que pasos seguir." +
+                        "<br>" +
+                        "";
+        String[] emails = {aspirante.getEmailPersonal()};
+        enviaEmail(emails, asunto, mensaje, null, SUSCRIBE);
+    }
+
+    public int registroAspirante(Persona aspirante){
+        logger.info("aspirante.getNombre = " + aspirante.getNombrePersona());
+        logger.info("aspirante.getApellido() = " + aspirante.getApellido());
+        try {
+            Persona aspiranteOld = getPersonaFromDoc(aspirante.getDocumentoIdentidad());
+            if(aspiranteOld != null){
+                aspirante = aspiranteOld;
+            } else { // NO EXISTE
+                aspirante.setEstado(false);
+                aspirante.setLocCiudadByIdCiudad(getCiudad(0));
+                aspirante.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
+                int idAspirante = (Integer) getHibernateTemplate().save(aspirante);
+                aspirante.setIdPersona(idAspirante);
+            }
+            notificaEvaluadorAspiranteRegitro(aspirante);
+            return 1;
+        } catch (DataAccessException e) {
+
+            logger.debug(e.getMessage());
+            return 0;
+        }
+    }
+
 	public int saveInscrito(Empresa empresa,
 							Persona personaDirectivo,
 							Persona personaEncargado){
@@ -378,7 +455,8 @@ public class PnDAO extends HibernateDaoSupport{
 		if(directivoOld != null){  // SI EXISTE
 			personaDirectivo = directivoOld;
 		} else { // NO EXISTE
-			personaDirectivo.setEstado(true);
+			personaDirectivo.setEstado(false);
+            personaDirectivo.setEmailPersonal(personaDirectivo.getEmailCorporativo());
 			personaDirectivo.setLocCiudadByIdCiudad(empresa.getLocCiudadByIdCiudad());
 			personaDirectivo.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
 			int idDirectivo = (Integer) getHibernateTemplate().save(personaDirectivo);
@@ -472,8 +550,11 @@ public class PnDAO extends HibernateDaoSupport{
 		empleadoEncargado.setPerfilByIdPerfil(getPerfil(3)); // Encargado de Proceso
 		empleadoEncargado.setPersonaByIdPersona(personaEncargado);
 
-		int idEncargado = (Integer) getHibernateTemplate().save(empleadoEncargado);
-		empleadoEncargado.setIdEmpleado(idEncargado);
+		Integer idEncargado = (Integer) getHibernateTemplate().save(empleadoEncargado);
+        if(idEncargado != null){
+            notificaEmpleadoVinculo(empleadoEncargado);
+        }
+        empleadoEncargado.setIdEmpleado(idEncargado);
 
 		/*  DIRECTIVO  */
 		Empleado empleadoDirectivo = new Empleado();
@@ -483,8 +564,11 @@ public class PnDAO extends HibernateDaoSupport{
 		empleadoDirectivo.setPerfilByIdPerfil(getPerfil(5)); // Encargado de Proceso
 		empleadoDirectivo.setPersonaByIdPersona(personaDirectivo);
 
-		int idDirectivo = (Integer) getHibernateTemplate().save(empleadoDirectivo);
-		empleadoDirectivo.setIdEmpleado(idDirectivo);
+        Integer idDirectivo = (Integer) getHibernateTemplate().save(empleadoDirectivo);
+        if(idDirectivo != null){
+            notificaEmpleadoVinculo(empleadoDirectivo);
+        }
+        empleadoDirectivo.setIdEmpleado(idDirectivo);
 
 
 		return 1;
@@ -646,7 +730,8 @@ public class PnDAO extends HibernateDaoSupport{
 
 	public List<Empleado> getEmpleosFromPersona(int idPersona){
 		List<Empleado> empleados = getHibernateTemplate().find(
-				"from Empleado where personaByIdPersona.idPersona = ?", idPersona
+				"from Empleado where personaByIdPersona.idPersona = ? order by participanteByIdParticipante.pnPremioByIdConvocatoria.fechaDesde desc ", 
+                idPersona
 		);
 		logger.info("empleados nro = " + empleados.size());
 		return empleados;
@@ -654,7 +739,19 @@ public class PnDAO extends HibernateDaoSupport{
 
 	public Persona getPersonaFromLoginPassword(String login,
 											   String password){
-		return null;
+		Object o[] = {
+                login,
+                getMD5(password)
+        };
+        List<Persona> personas =  getHibernateTemplate().find(
+                "from Persona where emailPersonal = ? and password = ?",
+                o);
+        if(personas.size() == 0){
+            return null;
+        } else {
+            return personas.get(0);
+        }
+
 	}
 
 	public String getMD5(String yourString){

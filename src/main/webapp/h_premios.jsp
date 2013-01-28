@@ -114,27 +114,31 @@
 <script type="text/javascript">
 
     function activaDesactiva(id){
-        $("#imgActiveInscripcion"+id).attr("src","images/loading.gif");
-        pnRemoto.activeDesactivePremioN(id, function(data){
-            if (data == 3) {
-                alert("Problemas !");
-            } else if (data == 2){
-                alert("No puede haber mas de un Premio Activo");
-                $("#imgActiveInscripcion" + id).attr("src", "img/negative.png");
-                $("#imgActiveInscripcion" + id).attr("title", "Activar?");
-                $("#imgActiveInscripcion" + id).attr("alt", "Activar?");
-            } else {
-                if (data == 1) {
-                    $("#imgActiveInscripcion" + id).attr("src", "img/positive.png");
-                    $("#imgActiveInscripcion" + id).attr("title", "Desactivar?");
-                    $("#imgActiveInscripcion" + id).attr("alt", "Desactivar?");
-                } else {
+        if (id == 1) {
+            alert("Para uso interno, no lo puedes activar.");
+        } else {
+            $("#imgActiveInscripcion" + id).attr("src", "images/loading.gif");
+            pnRemoto.activeDesactivePremioN(id, function(data) {
+                if (data == 3) {
+                    alert("Problemas !");
+                } else if (data == 2) {
+                    alert("No puede haber mas de un Premio Activo");
                     $("#imgActiveInscripcion" + id).attr("src", "img/negative.png");
                     $("#imgActiveInscripcion" + id).attr("title", "Activar?");
                     $("#imgActiveInscripcion" + id).attr("alt", "Activar?");
+                } else {
+                    if (data == 1) {
+                        $("#imgActiveInscripcion" + id).attr("src", "img/positive.png");
+                        $("#imgActiveInscripcion" + id).attr("title", "Desactivar?");
+                        $("#imgActiveInscripcion" + id).attr("alt", "Desactivar?");
+                    } else {
+                        $("#imgActiveInscripcion" + id).attr("src", "img/negative.png");
+                        $("#imgActiveInscripcion" + id).attr("title", "Activar?");
+                        $("#imgActiveInscripcion" + id).attr("alt", "Activar?");
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     function editaPremio(id){

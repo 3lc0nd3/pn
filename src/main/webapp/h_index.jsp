@@ -1,70 +1,101 @@
 <%@ page import="co.com.elramireza.pn.model.Texto" %>
 <%@ page import="co.com.elramireza.pn.model.*" %>
+<%@ page import="java.util.List" %>
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 <%
+
+    Persona persona = (Persona) session.getAttribute("persona");
+    Empleado empleo = (Empleado) session.getAttribute("empleo");
+
     Texto texto = pnManager.getTexto(1);
     Texto textoRegistro = pnManager.getTexto(10);
-    PnPremio premio = pnManager.getPnPremioActivo();
+    PnPremio premioActivo = pnManager.getPnPremioActivo();
+
+    String mensajeLogin = (String) request.getAttribute("mensajeLogin");
+
+
 %>
 
 <jsp:include page="c_slider01.jsp"/>
-
-<!-- Hero Unit -->
-
-<%--<div class="row">
-    <div class="span12">
-        <h2><%=texto.getTexto1()%></h2>
-        <p>
-            <%=texto.getTexto2()%>
-        </p>
-    </div>
-</div>--%>
-
-<!-- Hero Ends -->
-<%--<div class="border"></div>--%>
 
 <%--  LOGIN  --%>
 <div class="register">
     <div class="row">
         <div class="span6">
-            <div class="formy">
-                <h5>Ingresa a tu cuenta</h5>
-                <div class="form">
-                    <!-- Login form (not working)-->
-                    <form class="form-horizontal">
-                        <!-- Username -->
-                        <div class="control-group">
-                            <label class="control-label" for="username">Usuario</label>
-                            <div class="controls">
-                                <input type="text" class="input-large" name="username" id="username">
-                            </div>
-                        </div>
-                        <!-- Password -->
-                        <div class="control-group">
-                            <label class="control-label" for="password">Contrase&ntilde;a</label>
-                            <div class="controls">
-                                <input type="password" class="input-large" name="password" id="password">
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <div class="controls">
-                                <label class="checkbox">
-                                    <input type="checkbox">
-                                    Recuerdame
-                                </label>
-                            </div>
-                        </div>
-                        <!-- Buttons -->
-                        <div class="form-actions">
-                            <!-- Buttons -->
-                            <button type="submit" class="btn">Ingreso</button>
-                            <button type="reset" class="btn">Reset</button>
-                        </div>
-                    </form>
-                    No tiene una cuenta? <a href="#registro">Reg&iacute;strese</a>
-                </div>
+            <%
+                if(mensajeLogin.length()!=0){
+            %>
+            <div class="alert">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <%=mensajeLogin%>
             </div>
+            <%
+                }
+                if(persona == null){
+            %>
+            <jsp:include page="c_login.jsp"/>
+            <%
+                } else { // SI HAY PERSONA
+                    Texto selPerfil = pnManager.getTexto(14);
+                    if(empleo==null){ // NO HAY EMPLEO, TOCA SELECCIONAR UNO
 
+
+
+            %>
+            <h3 class="color"><%=selPerfil.getTexto1()%>:</h3>
+            <%
+                        List<Empleado> empleos = pnManager.getEmpleosFromPersona(persona.getIdPersona());
+                        if(empleos.size()>0){
+
+                            for (Empleado empleado: empleos){
+            %>
+            <br>
+            <span style="margin-top:20px; margin-bottom:10px;">
+                <button id="b<%=empleado.getIdEmpleado()%>" type="button" onclick="selEmpleoB(<%=empleado.getIdEmpleado()%>);" class="btn btn-primary">
+                    <%=empleado.getPerfilByIdPerfil().getPerfil()%>
+                    en
+                    <%=empleado.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getNombrePremio()%>
+                    -
+                    <%=empleado.getParticipanteByIdParticipante().getEmpresaByIdEmpresa().getNombreEmpresa()%>
+                </button>
+            </span>
+            <%
+                            }
+                        } else { // NO TIENE UN EMPLEO
+            %>
+            <div class="warning">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                No tiene un perfil
+            </div>
+            <%
+                        }
+                    } else { // SI TIENE EMPLEO
+            %>
+
+            <H3 CLASS="color">
+                <%=selPerfil.getTexto2()%>
+            </H3>
+
+            <span style="font-size:large;">
+                <%=persona.getNombreCompleto()%>
+                <br>
+                <strong><%=empleo.getPerfilByIdPerfil().getPerfil()%></strong>
+                <br>
+                en: <%=empleo.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getNombrePremio()%>
+                <br>
+                <%=empleo.getParticipanteByIdParticipante().getEmpresaByIdEmpresa().getNombreEmpresa()%>
+            </span>
+            <br>
+
+            <form id="cambiarPerfilF" action="index.htm" method="post">
+                <input type="hidden" name="cambiarPerfil" value="1">
+            </form>
+            <button type="button" onclick="cambiarPerfil();" class="btn btn-primary">Cambiar el Perfil</button>
+
+            <%
+                    } // FIN SELECCIONA EMPLEO
+                } // FIN SI HAY PERSONA
+            %>
         </div>
 
         <div class="span6">
@@ -86,7 +117,7 @@
 
 <%--  REGISTER  --%>
 <%
-    if(premio!=null){ // SI HAY UN PnPREMIO ACTIVO
+    if(premioActivo !=null && persona== null){ // SI HAY UN PnPREMIO ACTIVO
 %>
 <div class="register">
     <div class="row">
@@ -96,7 +127,7 @@
             </h2>
             <p class="big grey">        
                 <%=textoRegistro.getTexto2()%>
-                a la versi&oacute;n <%=premio.getNombrePremio()%>
+                a la versi&oacute;n <%=premioActivo.getNombrePremio()%>
             </p>
             <p style="text-align:justify;">
                 <%=textoRegistro.getTexto3()%>
@@ -108,7 +139,7 @@
                 <div class="form">
                     <!-- Register form (not working)-->
                     <form id="registroP" class="form-horizontal" autocomplete="off">
-                        <A name="registro"></A><h5>Datos generales organizaci&oacute;n postulante</h5>
+                        <h5>Datos generales organizaci&oacute;n postulante</h5>
                         <!-- nit -->
                         <div class="control-group">
                             <label class="control-label" for="nit">Nit</label>
@@ -170,7 +201,7 @@
                         <div class="control-group">
                             <label class="control-label" for="telMovilEmpresa">Tel&eacute;fono M&oacute;vil</label>
                             <div class="controls">
-                                <input type="text" class="input-large digits" id="telMovilEmpresa" name="telMovilEmpresa" maxlength="10">
+                                <input type="text" class="input-large digits" id="telMovilEmpresa" name="telMovilEmpresa" maxlength="10" min="3000000000">
                             </div>
                         </div>
 
@@ -349,6 +380,14 @@
                             </div>
                         </div>
 
+                        <!-- telMovil Directivo -->
+                        <div class="control-group">
+                            <label class="control-label" for="telMovilDirectivo">Tel&eacute;fono M&oacute;vil</label>
+                            <div class="controls">
+                                <input type="text" class="input-large required digits" id="telMovilDirectivo" name="telMovilDirectivo" maxlength="10" min="3000000000">
+                            </div>
+                        </div>
+
                         <!-- Email Directivo-->
                         <div class="control-group">
                             <label class="control-label" for="emailDirectivo">Email</label>
@@ -388,6 +427,14 @@
                             <label class="control-label" for="telefonoEmpleado">Tel&eacute;fono Directo</label>
                             <div class="controls">
                                 <input type="text" class="input-large required" id="telefonoEmpleado" name="telefonoEmpleado">
+                            </div>
+                        </div>
+
+                        <!-- telMovil Empleado -->
+                        <div class="control-group">
+                            <label class="control-label" for="telMovilEmpleado">Tel&eacute;fono M&oacute;vil</label>
+                            <div class="controls">
+                                <input type="text" class="input-large required digits" id="telMovilEmpleado" name="telMovilEmpleado" maxlength="10" min="3000000000">
                             </div>
                         </div>
 
@@ -455,7 +502,8 @@
                         <div class="form-actions">
                             <!-- Buttons -->
                             <%--<button type="button" class="btn" onclick="registraP();">Registrar</button>--%>
-                            <input class="submit" type="submit" value="Registrar"/>
+                            <%--<input class="btn" type="submit" value=""/>--%>
+                            <button id="b2" type="submit" class="btn">Registrar</button>
                             <%--<button type="reset" class="btn">Reset</button>--%>
                         </div>
                     </form>
@@ -466,9 +514,124 @@
         </div>
     </div>
 </div>
+
+
+<div class="border"></div>
 <%
     }  /* END IF HAY UN PREMIO PN ACTIVO */
 %>
+<%
+    if(persona == null){ // SOLO SI NO HAY PERSONA
+        Texto textoEvaluador = pnManager.getTexto(15);
+%>
+<registroEval>
+    <div class="row">
+
+        <div class="span8">
+            <div class="formy">
+                <div class="form">
+                    <!-- Register form (not working)-->
+                    <form id="registroEvaluador" class="form-horizontal" autocomplete="off">
+                        <A name="registro"></A>
+                        <h5>Datos del Aspirante a Evaluador</h5>
+
+                        <!-- Documento de Identidad Aspirante-->
+                        <div class="control-group">
+                            <label class="control-label" for="documentoAspirante">Documento Identidad</label>
+                            <div class="controls">
+                                <input type="text" class="input-large required" id="documentoAspirante" name="documentoAspirante">
+                            </div>
+                        </div>
+
+                        <!-- Nombre Aspirante-->
+                        <div class="control-group">
+                            <label class="control-label" for="nombreAspirante">Nombre</label>
+                            <div class="controls">
+                                <input type="text" class="input-large required" id="nombreAspirante" name="nombreAspirante">
+                            </div>
+                        </div>
+
+                        <!-- Apellido Aspirante-->
+                        <div class="control-group">
+                            <label class="control-label" for="apellidoAspirante">Apellido</label>
+                            <div class="controls">
+                                <input type="text" class="input-large required" id="apellidoAspirante" name="apellidoAspirante">
+                            </div>
+                        </div>
+
+                        <!-- TElefono Aspirante-->
+                        <div class="control-group">
+                            <label class="control-label" for="telefonoAspirante">Tel&eacute;fono Directo</label>
+                            <div class="controls">
+                                <input type="text" class="input-large required" id="telefonoAspirante" name="telefonoAspirante">
+                            </div>
+                        </div>
+
+                        <!-- telMovilAspirante-->
+                        <div class="control-group">
+                            <label class="control-label" for="telMovilAspirante">Tel&eacute;fono M&oacute;vil</label>
+                            <div class="controls">
+                                <input type="text" class="input-large required digits" id="telMovilAspirante" name="telMovilAspirante" maxlength="10" min="3000000000">
+                            </div>
+                        </div>
+
+                        <!-- Email Aspirante-->
+                        <div class="control-group">
+                            <label class="control-label" for="emailCorpAspirante">Email Corporativo</label>
+                            <div class="controls">
+                                <input type="text" class="input-large required email" id="emailCorpAspirante" name="emailCorpAspirante">
+                            </div>
+                        </div>
+
+                        <!-- Email Personal Aspirante-->
+                        <div class="control-group">
+                            <label class="control-label" for="emailPersonalAspirante">Email Personal</label>
+                            <div class="controls">
+                                <input type="text" class="input-large required email" id="emailPersonalAspirante" name="email-Personal-Aspirante">
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <div class="controls">
+                                <label class="checkbox inline">
+                                    <input type="checkbox" id="inlineCheckboxEval" name="inlineCheckboxEval" class="required" value="agree">
+                                    Acepto T&eacute;rminos y Condiciones
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="form-actions">
+                            <!-- Buttons -->
+                            <%--<button type="button" class="btn" onclick="registraP();">Registrar</button>--%>
+                            <%--<input class="btn" type="submit" value=""/>--%>
+                            <button id="b3" type="submit" class="btn">Registrar</button>
+                            <%--<button type="reset" class="btn">Reset</button>--%>
+                        </div>
+                    </form>
+                    <%--Already have an Account? <a href="login.html">Login</a>--%>
+                </div> <%--  END DIV FORM  --%>
+            </div><%--  END FORMY  --%>
+
+        </div>
+        <div class="span4">
+
+            <h2>
+                <%=textoEvaluador.getTexto1()%>
+            </h2>
+            <p class="big grey">
+                <%=textoEvaluador.getTexto2()%>
+            </p>
+            <p style="text-align:justify;">
+                <%=textoEvaluador.getTexto3()%>
+            </p>
+        </div>
+    </div>
+</registroEval>
+<%
+    } // FIN REGISTRA EVALUADOR
+%>
+
 <%--  END REGISTER  --%>
 
 <jsp:include page="c_footer_r.jsp"/>
@@ -496,6 +659,7 @@
     }
 
     function registraP(){
+        disableId("b2");
 //        alert("Si o no");
         var empresa = {
             nit : null,
@@ -528,6 +692,7 @@
             nombreDirectivo : null,
             apellidoDirectivo : null,
             telefonoDirectivo : null,
+            telMovilDirectivo : null,
             emailDirectivo : null
         };
         dwr.util.getValues(directivo);
@@ -537,6 +702,7 @@
             nombreEmpleado : null,
             apellidoEmpleado : null,
             telefonoEmpleado : null,
+            telMovilEmpleado : null,
             emailCorpEmpleado : null,
             emailPersonalEmpleado : null,
             idCargoEmpleado : null
@@ -548,6 +714,7 @@
             nombrePersona : directivo.nombreDirectivo,
             apellido : directivo.apellidoDirectivo,
             telefonoFijo : directivo.telefonoDirectivo,
+            celular : directivo.telMovilDirectivo,
             emailCorporativo : directivo.emailDirectivo
         };
 
@@ -556,6 +723,7 @@
             nombrePersona : encargado.nombreEmpleado,
             apellido : encargado.apellidoEmpleado,
             telefonoFijo : encargado.telefonoEmpleado,
+            celular : encargado.telMovilEmpleado,
             emailCorporativo : encargado.emailCorpEmpleado,
             emailPersonal : encargado.emailPersonalEmpleado,
             idCargoEmpleado : encargado.idCargoEmpleado
@@ -573,6 +741,24 @@
 //        alert("personaDirectivo.documentoIdentidad = " + personaDirectivo.documentoIdentidad);
     }
 
+    function cambiarPerfil(){
+        dwr.util.byId("cambiarPerfilF").submit();
+    }
+
+    function selEmpleoB(idEmpleo){
+        disableId('b'+idEmpleo);
+        pnRemoto.selEmpleo(idEmpleo, function(data){
+            if(data!=null){
+                alert("Vamos con: " + data.perfilByIdPerfil.perfil);
+                window.location = "index.htm";
+                enableId("b2");
+            } else {
+                alert('Problemas !');
+                enableId("b2");
+            }
+        });
+    }
+
     jQuery.validator.addMethod("fieldDiff", function(value, element, arg){
         return arg != value;
     }, jQuery.validator.messages.required);
@@ -587,6 +773,9 @@
 
     jQuery(document).ready(function() {
         jQuery("#registroP").validate({
+            submitHandler: function() {
+                registraP();
+            },
             rules: {
                 locCiudadEmpresa:   "selectNoZero",
                 alcanceMercado:     "selectNoZero",
@@ -599,11 +788,57 @@
         });
     });
 
+    jQuery(document).ready(function() {
+        jQuery("#registroEvaluador").validate({
+            submitHandler: function() {
+                registraEvaluador();
+            }
+        });
+    });
 
+    function registraEvaluador(){
+        disableId("b3");
+        var aspirante = {
+            documentoAspirante : null,
+            nombreAspirante : null,
+            apellidoAspirante : null,
+            telefonoAspirante : null,
+            telMovilAspirante : null,
+            emailCorpAspirante : null,
+            emailPersonalAspirante : null
+        };
+        dwr.util.getValues(aspirante);
 
-    jQuery.validator.setDefaults({
+        var personaAspirante = {
+            documentoIdentidad : aspirante.documentoAspirante,
+            nombrePersona : aspirante.nombreAspirante,
+            apellido : aspirante.apellidoAspirante,
+            telefonoFijo : aspirante.telefonoAspirante,
+            celular : aspirante.telMovilAspirante,
+            emailCorporativo : aspirante.emailCorpAspirante,
+            emailPersonal : aspirante.emailPersonalAspirante
+        };
+
+//        alert("personaAspirante.nombrePersona = " + personaAspirante.nombrePersona);
+//        alert("personaAspirante.apellido = " + personaAspirante.apellido);
+
+        pnRemoto.registroAspirante(personaAspirante, function(data){
+            if(data==1){
+                var formCS = dwr.util.byId("registroEvaluador");
+                formCS.reset();
+                alert("Gracias por su registro");
+                enableId("b3");
+            } else {
+                alert("Problemas !");
+                enableId("b3");
+            }
+        });
+
+    }
+
+    /*jQuery.validator.setDefaults({
         submitHandler: function() {
             registraP();
         }
-    });
+    });*/
 </script>

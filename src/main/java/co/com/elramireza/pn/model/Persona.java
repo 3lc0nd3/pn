@@ -5,6 +5,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import static java.lang.String.format;
 
 /**
  * Created by Edward L. Ramirez A.
@@ -29,6 +30,11 @@ public class Persona {
 
     public void setIdPersona(int idPersona) {
         this.idPersona = idPersona;
+    }
+
+    @Transient
+    public String getNombreCompleto(){
+        return format("%s %s", getNombrePersona(), getApellido());
     }
 
     private String nombrePersona;

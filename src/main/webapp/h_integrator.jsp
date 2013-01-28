@@ -2,27 +2,47 @@
 <%@ page import="java.text.MessageFormat" %>
 <%@ page import="static java.text.MessageFormat.format" %>
 <%@ page import="co.com.elramireza.pn.model.Texto" %>
+<%@ page import="co.com.elramireza.pn.model.Persona" %>
 <jsp:include page="c_head.jsp"/>
 
-<%--
-EDWARD
-<div class="purchase">
-    <div class="container">
-        <div class="row">
-            <div class="span7">
-                <p>Buy this theme for $5. Limited Period Offer. Don't miss it.</p>
-            </div>
-            <div class="span5">
-                <div class="pur-button">
-                    <a href="#"
+<%
 
-                       target="_blank">Buy Now</a>
-                    &nbsp;<a href="#" target="_blank">Other Themes</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>--%>
+
+    String username = request.getParameter("username");
+    System.out.println("username = " + username);
+    String password = request.getParameter("password");
+    System.out.println("password = " + password);
+
+    String mensajeLogin = "";
+
+    if (username != null && password != null) {
+        Persona personaLogin = pnManager.getPersonaFromLoginPassword(username, password);
+        System.out.println("personaLogin = " + personaLogin);
+        if(personaLogin != null){
+            mensajeLogin = "Bienvenido: " + personaLogin.getNombreCompleto();
+            session.setAttribute("persona", personaLogin);
+//            persona = personaLogin;
+        } else {
+            mensajeLogin = "Error en datos de ingreso";
+        }
+    }
+
+    request.setAttribute("mensajeLogin", mensajeLogin);
+
+    String exit = request.getParameter("exit");
+    if(exit!=null){ // TOCA SALIR
+        session.invalidate();
+//        persona = null;
+//        response.sendRedirect("/");
+    }
+
+    String cambiarPerfil = request.getParameter("cambiarPerfil");
+    if(cambiarPerfil != null){
+        session.removeAttribute("empleo");
+    }
+
+
+%>
 
 <!-- Header Starts -->
 

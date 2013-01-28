@@ -135,6 +135,9 @@
 <script src="js/datatable/js/jquery.dataTables.min.js"></script>
 <script src="js/datatable/js/shCore.js"></script>
 
+<%--  LOS SCRIPTS--%>
+
+<script src="js/pn.js"></script>
 
 </body>
 </html>

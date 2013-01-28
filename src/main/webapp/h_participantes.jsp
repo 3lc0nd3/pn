@@ -110,27 +110,35 @@
 <script type="text/javascript">
 
     function desvincule(idParticipante){
-        pnRemoto.desvincularParticipante(idParticipante, function(data){
-            if(data == ''){
-                alert("Desvinculado Completo");
-                window.location = "empleados.htm";
-            } else {
-                alert("Problemas ! " + data);
-            }
-        });
+        if (idParticipante == 1) {
+            alert("No puedes hacer eso");
+        } else {
+            pnRemoto.desvincularParticipante(idParticipante, function(data) {
+                if (data == '') {
+                    alert("Desvinculado Completo");
+                    window.location = "participantes.htm";
+                } else {
+                    alert("Problemas ! " + data);
+                }
+            });
+        }
     }
 
     function vincule(){
-        pnRemoto.vinculeParticipantePremio(
-                dwr.util.getValue("idPremio"),
-                dwr.util.getValue("idEmpresa"), function(data){
-            if(data!=null){
-                alert("Registro Completo");
-                window.location = "participantes.htm";
-            } else {
-                alert("Problemas !");
-            }
-        });
+        if (dwr.util.getValue("idEmpresa") == 1) {
+            alert("No puedes hacer eso");
+        } else {
+            pnRemoto.vinculeParticipantePremio(
+                    dwr.util.getValue("idPremio"),
+                    dwr.util.getValue("idEmpresa"), function(data) {
+                if (data != null) {
+                    alert("Registro Completo");
+                    window.location = "participantes.htm";
+                } else {
+                    alert("Problemas !");
+                }
+            });
+        }
     }
 
     function activaDesactiva(id){

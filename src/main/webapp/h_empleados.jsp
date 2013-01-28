@@ -78,8 +78,8 @@
                         <!-- Buttons -->
                         <div class="form-actions">
                             <!-- Buttons -->
-                            <button type="button" class="btn">Consultar</button>
-                            <button onclick="vincule();" type="button" class="btn">Vincular</button>
+                            <button id="b1" type="button" class="btn">Consultar</button>
+                            <button id="b2" onclick="vincule();" type="button" class="btn">Vincular</button>
                         </div>
                     </form>
                 </div>
@@ -155,19 +155,25 @@
     }
 
     function vincule(){
-        pnRemoto.vinculaEmpleado(
-                dwr.util.getValue("idPersona"),
-                dwr.util.getValue("idParticipante"),
-                dwr.util.getValue("idCargo"),
-                dwr.util.getValue("idPerfil"),
-                function(data){
-                    if(data!=null){
-                        alert("Registro Completo");
-                        window.location = "empleados.htm";
-                    } else {
-                        alert("Problemas !");
-                    }
-                });
+        if (dwr.util.getValue("idParticipante") == 1) {
+            alert("No puede hacer eso");
+        } else {
+            disableId('b2');
+            pnRemoto.vinculaEmpleado(
+                    dwr.util.getValue("idPersona"),
+                    dwr.util.getValue("idParticipante"),
+                    dwr.util.getValue("idCargo"),
+                    dwr.util.getValue("idPerfil"),
+                    function(data) {
+                        if (data != null) {
+                            alert("Registro Completo");
+                            window.location = "empleados.htm";
+                        } else {
+                            alert("Problemas !");
+                            enableId('b2');
+                        }
+                    });
+        }
     }
 
     function activaDesactiva(id){

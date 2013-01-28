@@ -211,6 +211,9 @@
             <dwr:include method="getMD5"/>
             <dwr:include method="testEmail"/>
             <dwr:include method="getEmpleosFromPersona"/>
+            <dwr:include method="getPersonaFromLoginPassword"/>
+            <dwr:include method="selEmpleo"/>
+            <dwr:include method="registroAspirante"/>
 
 
             

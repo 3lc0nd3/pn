@@ -1,5 +1,11 @@
 <%@ page import="co.com.elramireza.pn.model.Servicio" %>
+<%@ page import="co.com.elramireza.pn.model.Persona" %>
+<%@ page import="co.com.elramireza.pn.model.ServicioRol" %>
+<%@ page import="java.util.List" %>
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
+<%
+    Persona persona = (Persona) session.getAttribute("persona");
+%>
 
 <!-- Navigation bar starts -->
 <div class="navbar">
@@ -11,6 +17,23 @@
             <div class="nav-collapse collapse">
                 <ul class="nav">
                     <%
+                        if(persona != null && pnManager.isAdministrador(persona.getIdPersona())){ //SI ES ADMON LE CARGO PERFIL 1
+                            List<ServicioRol> servicioRols = pnManager.getServiciosFromPerfil(1);
+                    %>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administraci&oacute;n<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <%
+                                for (ServicioRol servicioRol: servicioRols){
+                            %>
+                            <li><a href="<%=servicioRol.getServicioByIdServicio().getServicio()%>.htm"><%=servicioRol.getServicioByIdServicio().getTextoServicio()%></a></li>
+                            <%
+                                } // EN FOR SERVICIOS PERFIL 1
+                            %>
+                        </ul>
+                    </li>
+                    <%
+                        }
                         for (Servicio servicio: pnManager.getServiciosPublicosVisibles()){
                     %>
                     <li><a href="<%=servicio.getServicio()%>.htm"><%=servicio.getTextoServicio()%></a></li>
