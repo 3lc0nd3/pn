@@ -209,6 +209,7 @@
             <dwr:include method="vinculaEmpleado"/>
             <dwr:include method="desvinculaEmpleado"/>
             <dwr:include method="getMD5"/>
+            <dwr:include method="testEmail"/>
             <dwr:include method="getEmpleosFromPersona"/>
 
 
