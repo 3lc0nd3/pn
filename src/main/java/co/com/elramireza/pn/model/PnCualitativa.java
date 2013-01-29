@@ -106,7 +106,7 @@ public class PnCualitativa {
     private PnCapitulo pnCapituloByIdCapitulo;
 
     @ManyToOne
-    @JoinColumn(name = "id_capitulo", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "id_capitulo", referencedColumnName = "id", nullable = true)
     public PnCapitulo getPnCapituloByIdCapitulo() {
         return pnCapituloByIdCapitulo;
     }

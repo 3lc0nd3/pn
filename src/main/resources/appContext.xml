@@ -86,6 +86,7 @@
                 <value>co.com.elramireza.pn.model.Texto</value>
                 <value>co.com.elramireza.pn.model.EmpresaCategoria</value>
                 <value>co.com.elramireza.pn.model.EmpresaCategoriaTamano</value>
+                <value>co.com.elramireza.pn.model.PnEtapaParticipante</value>
             </list>
         </property>
     </bean>
@@ -120,6 +121,7 @@
         <dwr:convert class="java.lang.StackTraceElement" type="bean"/>
         <dwr:convert class="java.util.Collection" type="collection"/>
         <dwr:convert class="java.util.Map" type="map"/>
+        <dwr:convert class="java.util.HashMap" type="map"/>
     </dwr:configuration>
 
     <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
@@ -214,6 +216,8 @@
             <dwr:include method="getPersonaFromLoginPassword"/>
             <dwr:include method="selEmpleo"/>
             <dwr:include method="registroAspirante"/>
+            <dwr:include method="saveVAloracionIndividual"/>
+            <dwr:include method="saveValoracionIndividualCapitulos"/>
 
 
             
@@ -258,6 +262,8 @@
             <dwr:convert class="co.com.elramireza.pn.model.TipoCargoEmpleado" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.TipoEmpresa" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.TipoFormato" type="bean"/>
+            <dwr:convert class="co.com.elramireza.pn.model.PnEtapaParticipante" type="bean"/>
+            <dwr:convert class="co.com.elramireza.pn.util.MyKey" type="bean"/>
 
             <dwr:convert class="java.io.File" type="bean"/>
 

@@ -25,16 +25,16 @@ public class PnCapitulo {
         this.id = id;
     }
 
-    private String criterio;
+    private String nombreCapitulo;
 
     @Basic
     @Column(name = "criterio")
-    public String getCriterio() {
-        return criterio;
+    public String getNombreCapitulo() {
+        return nombreCapitulo;
     }
 
-    public void setCriterio(String criterio) {
-        this.criterio = criterio;
+    public void setNombreCapitulo(String nombreCapitulo) {
+        this.nombreCapitulo = nombreCapitulo;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class PnCapitulo {
         PnCapitulo that = (PnCapitulo) o;
 
         if (id != that.id) return false;
-        if (criterio != null ? !criterio.equals(that.criterio) : that.criterio != null) return false;
+        if (nombreCapitulo != null ? !nombreCapitulo.equals(that.nombreCapitulo) : that.nombreCapitulo != null) return false;
 
         return true;
     }
@@ -53,7 +53,7 @@ public class PnCapitulo {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + (criterio != null ? criterio.hashCode() : 0);
+        result = 31 * result + (nombreCapitulo != null ? nombreCapitulo.hashCode() : 0);
         return result;
     }
 }

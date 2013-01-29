@@ -9,9 +9,7 @@
 
 
     String username = request.getParameter("username");
-    System.out.println("username = " + username);
     String password = request.getParameter("password");
-    System.out.println("password = " + password);
 
     String mensajeLogin = "";
 

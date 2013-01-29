@@ -15,6 +15,43 @@ INSERT INTO `pn`.`participante` (`id`, `id_empresa`, `id_convocatoria`, `fecha_i
 UPDATE `pn`.`texto` SET `texto1` = 'Postúlese' WHERE `texto`.`id` =10;
 
 
+INSERT INTO `servicio` (`id_servicio`, `servicio`, `texto_servicio`, `publico`, `visible`, `tipo`, `orden`) VALUES
+(31, 'getMD5', 'getMD5', 1, 0, 'a', 0);
+
+INSERT INTO `servicio` (`id_servicio`, `servicio`, `texto_servicio`, `publico`, `visible`, `tipo`, `orden`) VALUES
+(32, 'evalGlobalInd', 'Eval. Global Individual', 0, 1, 'h', 100),
+(33, 'evalCapInd', 'Eval. Capítulos Individual', 0, 1, 'h', 200);
+
+INSERT INTO `pn`.`servicio_rol` (`id`, `id_servicio`, `id_rol`) VALUES (NULL, '32', '2'), (NULL, '33', '2');
+
+INSERT INTO `pn`.`perfil` (`id`, `perfil`) VALUES (NULL, 'Líder Evaluador');
+
+ALTER TABLE `participante` ADD `id_etapa_participante` INT NOT NULL DEFAULT '1' AFTER `estado`
+
+
+CREATE TABLE IF NOT EXISTS `pn_etapa_participante` (
+  `id_etapa_participante` int(11) NOT NULL AUTO_INCREMENT,
+  `etapa_participante` varchar(200) NOT NULL,
+  PRIMARY KEY (`id_etapa_participante`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+INSERT INTO `pn`.`pn_etapa_participante` (`id_etapa_participante`, `etapa_participante`) VALUES (NULL, 'Individual'), (NULL, 'Grupal'), (NULL, 'Agenda'), (NULL, 'Despues de Visita'), (NULL, 'Final');
+
+ALTER TABLE `participante` ADD FOREIGN KEY ( `id_etapa_participante` ) REFERENCES `pn`.`pn_etapa_participante` (
+`id_etapa_participante`
+) ON DELETE RESTRICT ON UPDATE RESTRICT ;
+
+ALTER TABLE `pn_cualitativa` CHANGE `id_capitulo` `id_capitulo` INT( 11 ) NULL
+
+ALTER TABLE `participante` ADD `file_certificado_constitucion` VARCHAR( 600 ) NOT NULL AFTER `id_etapa_participante` ,
+ADD `file_estado_financiero` VARCHAR( 600 ) NOT NULL AFTER `file_certificado_constitucion` ,
+ADD `file_consignacion` VARCHAR( 600 ) NOT NULL AFTER `file_estado_financiero`
+
+
+ 
+
+
+
 
 //////////////////////////////////////////
 

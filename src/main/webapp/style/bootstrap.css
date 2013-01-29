@@ -562,7 +562,7 @@ button.btn.btn-mini,input[type="submit"].btn.btn-mini{*padding-top:1px;*padding-
 .alert .close{position:relative;top:-2px;right:-21px;line-height:20px;}
 .alert-success{background-color:#3fb618;border-color:transparent;color:#ffffff;}
 .alert-danger,.alert-error{background-color:#ff0039;border-color:transparent;color:#ffffff;}
-.alert-info{background-color:#9954bb;border-color:transparent;color:#ffffff;}
+.alert-info{background-color: #6699ff;border-color:transparent;color:#ffffff;}
 .alert-block{padding-top:14px;padding-bottom:14px;}
 .alert-block>p,.alert-block>ul{margin-bottom:0;}
 .alert-block p+p{margin-top:5px;}

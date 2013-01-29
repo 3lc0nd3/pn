@@ -91,4 +91,16 @@ public class Participante {
     public void setPnPremioByIdConvocatoria(PnPremio pnPremioByIdConvocatoria) {
         this.pnPremioByIdConvocatoria = pnPremioByIdConvocatoria;
     }
+
+    private PnEtapaParticipante pnEtapaParticipanteByIdEtapaParticipante;
+
+    @ManyToOne
+    @JoinColumn(name = "id_etapa_participante", referencedColumnName = "id_etapa_participante", nullable = false)
+    public PnEtapaParticipante getPnEtapaParticipanteByIdEtapaParticipante() {
+        return pnEtapaParticipanteByIdEtapaParticipante;
+    }
+
+    public void setPnEtapaParticipanteByIdEtapaParticipante(PnEtapaParticipante pnEtapaParticipanteByIdEtapaParticipante) {
+        this.pnEtapaParticipanteByIdEtapaParticipante = pnEtapaParticipanteByIdEtapaParticipante;
+    }
 }

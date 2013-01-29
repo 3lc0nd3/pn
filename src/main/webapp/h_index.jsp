@@ -628,6 +628,7 @@
         </div>
     </div>
 </registroEval>
+
 <%
     } // FIN REGISTRA EVALUADOR
 %>
@@ -637,6 +638,7 @@
 <jsp:include page="c_footer_r.jsp"/>
 
 <script type="text/javascript">
+
     function changeEstado(){
         dwr.util.removeAllOptions("locCiudadEmpresa");
         var idEstado = dwr.util.getValue("departamento");
@@ -749,7 +751,7 @@
         disableId('b'+idEmpleo);
         pnRemoto.selEmpleo(idEmpleo, function(data){
             if(data!=null){
-                alert("Vamos con: " + data.perfilByIdPerfil.perfil);
+//                alert("Vamos con: " + data.perfilByIdPerfil.perfil);
                 window.location = "index.htm";
                 enableId("b2");
             } else {

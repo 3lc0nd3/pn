@@ -19,11 +19,11 @@ public class Fc extends HttpServlet{
         String r;
         r = request.getParameter("ctrl_req");
         String requestURI = request.getRequestURI();
-        System.out.println("requestURI = " + requestURI);
+//        System.out.println("requestURI = " + requestURI);
         if(r == null){ // para lo del mapping
             r = reqMVC(request);
         }
-        System.out.println("el R = " + r);
+//        System.out.println("el R = " + r);
         request.setAttribute("servicio",r);
 
         RequestDispatcher rd=request.getRequestDispatcher("h_integrator.jsp");
@@ -38,7 +38,7 @@ public class Fc extends HttpServlet{
     public static String reqMVC(HttpServletRequest request){
 //        System.out.println("request.getRequestURI() = " + request.getRequestURI());
         String requestURI = request.getRequestURI();
-        System.out.println("requestURI = " + requestURI);
+//        System.out.println("requestURI = " + requestURI);
         int i = requestURI.lastIndexOf("/");
         int j = request.getRequestURI().lastIndexOf(".htm");
         return request.getRequestURI().substring(i + 1, j);
