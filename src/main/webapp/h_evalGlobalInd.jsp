@@ -73,7 +73,7 @@
                     <tr>
                         <td class=" btn-primary"><%=criterio.getCriterio()%></td>
                         <td>
-                            <select name="<%=criterio.getId()%>" id="<%=criterio.getId()%>" class="" style="width:100px;  background-color:#1570a6;">
+                            <select name="<%=criterio.getId()%>" id="<%=criterio.getId()%>" class="" style="width:100px;  background-color:#1570a6; color:white;">
                             <%
                                 for (Integer v: pnManager.getValoresValoracion()){
                             %>

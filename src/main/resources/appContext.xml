@@ -221,9 +221,11 @@
             <dwr:include method="saveValoracionIndividualItems"/>
             <dwr:include method="saveValoracionConsensoItems"/>
             <dwr:include method="saltaAVisita"/>
+            <dwr:include method="saltaADespuesDeVisita"/>
+            <dwr:include method="saveAgenda"/>
+            <dwr:include method="saveInvitadoEnPnAgenda"/>
+            <dwr:include method="saveValoracionDespuesVisitaItems"/>
 
-
-            
             <!--LOS QUE NO VAN-->
             <!--
             <dwr:convert class="co.com.elramireza.sw.model.Certamen" type="bean">

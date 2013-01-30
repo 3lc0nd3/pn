@@ -15,13 +15,13 @@
     <div class="container">
         <div class="row">
             <div class="span8">
-                <h2><%=texto16.getTexto2()%></h2>
+                <h2><%=texto16.getTexto3()%></h2>
                 para <strong><%=empresa.getNombreEmpresa()%></strong>
                 <br>
                 <br>
 
                 <%
-                    List<PnCuantitativa> cuantitativas = pnManager.getCuantitativaConsensoFromEmpleado(
+                    List<PnCuantitativa> cuantitativas = pnManager.getCuantitativaDespuesVisitaFromEmpleado(
                             empleo.getIdEmpleado());
 
                     if(cuantitativas.size()==0){ // NO HAY DATA
@@ -149,7 +149,7 @@
 //        alert(dwr.util.toDescriptiveString(dataValores, 2));
         disableId("b1");
 
-        pnRemoto.saveValoracionConsensoItems(dataValores, function(data){
+        pnRemoto.saveValoracionDespuesVisitaItems(dataValores, function(data){
             if(data == 1){
                 alert("Registro Correcto");
             } else {

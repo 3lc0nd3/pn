@@ -1,3 +1,5 @@
+el nuevo valor de bootstrap es 1115 reemplazo el orignal 940px
+
 
 
 UPDATE `servicio` SET `publico`=0,`visible`=0 WHERE `tipo`='h' and `id_servicio` > 3
