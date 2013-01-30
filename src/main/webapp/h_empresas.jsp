@@ -5,7 +5,7 @@
     Texto texto = pnManager.getTexto(13);
 
     List<Empresa> empresas = pnManager.getHibernateTemplate().find(
-            "from Empresa "
+            "from Empresa where id > 1 "
     );
 
 %>
@@ -228,7 +228,7 @@
             <th> Categor&iacute;a </th>
             <%--<th> Tama&ntilde;o</th>--%>
             <%--<th> Email Personal</th>--%>
-            <th> Tel&eacute;fono </th>
+            <th> Tel&eacute;fonos </th>
             <th> Email </th>
             <th> Ciudad </th>
             <th width="28"> &nbsp;&nbsp;&nbsp;<%--&nbsp;&nbsp;&nbsp;--%> </th>
@@ -254,7 +254,11 @@
             <td> <%=empresa.getDireccionEmpresa() %></td>
             <td> <%=empresa.getEmpresaCategoriaByIdCategoriaEmpresa().getCategoria() %></td>
             <%--<td> <%=empresa.getEmpresaCategoriaTamanoByIdCategoriaTamanoEmpresa().getTamano() %></td>--%>
-            <td> <%=empresa.getTelFijoEmpresa() %></td>
+            <td>
+                <%=empresa.getTelFijoEmpresa() %>
+                <br>
+                <%=empresa.getTelMovilEmpresa() %>
+            </td>
             <td> <%=empresa.getEmailEmpresa() %></td>
             <td> <%=empresa.getLocCiudadByIdCiudad().getNombreCiudad() %></td>
             <td><img id="imgActiveEmpresa<%=empresa.getIdEmpresa()%>" width="28" onclick="activaDesactiva(<%=empresa.getIdEmpresa()%>);" src="<%=imageActive%>" alt="<%=messaActive%>" title="<%=messaActive%>"></td>

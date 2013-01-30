@@ -37,23 +37,27 @@ public class PnCapitulo {
         this.nombreCapitulo = nombreCapitulo;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    private String evaluaCapitulo;
 
-        PnCapitulo that = (PnCapitulo) o;
-
-        if (id != that.id) return false;
-        if (nombreCapitulo != null ? !nombreCapitulo.equals(that.nombreCapitulo) : that.nombreCapitulo != null) return false;
-
-        return true;
+    @Basic
+    @Column(name = "evalua_capitulo")
+    public String getEvaluaCapitulo() {
+        return evaluaCapitulo;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (nombreCapitulo != null ? nombreCapitulo.hashCode() : 0);
-        return result;
+    public void setEvaluaCapitulo(String evaluaCapitulo) {
+        this.evaluaCapitulo = evaluaCapitulo;
+    }
+
+    private int maximo;
+
+    @Basic
+    @Column(name = "maximo")
+    public int getMaximo() {
+        return maximo;
+    }
+
+    public void setMaximo(int maximo) {
+        this.maximo = maximo;
     }
 }

@@ -31,7 +31,7 @@
             </div>
             <%
                 }
-                if(persona == null){
+                if(persona == null){  //  NO HAY PERSONA
             %>
             <jsp:include page="c_login.jsp"/>
             <%
@@ -91,6 +91,10 @@
                 <input type="hidden" name="cambiarPerfil" value="1">
             </form>
             <button type="button" onclick="cambiarPerfil();" class="btn btn-primary">Cambiar el Perfil</button>
+            <br>
+            <br>
+              <%--  ESPACIO PARA PONER INFO DE LA EMPRESA PARTICIPANTE  --%>
+            <jsp:include page="c_empresa_admon.jsp"    />
 
             <%
                     } // FIN SELECCIONA EMPLEO

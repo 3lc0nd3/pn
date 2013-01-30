@@ -103,4 +103,65 @@ public class Participante {
     public void setPnEtapaParticipanteByIdEtapaParticipante(PnEtapaParticipante pnEtapaParticipanteByIdEtapaParticipante) {
         this.pnEtapaParticipanteByIdEtapaParticipante = pnEtapaParticipanteByIdEtapaParticipante;
     }
+
+    private String fileCertificadoConstitucion;
+
+    @Basic
+    @Column(name = "file_certificado_constitucion")
+    public String getFileCertificadoConstitucion() {
+        return fileCertificadoConstitucion;
+    }
+
+    public void setFileCertificadoConstitucion(String fileCertificadoConstitucion) {
+        this.fileCertificadoConstitucion = fileCertificadoConstitucion;
+    }
+
+    private String fileEstadoFinanciero;
+
+    @Basic
+    @Column(name = "file_estado_financiero")
+    public String getFileEstadoFinanciero() {
+        return fileEstadoFinanciero;
+    }
+
+    public void setFileEstadoFinanciero(String fileEstadoFinanciero) {
+        this.fileEstadoFinanciero = fileEstadoFinanciero;
+    }
+
+    private String fileConsignacion;
+
+    @Basic
+    @Column(name = "file_consignacion")
+    public String getFileConsignacion() {
+        return fileConsignacion;
+    }
+
+    public void setFileConsignacion(String fileConsignacion) {
+        this.fileConsignacion = fileConsignacion;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Participante that = (Participante) o;
+
+        if (fileCertificadoConstitucion != null ? !fileCertificadoConstitucion.equals(that.fileCertificadoConstitucion) : that.fileCertificadoConstitucion != null)
+            return false;
+        if (fileConsignacion != null ? !fileConsignacion.equals(that.fileConsignacion) : that.fileConsignacion != null)
+            return false;
+        if (fileEstadoFinanciero != null ? !fileEstadoFinanciero.equals(that.fileEstadoFinanciero) : that.fileEstadoFinanciero != null)
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = fileCertificadoConstitucion != null ? fileCertificadoConstitucion.hashCode() : 0;
+        result = 31 * result + (fileEstadoFinanciero != null ? fileEstadoFinanciero.hashCode() : 0);
+        result = 31 * result + (fileConsignacion != null ? fileConsignacion.hashCode() : 0);
+        return result;
+    }
 }

@@ -12,16 +12,16 @@
 %>
 
 <individual>
-    <div class="row">
-        <div class="container">
+    <div class="container">
+        <div class="row">
             <div class="span8">
                 <h2><%=texto16.getTexto1()%></h2>
                 para <strong><%=empresa.getNombreEmpresa()%></strong>
                 <br>
                 <br>
                 <%
-                    List<PnValoracion> fromParticipante = pnManager.getValoracionIndividualCapitulosFromParticipante(
-                            empleo.getParticipanteByIdParticipante().getIdParticipante());
+                    List<PnValoracion> fromParticipante = pnManager.getValoracionIndividualCapitulosFromEmpleado(
+                            empleo.getIdEmpleado());
 
                     List<PnCualitativa> cualitativas = pnManager.getPnCualitativasFromEmpleadoTipoFormato(
                             empleo.getIdEmpleado(), 2 // FORMATO 2 INDIVIDUALPOR CAPITULO
@@ -88,7 +88,7 @@
                     <tr>
                         <td class=" btn-primary"><%=criterio.getCriterio()%></td>
                         <td>
-                            <select name="<%=capitulo.getId()%>-<%=criterio.getId()%>" id="<%=criterio.getId()%>" class="btn btn-primary" style="width:100px;">
+                            <select name="<%=capitulo.getId()%>-<%=criterio.getId()%>" id="<%=criterio.getId()%>" class="" style="width:100px; background-color:#1570a6; height:100%;">
                             <%
                                 for (Integer v: pnManager.getValoresValoracion()){
                             %>
@@ -113,7 +113,9 @@
                 
                 <button id="b1" class="btn  btn-primary" onclick="guardaIndividualCapitulos();">Guardar</button>
             </div><%--  FIN SPAN8 --%>
-            <div class="span4"></div>
+            <div class="span4">
+                <jsp:include page="c_empresa_admon.jsp"    />
+            </div>
         </div>
     </div>
 </individual>
@@ -178,9 +180,9 @@
                     if(cualitativas != null){
                         for (PnCualitativa cualitativa: cualitativas){
     %>
-    dwr.util.setValue("fortalezas-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>", '<%=cualitativa.getFortalezas()%>');
-    dwr.util.setValue("oportunidades-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>", '<%=cualitativa.getOportunidades()%>');
-    dwr.util.setValue("pendientesVisita-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>", '<%=cualitativa.getPendientesVisita()%>');
+    dwr.util.setValue("fortalezas-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",        poneSaltosDeLinea("<%=cualitativa.getFortalezas().replace("\n", "<br>")%>"));
+    dwr.util.setValue("oportunidades-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",     poneSaltosDeLinea('<%=cualitativa.getOportunidades().replace("\n", "<br>")%>'));
+    dwr.util.setValue("pendientesVisita-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getPendientesVisita().replace("\n", "<br>")%>'));
     <%
                         } // FOR CUALITATIVAS
                     } // IF NULL

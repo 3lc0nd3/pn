@@ -49,28 +49,6 @@ public class PnSubCapitulo {
         this.subCapitulo = subCapitulo;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        PnSubCapitulo that = (PnSubCapitulo) o;
-
-        if (id != that.id) return false;
-        if (ponderacion != that.ponderacion) return false;
-        if (subCapitulo != null ? !subCapitulo.equals(that.subCapitulo) : that.subCapitulo != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + ponderacion;
-        result = 31 * result + (subCapitulo != null ? subCapitulo.hashCode() : 0);
-        return result;
-    }
-
     private PnCapitulo pnCapituloByIdCapitulo;
 
     @ManyToOne
@@ -81,5 +59,77 @@ public class PnSubCapitulo {
 
     public void setPnCapituloByIdCapitulo(PnCapitulo pnCapituloByIdCapitulo) {
         this.pnCapituloByIdCapitulo = pnCapituloByIdCapitulo;
+    }
+
+    private String codigoItem;
+
+    @Basic
+    @Column(name = "codigo_item")
+    public String getCodigoItem() {
+        return codigoItem;
+    }
+
+    public void setCodigoItem(String codigoItem) {
+        this.codigoItem = codigoItem;
+    }
+
+    private String c20;
+
+    @Basic
+    @Column(name = "c_20")
+    public String getC20() {
+        return c20;
+    }
+
+    public void setC20(String c20) {
+        this.c20 = c20;
+    }
+
+    private String c40;
+
+    @Basic
+    @Column(name = "c_40")
+    public String getC40() {
+        return c40;
+    }
+
+    public void setC40(String c40) {
+        this.c40 = c40;
+    }
+
+    private String c60;
+
+    @Basic
+    @Column(name = "c_60")
+    public String getC60() {
+        return c60;
+    }
+
+    public void setC60(String c60) {
+        this.c60 = c60;
+    }
+
+    private String c80;
+
+    @Basic
+    @Column(name = "c_80")
+    public String getC80() {
+        return c80;
+    }
+
+    public void setC80(String c80) {
+        this.c80 = c80;
+    }
+
+    private String c100;
+
+    @Basic
+    @Column(name = "c_100")
+    public String getC100() {
+        return c100;
+    }
+
+    public void setC100(String c100) {
+        this.c100 = c100;
     }
 }

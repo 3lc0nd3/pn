@@ -142,10 +142,10 @@
             <th> Doc. </th>
             <th> Nombre </th>
             <th> Apellido </th>
-            <th> Email Corp.</th>
-            <th> Email Personal</th>
-            <th> Tel&eacute;fono </th>
-            <th> Celular </th>
+            <th> Emails</th>
+            <%--<th> Email Personal</th>--%>
+            <th> Tel&eacute;fonos </th>
+            <%--<th> Celular </th>--%>
             <th> Estado </th>
             <th width="28"> Editar </th>
         </tr>
@@ -166,10 +166,16 @@
             <td> <%=persona.getDocumentoIdentidad() %></td>
             <td> <%=persona.getNombrePersona() %></td>
             <td> <%=persona.getApellido() %></td>
-            <td> <%=persona.getEmailCorporativo() %></td>
-            <td> <%=persona.getEmailPersonal()!=null?persona.getEmailPersonal():"" %></td>
-            <td> <%=persona.getTelefonoFijo() %></td>
-            <td> <%=persona.getCelular()!=null?persona.getCelular():""%></td>
+            <td>
+                <%=persona.getEmailPersonal()!=null?persona.getEmailPersonal():"" %>
+                <br>
+                <%=persona.getEmailCorporativo() %>
+            </td>
+            <td>
+                <%=persona.getCelular()!=null?persona.getCelular():""%>
+                <br>
+                <%=persona.getTelefonoFijo() %>
+            </td>
             <td><img id="imgActivePersona<%=persona.getIdPersona()%>" width="28" onclick="activaDesactiva(<%=persona.getIdPersona()%>);" src="<%=imageActive%>" alt="<%=messaActive%>" title="<%=messaActive%>"></td>
             <td>
                 <img width="36" onclick="cargaPersona(<%=persona.getIdPersona()%>);" src="img/edit.png" alt="edita" title="edita">

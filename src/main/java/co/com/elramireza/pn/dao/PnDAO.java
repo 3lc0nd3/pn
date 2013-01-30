@@ -80,6 +80,59 @@ public class PnDAO extends HibernateDaoSupport{
         );
     }
 
+    public List<Empleado> getEmpleadosFromParticipante(int idParticipante){
+        return getHibernateTemplate().find(
+                "from Empleado where participanteByIdParticipante.idParticipante = ? ",
+                idParticipante);
+    }
+
+    public boolean saltoEtapaIndividualGrupal(int idParticipante){ 
+        List<Empleado> empleados = getEmpleadosFromParticipante(idParticipante);
+
+        boolean salta = true;
+
+        for (Empleado empleado : empleados){
+            logger.info("empleado.getPersonaByIdPersona().getNombreCompleto() = " + empleado.getPersonaByIdPersona().getNombreCompleto());
+            //REVISO VALORACION IND GLOBAL
+            List<PnValoracion> valoracionGlobal = getValoracionIndividualGlobalFromEmpleado(empleado.getIdEmpleado());
+            if(valoracionGlobal.size() == 0){
+                salta = false;
+            }
+            logger.info("Ind. Global: " + salta);
+
+            //REVISO VALORACION IND CAPITULOS
+            List<PnValoracion> valoraciones = getValoracionIndividualCapitulosFromEmpleado(empleado.getIdEmpleado());
+            if(valoraciones.size() == 0){
+                salta = false;
+            }
+            logger.info("Ind. Cap.: " + salta);
+
+            //REVISO CUANTITATIVA
+            List<PnCuantitativa> cuantitativas = getCuantitativaIndividualFromEmpleado(empleado.getIdEmpleado());
+            if(cuantitativas.size() == 0){
+                salta = false;
+            }
+            logger.info("Cuantitativa: " + salta);
+        }
+        // SALTA O NO
+        if(salta){
+            logger.info("SI SALTA");
+            Participante participante = getParticipante(idParticipante);
+            PnEtapaParticipante pnEtapaParticipante = getPnEtapaParticipante(2);
+            participante.setPnEtapaParticipanteByIdEtapaParticipante(pnEtapaParticipante);
+            getHibernateTemplate().update(participante);
+        } else {
+            logger.info("NO SALTA");
+        }
+        return salta;
+    }
+
+    public List<Empleado> getEvaluadoresFromParticipante(int idParticipante){
+        return getHibernateTemplate().find(
+                "from Empleado where participanteByIdParticipante.idParticipante = ? and perfilByIdPerfil.id = 2 or perfilByIdPerfil.id = 7",
+                idParticipante);
+    }
+
     public List<PnCriterio> getPnCriterios(){
         return getHibernateTemplate().find("from PnCriterio order by id");
     }
@@ -91,17 +144,31 @@ public class PnDAO extends HibernateDaoSupport{
         );
     }
 
-    public List<PnValoracion> getValoracionIndividualGlobalFromParticipante(int idParticipante){
+    public List <PnCuantitativa> getCuantitativaConsensoFromEmpleado(int idEmpleado){
         return getHibernateTemplate().find(
-                "from PnValoracion where tipoFormatoByIdTipoFormato.id = 1 and participanteByIdParticipante.idParticipante = ?",
-                idParticipante
+                "from PnCuantitativa where tipoFormatoByIdTipoFormato.id = 4 and empleadoByIdEmpleado.idEmpleado = ?",
+                idEmpleado
         );
     }
 
-    public List<PnValoracion> getValoracionIndividualCapitulosFromParticipante(int idParticipante){
+    public List <PnCuantitativa> getCuantitativaIndividualFromEmpleado(int idEmpleado){
         return getHibernateTemplate().find(
-                "from PnValoracion where tipoFormatoByIdTipoFormato.id = 2 and participanteByIdParticipante.idParticipante = ?",
-                idParticipante
+                "from PnCuantitativa where tipoFormatoByIdTipoFormato.id = 3 and empleadoByIdEmpleado.idEmpleado = ?",
+                idEmpleado
+        );
+    }
+
+    public List<PnValoracion> getValoracionIndividualGlobalFromEmpleado(int idEmpleado){
+        return getHibernateTemplate().find(
+                "from PnValoracion where tipoFormatoByIdTipoFormato.id = 1 and empleadoByIdEmpleado.idEmpleado = ?",
+                idEmpleado
+        );
+    }
+
+    public List<PnValoracion> getValoracionIndividualCapitulosFromEmpleado(int idEmpleado){
+        return getHibernateTemplate().find(
+                "from PnValoracion where tipoFormatoByIdTipoFormato.id = 2 and empleadoByIdEmpleado.idEmpleado = ?",
+                idEmpleado
         );
     }
 
@@ -133,14 +200,132 @@ public class PnDAO extends HibernateDaoSupport{
         return getHibernateTemplate().find("from PnCapitulo order by id ");
     }
 
+    public List<PnSubCapitulo> getPnSubCapitulos(){
+        return getHibernateTemplate().find("from PnSubCapitulo order by codigoItem ");
+    }
+
+    public int saveValoracionIndividualItems(List<MyKey> valores){
+        try {
+            WebContext wctx = WebContextFactory.get();
+            HttpSession session = wctx.getSession(true);
+            final Empleado empleado = (Empleado) session.getAttribute("empleo");
+
+            Participante participanteByIdParticipante = empleado.getParticipanteByIdParticipante();
+            //LO RECARGO PORQUE PUEDE ESTAR CAMBIANDO EN EL AIRE
+            participanteByIdParticipante = getParticipante(participanteByIdParticipante.getIdParticipante());
+            PnEtapaParticipante etapaParticipante = participanteByIdParticipante.getPnEtapaParticipanteByIdEtapaParticipante();
+            if(etapaParticipante.getIdEtapaParticipante()!=1){
+                throw new SecurityException("No puede escribir datos. El Participante se encuentra en etapa: "+
+                        etapaParticipante.getEtapaParticipante());
+            }
+
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            getHibernateTemplate().execute(new HibernateCallback() {
+                public Object doInHibernate(org.hibernate.Session session) throws HibernateException, SQLException {
+                    Query query = session.createQuery(
+                            "delete from PnCuantitativa where empleadoByIdEmpleado.idEmpleado = ? and tipoFormatoByIdTipoFormato.id = ?"
+                    );
+                    query.setInteger(0, empleado.getIdEmpleado()); // EMPLEADO - DEPENDE DE PARTICIPANTE
+                    query.setInteger(1, 3); // TIPO FORMATO
+                    query.executeUpdate();
+                    return null;
+                }
+            });
+
+            for (MyKey key: valores){
+                PnCuantitativa valor = new PnCuantitativa();
+                valor.setTipoFormatoByIdTipoFormato(getTipoFormato(3)); // items individual
+                valor.setParticipanteByIdParticipante(participanteByIdParticipante);
+                valor.setEmpleadoByIdEmpleado(empleado);
+                valor.setPnSubCapituloByIdSubCapitulo(getPnSubCapitulo(key.getId()));
+                valor.setValor(key.getCriterio()); // VALOR
+                valor.setTotal(key.getValue()); // TOTAL
+                valor.setFechaCreacion(timestamp);
+                getHibernateTemplate().save(valor);
+            }
+
+            // REVISA SI HAY SALTO A GRUPAL
+            saltoEtapaIndividualGrupal(participanteByIdParticipante.getIdParticipante());
+
+            return 1;
+        } catch (DataAccessException e) {
+//            e.printStackTrace();
+            logger.debug(e.getMessage());
+            return 0;
+        }
+    }
+
+    public int saveValoracionConsensoItems(List<MyKey> valores){
+        try {
+            WebContext wctx = WebContextFactory.get();
+            HttpSession session = wctx.getSession(true);
+            final Empleado empleado = (Empleado) session.getAttribute("empleo");
+
+            Participante participanteByIdParticipante = empleado.getParticipanteByIdParticipante();
+            //LO RECARGO PORQUE PUEDE ESTAR CAMBIANDO EN EL AIRE
+            participanteByIdParticipante = getParticipante(participanteByIdParticipante.getIdParticipante());
+            PnEtapaParticipante etapaParticipante = participanteByIdParticipante.getPnEtapaParticipanteByIdEtapaParticipante();
+            if(etapaParticipante.getIdEtapaParticipante()!=2){ // REVISAR LA ETAPA -
+                throw new SecurityException("No puede escribir datos. El Participante se encuentra en etapa: "+
+                        etapaParticipante.getEtapaParticipante());
+            }
+
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            getHibernateTemplate().execute(new HibernateCallback() {
+                public Object doInHibernate(org.hibernate.Session session) throws HibernateException, SQLException {
+                    Query query = session.createQuery(
+                            "delete from PnCuantitativa where empleadoByIdEmpleado.idEmpleado = ? and tipoFormatoByIdTipoFormato.id = ?"
+                    );
+                    query.setInteger(0, empleado.getIdEmpleado()); // EMPLEADO - DEPENDE DE PARTICIPANTE
+                    query.setInteger(1, 4); // TIPO FORMATO   Consenso
+                    query.executeUpdate();
+                    return null;
+                }
+            });
+
+            for (MyKey key: valores){
+                PnCuantitativa valor = new PnCuantitativa();
+                valor.setTipoFormatoByIdTipoFormato(getTipoFormato(4)); // items Consenso
+                valor.setParticipanteByIdParticipante(participanteByIdParticipante);
+                valor.setEmpleadoByIdEmpleado(empleado);
+                valor.setPnSubCapituloByIdSubCapitulo(getPnSubCapitulo(key.getId()));
+                valor.setValor(key.getCriterio()); // VALOR
+                valor.setTotal(key.getValue()); // TOTAL
+                valor.setFechaCreacion(timestamp);
+                getHibernateTemplate().save(valor);
+            }
+
+            return 1;
+        } catch (DataAccessException e) {
+//            e.printStackTrace();
+            logger.debug(e.getMessage());
+            return 0;
+        }
+    }
+
+    public int saltaAVisita(){
+        try {
+            WebContext wctx = WebContextFactory.get();
+            HttpSession session = wctx.getSession(true);
+            final Empleado empleado = (Empleado) session.getAttribute("empleo");
+
+            Participante participanteByIdParticipante = empleado.getParticipanteByIdParticipante();
+            PnEtapaParticipante pnEtapaParticipante = getPnEtapaParticipante(3); // AGENDA VISITA
+            participanteByIdParticipante.setPnEtapaParticipanteByIdEtapaParticipante(pnEtapaParticipante);
+            getHibernateTemplate().update(participanteByIdParticipante);
+            return 1;
+        } catch (DataAccessException e) {
+//            e.printStackTrace();
+            logger.debug(e.getMessage());
+            return 0;
+        }
+    }
+
     public int saveValoracionIndividualCapitulos(List<MyKey> fortalezas,
                                                  List<MyKey> opertunidades,
                                                  List<MyKey> pendientes,
                                                  List<MyKey> valores
                                                  ){
-//        logger.info("fortalezas.size() = " + fortalezas.size());
-//        logger.info("opertunidades.size() = " + opertunidades.size());
-
         try {
             WebContext wctx = WebContextFactory.get();
             HttpSession session = wctx.getSession(true);
@@ -153,7 +338,7 @@ public class PnDAO extends HibernateDaoSupport{
             PnEtapaParticipante etapaParticipante = participanteByIdParticipante.getPnEtapaParticipanteByIdEtapaParticipante();
             if(etapaParticipante.getIdEtapaParticipante()!=1){
                 throw new SecurityException("No puede escribir datos. El Participante se encuentra en etapa: "+
-                etapaParticipante.getEtapaParticipante());
+                        etapaParticipante.getEtapaParticipante());
             }
 
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -219,6 +404,9 @@ public class PnDAO extends HibernateDaoSupport{
                 Integer idCualitativa = (Integer) getHibernateTemplate().save(cualitativa);
 
             }
+
+            // REVISA SI HAY SALTO A GRUPAL
+            saltoEtapaIndividualGrupal(participanteByIdParticipante.getIdParticipante());
 
             return 1;
         } catch (DataAccessException e) {
@@ -296,12 +484,19 @@ public class PnDAO extends HibernateDaoSupport{
             Integer idCualitativa = (Integer) getHibernateTemplate().save(cualitativa);
             logger.debug("idCualitativa = " + idCualitativa);
 
+            // REVISA SI HAY SALTO A GRUPAL
+            saltoEtapaIndividualGrupal(participanteByIdParticipante.getIdParticipante());
+
             return 1;
         } catch (DataAccessException e) {
             e.printStackTrace();
             logger.debug(e.getMessage());
             return 0;
         }
+    }
+
+    public PnSubCapitulo getPnSubCapitulo(int id){
+        return (PnSubCapitulo) getHibernateTemplate().get(PnSubCapitulo.class, id);
     }
 
     public PnCapitulo getPnCapitulo(int id){
@@ -356,16 +551,11 @@ public class PnDAO extends HibernateDaoSupport{
 	}
 
 	public List<Empresa> getEmpresaActivas(){
-		return getHibernateTemplate().find("from Empresa where estado = true");
+		return getHibernateTemplate().find("from Empresa where idEmpresa > 1 and estado = true");
 	}
 
 	public List<Empleado> getEmpleados(){
 		return getHibernateTemplate().find("from Empleado order by participanteByIdParticipante.empresaByIdEmpresa.nombreEmpresa , personaByIdPersona.nombrePersona , personaByIdPersona.apellido ");
-	}
-
-	public List<Empleado> getEmpleadoFromParticipante(int idParticipante){
-		return getHibernateTemplate().find("from Empleado where participanteByIdParticipante.idParticipante = ?",
-				idParticipante);
 	}
 
 	public Empleado getEmpleado(int idEmpleado){
@@ -472,7 +662,7 @@ public class PnDAO extends HibernateDaoSupport{
 	}
 
 	public List<Participante> getParticipantes(){
-		return getHibernateTemplate().find("from Participante order by pnPremioByIdConvocatoria.nombrePremio, empresaByIdEmpresa.nombreEmpresa ");
+		return getHibernateTemplate().find("from Participante where empresaByIdEmpresa.tipoEmpresaByIdTipoEmpresa.id = 2 order by pnPremioByIdConvocatoria.nombrePremio, empresaByIdEmpresa.nombreEmpresa ");
 	}
 
 	public List<Participante> getParticipantesFromPremio(int idPremio){
@@ -840,7 +1030,7 @@ public class PnDAO extends HibernateDaoSupport{
 	}
 
 	public List<PnPremio> getPnPremios(){
-		return getHibernateTemplate().find("from PnPremio ");
+		return getHibernateTemplate().find("from PnPremio where idPnPremio > 1");
 	}
 
 	/**

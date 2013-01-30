@@ -38,6 +38,18 @@ public class PnCuantitativa {
         this.valor = valor;
     }
 
+    private int total;
+
+    @Basic
+    @Column(name = "total")
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
     private Timestamp fechaCreacion;
 
     @Basic

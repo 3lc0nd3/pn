@@ -15,16 +15,16 @@
     <div class="container">
         <div class="row">
             <div class="span8">
-                <h2><%=texto16.getTexto1()%></h2>
+                <h2><%=texto16.getTexto2()%></h2>
                 para <strong><%=empresa.getNombreEmpresa()%></strong>
                 <br>
                 <br>
 
                 <%
-                    List<PnCuantitativa> cuantitativas = pnManager.getCuantitativaIndividualFromEmpleado(
+                    List<PnCuantitativa> cuantitativas = pnManager.getCuantitativaConsensoFromEmpleado(
                             empleo.getIdEmpleado());
 
-                    if(cuantitativas.size()==0){
+                    if(cuantitativas.size()==0){ // NO HAY DATA
                 %>
 
                 <div class="alert">
@@ -91,6 +91,13 @@
                 </table>
                 <br>
                 <button id="b1" class="btn  btn-primary" onclick="guardaItems();">Guardar</button>
+                <%
+                    if(cuantitativas.size()>0){ // SOLO SI HAY DATA
+                %>
+                <button id="b2" class="btn  btn-primary" onclick="saltaAVisita();">Avanza a Agenda de Visita</button>
+                <%
+                    }
+                %>
             </div>
             <div class="span4">
                 <jsp:include page="c_empresa_admon.jsp"    />
@@ -105,6 +112,17 @@
 
 <script type="text/javascript">
 
+    function saltaAVisita(){
+        disableId("b2");
+        pnRemoto.saltaAVisita(function(data){
+            if(data == 1){
+                alert("Cambio de Etapa Correcta");
+            } else {
+                alert("Problemas !");
+            }
+            enableId("b2");
+        });
+    }
 
     <%
         for (PnSubCapitulo item: items){
@@ -131,7 +149,7 @@
 //        alert(dwr.util.toDescriptiveString(dataValores, 2));
         disableId("b1");
 
-        pnRemoto.saveValoracionIndividualItems(dataValores, function(data){
+        pnRemoto.saveValoracionConsensoItems(dataValores, function(data){
             if(data == 1){
                 alert("Registro Correcto");
             } else {

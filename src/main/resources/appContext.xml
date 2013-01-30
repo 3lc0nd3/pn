@@ -218,6 +218,9 @@
             <dwr:include method="registroAspirante"/>
             <dwr:include method="saveVAloracionIndividual"/>
             <dwr:include method="saveValoracionIndividualCapitulos"/>
+            <dwr:include method="saveValoracionIndividualItems"/>
+            <dwr:include method="saveValoracionConsensoItems"/>
+            <dwr:include method="saltaAVisita"/>
 
 
             

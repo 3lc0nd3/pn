@@ -68,7 +68,8 @@
         <thead>
         <tr>
             <th>Premio</th>
-            <th>Empresa</th>
+            <th>Etapa</th>
+            <th>Fecha</th>
             <th>Estado</th>
             <th>Desvincular</th>
         </tr>
@@ -89,10 +90,16 @@
         %>
         <tr>
             <td>
-                <%--<%=premio.getIdPnPremio()%>--%>
+                <%=empresa.getNombreEmpresa()%>
+                <br>
                 <%=premio.getNombrePremio()%>
             </td>
-            <td> <%=empresa.getNombreEmpresa()%></td>
+            <td>
+                <%=participante.getPnEtapaParticipanteByIdEtapaParticipante().getEtapaParticipante()%>
+            </td>
+            <TD>
+                <%=pnManager.dfDateTime.format(participante.getFechaIngreso())%>
+            </td>
             <td><img id="imgActive<%=participante.getIdParticipante()%>" width="28" onclick="activaDesactiva(<%=participante.getIdParticipante()%>);" src="<%=imageActive%>" alt="<%=messaActive%>" title="<%=messaActive%>"></td>
             <td>
                 <img width="28" onclick="desvincule(<%=participante.getIdParticipante()%>);" src="images/broken_link.jpg" alt="desvincula" title="desvincula">

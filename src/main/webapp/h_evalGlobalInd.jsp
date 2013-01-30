@@ -12,16 +12,16 @@
 %>
 
 <individual>
-    <div class="row">
-        <div class="container">
+    <div class="container">
+        <div class="row">
             <div class="span8">
                 <h2><%=texto16.getTexto1()%></h2>
                 para <strong><%=empresa.getNombreEmpresa()%></strong>
                 <br>
                 <br>
                 <%
-                    List<PnValoracion> fromParticipante = pnManager.getValoracionIndividualGlobalFromParticipante(
-                            empleo.getParticipanteByIdParticipante().getIdParticipante());
+                    List<PnValoracion> fromParticipante = pnManager.getValoracionIndividualGlobalFromEmpleado(
+                            empleo.getIdEmpleado());
 
                     PnCualitativa cualitativa = pnManager.getPnCualitativaFromEmpleadoTipoFormato(
                             empleo.getIdEmpleado(), 1 // FORMATO 1 INDIVIDUAL
@@ -73,7 +73,7 @@
                     <tr>
                         <td class=" btn-primary"><%=criterio.getCriterio()%></td>
                         <td>
-                            <select name="<%=criterio.getId()%>" id="<%=criterio.getId()%>" class="btn btn-primary" style="width:100px;">
+                            <select name="<%=criterio.getId()%>" id="<%=criterio.getId()%>" class="" style="width:100px;  background-color:#1570a6;">
                             <%
                                 for (Integer v: pnManager.getValoresValoracion()){
                             %>
@@ -81,7 +81,7 @@
                             <%
                                 }
                             %>
-                            </select>    
+                            </select>
                         </td>
                     </tr>
                     <%
@@ -93,7 +93,9 @@
                 <br>
                 <button id="b1" class="btn  btn-primary" onclick="guardaIndividual();">Guardar</button>
             </div><%--  FIN SPAN8 --%>
-            <div class="span4"></div>
+            <div class="span4">
+                <jsp:include page="c_empresa_admon.jsp" />
+            </div>
         </div>
     </div>
 </individual>
@@ -115,7 +117,7 @@
         }
     %>
         disableId("b1");
-                        
+
         pnRemoto.saveVAloracionIndividual(valoresCriterios,
                 dwr.util.getValue("fortalezas"),
                 dwr.util.getValue("oportunidades"),
@@ -126,8 +128,7 @@
                 alert("Problemas !");
             }
             enableId("b1");
-        }
-                );
+        });
 
     }
 
@@ -143,12 +144,12 @@
                     } else { // aca
                             System.out.println("ADIOS");
                             }
-                    System.out.println("cualitativa = " + cualitativa.getFortalezas());
+//                    System.out.println("cualitativa = " + cualitativa.getFortalezas());
                     if(cualitativa != null){
     %>
-    dwr.util.setValue("fortalezas", '<%=cualitativa.getFortalezas()%>');
-    dwr.util.setValue("oportunidades", '<%=cualitativa.getOportunidades()%>');
-    dwr.util.setValue("pendientesVisita", '<%=cualitativa.getPendientesVisita()%>');
+    dwr.util.setValue("fortalezas", poneSaltosDeLinea('<%=cualitativa.getFortalezas().replace("\n", "<br>")%>'));
+    dwr.util.setValue("oportunidades", poneSaltosDeLinea('<%=cualitativa.getOportunidades().replace("\n", "<br>")%>'));
+    dwr.util.setValue("pendientesVisita", poneSaltosDeLinea('<%=cualitativa.getPendientesVisita().replace("\n", "<br>")%>'));
     <%
                     }
     %>
