@@ -25,6 +25,17 @@ public class PnAgendaInvitado {
         this.id = id;
     }
 
+    private int idItem;
+
+    @Transient
+    public int getIdItem() {
+        return idItem;
+    }
+
+    public void setIdItem(int idItem) {
+        this.idItem = idItem;
+    }
+
     private String documentos;
 
     @Basic
@@ -95,6 +106,17 @@ public class PnAgendaInvitado {
 
     public void setPnSubCapituloByIdPnSubcapitulo(PnSubCapitulo pnSubCapituloByIdPnSubcapitulo) {
         this.pnSubCapituloByIdPnSubcapitulo = pnSubCapituloByIdPnSubcapitulo;
+    }
+
+    private int idEmpleado;
+
+    @Transient
+    public int getIdEmpleado() {
+        return idEmpleado;
+    }
+
+    public void setIdEmpleado(int idEmpleado) {
+        this.idEmpleado = idEmpleado;
     }
 
     private Empleado empleadoByIdEmpleado;

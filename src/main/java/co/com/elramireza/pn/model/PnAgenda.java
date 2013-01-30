@@ -25,6 +25,17 @@ public class PnAgenda {
     public void setId(int id) {
         this.id = id;
     }
+    
+    private String tmpFechaDesde;
+
+    @Transient
+    public String getTmpFechaDesde() {
+        return tmpFechaDesde;
+    }
+
+    public void setTmpFechaDesde(String tmpFechaDesde) {
+        this.tmpFechaDesde = tmpFechaDesde;
+    }
 
     private Timestamp fechaAgenda;
 
