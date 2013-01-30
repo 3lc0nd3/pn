@@ -189,7 +189,8 @@ public class PnDAO extends HibernateDaoSupport{
     }
 
     public boolean saltoEtapaIndividualGrupal(int idParticipante){ 
-        List<Empleado> empleados = getEmpleadosFromParticipante(idParticipante);
+        List<Empleado> empleados;
+        empleados = getEvaluadoresFromParticipante(idParticipante);
 
         boolean salta = true;
 
