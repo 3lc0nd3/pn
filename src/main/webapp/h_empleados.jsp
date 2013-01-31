@@ -15,7 +15,7 @@
                             <label class="control-label" for="idPersona">Persona</label>
                             <div class="controls">
                                 <%--<input type="text" class="input-large" name="username" id="username">--%>
-                                <select id="idPersona" name="idPersona">
+                                <select id="idPersona" name="idPersona" class="span6">
                                     <%
                                         for (Persona persona: pnManager.getPersonas()){
                                     %>
@@ -30,7 +30,7 @@
                         <div class="control-group">
                             <label class="control-label" for="idParticipante">Participantes</label>
                             <div class="controls">
-                                <select id="idParticipante" name="idParticipante">
+                                <select id="idParticipante" name="idParticipante" class="span6">
                                     <%
                                         for (Participante participante: pnManager.getParticipantes()){
                                             Empresa empresa = participante.getEmpresaByIdEmpresa();

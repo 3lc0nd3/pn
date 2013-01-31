@@ -27,6 +27,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.sql.SQLException;
+import java.sql.BatchUpdateException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -135,10 +136,6 @@ public class PnDAO extends HibernateDaoSupport{
             pnAgenda.setFechaCreacion(timestamp);
             getHibernateTemplate().save(pnAgenda);
             return 1;
-        } catch (SecurityException e) {
-//            e.printStackTrace();
-            logger.debug(e.getMessage());
-            return 0;
         } catch (DataAccessException e) {
 //            e.printStackTrace();
             logger.debug(e.getMessage());
@@ -193,6 +190,7 @@ public class PnDAO extends HibernateDaoSupport{
         empleados = getEvaluadoresFromParticipante(idParticipante);
 
         boolean salta = true;
+        boolean hayLider = false;
 
         for (Empleado empleado : empleados){
             logger.info("empleado.getPersonaByIdPersona().getNombreCompleto() = " + empleado.getPersonaByIdPersona().getNombreCompleto());
@@ -216,9 +214,15 @@ public class PnDAO extends HibernateDaoSupport{
                 salta = false;
             }
             logger.info("Cuantitativa: " + salta);
+
+            //REVISO SI HAY LIDER
+            if(empleado.getPerfilByIdPerfil().getId() == 7){
+                hayLider = true;
+            }
+            logger.info("hayLider = " + hayLider);
         }
         // SALTA O NO
-        if(salta){
+        if(salta && hayLider){
             logger.info("SI SALTA");
             Participante participante = getParticipante(idParticipante);
             PnEtapaParticipante pnEtapaParticipante = getPnEtapaParticipante(2);
@@ -232,7 +236,7 @@ public class PnDAO extends HibernateDaoSupport{
 
     public List<Empleado> getEvaluadoresFromParticipante(int idParticipante){
         return getHibernateTemplate().find(
-                "from Empleado where participanteByIdParticipante.idParticipante = ? and perfilByIdPerfil.id = 2 or perfilByIdPerfil.id = 7",
+                "from Empleado where participanteByIdParticipante.idParticipante = ? and (perfilByIdPerfil.id = 2 or perfilByIdPerfil.id = 7)",
                 idParticipante);
     }
 
@@ -744,6 +748,9 @@ public class PnDAO extends HibernateDaoSupport{
 			Empleado empleado = getEmpleado(idEmpleado);
 			getHibernateTemplate().delete(empleado);
 			return "";
+		} catch (ConstraintViolationException e) {
+            logger.debug(e.getMessage());
+			return (e.getMessage());
 		} catch (DataAccessException e) {
 			logger.debug(e.getMessage());
 			return (e.getMessage());
