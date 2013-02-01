@@ -148,7 +148,6 @@
                     dwr.util.getValue("idCargo"),
                     dwr.util.getValue("idPerfil"),
                     function(data) {
-                        alert("data " + data);
                         if (data != null) {
                             alert("Registro Completo");
                             window.location = "empleadoInterno.htm";
