@@ -736,7 +736,12 @@ public class PnDAO extends HibernateDaoSupport{
 	}
 
 	public List<Empleado> getEmpleados(){
-		return getHibernateTemplate().find("from Empleado order by participanteByIdParticipante.empresaByIdEmpresa.nombreEmpresa , personaByIdPersona.nombrePersona , personaByIdPersona.apellido ");
+		return getHibernateTemplate().find("from Empleado where participanteByIdParticipante.empresaByIdEmpresa.idEmpresa <> 1 order by participanteByIdParticipante.empresaByIdEmpresa.nombreEmpresa , personaByIdPersona.nombrePersona , personaByIdPersona.apellido ");
+	}
+
+
+	public List<Empleado> getEmpleadosInterno(){
+		return getHibernateTemplate().find("from Empleado where participanteByIdParticipante.empresaByIdEmpresa.idEmpresa = 1 order by participanteByIdParticipante.empresaByIdEmpresa.nombreEmpresa , personaByIdPersona.nombrePersona , personaByIdPersona.apellido ");
 	}
 
 	public Empleado getEmpleado(int idEmpleado){
@@ -777,12 +782,18 @@ public class PnDAO extends HibernateDaoSupport{
 
 
             Integer idEmpleado = (Integer) getHibernateTemplate().save(empleado);
+//			System.out.println("idEmpleado 1 = " + idEmpleado);
 
-            if(idEmpleado != null){
-                notificaEmpleadoVinculo(empleado);
-            }
+			if(idEmpleado != null){
+				try {
+					notificaEmpleadoVinculo(empleado);
+				} catch (Exception e) {
+					e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+				}
+			}
 
 			empleado.setIdEmpleado(idEmpleado);
+//			System.out.println("idEmpleado = " + idEmpleado);
 			return empleado;
 		} catch (ConstraintViolationException e) {
 			logger.info(e.getMessage());
@@ -1422,7 +1433,7 @@ public class PnDAO extends HibernateDaoSupport{
 	private String emailSubjectTxt = "A test from gmail";
 	//    private String emailFromAddress = "fucdigital_1@clcgas.com.co";
 	private String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
-	private String[] sendTo = {"3lc0nd3@yopmail.com", "elramireza@gmail.com"};
+	private String[] sendTo = {"edward_ramirez_pc@yahoo.com.ar", "elramireza@gmail.com"};
 
 
 
@@ -1546,6 +1557,8 @@ public class PnDAO extends HibernateDaoSupport{
 			e.printStackTrace();
 			logger.debug(e.getMessage());
 			ret = 0;
+		} catch (Exception e){
+			e.printStackTrace();
 		}
 
 		return ret;
@@ -1557,19 +1570,23 @@ public class PnDAO extends HibernateDaoSupport{
 
 	public javax.mail.Session getSessionSuscribe(){
 //        logger.debug("entro a: getSessionSuscribe");
-		if (sessionSuscribe == null) {
-			logger.debug("sessionSuscribe SI null");
-			sessionSuscribe =      javax.mail.Session.getInstance(getPropertiesEmail(),
-					new Authenticator() {
+		try {
+			if (sessionSuscribe == null) {
+				logger.debug("sessionSuscribe SI null");
+				sessionSuscribe =      javax.mail.Session.getInstance(getPropertiesEmail(),
+						new Authenticator() {
 
-						protected PasswordAuthentication getPasswordAuthentication() {
-							//                            return new PasswordAuthentication(emailFromAddress, "clcgas2010");
+							protected PasswordAuthentication getPasswordAuthentication() {
+								//                            return new PasswordAuthentication(emailFromAddress, "clcgas2010");
 
-							return new PasswordAuthentication(email[SUSCRIBE][0], email[SUSCRIBE][1]);
-						}
-					});
-		} else {
-			logger.debug("sessionSuscribe NO null");
+								return new PasswordAuthentication(email[SUSCRIBE][0], email[SUSCRIBE][1]);
+							}
+						});
+			} else {
+				logger.debug("sessionSuscribe NO null");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 		}
 		return sessionSuscribe;
 	}
