@@ -753,6 +753,9 @@
 
     function selEmpleoB(idEmpleo){
         disableId('b'+idEmpleo);
+//        var bTmp = dwr.util.byId('b'+idEmpleo);
+//        alert("bTmp = " + bTmp);
+
         pnRemoto.selEmpleo(idEmpleo, function(data){
             if(data!=null){
 //                alert("Vamos con: " + data.perfilByIdPerfil.perfil);

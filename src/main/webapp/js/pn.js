@@ -1,6 +1,8 @@
 function disableId(id){
     var bTmp = dwr.util.byId(id);
-    bTmp.disabled = true;
+    if (bTmp!=null) {
+        bTmp.disabled = true;
+    }
 }
 
 function enableId(id){

@@ -25,8 +25,7 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administraci&oacute;n<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <%
-                                for (ServicioRol servicioRol: servicioRols){
+                            <%  for (ServicioRol servicioRol: servicioRols){
                             %>
                             <li><a href="<%=servicioRol.getServicioByIdServicio().getServicio()%>.htm"><%=servicioRol.getServicioByIdServicio().getTextoServicio()%></a></li>
                             <%

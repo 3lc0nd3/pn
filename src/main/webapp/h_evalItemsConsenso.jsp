@@ -1,5 +1,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="co.com.elramireza.pn.model.*" %>
+<%@ page import="java.util.ArrayList" %>
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 
 <%
@@ -9,6 +10,17 @@
 
     List<PnSubCapitulo> items = pnManager.getPnSubCapitulos();
 
+    List<PnCuantitativa> cuantitativas = pnManager.getCuantitativaConsensoFromEmpleado(
+            empleo.getIdEmpleado());
+
+    List<Empleado> evaluadores = pnManager.getEvaluadoresFromParticipante(empleo.getParticipanteByIdParticipante().getIdParticipante());
+
+    List<List<PnCuantitativa>> otros = new ArrayList<List<PnCuantitativa>>();
+    for (Empleado evaluador: evaluadores){
+        List<PnCuantitativa> cuantitativaEval = pnManager.getCuantitativaIndividualFromEmpleado(
+                evaluador.getIdEmpleado());
+        otros.add(cuantitativaEval);
+    }
 %>
 
 <individual>
@@ -21,8 +33,6 @@
                 <br>
 
                 <%
-                    List<PnCuantitativa> cuantitativas = pnManager.getCuantitativaConsensoFromEmpleado(
-                            empleo.getIdEmpleado());
 
                     if(cuantitativas.size()==0){ // NO HAY DATA
                 %>
@@ -47,7 +57,9 @@
                 <table border="1" width="100%" align="center">
                     <%
                         int idCapituloOld = 0;
+                        int i=-1;
                         for (PnSubCapitulo item: items){
+                            i++;
                             if(idCapituloOld != item.getPnCapituloByIdCapitulo().getId()){
                                 idCapituloOld = item.getPnCapituloByIdCapitulo().getId();
                     %>
@@ -55,6 +67,15 @@
                         <th colspan="1">
                             <%=item.getPnCapituloByIdCapitulo().getNombreCapitulo()%>
                         </th>
+                        <%
+                            for (Empleado evaluador : evaluadores){
+                        %>
+                        <th <%--height="320" width="30" class="letraVertical"--%>>
+                            <%=evaluador.getPersonaByIdPersona().getNombreCompleto()%>
+                        </th>
+                        <%
+                            }
+                        %>
                         <th width="50" >Puntaje</th>
                         <th width="50" >Valor</th>
                         <th width="50" >Total</th>
@@ -66,15 +87,28 @@
                         <td>
                             <%=item.getSubCapitulo()%>
                         </td>
+                        <%
+                            for (int j = 0; j < evaluadores.size(); j++) {
+                                Empleado evaluador = evaluadores.get(j);
+                                List<PnCuantitativa> results = otros.get(j);
+
+                        %>
+                        <td align="right">
+                            <%--<%=results.get(i).getPnSubCapituloByIdSubCapitulo().getSubCapitulo()%>--%>
+                            <%=results.get(i).getValor()%>
+                        </td>
+                        <%
+                            }
+                        %>
                         <td align="right">
                             <%=item.getPonderacion()%>
                         </td>
                         <td>
-                            <select onchange="sValorItem(<%=item.getId()%>);" name="i<%=item.getId()%>" id="i<%=item.getId()%>" class="" style="width:60px; background-color:#1570a6; color:white;">
+                            <select style="width: 60px" onchange="sValorItem(<%=item.getId()%>);" name="i<%=item.getId()%>" id="i<%=item.getId()%>" class="btn-primary selEval" >
                             <%
                                 for (Integer v: pnManager.getValoresValoracion()){
                             %>
-                                <option value="<%=v%>"><%=v%></option>
+                                <option class="btn-primary selEval" value="<%=v%>"><%=v%></option>
                             <%
                                 }
                             %>

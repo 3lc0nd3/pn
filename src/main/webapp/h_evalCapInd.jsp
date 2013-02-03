@@ -88,11 +88,11 @@
                     <tr>
                         <td class=" btn-primary"><%=criterio.getCriterio()%></td>
                         <td>
-                            <select name="<%=capitulo.getId()%>-<%=criterio.getId()%>" id="<%=criterio.getId()%>" class="" style="width:100px; background-color:#1570a6; height:100%;">
+                            <select name="<%=capitulo.getId()%>-<%=criterio.getId()%>" id="<%=criterio.getId()%>" class="btn-primary selEval">
                             <%
                                 for (Integer v: pnManager.getValoresValoracion()){
                             %>
-                                <option value="<%=v%>"><%=v%></option>
+                                <option class="btn-primary selEval" value="<%=v%>"><%=v%></option>
                             <%
                                 }
                             %>

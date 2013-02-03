@@ -70,11 +70,11 @@
                             <%=item.getPonderacion()%>
                         </td>
                         <td>
-                            <select onchange="sValorItem(<%=item.getId()%>);" name="i<%=item.getId()%>" id="i<%=item.getId()%>" class="" style="width:60px; background-color:#1570a6; color:white;">
+                            <select onchange="sValorItem(<%=item.getId()%>);" name="i<%=item.getId()%>" id="i<%=item.getId()%>" class="btn-primary selEval">
                             <%
                                 for (Integer v: pnManager.getValoresValoracion()){
                             %>
-                                <option value="<%=v%>"><%=v%></option>
+                                <option class="btn-primary selEval" value="<%=v%>"><%=v%></option>
                             <%
                                 }
                             %>
