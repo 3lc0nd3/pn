@@ -54,7 +54,7 @@
                     }
                 %>
 
-                <table border="1" width="100%" align="center">
+                <table class="mytable" border="1" width="100%" align="center">
                     <%
                         int idCapituloOld = 0;
                         int i=-1;
@@ -70,8 +70,12 @@
                         <%
                             for (Empleado evaluador : evaluadores){
                         %>
-                        <th <%--height="320" width="30" class="letraVertical"--%>>
-                            <%=evaluador.getPersonaByIdPersona().getNombreCompleto()%>
+                        <th style="vertical-align: bottom;" class="vertical">
+                            <%--Hola Mundo y mas coasa--%>
+                            <%--<%=evaluador.getPersonaByIdPersona().getNombreCompleto()%>--%>
+                            <%=evaluador.getPersonaByIdPersona().getNombrePersona()%>
+                            <%--<br>--%>
+                            <%=evaluador.getPersonaByIdPersona().getApellido()%>
                         </th>
                         <%
                             }
@@ -84,7 +88,7 @@
                             }
                     %>
                     <tr>
-                        <td>
+                        <td class="contenido">
                             <%=item.getSubCapitulo()%>
                         </td>
                         <%
@@ -93,14 +97,16 @@
                                 List<PnCuantitativa> results = otros.get(j);
 
                         %>
-                        <td align="right">
+                        <td align="center">
                             <%--<%=results.get(i).getPnSubCapituloByIdSubCapitulo().getSubCapitulo()%>--%>
-                            <%=results.get(i).getValor()%>
+                            <%=results.get(i).getValor()%>%
+                            <br>
+                            <%=results.get(i).getTotal()%>
                         </td>
                         <%
                             }
                         %>
-                        <td align="right">
+                        <td align="center">
                             <%=item.getPonderacion()%>
                         </td>
                         <td>
@@ -114,7 +120,7 @@
                             %>
                             </select>
                         </td>
-                        <td align="right">
+                        <td align="center">
                             <span style="text-align:right;" id="l<%=item.getId()%>">0</span>
                         </td>
                     </tr>
@@ -210,5 +216,10 @@
     <%
         }
     %>
+
+
+    $(document).ready(function(){
+        $('.mytable').rotateTableCellContent();
+    });
 
 </script>

@@ -1305,6 +1305,9 @@ label.error{
 .selEval{
     width:100px;
     margin-bottom: 0px;
+    height: 50px;
+    /*height: 100%;*/
+    line-height:27px;
 }
 
 .letraVertical{
@@ -1313,5 +1316,25 @@ label.error{
     -ms-transform: rotate(270deg);
     -o-transform: rotate(270deg);
     transform: rotate(270deg);
+    writing-mode:tb-rl;
+    /*vertical-align: top;*/
+    white-space: nowrap;
     /*height: 100px;*/
+}
+
+table div.rotated {
+    -webkit-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    writing-mode:tb-rl;
+    white-space: nowrap;
+}
+
+table .vertical {
+    white-space: nowrap;
+}
+
+
+.contenido{
+    line-height:95%;
+
 }
