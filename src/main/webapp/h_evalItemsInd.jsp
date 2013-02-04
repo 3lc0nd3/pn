@@ -52,6 +52,9 @@
                                 idCapituloOld = item.getPnCapituloByIdCapitulo().getId();
                     %>
                     <tr>
+                        <th>
+                            <%=item.getPnCapituloByIdCapitulo().getId()%>
+                        </th>
                         <th colspan="1">
                             <%=item.getPnCapituloByIdCapitulo().getNombreCapitulo()%>
                         </th>
@@ -63,6 +66,9 @@
                             }
                     %>
                     <tr>
+                        <td>
+                            <%=item.getCodigoItem()%>
+                        </td>
                         <td>
                             <%=item.getSubCapitulo()%>
                         </td>
