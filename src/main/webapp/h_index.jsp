@@ -759,8 +759,8 @@
         pnRemoto.selEmpleo(idEmpleo, function(data){
             if(data!=null){
 //                alert("Vamos con: " + data.perfilByIdPerfil.perfil);
+//                enableId("b2");
                 window.location = "index.htm";
-                enableId("b2");
             } else {
                 alert('Problemas !');
                 enableId("b2");
