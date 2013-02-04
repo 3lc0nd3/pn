@@ -752,7 +752,7 @@
     }
 
     function selEmpleoB(idEmpleo){
-        disableId('b'+idEmpleo);
+//        disableId('b'+idEmpleo);
 //        var bTmp = dwr.util.byId('b'+idEmpleo);
 //        alert("bTmp = " + bTmp);
 
