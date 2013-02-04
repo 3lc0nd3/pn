@@ -93,7 +93,7 @@
                     <tr>
                         <td>
                             <%=item.getCodigoItem()%>
-                        </td>s
+                        </td>
                         <td class="contenido">
                             <%=item.getSubCapitulo()%>
                         </td>
