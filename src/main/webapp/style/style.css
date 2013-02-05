@@ -1336,5 +1336,6 @@ table .vertical {
 
 .contenido{
     line-height:95%;
-
+    text-align:justify;
+    vertical-align:text-top;
 }

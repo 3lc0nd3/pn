@@ -225,6 +225,7 @@
             <dwr:include method="saveAgenda"/>
             <dwr:include method="saveInvitadoEnPnAgenda"/>
             <dwr:include method="saveValoracionDespuesVisitaItems"/>
+            <dwr:include method="getPnSubCapitulo"/>
 
             <!--LOS QUE NO VAN-->
             <!--

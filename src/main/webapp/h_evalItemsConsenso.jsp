@@ -146,10 +146,13 @@
                         </td>
                     </tr>
                     <tr id="contenido<%=item.getId()%>" style="display:none;">
-                        <td colspan="3">
-                            <%=item.getEvalua()%>
+                        <td colspan="5" class="contenido">
+                            <span id="evalua<%=item.getId()%>"></span>
+                            <%--<%=item.getEvalua()%>--%>
                         </td>
-                        <td colspan="6"></td>
+                        <td colspan="4" class="contenido">
+                            <span id="ayuda<%=item.getId()%>"></span>
+                        </td>
                     </tr>
                     
                     <%
@@ -182,8 +185,26 @@
 
 <script type="text/javascript">
 
+    function contenidoAyuda(id){
+        $("#contenido" + id).toggle();
+        dwr.util.setValue("evalua" + id, replaceAll(window["data"+id].evalua, "\n", "<br>"), { escapeHtml:false });
+        dwr.util.setValue("ayuda" + id,  replaceAll(window["data"+id].c20,    "\n", "<br>"), { escapeHtml:false });
+//        alert("Total = " + dwr.util.getValue('l' + id));
+    }
+
     function muestraAyuda(id){
-        $("#contenido"+id).toggle();
+        if (window["data"+id] == null) {
+//            alert("es nula");
+            pnRemoto.getPnSubCapitulo(id, function(data) {
+                if (data != null) {
+                    window["data"+id] = data;
+                    contenidoAyuda(id);
+                }
+            });
+        } else {
+//            alert("window['data'"+id+"] = " + window["data"+id]);
+            contenidoAyuda(id);
+        }
     }
 
     function saltaAVisita(){
