@@ -30,7 +30,8 @@
 
     String exit = request.getParameter("exit");
     if(exit!=null){ // TOCA SALIR
-        session.invalidate();
+        session.removeAttribute("persona");
+        session.removeAttribute("empleo");
 //        persona = null;
 //        response.sendRedirect("/");
     }

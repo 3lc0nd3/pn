@@ -68,6 +68,8 @@
                     <tr>
                         <td>
                             <%=item.getCodigoItem()%>
+                            <br>
+                            <img src="images/help.png" onclick="muestraAyuda('<%=item.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
                         </td>
                         <td>
                             <%=item.getSubCapitulo()%>
@@ -88,6 +90,15 @@
                         </td>
                         <td align="right">
                             <span style="text-align:right;" id="l<%=item.getId()%>">0</span>
+                        </td>
+                    </tr>
+                    <tr id="contenido<%=item.getId()%>" style="display:none;">
+                        <td colspan="2" class="contenido">
+                            <span id="evalua<%=item.getId()%>"></span>
+                            <%--<%=item.getEvalua()%>--%>
+                        </td>
+                        <td colspan="4" class="contenido">
+                            <span id="ayuda<%=item.getId()%>"></span>
                         </td>
                     </tr>
                     
@@ -172,6 +183,7 @@
         var aux = valor * eval('tmp'+id) / 100;
         
         dwr.util.setValue("l"+id, Math.ceil(aux));
+        muestraAyuda(id, false);
     }
 
     <%

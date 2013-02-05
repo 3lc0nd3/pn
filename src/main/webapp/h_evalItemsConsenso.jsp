@@ -185,44 +185,7 @@
 
 <script type="text/javascript">
 
-    function contenidoAyuda(id){
-        dwr.util.setValue("evalua" + id, replaceAll(window["data"+id].evalua, "\n", "<br>"), { escapeHtml:false });
-        var valor = dwr.util.getValue("i"+id);
-//        alert("valor = " + valor);
-//        alert("Total = " + dwr.util.getValue('l' + id));
-        var ayuda;
-        if(valor<20){
-            ayuda = window["data" + id].c20;
-        } else if(valor >= 20 && valor < 40){
-            ayuda = window["data" + id].c40;
-        } else if(valor >= 40 && valor < 60){
-            ayuda = window["data" + id].c60;
-        } else if(valor >= 60 && valor < 80){
-            ayuda = window["data" + id].c80;
-        } else if(valor >= 80 ){
-            ayuda = window["data" + id].c100;
-        }
 
-        dwr.util.setValue("ayuda" + id,  replaceAll(ayuda,    "\n", "<br>"), { escapeHtml:false });
-    }
-
-    function muestraAyuda(id, palanca){
-        if(palanca){
-            $("#contenido" + id).toggle();
-        }
-        if (window["data"+id] == null) {
-//            alert("es nula");
-            pnRemoto.getPnSubCapitulo(id, function(data) {
-                if (data != null) {
-                    window["data"+id] = data;
-                    contenidoAyuda(id);
-                }
-            });
-        } else {
-//            alert("window['data'"+id+"] = " + window["data"+id]);
-            contenidoAyuda(id);
-        }
-    }
 
     function saltaAVisita(){
         disableId("b2");

@@ -1338,4 +1338,5 @@ table .vertical {
     line-height:95%;
     text-align:justify;
     vertical-align:text-top;
+    padding: 5px;
 }
