@@ -16,9 +16,15 @@
     List<Empleado> evaluadores = pnManager.getEvaluadoresFromParticipante(empleo.getParticipanteByIdParticipante().getIdParticipante());
 
     List<List<PnCuantitativa>> otros = new ArrayList<List<PnCuantitativa>>();
+
+    boolean hayDatosEvaluadores = true;
     for (Empleado evaluador: evaluadores){
         List<PnCuantitativa> cuantitativaEval = pnManager.getCuantitativaIndividualFromEmpleado(
                 evaluador.getIdEmpleado());
+//        System.out.println("cuantitativaEval.size() = " + cuantitativaEval.size());
+        if(cuantitativaEval.size() == 0){
+            hayDatosEvaluadores = false;
+        }
         otros.add(cuantitativaEval);
     }
 %>
@@ -33,7 +39,13 @@
                 <br>
 
                 <%
-
+                    if(cuantitativas.size()>0
+                            && empleo.getParticipanteByIdParticipante().getPnEtapaParticipanteByIdEtapaParticipante().getIdEtapaParticipante() == 2 //CONSENSO
+                            ){ // SOLO SI HAY DATA y CONSENSO
+                %>
+                <button id="b2" class="btn  btn-primary" onclick="saltaAVisita();">Avanza a Agenda de Visita</button>
+                <%
+                    }
                     if(cuantitativas.size()==0){ // NO HAY DATA
                 %>
 
@@ -52,6 +64,7 @@
                 </div>
                 <%
                     }
+                    if (hayDatosEvaluadores){
                 %>
 
                 <table class="mytable" border="1" width="100%" align="center">
@@ -93,6 +106,8 @@
                     <tr>
                         <td>
                             <%=item.getCodigoItem()%>
+                            <br>
+                            <img src="images/help.png" onclick="muestraAyuda('<%=item.getId()%>');" width="24" alt="Contenido" title="Contenido">
                         </td>
                         <td class="contenido">
                             <%=item.getSubCapitulo()%>
@@ -130,6 +145,12 @@
                             <span style="text-align:right;" id="l<%=item.getId()%>">0</span>
                         </td>
                     </tr>
+                    <tr id="contenido<%=item.getId()%>" style="display:none;">
+                        <td colspan="3">
+                            <%=item.getEvalua()%>
+                        </td>
+                        <td colspan="6"></td>
+                    </tr>
                     
                     <%
                         }
@@ -138,11 +159,14 @@
                 <br>
                 <button id="b1" class="btn  btn-primary" onclick="guardaItems();">Guardar</button>
                 <%
-                    if(cuantitativas.size()>0){ // SOLO SI HAY DATA
+                    if(cuantitativas.size()>0
+                            && empleo.getParticipanteByIdParticipante().getPnEtapaParticipanteByIdEtapaParticipante().getIdEtapaParticipante() == 2 //CONSENSO
+                            ){ // SOLO SI HAY DATA y CONSENSO
                 %>
-                <button id="b2" class="btn  btn-primary" onclick="saltaAVisita();">Avanza a Agenda de Visita</button>
+
                 <%
                     }
+                }
                 %>
             </div>
             <div class="span4">
@@ -157,6 +181,10 @@
 <jsp:include page="c_footer_r.jsp"/>
 
 <script type="text/javascript">
+
+    function muestraAyuda(id){
+        $("#contenido"+id).toggle();
+    }
 
     function saltaAVisita(){
         disableId("b2");
@@ -196,12 +224,13 @@
         disableId("b1");
 
         pnRemoto.saveValoracionConsensoItems(dataValores, function(data){
+            enableId("b1");
             if(data == 1){
                 alert("Registro Correcto");
+                window.location = "evalItemsConsenso.htm";
             } else {
                 alert("Problemas !");
             }
-            enableId("b1");
         });
     }
 

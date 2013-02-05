@@ -126,7 +126,11 @@
             <td> <%=participante.getEmpresaByIdEmpresa().getNombreEmpresa()%></td>
             <td> <%=empleado.getCargoEmpleadoByIdCargo().getCargo()%></td>
             <td> <%=empleado.getPerfilByIdPerfil().getPerfil()%></td>
-            <td> <%=persona.getNombrePersona()%> <%=persona.getApellido()%> </td>
+            <td>
+                <%=persona.getNombreCompleto()%>
+                <br>
+                <%=persona.getEmailPersonal()%>
+            </td>
             <%--<td><img id="imgActive<%=participante.getIdParticipante()%>" width="28" onclick="activaDesactiva(<%=participante.getIdParticipante()%>);" src="<%=imageActive%>" alt="<%=messaActive%>" title="<%=messaActive%>"></td>--%>
             <td>
                 <img width="28" onclick="desvincule(<%=empleado.getIdEmpleado()%>);" src="images/broken_link.jpg" alt="desvincula" title="desvincula">

@@ -25,6 +25,18 @@ public class PnSubCapitulo {
         this.id = id;
     }
 
+    private String evalua;
+
+    @Basic
+    @Column(name = "evalua_item")
+    public String getEvalua() {
+        return evalua;
+    }
+
+    public void setEvalua(String evalua) {
+        this.evalua = evalua;
+    }
+
     private int ponderacion;
 
     @Basic
