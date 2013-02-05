@@ -3,6 +3,7 @@
 <%@ page import="static java.text.MessageFormat.format" %>
 <%@ page import="co.com.elramireza.pn.model.Texto" %>
 <%@ page import="co.com.elramireza.pn.model.Persona" %>
+<%@ page import="co.com.elramireza.pn.model.Servicio" %>
 <jsp:include page="c_head.jsp"/>
 
 <%
@@ -56,6 +57,15 @@
 
 <%
     String servicio = (String) request.getAttribute("servicio");
+    // TODO SECURITY
+    Servicio servicioModel = pnManager.getServicioFromName(servicio);
+    Persona persona = (Persona) session.getAttribute("persona");
+
+    if(persona == null && servicioModel.getPublico()==0){
+        servicio = "index";
+        request.setAttribute("mensajeLogin", "Por favor ingrese al Sistema !!!");
+    }
+
 //    System.out.println("servicio = " + servicio);
     if(servicio!= null){
         servicio = format("h_{0}.jsp", servicio);

@@ -107,7 +107,7 @@
                         <td>
                             <%=item.getCodigoItem()%>
                             <br>
-                            <img src="images/help.png" onclick="muestraAyuda('<%=item.getId()%>');" width="24" alt="Contenido" title="Contenido">
+                            <img src="images/help.png" onclick="muestraAyuda('<%=item.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
                         </td>
                         <td class="contenido">
                             <%=item.getSubCapitulo()%>
@@ -186,13 +186,30 @@
 <script type="text/javascript">
 
     function contenidoAyuda(id){
-        $("#contenido" + id).toggle();
         dwr.util.setValue("evalua" + id, replaceAll(window["data"+id].evalua, "\n", "<br>"), { escapeHtml:false });
-        dwr.util.setValue("ayuda" + id,  replaceAll(window["data"+id].c20,    "\n", "<br>"), { escapeHtml:false });
+        var valor = dwr.util.getValue("i"+id);
+//        alert("valor = " + valor);
 //        alert("Total = " + dwr.util.getValue('l' + id));
+        var ayuda;
+        if(valor<20){
+            ayuda = window["data" + id].c20;
+        } else if(valor >= 20 && valor < 40){
+            ayuda = window["data" + id].c40;
+        } else if(valor >= 40 && valor < 60){
+            ayuda = window["data" + id].c60;
+        } else if(valor >= 60 && valor < 80){
+            ayuda = window["data" + id].c80;
+        } else if(valor >= 80 ){
+            ayuda = window["data" + id].c100;
+        }
+
+        dwr.util.setValue("ayuda" + id,  replaceAll(ayuda,    "\n", "<br>"), { escapeHtml:false });
     }
 
-    function muestraAyuda(id){
+    function muestraAyuda(id, palanca){
+        if(palanca){
+            $("#contenido" + id).toggle();
+        }
         if (window["data"+id] == null) {
 //            alert("es nula");
             pnRemoto.getPnSubCapitulo(id, function(data) {
@@ -262,6 +279,7 @@
         var aux = valor * eval('tmp'+id) / 100;
         
         dwr.util.setValue("l"+id, Math.ceil(aux));
+        muestraAyuda(id, false);
     }
 
     <%

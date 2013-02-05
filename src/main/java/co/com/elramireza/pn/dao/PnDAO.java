@@ -155,6 +155,22 @@ public class PnDAO extends HibernateDaoSupport{
 		return getHibernateTemplate().find("from TipoCargoEmpleado order by tipoCargo ");
 	}
 
+    /**
+     * segun el nombre del servicio
+     * @param servicio
+     * @return
+     */
+    public Servicio getServicioFromName(String servicio){
+        List<Servicio> list = getHibernateTemplate().find(
+                "from Servicio where servicio = ?",
+                servicio );
+        if(list.size()>0){
+            return list.get(0);
+        } else {
+            return null;
+        }
+    }
+
 	public Servicio getServicio(int id){
 		return (Servicio) getHibernateTemplate().get(Servicio.class, id);
 	}
