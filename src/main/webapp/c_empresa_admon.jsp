@@ -1,13 +1,18 @@
 <%@ page import="co.com.elramireza.pn.model.Empresa" %>
-<%@ page import="co.com.elramireza.pn.model.Empleado" %><%
+<%@ page import="co.com.elramireza.pn.model.Empleado" %>
+<%@ page import="co.com.elramireza.pn.model.Participante" %>
+<jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
+<%
 
     Empleado empleo = (Empleado) session.getAttribute("empleo");
     Empresa empresa = (Empresa) request.getAttribute("empresa");
+    Participante participante = null;
     if(empresa == null){ // NO VIENE DE FRONTCONTROLLER
         if(empleo != null){ // TIENE QUE ESTAR LOGUEADO
             empresa = empleo.getParticipanteByIdParticipante().getEmpresaByIdEmpresa();
+            participante = pnManager.getParticipante(empleo.getParticipanteByIdParticipante().getIdParticipante());
         }
-    }       
+    }
 
     if(empresa != null && empresa.getIdEmpresa()!=1){ // HAY EMPRESA
 
@@ -23,7 +28,7 @@
     if(empleo!=null && empleo.getParticipanteByIdParticipante().getEmpresaByIdEmpresa().getIdEmpresa()!=1){
 %>
 <br>
-<span class="color">Etapa</span> <%=empleo.getParticipanteByIdParticipante().getPnEtapaParticipanteByIdEtapaParticipante().getEtapaParticipante()%>
+<span class="color">Etapa</span> <%=participante.getPnEtapaParticipanteByIdEtapaParticipante().getEtapaParticipante()%>
 <%
     }
 %>

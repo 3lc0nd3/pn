@@ -62,6 +62,22 @@
                         <th width="50" >Valor</th>
                         <th width="50" >Total</th>
                     </tr>
+                    <tr>
+                        <th colspan="5" class="alert-info">Fortalezas</th>
+                    </tr>
+                    <tr>
+                        <td  colspan="5">
+                            <textarea id="fortalezas<%=item.getPnCapituloByIdCapitulo().getId()%>" class="field span6" placeholder="Lo que lo ayudar&aacute; en crisis" rows="4" cols="10"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="5" class="alert-info">Oportunidades de Mejora</th>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <textarea id="oportunidades<%=item.getPnCapituloByIdCapitulo().getId()%>" class="field span6" placeholder="Tips de mejora" rows="4" cols="10"></textarea>
+                        </td>
+                    </tr>
                     <%
                             }
                     %>
@@ -111,7 +127,6 @@
                 <%
                     if(cuantitativas.size()>0){ // SOLO SI HAY DATA
                 %>
-                <button id="b2" class="btn  btn-primary" onclick="saltaAVisita();">Avanza a Agenda de Visita</button>
                 <%
                     }
                 %>
@@ -150,6 +165,19 @@
     %>
 
     function guardaItems(){
+        var retro = new Array();
+    <%
+        for (PnCapitulo capitulo : pnManager.getPnCapitulos()){
+    %>
+        retro.push({
+            id:<%=capitulo.getId()%>,
+            text: dwr.util.getValue("fortalezas<%=capitulo.getId()%>"), // fortalezas
+            text2:dwr.util.getValue("oportunidades<%=capitulo.getId()%>") // oportunidades
+        });
+    <%
+        }
+    %>
+
         var dataValores = new Array();
 
     <%
@@ -166,7 +194,7 @@
 //        alert(dwr.util.toDescriptiveString(dataValores, 2));
         disableId("b1");
 
-        pnRemoto.saveValoracionDespuesVisitaItems(dataValores, function(data){
+        pnRemoto.saveValoracionDespuesVisitaItems(dataValores, retro, function(data){
             if(data == 1){
                 alert("Registro Correcto");
             } else {
@@ -191,6 +219,15 @@
     %>
         dwr.util.setValue("i<%=item.getPnSubCapituloByIdSubCapitulo().getId()%>", <%=item.getValor()%>);
         dwr.util.setValue("l<%=item.getPnSubCapituloByIdSubCapitulo().getId()%>", <%=item.getTotal()%>);
+    <%
+        }
+    %>
+
+    <%
+        for (PnRetroalimentacion retroalimentacion : pnManager.getPnRetroalimentaciones(empleo.getParticipanteByIdParticipante().getIdParticipante())){
+    %>
+    dwr.util.setValue(   "fortalezas<%=retroalimentacion.getPnCapituloByIdPnCapitulo().getId()%>", "<%=retroalimentacion.getFortalezas()%>");
+    dwr.util.setValue("oportunidades<%=retroalimentacion.getPnCapituloByIdPnCapitulo().getId()%>", "<%=retroalimentacion.getOportunidades()%>");
     <%
         }
     %>

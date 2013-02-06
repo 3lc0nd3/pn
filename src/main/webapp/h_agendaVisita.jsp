@@ -52,11 +52,11 @@
                             <div class="form-actions">
                                 <!-- Buttons -->
                                 <%--<button type="button" class="btn">Consultar</button>--%>
-                                <button id="b1" onclick="definaFecha();" type="button" class="btn">Defina Fecha</button>
+                                <button id="b1" onclick="definaFecha();"           type="button" class="btn">Defina Fecha</button>
                                 <%
                                     if(pnAgenda != null){ // SOLO SI HAY
                                 %>
-                                <button id="b3" class="btn" onclick="saltaADespuesDeVisita();">Avanza a Despu&eacute;s de Visita</button>
+                                <button id="b3" onclick="saltaADespuesDeVisita();"  type="button" class="btn">Avanza a Retroalimentaci&oacute;n</button>
                                 <%
                                     }
                                 %>
@@ -222,7 +222,9 @@
 
     function saltaADespuesDeVisita(){
         disableId("b3");
+//        alert("1");
         pnRemoto.saltaADespuesDeVisita(function(data){
+//            alert("data = " + data);
             if(data == 1){
                 alert("Cambio de Etapa Correcto");
             } else {
@@ -230,6 +232,8 @@
             }
             enableId("b3");
         });
+//        alert("2");
+        var a = 9;
     }
 
     function definaFecha(){
@@ -254,7 +258,6 @@
 
     function invitarEmpleado(){
         disableId("b2");
-
         var invitado = {
             idEmpleado : null,
             idItem : null,

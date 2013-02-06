@@ -27,7 +27,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.sql.SQLException;
-import java.sql.BatchUpdateException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -385,7 +384,8 @@ public class PnDAO extends HibernateDaoSupport{
         }
     }
 
-    public int saveValoracionDespuesVisitaItems(List<MyKey> valores){
+    public int saveValoracionDespuesVisitaItems(List<MyKey> valores,
+												List<MyKey> retro){
         try {
             WebContext wctx = WebContextFactory.get();
             HttpSession session = wctx.getSession(true);
@@ -413,6 +413,29 @@ public class PnDAO extends HibernateDaoSupport{
                 }
             });
 
+            getHibernateTemplate().execute(new HibernateCallback() {
+                public Object doInHibernate(org.hibernate.Session session) throws HibernateException, SQLException {
+                    Query query = session.createQuery(
+                            "delete from PnRetroalimentacion where participanteByIdParticipante.idParticipante= ?"
+                    );
+                    query.setInteger(0, empleado.getParticipanteByIdParticipante().getIdParticipante()); //  PARTICIPANTE
+                    query.executeUpdate();
+                    return null;
+                }
+            });
+
+            for (MyKey key: retro){
+				logger.debug("key.getId() = " + key.getId());
+				logger.debug("key.getText() = " + key.getText());
+				logger.debug("key.getText2() = " + key.getText2());
+				PnRetroalimentacion retroalimentacion = new PnRetroalimentacion();
+				retroalimentacion.setParticipanteByIdParticipante(participanteByIdParticipante);
+				retroalimentacion.setPnCapituloByIdPnCapitulo(getPnCapitulo(key.getId()));
+				retroalimentacion.setFortalezas(key.getText());
+				retroalimentacion.setOportunidades(key.getText2());
+				retroalimentacion.setFechaCreacion(timestamp);
+				getHibernateTemplate().save(retroalimentacion);
+			}
             for (MyKey key: valores){
                 PnCuantitativa valor = new PnCuantitativa();
                 valor.setTipoFormatoByIdTipoFormato(getTipoFormato(5)); // items Consenso
@@ -432,6 +455,12 @@ public class PnDAO extends HibernateDaoSupport{
             return 0;
         }
     }
+	
+	public List<PnRetroalimentacion> getPnRetroalimentaciones(int idParticipante){
+		return getHibernateTemplate().find(
+				"from PnRetroalimentacion where participanteByIdParticipante.idParticipante = ?",
+				idParticipante);
+	}
 
     public int saveValoracionConsensoItems(List<MyKey> valores){
         try {
@@ -500,6 +529,7 @@ public class PnDAO extends HibernateDaoSupport{
     }
 
     public int saltaADespuesDeVisita(){
+		logger.info("entro = ");
         try {
             WebContext wctx = WebContextFactory.get();
             HttpSession session = wctx.getSession(true);

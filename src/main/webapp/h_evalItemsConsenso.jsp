@@ -39,8 +39,9 @@
                 <br>
 
                 <%
+                    Participante participante = pnManager.getParticipante(empleo.getParticipanteByIdParticipante().getIdParticipante());
                     if(cuantitativas.size()>0
-                            && empleo.getParticipanteByIdParticipante().getPnEtapaParticipanteByIdEtapaParticipante().getIdEtapaParticipante() == 2 //CONSENSO
+                            && participante.getPnEtapaParticipanteByIdEtapaParticipante().getIdEtapaParticipante() == 2 //CONSENSO
                             ){ // SOLO SI HAY DATA y CONSENSO
                 %>
                 <button id="b2" class="btn  btn-primary" onclick="saltaAVisita();">Avanza a Agenda de Visita</button>
