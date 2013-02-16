@@ -31,6 +31,33 @@
 <span class="color">Etapa</span> <%=participante.getPnEtapaParticipanteByIdEtapaParticipante().getEtapaParticipante()%>
 <%
     }
+    if (empleo.getPerfilByIdPerfil().getId() == 7 && participante.getPnEtapaParticipanteByIdEtapaParticipante().getIdEtapaParticipante() == 1) { // SOLO PARA LIDER
+%>
+<br>
+<span class="color">Evaluadores:</span>
+<blockquote>
+    <%
+        for (Empleado evaluador :  pnManager.getEvaluadoresFromParticipante(participante.getIdParticipante())){
+    %>
+    <span class="color"><%=evaluador.getPerfilByIdPerfil().getPerfil()%></span>
+    <%=evaluador.getPersonaByIdPersona().getNombreCompleto()%>
+    <blockquote>
+        Ind. Global
+        <img width="28" src="img/<%=pnManager.getValoracionIndividualGlobalFromEmpleado(evaluador.getIdEmpleado()).size()>0?"ok":"stop"%>.png" alt="">
+        <br>
+        Ind. Cap&iacute;tulos
+        <img width="28" src="img/<%=pnManager.getValoracionIndividualCapitulosFromEmpleado(evaluador.getIdEmpleado()).size()>0?"ok":"stop"%>.png" alt="">
+        <br>
+        Cuantitativa
+        <img width="28" src="img/<%=pnManager.getCuantitativaIndividualFromEmpleado(evaluador.getIdEmpleado()).size()>0?"ok":"stop"%>.png" alt="">
+    </blockquote>
+    <br>
+    <%
+        }
+    %>
+</blockquote>
+<%
+    }
 %>
 <br>
 <span class="color">Informe de Postulaci&oacute;n PDF</span> <a href="pdfs/ip-<%=empresa.getNit()%>.pdf" target="<%=empresa.getNit()%>"><img src="img/pdf.png" alt="abrir" title="abrir" width="48"></a>
