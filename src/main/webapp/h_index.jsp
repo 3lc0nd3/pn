@@ -326,6 +326,14 @@
                             </div>
                         </div>
 
+                        <!-- informe de postulacion-->
+                        <div class="control-group">
+                            <label class="control-label" for="fileInformePostulacionFile">Informe de Postulaci&oacute;n PDF</label>
+                            <div class="controls">
+                                <input type="file" class=" required" name="fileInformePostulacionFile" id="fileInformePostulacionFile">
+                            </div>
+                        </div>
+
                         <!-- certificado const Empresa -->
                         <div class="control-group">
                             <label class="control-label" for="fileCertificadoConstitucionFile">Certificado Constituci&oacute;n Legal PDF</label>
@@ -665,7 +673,7 @@
     }
 
     function registraP(){
-        disableId("b2");
+//        disableId("b2");
 //        alert("Si o no");
         var empresa = {
             nit : null,
@@ -685,6 +693,7 @@
             idEmpresaCategoria : null,
             idEmpresaCategoriaTamano : null,
             publicaEmpresa : null,
+            fileInformePostulacionFile : null,
             fileCertificadoConstitucionFile : null,
             fileEstadoFinancieroFile : null,
             fileConsignacionFile : null
@@ -714,6 +723,7 @@
             idCargoEmpleado : null
         };
         dwr.util.getValues(encargado);
+        alert("encargado.idCargoEmpleado = " + encargado.idCargoEmpleado);
 
         var personaDirectivo = {
             documentoIdentidad : directivo.documentoDirectivo,

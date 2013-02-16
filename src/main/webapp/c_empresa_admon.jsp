@@ -33,6 +33,8 @@
     }
 %>
 <br>
+<span class="color">Informe de Postulaci&oacute;n PDF</span> <a href="pdfs/ip-<%=empresa.getNit()%>.pdf" target="<%=empresa.getNit()%>"><img src="img/pdf.png" alt="abrir" title="abrir" width="48"></a>
+<br>
 <span class="color">Certificado Constituci&oacute;n Legal PDF</span> <a href="pdfs/cc-<%=empresa.getNit()%>.pdf" target="<%=empresa.getNit()%>"><img src="img/pdf.png" alt="abrir" title="abrir" width="48"></a>
 <br>
 <span class="color">Estados Financieros (3 a&ntilde;os) PDF</span>   <a href="pdfs/ef-<%=empresa.getNit()%>.pdf" target="<%=empresa.getNit()%>"><img src="img/pdf.png" alt="abrir" title="abrir" width="48"></a>

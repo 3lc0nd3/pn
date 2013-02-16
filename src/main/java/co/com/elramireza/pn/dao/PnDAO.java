@@ -1114,150 +1114,170 @@ public class PnDAO extends HibernateDaoSupport{
 		logger.debug("empresa.getLocCiudadByIdCiudad().getNombreCiudad() = " + empresa.getLocCiudadByIdCiudad().getNombreCiudad());
 		logger.debug("empresa.getMarcas() = " + empresa.getMarcas());
 
-		EmpresaCategoria categoriaEmpresa = getEmpresaCategoria(empresa.getIdEmpresaCategoria());
-		logger.debug("categoriaEmpresa.getCategoria() = " + categoriaEmpresa.getCategoria());
-		EmpresaCategoriaTamano empresaCategoriaTamano = getEmpresaCategoriaTamano(empresa.getIdEmpresaCategoriaTamano());
-		logger.debug("empresaCategoriaTamano.getTamano() = " + empresaCategoriaTamano.getTamano());
+		try {
+			EmpresaCategoria categoriaEmpresa = getEmpresaCategoria(empresa.getIdEmpresaCategoria());
+			logger.debug("categoriaEmpresa.getCategoria() = " + categoriaEmpresa.getCategoria());
+			EmpresaCategoriaTamano empresaCategoriaTamano = getEmpresaCategoriaTamano(empresa.getIdEmpresaCategoriaTamano());
+			logger.debug("empresaCategoriaTamano.getTamano() = " + empresaCategoriaTamano.getTamano());
 
-		logger.debug("empresa.getFileCertificadoConstitucion() = " + empresa.getFileCertificadoConstitucion());
-		logger.debug("empresa.getFileConsignacion() = " + empresa.getFileConsignacion());
-		logger.debug("empresa.getFileEstadoFinancieroFile() = " + empresa.getFileEstadoFinancieroFile());
+			logger.debug("empresa.getFileCertificadoConstitucion() = " + empresa.getFileCertificadoConstitucion());
+			logger.debug("empresa.getFileConsignacion() = " + empresa.getFileConsignacion());
+			logger.debug("empresa.getFileEstadoFinancieroFile() = " + empresa.getFileEstadoFinancieroFile());
 
+			/*  DIRECTIVO  */
 
-
-		logger.debug("personaDirectivo.getNombrePersona() = " + personaDirectivo.getNombrePersona());
-		logger.debug("personaDirectivo.getApellido() = " + personaDirectivo.getApellido());
-
-		logger.debug("personaEncargado.getNombrePersona() = " + personaEncargado.getNombrePersona());
-		logger.debug("personaEncargado.getNombrePersona() = " + personaEncargado.getNombrePersona());
-		logger.debug("personaEncargado.getIdCargoEmpleado() = " + personaEncargado.getIdCargoEmpleado());
-		logger.debug("personaEncargado.getIdCargoEmpleado() = " + personaEncargado.getIdCargoEmpleado());
-
-		/*  DIRECTIVO  */
-
-		Persona directivoOld = getPersonaFromDoc(personaDirectivo.getDocumentoIdentidad());
-		if(directivoOld != null){  // SI EXISTE
-			personaDirectivo = directivoOld;
-		} else { // NO EXISTE
-			personaDirectivo.setEstado(false);
-            personaDirectivo.setEmailPersonal(personaDirectivo.getEmailCorporativo());
-			personaDirectivo.setLocCiudadByIdCiudad(empresa.getLocCiudadByIdCiudad());
-			personaDirectivo.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
-			int idDirectivo = (Integer) getHibernateTemplate().save(personaDirectivo);
-			personaDirectivo.setIdPersona(idDirectivo);
-		}
-
-		/*  EMPLEADO  */
-
-		Persona empleadoOld = getPersonaFromDoc(personaEncargado.getDocumentoIdentidad());
-		if(empleadoOld != null){
-			personaEncargado = empleadoOld;
-		} else {
-			personaEncargado.setEstado(false);
-			personaEncargado.setLocCiudadByIdCiudad(empresa.getLocCiudadByIdCiudad());
-			personaEncargado.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
-			int idEmpleado = (Integer) getHibernateTemplate().save(personaEncargado);
-			personaEncargado.setIdPersona(idEmpleado);
-		}
-
-		/*  EMPRESA  */
-
-		Empresa empresaOld = getEmpresaFromNit(empresa.getNit());
-		if(empresaOld != null){
-			empresa = empresaOld;
-		} else {
-			empresa.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
-			empresa.setTipoEmpresaByIdTipoEmpresa(getTipoEmpresa(2));
-			empresa.setEstado(false); // sin aprovar
-			empresa.setEmpresaCategoriaByIdCategoriaEmpresa(categoriaEmpresa);
-			empresa.setEmpresaCategoriaTamanoByIdCategoriaTamanoEmpresa(empresaCategoriaTamano);
-
-			String path = context.getRealPath("/pdfs");
-			System.out.println("path = " + path);
-
-			String fileCertificadoConstitucion  = path+"/cc-"+empresa.getNit()+".pdf";
-			String fileEstadoFinanciero         = path+"/ef-"+empresa.getNit()+".pdf";
-			String fileConsignacion             = path+"/co-"+empresa.getNit()+".pdf";
-			try {
-				FileOutputStream certificadoConstitucionStream = new FileOutputStream(fileCertificadoConstitucion);
-				certificadoConstitucionStream.write(empresa.getFileCertificadoConstitucionFile());
-				certificadoConstitucionStream.close();
-
-				FileOutputStream estadoFinancieroStream = new FileOutputStream(fileEstadoFinanciero);
-				estadoFinancieroStream.write(empresa.getFileEstadoFinancieroFile());
-				estadoFinancieroStream.close();
-
-				FileOutputStream consignacionStream = new FileOutputStream(fileConsignacion);
-				consignacionStream.write(empresa.getFileConsignacionFile());
-				consignacionStream.close();
-
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-				logger.debug(e.getMessage());
-				return 0;
-			} catch (IOException e) {
-				e.printStackTrace();
-				logger.debug(e.getMessage());
-				return 0;
+			Persona directivoOld = getPersonaFromDoc(personaDirectivo.getDocumentoIdentidad());
+			if(directivoOld != null){  // SI EXISTE
+				personaDirectivo = directivoOld;
+			} else { // NO EXISTE
+				personaDirectivo.setEstado(false);
+				personaDirectivo.setEmailPersonal(personaDirectivo.getEmailCorporativo());
+				personaDirectivo.setLocCiudadByIdCiudad(empresa.getLocCiudadByIdCiudad());
+				personaDirectivo.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
+				int idDirectivo = (Integer) getHibernateTemplate().save(personaDirectivo);
+				personaDirectivo.setIdPersona(idDirectivo);
 			}
 
-			empresa.setFileCertificadoConstitucion(fileCertificadoConstitucion);
-			empresa.setFileEstadoFinanciero(fileEstadoFinanciero);
-			empresa.setFileConsignacion(fileConsignacion);
+			logger.info("personaDirectivo.getIdPersona() = " 			+ personaDirectivo.getIdPersona());
+			logger.debug("personaDirectivo.getDocumentoIdentidad() = " 	+ personaDirectivo.getDocumentoIdentidad());
+			logger.debug("personaDirectivo.getNombrePersona() = " 		+ personaDirectivo.getNombrePersona());
+			logger.debug("personaDirectivo.getApellido() = " 			+ personaDirectivo.getApellido());
 
-			int idEmpresa = (Integer) saveEmpresa(empresa);
-			empresa.setIdEmpresa(idEmpresa);
+			/*  EMPLEADO  */
+
+			Persona empleadoOld = getPersonaFromDoc(personaEncargado.getDocumentoIdentidad());
+			if(empleadoOld != null){       // SI EXISTE EN LA DB
+				// PARA QUE NO SE PIERDA EL CARGO LO TRAIGO DEL FORM
+				empleadoOld.setIdCargoEmpleado(personaEncargado.getIdCargoEmpleado());
+				personaEncargado = empleadoOld;
+			} else {
+				personaEncargado.setEstado(false);
+				personaEncargado.setLocCiudadByIdCiudad(empresa.getLocCiudadByIdCiudad());
+				personaEncargado.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
+				int idEmpleado = (Integer) getHibernateTemplate().save(personaEncargado);
+				personaEncargado.setIdPersona(idEmpleado);
+			}
+
+			logger.debug("personaEncargado.getIdPersona() = " + personaEncargado.getIdPersona());
+			logger.debug("personaEncargado.getDocumentoIdentidad() = " + personaEncargado.getDocumentoIdentidad());
+			logger.debug("personaEncargado.getNombrePersona() = "	 	+ personaEncargado.getNombrePersona());
+			logger.debug("personaEncargado.getIdCargoEmpleado() = " 	+ personaEncargado.getIdCargoEmpleado());
+
+			/*  EMPRESA  */
+
+			Empresa empresaOld = getEmpresaFromNit(empresa.getNit());
+			if(empresaOld != null){
+				empresa = empresaOld;
+			} else {
+				empresa.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
+				empresa.setTipoEmpresaByIdTipoEmpresa(getTipoEmpresa(2));
+				empresa.setEstado(false); // sin aprovar
+				empresa.setEmpresaCategoriaByIdCategoriaEmpresa(categoriaEmpresa);
+				empresa.setEmpresaCategoriaTamanoByIdCategoriaTamanoEmpresa(empresaCategoriaTamano);
+
+				String path = context.getRealPath("/pdfs");
+				System.out.println("path = " + path);
+
+				String fileInformePostulacion  		= path+"/ip-"+empresa.getNit()+".pdf";
+				String fileCertificadoConstitucion  = path+"/cc-"+empresa.getNit()+".pdf";
+				String fileEstadoFinanciero         = path+"/ef-"+empresa.getNit()+".pdf";
+				String fileConsignacion             = path+"/co-"+empresa.getNit()+".pdf";
+				try {
+					FileOutputStream informePostulacionStream = new FileOutputStream(fileInformePostulacion);
+					logger.debug("empresa.getFileInformePostulacionFile() = " + empresa.getFileInformePostulacionFile());
+					informePostulacionStream.write(empresa.getFileInformePostulacionFile());
+					informePostulacionStream.close();
+
+					FileOutputStream certificadoConstitucionStream = new FileOutputStream(fileCertificadoConstitucion);
+					certificadoConstitucionStream.write(empresa.getFileCertificadoConstitucionFile());
+					certificadoConstitucionStream.close();
+
+					FileOutputStream estadoFinancieroStream = new FileOutputStream(fileEstadoFinanciero);
+					estadoFinancieroStream.write(empresa.getFileEstadoFinancieroFile());
+					estadoFinancieroStream.close();
+
+					FileOutputStream consignacionStream = new FileOutputStream(fileConsignacion);
+					consignacionStream.write(empresa.getFileConsignacionFile());
+					consignacionStream.close();
+
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+					logger.debug(e.getMessage());
+					return 0;
+				} catch (IOException e) {
+					e.printStackTrace();
+					logger.debug(e.getMessage());
+					return 0;
+				}
+
+				empresa.setFileInformePostulacion(fileInformePostulacion);
+				empresa.setFileCertificadoConstitucion(fileCertificadoConstitucion);
+				empresa.setFileEstadoFinanciero(fileEstadoFinanciero);
+				empresa.setFileConsignacion(fileConsignacion);
+
+				logger.info("est 1");
+
+				int idEmpresa = (Integer) saveEmpresa(empresa);
+				empresa.setIdEmpresa(idEmpresa);
+			}
+
+			// TODO PONER LOS PDF EN EL PARTICIPANTE
+
+			/*  PARTICIPANTE  */
+			Participante participante = new Participante();
+			participante.setFechaIngreso(new Timestamp(System.currentTimeMillis()));
+			participante.setEstado(false); // HAY QUE ACTIVARLO
+			participante.setObservaciones("Registro Web");
+			participante.setEmpresaByIdEmpresa(empresa);
+			participante.setPnPremioByIdConvocatoria(getPnPremioActivo());
+			participante.setPnEtapaParticipanteByIdEtapaParticipante(
+					getPnEtapaParticipante(1));
+
+			int idParticipante = (Integer) getHibernateTemplate().save(participante);
+			logger.debug("idParticipante = " + idParticipante);
+			participante.setIdParticipante(idParticipante);
+
+
+			// VINCULAR PERSONAL
+
+			/*  ENCARGADO  */
+			Empleado empleadoEncargado = new Empleado();
+			empleadoEncargado.setFechaIngreso(new Timestamp(System.currentTimeMillis()));
+			empleadoEncargado.setParticipanteByIdParticipante(participante);
+			logger.debug("personaEncargado.getIdCargoEmpleado() = " + personaEncargado.getIdCargoEmpleado());
+			CargoEmpleado cargoEncargado = getCargoEmpleado(personaEncargado.getIdCargoEmpleado());
+			logger.debug("cargoEncargado.getCargo() = " + cargoEncargado.getCargo());
+			empleadoEncargado.setCargoEmpleadoByIdCargo(cargoEncargado);
+			empleadoEncargado.setPerfilByIdPerfil(getPerfil(3)); // Encargado de Proceso
+			empleadoEncargado.setPersonaByIdPersona(personaEncargado);
+
+			Integer idEncargado = (Integer) getHibernateTemplate().save(empleadoEncargado);
+			if(idEncargado != null){
+				notificaEmpleadoVinculo(empleadoEncargado);
+			}
+			empleadoEncargado.setIdEmpleado(idEncargado);
+
+			/*  DIRECTIVO  */
+			Empleado empleadoDirectivo = new Empleado();
+			empleadoDirectivo.setFechaIngreso(new Timestamp(System.currentTimeMillis()));
+			empleadoDirectivo.setParticipanteByIdParticipante(participante);
+			empleadoDirectivo.setCargoEmpleadoByIdCargo(getCargoEmpleado(4)); //TODO PERGUNTAR EN EL FORM REGISTRO POR ESTE CARGO
+			empleadoDirectivo.setPerfilByIdPerfil(getPerfil(5)); // Encargado de Proceso
+			empleadoDirectivo.setPersonaByIdPersona(personaDirectivo);
+
+			Integer idDirectivo = (Integer) getHibernateTemplate().save(empleadoDirectivo);
+			if(idDirectivo != null){
+				notificaEmpleadoVinculo(empleadoDirectivo);
+			}
+			empleadoDirectivo.setIdEmpleado(idDirectivo);
+
+
+			return 1;
+		} catch (DataAccessException e) {
+			logger.info("e.getMessage() = " + e.getMessage());
+			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+			return 0;
 		}
-
-		// TODO PONER LOS PDF EN EL PARTICIPANTE
-
-		/*  PARTICIPANTE  */
-		Participante participante = new Participante();
-		participante.setFechaIngreso(new Timestamp(System.currentTimeMillis()));
-		participante.setEstado(false); // HAY QUE ACTIVARLO
-		participante.setObservaciones("Registro Web");
-		participante.setEmpresaByIdEmpresa(empresa);
-		participante.setPnPremioByIdConvocatoria(getPnPremioActivo());
-        participante.setPnEtapaParticipanteByIdEtapaParticipante(
-                getPnEtapaParticipante(1));
-
-		int idParticipante = (Integer) getHibernateTemplate().save(participante);
-		participante.setIdParticipante(idParticipante);
-
-		// VINCULAR PERSONAL
-
-		/*  ENCARGADO  */
-		Empleado empleadoEncargado = new Empleado();
-		empleadoEncargado.setFechaIngreso(new Timestamp(System.currentTimeMillis()));
-		empleadoEncargado.setParticipanteByIdParticipante(participante);
-		CargoEmpleado cargoEncargado = getCargoEmpleado(personaEncargado.getIdCargoEmpleado());
-		logger.debug("cargoEncargado.getCargo() = " + cargoEncargado.getCargo());
-		empleadoEncargado.setCargoEmpleadoByIdCargo(cargoEncargado);
-		empleadoEncargado.setPerfilByIdPerfil(getPerfil(3)); // Encargado de Proceso
-		empleadoEncargado.setPersonaByIdPersona(personaEncargado);
-
-		Integer idEncargado = (Integer) getHibernateTemplate().save(empleadoEncargado);
-        if(idEncargado != null){
-            notificaEmpleadoVinculo(empleadoEncargado);
-        }
-        empleadoEncargado.setIdEmpleado(idEncargado);
-
-		/*  DIRECTIVO  */
-		Empleado empleadoDirectivo = new Empleado();
-		empleadoDirectivo.setFechaIngreso(new Timestamp(System.currentTimeMillis()));
-		empleadoDirectivo.setParticipanteByIdParticipante(participante);
-		empleadoDirectivo.setCargoEmpleadoByIdCargo(getCargoEmpleado(4)); //TODO PERGUNTAR EN EL FORM REGISTRO POR ESTE CARGO
-		empleadoDirectivo.setPerfilByIdPerfil(getPerfil(5)); // Encargado de Proceso
-		empleadoDirectivo.setPersonaByIdPersona(personaDirectivo);
-
-        Integer idDirectivo = (Integer) getHibernateTemplate().save(empleadoDirectivo);
-        if(idDirectivo != null){
-            notificaEmpleadoVinculo(empleadoDirectivo);
-        }
-        empleadoDirectivo.setIdEmpleado(idDirectivo);
-
-
-		return 1;
 	} /*  FIN INSCRIPCION  */
 
 	public Perfil getPerfil(int id){

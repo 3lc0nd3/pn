@@ -316,7 +316,18 @@ public class Empresa {
         this.publicaEmpresa = publicaEmpresa;
     }
 
-    private byte[] fileCertificadoConstitucionFile;
+	private byte[] fileInformePostulacionFile;
+
+	@Transient
+	public byte[] getFileInformePostulacionFile() {
+		return fileInformePostulacionFile;
+	}
+
+	public void setFileInformePostulacionFile(byte[] fileInformePostulacionFile) {
+		this.fileInformePostulacionFile = fileInformePostulacionFile;
+	}
+
+	private byte[] fileCertificadoConstitucionFile;
 
     @Transient
     public byte[] getFileCertificadoConstitucionFile() {
@@ -327,7 +338,19 @@ public class Empresa {
         this.fileCertificadoConstitucionFile = fileCertificadoConstitucionFile;
     }
 
-    private String fileCertificadoConstitucion;
+	private String fileInformePostulacion;
+
+	@Basic
+	@Column(name = "file_informe_p")
+	public String getFileInformePostulacion() {
+		return fileInformePostulacion;
+	}
+
+	public void setFileInformePostulacion(String fileInformePostulacion) {
+		this.fileInformePostulacion = fileInformePostulacion;
+	}
+
+	private String fileCertificadoConstitucion;
 
     @Basic
     @Column(name = "file_certificado_constitucion")

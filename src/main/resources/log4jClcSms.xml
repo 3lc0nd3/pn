@@ -33,7 +33,7 @@
     </logger>
 
     <logger name="co.com.elramireza">
-        <level value="INFO"/>
+        <level value="DEBUG"/>
     </logger>
 
     
