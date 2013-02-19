@@ -210,31 +210,36 @@ public class PnDAO extends HibernateDaoSupport{
         for (Empleado empleado : empleados){
             logger.info("empleado.getPersonaByIdPersona().getNombreCompleto() = " + empleado.getPersonaByIdPersona().getNombreCompleto());
             //REVISO VALORACION IND GLOBAL
-            List<PnValoracion> valoracionGlobal = getValoracionIndividualGlobalFromEmpleado(empleado.getIdEmpleado());
+            /*List<PnValoracion> valoracionGlobal = getValoracionIndividualGlobalFromEmpleado(empleado.getIdEmpleado());
             if(valoracionGlobal.size() == 0){
                 salta = false;
-            }
-            logger.info("Ind. Global: " + salta);
+            }*/
+            logger.info("Ind. Global: " + empleado.isEvaluaGlobal());
 
             //REVISO VALORACION IND CAPITULOS
-            List<PnValoracion> valoraciones = getValoracionIndividualCapitulosFromEmpleado(empleado.getIdEmpleado());
+            /*List<PnValoracion> valoraciones = getValoracionIndividualCapitulosFromEmpleado(empleado.getIdEmpleado());
             if(valoraciones.size() == 0){
                 salta = false;
-            }
-            logger.info("Ind. Cap.: " + salta);
+            }*/
+            logger.info("Ind. Cap.: " + empleado.isEvaluaCapitulos());
 
             //REVISO CUANTITATIVA
-            List<PnCuantitativa> cuantitativas = getCuantitativaIndividualFromEmpleado(empleado.getIdEmpleado());
+            /*List<PnCuantitativa> cuantitativas = getCuantitativaIndividualFromEmpleado(empleado.getIdEmpleado());
             if(cuantitativas.size() == 0){
                 salta = false;
-            }
-            logger.info("Cuantitativa: " + salta);
+            }*/
+            logger.info("Cuantitativa: " + empleado.isEvaluaItems());
 
             //REVISO SI HAY LIDER
             if(empleado.getPerfilByIdPerfil().getId() == 7){
                 hayLider = true;
             }
             logger.info("hayLider = " + hayLider);
+
+			if (!(empleado.isEvaluaGlobal() && empleado.isEvaluaCapitulos() && empleado.isEvaluaItems())) { // SI NO CUMPLE UN EMPLEADO NO SALTA
+				salta = false;
+			}
+			
         }
         // SALTA O NO
         if(salta && hayLider){
@@ -333,7 +338,9 @@ public class PnDAO extends HibernateDaoSupport{
         return getHibernateTemplate().find("from PnSubCapitulo order by codigoItem ");
     }
 
-    public int saveValoracionIndividualItems(List<MyKey> valores){
+    public int saveValoracionIndividualItems(boolean definitivo,
+											 List<MyKey> valores){
+		logger.info("definitivo = " + definitivo);
         try {
             WebContext wctx = WebContextFactory.get();
             HttpSession session = wctx.getSession(true);
@@ -372,6 +379,14 @@ public class PnDAO extends HibernateDaoSupport{
                 valor.setFechaCreacion(timestamp);
                 getHibernateTemplate().save(valor);
             }
+
+			// GUARDA FINAL - DEFINITIVO
+			if (definitivo) {
+				Empleado empleadoOld = getEmpleado(empleado.getIdEmpleado());
+				empleadoOld.setEvaluaItems(true);
+				getHibernateTemplate().update(empleadoOld);
+				session.setAttribute("empleo", empleadoOld);
+			}
 
             // REVISA SI HAY SALTO A GRUPAL
             saltoEtapaIndividualGrupal(participanteByIdParticipante.getIdParticipante());
@@ -548,11 +563,13 @@ public class PnDAO extends HibernateDaoSupport{
 
     }
 
-    public int saveValoracionIndividualCapitulos(List<MyKey> fortalezas,
+    public int saveValoracionIndividualCapitulos(boolean definitivo,
+												 List<MyKey> fortalezas,
                                                  List<MyKey> opertunidades,
                                                  List<MyKey> pendientes,
                                                  List<MyKey> valores
                                                  ){
+		logger.info("definitivo = " + definitivo);
         try {
             WebContext wctx = WebContextFactory.get();
             HttpSession session = wctx.getSession(true);
@@ -632,6 +649,14 @@ public class PnDAO extends HibernateDaoSupport{
 
             }
 
+			// GUARDA FINAL - DEFINITIVO
+			if (definitivo) {
+				Empleado empleadoOld = getEmpleado(empleado.getIdEmpleado());
+				empleadoOld.setEvaluaCapitulos(true);
+				getHibernateTemplate().update(empleadoOld);
+				session.setAttribute("empleo", empleadoOld);
+			}
+
             // REVISA SI HAY SALTO A GRUPAL
             saltoEtapaIndividualGrupal(participanteByIdParticipante.getIdParticipante());
 
@@ -643,12 +668,14 @@ public class PnDAO extends HibernateDaoSupport{
         }
     }
 
-    public int saveVAloracionIndividual(int v[][],
-                                         String fortalezas,
-                                         String oportunidades,
-                                         String pendientesVisita){
-        try {
-            //Borro los datos Anteriores
+	public int saveVAloracionIndividual(boolean definitivo,
+										int v[][],
+										String fortalezas,
+										String oportunidades,
+										String pendientesVisita){
+		logger.info("definitivo = " + definitivo);
+		try {
+			//Borro los datos Anteriores
             WebContext wctx = WebContextFactory.get();
             HttpSession session = wctx.getSession(true);
             final Empleado empleado = (Empleado) session.getAttribute("empleo");
@@ -710,6 +737,14 @@ public class PnDAO extends HibernateDaoSupport{
 
             Integer idCualitativa = (Integer) getHibernateTemplate().save(cualitativa);
             logger.debug("idCualitativa = " + idCualitativa);
+
+			// GUARDA FINAL - DEFINITIVO
+			if (definitivo) {
+				Empleado empleadoOld = getEmpleado(empleado.getIdEmpleado());
+				empleadoOld.setEvaluaGlobal(true);
+				getHibernateTemplate().update(empleadoOld);
+				session.setAttribute("empleo", empleadoOld);
+			}
 
             // REVISA SI HAY SALTO A GRUPAL
             saltoEtapaIndividualGrupal(participanteByIdParticipante.getIdParticipante());

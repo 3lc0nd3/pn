@@ -91,7 +91,8 @@
                 </table>
                 <br>
                 <br>
-                <button id="b1" class="btn  btn-primary" onclick="guardaIndividual();">Guardar</button>
+                <button id="b1" class="btn  btn-primary" onclick="guardaIndividual(false);">Guardar Avance</button>
+                <button id="b2" class="btn  btn-primary" onclick="guardaIndividual(true);">Guardar Final</button>
             </div><%--  FIN SPAN8 --%>
             <div class="span4">
                 <jsp:include page="c_empresa_admon.jsp" />
@@ -105,7 +106,7 @@
 
 <script type="text/javascript">
 
-    function guardaIndividual(){
+    function guardaIndividual(definitivo){
         var valoresCriterios = [[],[]];
 
     <%
@@ -116,18 +117,29 @@
     <%
         }
     %>
-        disableId("b1");
+        if (definitivo) {
+            disableId("b2");
+        } else {
+            disableId("b1");
+        }
 
-        pnRemoto.saveVAloracionIndividual(valoresCriterios,
+        pnRemoto.saveVAloracionIndividual(definitivo,
+                valoresCriterios,
                 dwr.util.getValue("fortalezas"),
                 dwr.util.getValue("oportunidades"),
                 dwr.util.getValue("pendientesVisita"), function(data){
             if(data == 1){
                 alert("Registro Correcto");
+                window.location = "evalGlobalInd.htm";
             } else {
                 alert("Problemas !");
             }
-            enableId("b1");
+
+                    if (definitivo) {
+                        enableId("b2");
+                    } else {
+                        enableId("b1");
+                    }
         });
 
     }

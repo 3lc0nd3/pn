@@ -111,7 +111,8 @@
                 %>
                                          <br>
                 
-                <button id="b1" class="btn  btn-primary" onclick="guardaIndividualCapitulos();">Guardar</button>
+                <button id="b1" class="btn  btn-primary" onclick="guardaIndividualCapitulos(false);">Guardar Avance</button>
+                <button id="b2" class="btn  btn-primary" onclick="guardaIndividualCapitulos(true);">Guardar Final</button>
             </div><%--  FIN SPAN8 --%>
             <div class="span4">
                 <jsp:include page="c_empresa_admon.jsp"    />
@@ -125,7 +126,7 @@
 
 <script type="text/javascript">
 
-    function guardaIndividualCapitulos(){
+    function guardaIndividualCapitulos(definitivo){
         var dataFortaleza   = new Array();
         var dataOportunidad = new Array();
         var dataPendiente   = new Array();
@@ -149,18 +150,29 @@
     %>
 //        alert(dwr.util.toDescriptiveString(dataValores, 2));
 
-        disableId("b1");
+        if (definitivo) {
+            disableId("b2");
+        } else {
+            disableId("b1");
+        }
 
-        pnRemoto.saveValoracionIndividualCapitulos(dataFortaleza,
+        pnRemoto.saveValoracionIndividualCapitulos(definitivo,
+                dataFortaleza,
                 dataOportunidad,
                 dataPendiente,
                 dataValores, function(data){
             if(data == 1){
                 alert("Registro Correcto");
+                window.location = "evalCapInd.htm";
             } else {
                 alert("Problemas !");
             }
-            enableId("b1");
+
+                    if (definitivo) {
+                        enableId("b2");
+                    } else {
+                        enableId("b1");
+                    }
         });
 
     }

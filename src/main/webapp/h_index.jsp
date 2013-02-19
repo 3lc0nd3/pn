@@ -12,6 +12,9 @@
     PnPremio premioActivo = pnManager.getPnPremioActivo();
 
     String mensajeLogin = (String) request.getAttribute("mensajeLogin");
+    if (mensajeLogin == null) {
+        mensajeLogin = "";
+    }
 
 
 %>

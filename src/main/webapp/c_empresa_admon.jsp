@@ -1,6 +1,8 @@
 <%@ page import="co.com.elramireza.pn.model.Empresa" %>
 <%@ page import="co.com.elramireza.pn.model.Empleado" %>
 <%@ page import="co.com.elramireza.pn.model.Participante" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 <%
 
@@ -31,25 +33,41 @@
 <span class="color">Etapa</span> <%=participante.getPnEtapaParticipanteByIdEtapaParticipante().getEtapaParticipante()%>
 <%
     }
-    if (empleo.getPerfilByIdPerfil().getId() == 7 && participante.getPnEtapaParticipanteByIdEtapaParticipante().getIdEtapaParticipante() == 1) { // SOLO PARA LIDER
+    if (
+            (empleo.getPerfilByIdPerfil().getId() == 7
+                    || empleo.getPerfilByIdPerfil().getId() == 1
+                    || empleo.getPerfilByIdPerfil().getId() == 2
+            )  // PARA LIDERES Y ADMON
+//                    &&
+//            participante.getPnEtapaParticipanteByIdEtapaParticipante().getIdEtapaParticipante() == 1
+
+            ) { // SOLO PARA LIDER
 %>
 <br>
 <span class="color">Evaluadores:</span>
 <blockquote>
     <%
-        for (Empleado evaluador :  pnManager.getEvaluadoresFromParticipante(participante.getIdParticipante())){
+        System.out.println("empleo.getPerfilByIdPerfil().getId() = " + empleo.getPerfilByIdPerfil().getId());
+        List<Empleado> evaluadoresFromParticipante = new ArrayList<Empleado>();
+        if (empleo.getPerfilByIdPerfil().getId() == 7 ) { // SI ES LIDER
+            evaluadoresFromParticipante = pnManager.getEvaluadoresFromParticipante(participante.getIdParticipante());
+        } else if(empleo.getPerfilByIdPerfil().getId() == 2 ) {  // SI ES EVALUADOR
+            evaluadoresFromParticipante.add(empleo);
+        }
+
+        for (Empleado evaluador : evaluadoresFromParticipante){
     %>
     <span class="color"><%=evaluador.getPerfilByIdPerfil().getPerfil()%></span>
     <%=evaluador.getPersonaByIdPersona().getNombreCompleto()%>
     <blockquote>
         Ind. Global
-        <img width="28" src="img/<%=pnManager.getValoracionIndividualGlobalFromEmpleado(evaluador.getIdEmpleado()).size()>0?"ok":"stop"%>.png" alt="">
+        <img width="28" src="img/<%=evaluador.isEvaluaGlobal()?"ok":"stop"%>.png" alt="">
         <br>
         Ind. Cap&iacute;tulos
-        <img width="28" src="img/<%=pnManager.getValoracionIndividualCapitulosFromEmpleado(evaluador.getIdEmpleado()).size()>0?"ok":"stop"%>.png" alt="">
+        <img width="28" src="img/<%=evaluador.isEvaluaCapitulos()?"ok":"stop"%>.png" alt="">
         <br>
         Cuantitativa
-        <img width="28" src="img/<%=pnManager.getCuantitativaIndividualFromEmpleado(evaluador.getIdEmpleado()).size()>0?"ok":"stop"%>.png" alt="">
+        <img width="28" src="img/<%=evaluador.isEvaluaItems()?"ok":"stop"%>.png" alt="">
     </blockquote>
     <br>
     <%

@@ -107,7 +107,8 @@
                     %>
                 </table>
                 <br>
-                <button id="b1" class="btn  btn-primary" onclick="guardaItems();">Guardar</button>
+                <button id="b1" class="btn  btn-primary" onclick="guardaItems(false);">Guardar Avance</button>
+                <button id="b2" class="btn  btn-primary" onclick="guardaItems(true);">Guardar Final</button>
             </div>
             <div class="span4">
                 <jsp:include page="c_empresa_admon.jsp"    />
@@ -131,7 +132,7 @@
         }
     %>
 
-    function guardaItems(){
+    function guardaItems(definitivo){
         var dataValores = new Array();
 
     <%
@@ -146,15 +147,26 @@
         }
     %>
 //        alert(dwr.util.toDescriptiveString(dataValores, 2));
-        disableId("b1");
 
-        pnRemoto.saveValoracionIndividualItems(dataValores, function(data){
+        if (definitivo) {
+            disableId("b2");
+        } else {
+            disableId("b1");
+        }
+
+        pnRemoto.saveValoracionIndividualItems(definitivo, dataValores, function(data){
             if(data == 1){
                 alert("Registro Correcto");
+                window.location = "evalItemsInd.htm";
             } else {
                 alert("Problemas !");
             }
-            enableId("b1");
+
+            if (definitivo) {
+                enableId("b2");
+            } else {
+                enableId("b1");
+            }
         });
     }
 

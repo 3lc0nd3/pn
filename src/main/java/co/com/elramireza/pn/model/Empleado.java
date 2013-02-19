@@ -1,6 +1,7 @@
 package co.com.elramireza.pn.model;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -40,27 +41,6 @@ public class Empleado {
 
     public void setFechaIngreso(Timestamp fechaIngreso) {
         this.fechaIngreso = fechaIngreso;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Empleado empleado = (Empleado) o;
-
-        if (idEmpleado != empleado.idEmpleado) return false;
-        if (fechaIngreso != null ? !fechaIngreso.equals(empleado.fechaIngreso) : empleado.fechaIngreso != null)
-            return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = idEmpleado;
-        result = 31 * result + (fechaIngreso != null ? fechaIngreso.hashCode() : 0);
-        return result;
     }
 
     private Participante participanteByIdParticipante;
@@ -121,4 +101,65 @@ public class Empleado {
     public void setPersonaByIdPersona(Persona personaByIdPersona) {
         this.personaByIdPersona = personaByIdPersona;
     }
+
+	private boolean evaluaGlobal;
+
+	@Column(name = "evalua_global")
+	@Basic
+	@Type(type = "org.hibernate.type.NumericBooleanType")
+	public boolean isEvaluaGlobal() {
+		return evaluaGlobal;
+	}
+
+	public void setEvaluaGlobal(boolean evaluaGlobal) {
+		this.evaluaGlobal = evaluaGlobal;
+	}
+
+	private boolean evaluaCapitulos;
+
+	@Column(name = "evalua_capitulos")
+	@Basic
+	@Type(type = "org.hibernate.type.NumericBooleanType")
+	public boolean isEvaluaCapitulos() {
+		return evaluaCapitulos;
+	}
+
+	public void setEvaluaCapitulos(boolean evaluaCapitulos) {
+		this.evaluaCapitulos = evaluaCapitulos;
+	}
+
+	private boolean evaluaItems;
+
+	@Column(name = "evalua_items")
+	@Basic
+	@Type(type = "org.hibernate.type.NumericBooleanType")
+	public boolean isEvaluaItems() {
+		return evaluaItems;
+	}
+
+	public void setEvaluaItems(boolean evaluaItems) {
+		this.evaluaItems = evaluaItems;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Empleado empleado = (Empleado) o;
+
+		if (evaluaCapitulos != empleado.evaluaCapitulos) return false;
+		if (evaluaGlobal != empleado.evaluaGlobal) return false;
+		if (evaluaItems != empleado.evaluaItems) return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = (evaluaGlobal ? 1 : 0);
+		result = 31 * result + (evaluaCapitulos ? 1 : 0);
+		result = 31 * result + (evaluaItems ? 1 : 0);
+		return result;
+	}
 }
