@@ -228,6 +228,7 @@
             <dwr:include method="saveValoracionDespuesVisitaItems"/>
             <dwr:include method="getPnSubCapitulo"/>
             <dwr:include method="getEmpleado"/>
+            <dwr:include method="getIncludeResultadoInd"/>
 
             <!--LOS QUE NO VAN-->
             <!--

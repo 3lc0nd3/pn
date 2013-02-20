@@ -18,6 +18,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 
@@ -256,7 +257,7 @@ public class PnDAO extends HibernateDaoSupport{
 
     public List<Empleado> getEvaluadoresFromParticipante(int idParticipante){
         return getHibernateTemplate().find(
-                "from Empleado where participanteByIdParticipante.idParticipante = ? and (perfilByIdPerfil.id = 2 or perfilByIdPerfil.id = 7)",
+                "from Empleado where participanteByIdParticipante.idParticipante = ? and (perfilByIdPerfil.id = 2 or perfilByIdPerfil.id = 7) order by perfilByIdPerfil.id desc , personaByIdPersona.nombrePersona",
                 idParticipante);
     }
 
@@ -1760,4 +1761,29 @@ public class PnDAO extends HibernateDaoSupport{
 		return s;
 	}
 
+
+	public String getIncludeResultadoInd(int idEmpleado,
+										 String page,
+										 int nombre){
+		logger.debug("idEmpleado = " + idEmpleado);
+		logger.debug("page = " + page);
+		logger.debug("nombre = " + nombre);
+		WebContext wctx = WebContextFactory.get();
+		String url = format("/r_%s.jsp", page);
+		logger.debug("url = " + url);
+
+		Texto texto = getTexto(nombre);
+
+		wctx.getHttpServletRequest().setAttribute("nombre", texto.getTexto1());
+		wctx.getHttpServletRequest().setAttribute("id", idEmpleado);
+		String respuesta = "";
+		try {
+			respuesta = wctx.forwardToString(url);
+		} catch (ServletException e) {
+			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+		} catch (IOException e) {
+			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+		}
+		return respuesta;
+	}
 }

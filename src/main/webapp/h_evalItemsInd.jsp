@@ -39,6 +39,16 @@
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
                     Datos ingresados el
                     <%=pnManager.dfDateTime.format(cuantitativas.get(0).getFechaCreacion())%>
+                    <%
+                        if (empleo.isEvaluaItems()) {
+                    %>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Datos Finales
+                    <img width="100" src="images/flag.png" alt="Final" title="Final">
+
+                    <%
+                        }
+                    %>
                 </div>
                 <%
                     }
@@ -106,9 +116,16 @@
                         }
                     %>
                 </table>
+
+                <%
+                    if (!empleo.isEvaluaItems()) {
+                %>
                 <br>
                 <button id="b1" class="btn  btn-primary" onclick="guardaItems(false);">Guardar Avance</button>
                 <button id="b2" class="btn  btn-primary" onclick="guardaItems(true);">Guardar Final</button>
+                <%
+                    }
+                %>
             </div>
             <div class="span4">
                 <jsp:include page="c_empresa_admon.jsp"    />

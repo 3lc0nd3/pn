@@ -3,8 +3,12 @@
 <%@ page import="co.com.elramireza.pn.model.Participante" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="co.com.elramireza.pn.model.Texto" %>
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 <%
+    String imgSrcRepor;
+    imgSrcRepor = "http://cdn1.iconfinder.com/data/icons/prettyoffice4/128/report.png";
+    imgSrcRepor = "http://cdn1.iconfinder.com/data/icons/Futurosoft%20Icons%200.5.2/128x128/mimetypes/document.png";
 
     Empleado empleo = (Empleado) session.getAttribute("empleo");
     Empresa empresa = (Empresa) request.getAttribute("empresa");
@@ -47,7 +51,7 @@
 <span class="color">Evaluadores:</span>
 <blockquote>
     <%
-        System.out.println("empleo.getPerfilByIdPerfil().getId() = " + empleo.getPerfilByIdPerfil().getId());
+//        System.out.println("empleo.getPerfilByIdPerfil().getId() = " + empleo.getPerfilByIdPerfil().getId());
         List<Empleado> evaluadoresFromParticipante = new ArrayList<Empleado>();
         if (empleo.getPerfilByIdPerfil().getId() == 7 ) { // SI ES LIDER
             evaluadoresFromParticipante = pnManager.getEvaluadoresFromParticipante(participante.getIdParticipante());
@@ -59,15 +63,20 @@
     %>
     <span class="color"><%=evaluador.getPerfilByIdPerfil().getPerfil()%></span>
     <%=evaluador.getPersonaByIdPersona().getNombreCompleto()%>
-    <blockquote>
+    <blockquote><span onclick="cargaResultado(<%=evaluador.getIdEmpleado()%>,'evalGlobalInd', 16);"><img src="<%=imgSrcRepor%>" width="36">
         Ind. Global
         <img width="28" src="img/<%=evaluador.isEvaluaGlobal()?"ok":"stop"%>.png" alt="">
+        </span>
         <br>
+        <span onclick="cargaResultado(<%=evaluador.getIdEmpleado()%>,'evalCapInd', 17);"><img src="<%=imgSrcRepor%>" width="36">
         Ind. Cap&iacute;tulos
         <img width="28" src="img/<%=evaluador.isEvaluaCapitulos()?"ok":"stop"%>.png" alt="">
+        </span>
         <br>
+        <span  onclick="cargaResultado(<%=evaluador.getIdEmpleado()%>,'evalItemsInd', 18);"><img src="<%=imgSrcRepor%>" width="36">
         Cuantitativa
         <img width="28" src="img/<%=evaluador.isEvaluaItems()?"ok":"stop"%>.png" alt="">
+        </span>
     </blockquote>
     <br>
     <%
@@ -77,14 +86,32 @@
 <%
     }
 %>
+
+<%--<jsp:include page="r_evalGlobalInd.jsp?id=8"/>--%>
+<a name="aResultado"></a>
+<div id="resultado">
+
+</div>
 <br>
-<span class="color">Informe de Postulaci&oacute;n PDF</span> <a href="pdfs/ip-<%=empresa.getNit()%>.pdf" target="<%=empresa.getNit()%>"><img src="img/pdf.png" alt="abrir" title="abrir" width="48"></a>
+<a href="pdfs/ip-<%=empresa.getNit()%>.pdf" target="<%=empresa.getNit()%>">
+    <img src="img/pdf.png" alt="abrir" title="abrir" width="48">
+    <span class="color">Informe de Postulaci&oacute;n PDF</span>
+</a>
 <br>
-<span class="color">Certificado Constituci&oacute;n Legal PDF</span> <a href="pdfs/cc-<%=empresa.getNit()%>.pdf" target="<%=empresa.getNit()%>"><img src="img/pdf.png" alt="abrir" title="abrir" width="48"></a>
+<a href="pdfs/cc-<%=empresa.getNit()%>.pdf" target="<%=empresa.getNit()%>">
+    <img src="img/pdf.png" alt="abrir" title="abrir" width="48">
+    <span class="color">Certificado Constituci&oacute;n Legal PDF</span>
+</a>
 <br>
-<span class="color">Estados Financieros (3 a&ntilde;os) PDF</span>   <a href="pdfs/ef-<%=empresa.getNit()%>.pdf" target="<%=empresa.getNit()%>"><img src="img/pdf.png" alt="abrir" title="abrir" width="48"></a>
+<a href="pdfs/ef-<%=empresa.getNit()%>.pdf" target="<%=empresa.getNit()%>">
+    <img src="img/pdf.png" alt="abrir" title="abrir" width="48">
+    <span class="color">Estados Financieros (3 a&ntilde;os) PDF</span>
+</a>
 <br>
-<span class="color">Recibo de Consignaci&oacute;n (50%) PDF</span>   <a href="pdfs/co-<%=empresa.getNit()%>.pdf" target="<%=empresa.getNit()%>"><img src="img/pdf.png" alt="abrir" title="abrir" width="48"></a>
+<a href="pdfs/co-<%=empresa.getNit()%>.pdf" target="<%=empresa.getNit()%>">
+    <img src="img/pdf.png" alt="abrir" title="abrir" width="48">
+    <span class="color">Recibo de Consignaci&oacute;n (50%) PDF</span>
+</a>
 <br>
 
 <br>

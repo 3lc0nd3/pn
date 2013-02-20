@@ -40,6 +40,16 @@
                 <div class="alert alert-success">
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
                     Datos ingresados el <%=pnManager.dfDateTime.format(cualitativas.get(0).getFechaCreacion())%>
+                    <%
+                        if (empleo.isEvaluaCapitulos()) {
+                    %>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Datos Finales
+                    <img width="100" src="images/flag.png" alt="Final" title="Final">
+
+                    <%
+                        }
+                    %>
                 </div>
                 <%
                     }
@@ -109,10 +119,16 @@
                 <%
                     } //  END DEL MEGA FOR DE CAPITULOS
                 %>
+                <%
+                    if (!empleo.isEvaluaCapitulos()) {
+                %>
                                          <br>
                 
                 <button id="b1" class="btn  btn-primary" onclick="guardaIndividualCapitulos(false);">Guardar Avance</button>
                 <button id="b2" class="btn  btn-primary" onclick="guardaIndividualCapitulos(true);">Guardar Final</button>
+                <%
+                    }
+                %>
             </div><%--  FIN SPAN8 --%>
             <div class="span4">
                 <jsp:include page="c_empresa_admon.jsp"    />
