@@ -14,7 +14,7 @@
     } else {
         idEmpleado = Integer.parseInt(id);
     }
-    nombre      = (String)  request.getParameter("nombre");
+    nombre      = (String)  request.getAttribute("nombre");
     System.out.println("nombre2222 = " + nombre);
 
     Empleado empleado = pnManager.getEmpleado(idEmpleado);
