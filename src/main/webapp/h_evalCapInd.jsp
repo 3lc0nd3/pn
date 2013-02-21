@@ -85,7 +85,7 @@
                     </td></tr>
                 </table>
                 <br>
-                <table border="1" align="center">
+                <table border="1" align="center" width="90%">
                     <%
                         for (PnCategoriaCriterio categoriaCriterio:  categoriasCriterio){
                     %>
@@ -96,17 +96,35 @@
                             for (PnCriterio criterio: pnManager.getPnCriteriosFromCategoria(categoriaCriterio.getId())){
                     %>
                     <tr>
-                        <td class=" btn-primary"><%=criterio.getCriterio()%></td>
+                        <td class=" btn-primary">
+                            <img src="images/help.png" onclick="muestraAyudaCriterio('<%=criterio.getId()%>','<%=capitulo.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
+                            <%=criterio.getCriterio()%>
+                        </td>
                         <td>
-                            <select name="<%=capitulo.getId()%>-<%=criterio.getId()%>" id="<%=criterio.getId()%>" class="btn-primary selEval">
+                            <select name="<%=capitulo.getId()%>-<%=criterio.getId()%>" id="<%=criterio.getId()%>" onchange="muestraAyudaCriterio(<%=criterio.getId()%>, '<%=capitulo.getId()%>', false)" class="btn-primary selEval">
                             <%
                                 for (Integer v: pnManager.getValoresValoracion()){
                             %>
-                                <option class="btn-primary selEval" value="<%=v%>"><%=v%></option>
+                                <option <%=v==50?"selected":""%> class="btn-primary selEval" value="<%=v%>"><%=v%></option>
                             <%
                                 }
                             %>
                             </select>
+                        </td>
+                    </tr>
+                    <tr id="<%=capitulo.getId()%>-contenido<%=criterio.getId()%>" style="display:none;">
+                        <td colspan="2">
+                            <table cellpadding="0" cellspacing="0" border="1" width="100%">
+                                <tr>
+                                    <td width="50%" class="contenido">
+                                        <span id="<%=capitulo.getId()%>-evalua<%=criterio.getId()%>"></span>
+                                        <%--<%=item.getEvalua()%>--%>
+                                    </td>
+                                    <td width="50%" class="contenido">
+                                        <span id="<%=capitulo.getId()%>-ayuda<%=criterio.getId()%>"></span>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
                     <%

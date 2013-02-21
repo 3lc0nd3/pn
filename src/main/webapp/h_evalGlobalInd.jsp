@@ -70,7 +70,7 @@
                     </td></tr>
                 </table>
                 <br>
-                <table border="1">
+                <table border="1" width="90%">
                     <%
                         for (PnCategoriaCriterio categoriaCriterio:  categoriasCriterio){
                     %>
@@ -81,17 +81,35 @@
                             for (PnCriterio criterio: pnManager.getPnCriteriosFromCategoria(categoriaCriterio.getId())){
                     %>
                     <tr>
-                        <td class=" btn-primary"><%=criterio.getCriterio()%></td>
+                        <td class=" btn-primary">
+                            <img src="images/help.png" onclick="muestraAyudaCriterio('<%=criterio.getId()%>',1, true);" width="24" alt="Contenido" title="Contenido">
+                            <%=criterio.getCriterio()%>
+                        </td>
                         <td>
-                            <select name="<%=criterio.getId()%>" id="<%=criterio.getId()%>" class="btn-primary selEval">
+                            <select name="1-<%=criterio.getId()%>" id="1-<%=criterio.getId()%>" onchange="muestraAyudaCriterio(<%=criterio.getId()%>, 1, false)" class="btn-primary selEval">
                             <%
                                 for (Integer v: pnManager.getValoresValoracion()){
                             %>
-                                <option class=" btn-primary" value="<%=v%>"><%=v%></option>
+                                <option <%=v==50?"selected":""%> class=" btn-primary" value="<%=v%>"><%=v%></option>
                             <%
                                 }
                             %>
                             </select>
+                        </td>
+                    </tr>
+                    <tr id="1-contenido<%=criterio.getId()%>" style="display:none;">
+                        <td colspan="2">
+                            <table cellpadding="0" cellspacing="0" border="1" width="100%">
+                                <tr>
+                                    <td width="50%" class="contenido">
+                                        <span id="1-evalua<%=criterio.getId()%>"></span>
+                                        <%--<%=item.getEvalua()%>--%>
+                                    </td>
+                                    <td width="50%" class="contenido">
+                                        <span id="1-ayuda<%=criterio.getId()%>"></span>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
                     <%
@@ -129,7 +147,7 @@
         for (int i = 0; i < pnManager.getPnCriterios().size(); i++) {
             PnCriterio criterio = pnManager.getPnCriterios().get(i);
     %>
-        valoresCriterios[<%=i%>] = [<%=criterio.getId()%>,dwr.util.getValue("<%=criterio.getId()%>")];
+        valoresCriterios[<%=i%>] = [<%=criterio.getId()%>,dwr.util.getValue("1-<%=criterio.getId()%>")];
     <%
         }
     %>
@@ -161,12 +179,12 @@
     }
 
     <%
-
+                       System.out.println("fromParticipante.size() = " + fromParticipante.size());
 
                     if(fromParticipante.size()>0){  // SOLO SI HAY VALORACION
                         for (PnValoracion valoracion : fromParticipante){
     %>
-    dwr.util.setValue("<%=valoracion.getPnCriterioByIdPnCriterio().getId()%>", <%=valoracion.getValor()%>);
+    dwr.util.setValue("1-<%=valoracion.getPnCriterioByIdPnCriterio().getId()%>", <%=valoracion.getValor()%>);
     <%
                         }
                     } else { // aca

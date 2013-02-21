@@ -118,7 +118,7 @@
                 </table>
 
                 <%
-                    if (!empleo.isEvaluaItems()) {
+                    if (empleo.isEvaluaItems()) {
                 %>
                 <br>
                 <button id="b1" class="btn  btn-primary" onclick="guardaItems(false);">Guardar Avance</button>

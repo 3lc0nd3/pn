@@ -81,6 +81,29 @@ function contenidoAyuda(id){
     dwr.util.setValue("ayuda" + id,  replaceAll(ayuda,    "\n", "<br>"), { escapeHtml:false });
 }
 
+function contenidoAyudaCriterio(id, idCapitulo){
+    dwr.util.setValue(idCapitulo+"-evalua" + id, replaceAll(window["dataCrite"+id].evalua, "\n", "<br>"), { escapeHtml:false });
+    var valor = dwr.util.getValue(idCapitulo+"-"+id);
+//    alert("valor = " + valor);
+//    alert("Total = " + dwr.util.getValue('l' + id));
+    var ayuda;
+    if (valor==50) {
+        ayuda = window["dataCrite" + id].c50;
+    } else if(valor<20){
+        ayuda = window["dataCrite" + id].c20;
+    } else if(valor >= 20 && valor < 40){
+        ayuda = window["dataCrite" + id].c40;
+    } else if(valor >= 40 && valor < 60){
+        ayuda = window["dataCrite" + id].c60;
+    } else if(valor >= 60 && valor < 80){
+        ayuda = window["dataCrite" + id].c80;
+    } else if(valor >= 80 ){
+        ayuda = window["dataCrite" + id].c100;
+    }
+
+    dwr.util.setValue(idCapitulo+"-ayuda" + id,  replaceAll(ayuda,    "\n", "<br>"), { escapeHtml:false });
+}
+
 function muestraAyuda(id, palanca){
     if(palanca){
         $("#contenido" + id).toggle();
@@ -96,5 +119,28 @@ function muestraAyuda(id, palanca){
     } else {
 //            alert("window['data'"+id+"] = " + window["data"+id]);
         contenidoAyuda(id);
+    }
+}
+
+function muestraAyudaCriterio(idCrite, idCapitulo, palanca){
+    if(palanca){
+        var contenidoTR = "#"+idCapitulo+"-contenido" + idCrite;
+//        alert("contenidoTR = " + contenidoTR);
+        $(contenidoTR).toggle();
+    }
+    if (window["dataCrite"+idCrite] == null) {
+//        alert("es nula");
+        pnRemoto.getPnCriterio(idCrite, function(data) {
+            if (data != null) {
+                window["dataCrite"+idCrite] = data;
+//                alert("data.evalua = " + data.evalua);
+//                alert("win.evalua = " + window["dataCrite"+idCrite].evalua);
+//                alert(dwr.util.toDescriptiveString(data, 1));
+                contenidoAyudaCriterio(idCrite, idCapitulo);
+            }
+        });
+    } else {
+//            alert("window['data'"+id+"] = " + window["data"+id]);
+        contenidoAyudaCriterio(idCrite, idCapitulo);
     }
 }

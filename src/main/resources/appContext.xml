@@ -229,6 +229,7 @@
             <dwr:include method="getPnSubCapitulo"/>
             <dwr:include method="getEmpleado"/>
             <dwr:include method="getIncludeResultadoInd"/>
+            <dwr:include method="getPnCriterio"/>
 
             <!--LOS QUE NO VAN-->
             <!--

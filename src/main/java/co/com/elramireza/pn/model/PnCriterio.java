@@ -11,7 +11,7 @@ import javax.persistence.*;
  * Time: 05:40:55 PM
  */
 @Entity
-@Table(catalog = "pn", name = "pn_criterio")
+@Table(catalog = "pn", name = "pn_criterio", schema = "")
 public class PnCriterio {
     private int id;
 
@@ -37,26 +37,6 @@ public class PnCriterio {
         this.criterio = criterio;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        PnCriterio that = (PnCriterio) o;
-
-        if (id != that.id) return false;
-        if (criterio != null ? !criterio.equals(that.criterio) : that.criterio != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (criterio != null ? criterio.hashCode() : 0);
-        return result;
-    }
-
     private PnCategoriaCriterio pnCategoriaCriterioByIdCategoriaCriterio;
 
     @ManyToOne
@@ -68,4 +48,88 @@ public class PnCriterio {
     public void setPnCategoriaCriterioByIdCategoriaCriterio(PnCategoriaCriterio pnCategoriaCriterioByIdCategoriaCriterio) {
         this.pnCategoriaCriterioByIdCategoriaCriterio = pnCategoriaCriterioByIdCategoriaCriterio;
     }
+
+	private String evalua;
+
+	@Column(name = "evalua")
+	@Basic
+	public String getEvalua() {
+		return evalua;
+	}
+
+	public void setEvalua(String evalua) {
+		this.evalua = evalua;
+	}
+
+	private String c20;
+
+	@Column(name = "c_20")
+	@Basic
+	public String getC20() {
+		return c20;
+	}
+
+	public void setC20(String c20) {
+		this.c20 = c20;
+	}
+
+	private String c40;
+
+	@Column(name = "c_40")
+	@Basic
+	public String getC40() {
+		return c40;
+	}
+
+	public void setC40(String c40) {
+		this.c40 = c40;
+	}
+
+	private String c60;
+
+	@Column(name = "c_60")
+	@Basic
+	public String getC60() {
+		return c60;
+	}
+
+	public void setC60(String c60) {
+		this.c60 = c60;
+	}
+
+	private String c80;
+
+	@Column(name = "c_80")
+	@Basic
+	public String getC80() {
+		return c80;
+	}
+
+	public void setC80(String c80) {
+		this.c80 = c80;
+	}
+
+	private String c100;
+
+	@Column(name = "c_100")
+	@Basic
+	public String getC100() {
+		return c100;
+	}
+
+	public void setC100(String c100) {
+		this.c100 = c100;
+	}
+
+	private String c50;
+
+	@Column(name = "c_50")
+	@Basic
+	public String getC50() {
+		return c50;
+	}
+
+	public void setC50(String c50) {
+		this.c50 = c50;
+	}
 }
