@@ -21,7 +21,9 @@
                     <th>Puntaje</th>
                 </tr>
                 <%
+                    int total = 0;
                     for (MyKey key : totalesItems){
+                        total += key.getValue();
                 %>
                 <tr>
                     <td><%=key.getText()%></td>
@@ -30,6 +32,10 @@
                 <%
                     }
                 %>
+                <tr>
+                    <td>Total</td>
+                    <td><%=total%></td>
+                </tr>
             </table>
         </div>
         <div class="span4">
