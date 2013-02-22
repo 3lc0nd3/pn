@@ -1,13 +1,27 @@
 <%@ page import="java.util.List" %>
 <%@ page import="co.com.elramireza.pn.model.*" %>
 <%@ page import="co.com.elramireza.pn.util.MyKey" %>
+<%@ page import="java.util.ArrayList" %>
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 
 <%
     Empleado empleo = (Empleado) session.getAttribute("empleo");
     Empresa empresa = empleo.getParticipanteByIdParticipante().getEmpresaByIdEmpresa();
 
-    List<MyKey> totalesItems = pnManager.getTotalesItems(empleo.getIdEmpleado(), 5);
+    Participante participante;
+    participante = pnManager.getParticipante(empleo.getParticipanteByIdParticipante().getIdParticipante());
+
+    List<Empleado> evaluadoresFromParticipante = null;
+    if (participante != null) {
+        evaluadoresFromParticipante = pnManager.getEvaluadoresFromParticipante(participante.getIdParticipante());
+    }
+
+    List<MyKey> totalesItems;
+    if (evaluadoresFromParticipante != null) {
+        totalesItems = pnManager.getTotalesItems(evaluadoresFromParticipante.get(0).getIdEmpleado(), 5);
+    } else {
+        totalesItems = new ArrayList<MyKey>();
+    }
 %>
 
 <div class="container">
