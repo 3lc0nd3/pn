@@ -33,8 +33,8 @@
                     }
                 %>
                 <tr>
-                    <td>Total</td>
-                    <td><%=total%></td>
+                    <th>Total</th>
+                    <th><%=total%></th>
                 </tr>
             </table>
         </div>
