@@ -144,3 +144,19 @@ function muestraAyudaCriterio(idCrite, idCapitulo, palanca){
         contenidoAyudaCriterio(idCrite, idCapitulo);
     }
 }
+
+function scrollToAnchor(aid){
+    var aTag = $("a[name='"+ aid +"']");
+    $('html,body').animate({scrollTop: aTag.offset().top},'slow');
+}
+
+
+function cargaResultado(idEmpleado, page, nombre){
+    pnRemoto.getIncludeResultadoInd(idEmpleado, page, nombre, function(data){
+        if (data!=null) {
+            dwr.util.setValue("resultado", data, { escapeHtml:false });
+//            window.location.hash="aResultado";
+            scrollToAnchor("aResultado");
+        }
+    });
+}

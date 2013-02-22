@@ -230,6 +230,8 @@
             <dwr:include method="getEmpleado"/>
             <dwr:include method="getIncludeResultadoInd"/>
             <dwr:include method="getPnCriterio"/>
+            <dwr:include method="getTotalesItems"/>
+            <dwr:include method="getPnAgendaInvitadosFromParticipante"/>
 
             <!--LOS QUE NO VAN-->
             <!--

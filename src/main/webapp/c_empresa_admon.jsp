@@ -47,6 +47,7 @@
 
             ) { // SOLO PARA LIDER
 %>
+<a name="inicioResultados"></a>
 <br>
 <span class="color">Evaluadores:</span>
 <blockquote>
@@ -74,7 +75,7 @@
         </span>
         <br>
         <span  onclick="cargaResultado(<%=evaluador.getIdEmpleado()%>,'evalItemsInd', 18);"><img src="<%=imgSrcRepor%>" width="36">
-        Cuantitativa
+        Cuantitativa (&Iacute;tems)
         <img width="28" src="img/<%=evaluador.isEvaluaItems()?"ok":"stop"%>.png" alt="">
         </span>
     </blockquote>
@@ -86,9 +87,10 @@
 <%
     }
 %>
-
 <%--<jsp:include page="r_evalGlobalInd.jsp?id=8"/>--%>
 <a name="aResultado"></a>
+<br>
+<a onclick="scrollToAnchor('inicioResultados')"><img width="32" src="images/back.png" alt="volver" title="volver">Ir arriba</a>
 <div id="resultado">
 
 </div>
@@ -113,6 +115,7 @@
     <span class="color">Recibo de Consignaci&oacute;n (50%) PDF</span>
 </a>
 <br>
+<a onclick="scrollToAnchor('inicioResultados')"><img width="32" src="images/back.png" alt="volver" title="volver">Ir arriba</a>
 
 <br>
 <br>

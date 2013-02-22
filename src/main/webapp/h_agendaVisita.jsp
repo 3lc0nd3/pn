@@ -32,6 +32,15 @@
                         <button type="button" class="close" data-dismiss="alert">&times;</button>
                         Datos ingresados el
                         <%=pnManager.dfDateTime.format(pnAgenda.getFechaCreacion())%>
+                        <%
+                            if (empleo.getParticipanteByIdParticipante().getPnEtapaParticipanteByIdEtapaParticipante().getIdEtapaParticipante()>3) {
+                        %>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        Datos Finales
+                        <img width="100" src="images/flag.png" alt="Final" title="Final">
+                        <%
+                            }
+                        %>
                     </div>
                     <%
                         }
@@ -65,7 +74,9 @@
                     </div>
                 </div>
                 <%
-                    if(pnAgenda != null){ // SOLO SI HAY
+                    if(pnAgenda != null &&
+                            empleo.getParticipanteByIdParticipante().getPnEtapaParticipanteByIdEtapaParticipante().getIdEtapaParticipante()==3
+                            ){ // SOLO SI HAY
                 %>
                 <br>
                 <div class="formy">
@@ -74,24 +85,28 @@
                         <!-- -->
                         <form class="form-horizontal">
 
-                            <!-- Empleado -->
+                            <!-- Hora -->
                             <div class="control-group">
                                 <label class="control-label" for="idEmpleado">Persona</label>
                                 <div class="controls">
                                     <%--<input type="text" class="input-large" name="username" id="username">--%>
-                                    <select id="idEmpleado" name="idEmpleado">
+                                    <select id="hora" name="hora">
                                         <%
-                                            for (Empleado empleado: pnManager.getEmpleadosFromParticipante(empleo.getParticipanteByIdParticipante().getIdParticipante())){
-                                        %>
-                                        <option value="<%=empleado.getIdEmpleado()%>">
-                                            <%=empleado.getPersonaByIdPersona().getNombreCompleto()%>
-                                            -
-                                            <%=empleado.getPerfilByIdPerfil().getPerfil()%>
-                                        </option>
-                                        <%
-                                            }
-                                        %>
+                                        for (int i=6; i<=20; i++) {
+                                        
+                                    %>
+                                        <option value="<%=i%>"><%=i>12?i-12:i%>:00 <%=i<12?"A.M.":"P.M."%></option>
+                                    <%
+                                        }
+                                    %>
                                     </select>
+                                </div>
+                            </div><!-- Empleado -->
+                            <div class="control-group">
+                                <label class="control-label" for="idEmpleado">Persona</label>
+                                <div class="controls">
+                                    <%--<input type="text" class="input-large" name="username" id="username">--%>
+                                    <input type="text" id="idEmpleado" name="idEmpleado" >
                                 </div>
                             </div>
                             <!-- Item -->
@@ -99,7 +114,7 @@
                                 <label class="control-label" for="item">&Iacute;tem</label>
                                 <div class="controls">
                                     <%--<input type="text" class="input-large" name="username" id="username">--%>
-                                    <select id="idItem" name="item">
+                                    <select id="idItem" class="input-large" name="item">
                                         <%
                                             String oldCapitulo = "";
                                             boolean cambia = false;
@@ -116,7 +131,10 @@
                                             <%
                                                 }
                                             %>
-                                            <option value="<%=item.getId()%>"><%=item.getSubCapitulo()%></option>
+                                            <option value="<%=item.getId()%>">
+                                                <%=item.getCodigoItem()%>
+                                                <%=item.getSubCapitulo()%>
+                                            </option>
                                         <%
                                             }
                                         %>
@@ -154,6 +172,10 @@
                 <table cellpadding="0" cellspacing="0" border="0" class="display" id="invitados">
                     <thead>
                     <tr>
+                        <th>idHora</th>
+                        <th>
+                            Hora
+                        </th>
                         <th>
                             Empleado
                         </th>
@@ -178,17 +200,19 @@
                     </thead>
                     <%
                         for (PnAgendaInvitado invitado:  pnManager.getPnAgendaInvitadosFromParticipante(empleo.getParticipanteByIdParticipante().getIdParticipante())){
-                            Persona persona = invitado.getEmpleadoByIdEmpleado().getPersonaByIdPersona();
                     %>
                     <tr>
                         <td>
-                            <%=persona.getNombreCompleto()%> <br>
-                            <%=persona.getEmailPersonal()%> <br>
-                            <%=persona.getEmailCorporativo()%> <br>
-                            <%=persona.getTelefonoFijo()%> <br>
-                            <%=persona.getCelular()%> 
+                            <%=invitado.getHora()%>
                         </td>
                         <td>
+                            <%=invitado.getHora()>12?invitado.getHora()-12:invitado.getHora()%>:00<%=invitado.getHora()<12?"A.M.":"P.M."%>
+                        </td>
+                        <td>
+                            <%=invitado.getIdEmpleado()%>
+                        </td>
+                        <td>
+                            <%=invitado.getPnSubCapituloByIdPnSubcapitulo().getCodigoItem()%>
                             <%=invitado.getPnSubCapituloByIdPnSubcapitulo().getSubCapitulo()%>
                         </td>
                         <td>
@@ -227,6 +251,7 @@
 //            alert("data = " + data);
             if(data == 1){
                 alert("Cambio de Etapa Correcto");
+                window.location = "evalItemsDespuesVisita.htm";
             } else {
                 alert("Problemas !");
             }
@@ -259,6 +284,7 @@
     function invitarEmpleado(){
         disableId("b2");
         var invitado = {
+            hora : null,
             idEmpleado : null,
             idItem : null,
             documentos : null,
@@ -291,8 +317,8 @@
         dwr.util.setValue("tmpFechaDesde", "<%=pnManager.df.format(new Date(pnAgenda.getFechaAgenda().getTime()))%>");
 
     $(document).ready(function() {
-        $('#invitados').dataTable( {
-            "aaSorting": [[ 0, "asc" ]],
+        var miTabla = $('#invitados').dataTable( {
+//            "aaSorting": [[ 1, "asc" ]],
             "sPaginationType": "full_numbers",
             "oLanguage": {
 //                "sLengthMenu": "Mostrar _MENU_ registros",
@@ -318,6 +344,9 @@
                                '</select> registros'
             }
         } );
+
+        miTabla.fnSetColumnVis(0, false) ;
+
     } );
 
     <%

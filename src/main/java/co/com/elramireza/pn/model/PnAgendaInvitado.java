@@ -72,30 +72,6 @@ public class PnAgendaInvitado {
         this.resultados = resultados;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        PnAgendaInvitado that = (PnAgendaInvitado) o;
-
-        if (id != that.id) return false;
-        if (documentos != null ? !documentos.equals(that.documentos) : that.documentos != null) return false;
-        if (preguntas != null ? !preguntas.equals(that.preguntas) : that.preguntas != null) return false;
-        if (resultados != null ? !resultados.equals(that.resultados) : that.resultados != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (documentos != null ? documentos.hashCode() : 0);
-        result = 31 * result + (preguntas != null ? preguntas.hashCode() : 0);
-        result = 31 * result + (resultados != null ? resultados.hashCode() : 0);
-        return result;
-    }
-
     private PnSubCapitulo pnSubCapituloByIdPnSubcapitulo;
 
     @ManyToOne
@@ -108,27 +84,28 @@ public class PnAgendaInvitado {
         this.pnSubCapituloByIdPnSubcapitulo = pnSubCapituloByIdPnSubcapitulo;
     }
 
-    private int idEmpleado;
+	private int hora;
 
-    @Transient
-    public int getIdEmpleado() {
+	@Basic
+	@Column(name = "hora")
+	public int getHora() {
+		return hora;
+	}
+
+	public void setHora(int hora) {
+		this.hora = hora;
+	}
+
+	private String  idEmpleado;
+
+    @Basic
+	@Column(name = "id_empleado")
+    public String getIdEmpleado() {
         return idEmpleado;
     }
 
-    public void setIdEmpleado(int idEmpleado) {
+    public void setIdEmpleado(String idEmpleado) {
         this.idEmpleado = idEmpleado;
-    }
-
-    private Empleado empleadoByIdEmpleado;
-
-    @ManyToOne
-    @JoinColumn(name = "id_empleado", referencedColumnName = "id", nullable = false)
-    public Empleado getEmpleadoByIdEmpleado() {
-        return empleadoByIdEmpleado;
-    }
-
-    public void setEmpleadoByIdEmpleado(Empleado empleadoByIdEmpleado) {
-        this.empleadoByIdEmpleado = empleadoByIdEmpleado;
     }
 
     private PnAgenda pnAgendaByIdAgenda;

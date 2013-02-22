@@ -1,5 +1,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="co.com.elramireza.pn.model.*" %>
+<%@ page import="co.com.elramireza.pn.util.MyKey" %>
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 
 <%
@@ -12,7 +13,7 @@
 %>
 
 <individual>
-    <div class="container">
+    <div id="contenedor" class="container">
         <div class="row">
             <div class="span8">
                 <h2><%=texto16.getTexto1()%></h2>
@@ -69,8 +70,12 @@
                             <%=item.getPnCapituloByIdCapitulo().getNombreCapitulo()%>
                         </th>
                         <th width="50" >Puntaje</th>
-                        <th width="50" >Valor</th>
-                        <th width="50" >Total</th>
+                        <th width="70" >Valor</th>
+                        <th width="50" >
+                            Total
+                            <br>
+                            <span class="color" id="t-<%=item.getPnCapituloByIdCapitulo().getId()%>"></span>
+                        </th>
                     </tr>
                     <%
                             }
@@ -116,9 +121,20 @@
                         }
                     %>
                 </table>
+                <table border="1" align="center" width="100%">
+                    <tr>
+                        <th align="right">Puntuaci&oacute;n Total
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            <span class="color" id="totalM">0</span>
+                        </th>
+                    </tr>
+                </table>
 
                 <%
-                    if (empleo.isEvaluaItems()) {
+                    if (!empleo.isEvaluaItems()) {
                 %>
                 <br>
                 <button id="b1" class="btn  btn-primary" onclick="guardaItems(false);">Guardar Avance</button>
@@ -198,12 +214,31 @@
     }
 
     <%
-        for(PnCuantitativa item:  cuantitativas){
+        int totalM = 0;
+        for (MyKey key : pnManager.getTotalesItems(empleo.getIdEmpleado(), 3)) { //INDIVIDUAL
+            totalM += key.getValue();
     %>
-        dwr.util.setValue("i<%=item.getPnSubCapituloByIdSubCapitulo().getId()%>", <%=item.getValor()%>);
-        dwr.util.setValue("l<%=item.getPnSubCapituloByIdSubCapitulo().getId()%>", <%=item.getTotal()%>);
+    dwr.util.setValue("t-<%=key.getId()%>", <%=key.getValue()%>);
     <%
         }
+    %>
+    dwr.util.setValue("totalM", <%=totalM%>);
+    <%
+        for(PnCuantitativa item:  cuantitativas){
+    %>
+    dwr.util.setValue("i<%=item.getPnSubCapituloByIdSubCapitulo().getId()%>", <%=item.getValor()%>);
+    dwr.util.setValue("l<%=item.getPnSubCapituloByIdSubCapitulo().getId()%>", <%=item.getTotal()%>);
+    <%
+        }
+    %>
+
+
+    <%
+    if(empleo.isEvaluaItems()){
+    %>
+    $('#contenedor').find('select, textarea').attr('disabled','disabled');
+    <%
+    }
     %>
 
 </script>

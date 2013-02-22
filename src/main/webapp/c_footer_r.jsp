@@ -153,12 +153,4 @@
     });
 
 
-    function cargaResultado(idEmpleado, page, nombre){
-        pnRemoto.getIncludeResultadoInd(idEmpleado, page, nombre, function(data){
-            if (data!=null) {
-                dwr.util.setValue("resultado", data, { escapeHtml:false });
-                window.location.hash="aResultado";
-            }
-        });
-    }
 </script>

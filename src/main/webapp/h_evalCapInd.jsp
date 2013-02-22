@@ -12,7 +12,7 @@
 %>
 
 <individual>
-    <div class="container">
+    <div id="contenedor" class="container">
         <div class="row">
             <div class="span8">
                 <h2><%=texto16.getTexto1()%></h2>
@@ -232,5 +232,13 @@
     <%
                         } // FOR CUALITATIVAS
                     } // IF NULL
+    %>
+
+    <%
+    if(empleo.isEvaluaCapitulos()){
+    %>
+    $('#contenedor').find('select, textarea').attr('disabled','disabled');
+    <%
+    }
     %>
 </script>

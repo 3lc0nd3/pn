@@ -1,6 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="co.com.elramireza.pn.model.*" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="co.com.elramireza.pn.util.MyKey" %>
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 
 <%
@@ -30,7 +31,7 @@
 %>
 
 <individual>
-    <div class="container">
+    <div id="contenedor" class="container">
         <div class="row">
             <div class="span8">
                 <h2><%=texto16.getTexto2()%></h2>
@@ -62,6 +63,15 @@
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
                     Datos ingresados el
                     <%=pnManager.dfDateTime.format(cuantitativas.get(0).getFechaCreacion())%>
+                    <%
+                        if (participante.getPnEtapaParticipanteByIdEtapaParticipante().getIdEtapaParticipante() > 2) {
+                    %>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Datos Finales
+                    <img width="100" src="images/flag.png" alt="Final" title="Final">
+                    <%
+                        }
+                    %>
                 </div>
                 <%
                     }
@@ -99,7 +109,11 @@
                         %>
                         <th width="50" >Puntaje</th>
                         <th width="50" >Valor</th>
-                        <th width="50" >Total</th>
+                        <th width="50" >
+                            Total
+                            <br>
+                            <span class="color" id="t-<%=item.getPnCapituloByIdCapitulo().getId()%>"></span>
+                        </th>
                     </tr>
                     <%
                             }
@@ -160,6 +174,17 @@
                         }
                     %>
                 </table>
+                <table border="1" align="center" width="100%">
+                    <tr>
+                        <th align="right">Puntuaci&oacute;n Total
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            <span class="color" id="totalM">0</span>
+                        </th>
+                    </tr>
+                </table>
                 <br>
                 <button id="b1" class="btn  btn-primary" onclick="guardaItems();">Guardar</button>
                 <%
@@ -193,6 +218,7 @@
         pnRemoto.saltaAVisita(function(data){
             if(data == 1){
                 alert("Cambio de Etapa Correcto");
+                window.location = "evalItemsConsenso.htm";
             } else {
                 alert("Problemas !");
             }
@@ -247,6 +273,16 @@
     }
 
     <%
+        int totalM = 0;
+        for (MyKey key : pnManager.getTotalesItems(empleo.getIdEmpleado(), 4)) { // CONSENSO
+            totalM += key.getValue();
+    %>
+    dwr.util.setValue("t-<%=key.getId()%>", <%=key.getValue()%>);
+    <%
+        }
+    %>
+    dwr.util.setValue("totalM", <%=totalM%>);
+    <%
         for(PnCuantitativa item:  cuantitativas){
     %>
         dwr.util.setValue("i<%=item.getPnSubCapituloByIdSubCapitulo().getId()%>", <%=item.getValor()%>);
@@ -259,5 +295,13 @@
     $(document).ready(function(){
         $('.mytable').rotateTableCellContent();
     });
+
+    <%
+    if(participante.getPnEtapaParticipanteByIdEtapaParticipante().getIdEtapaParticipante()>2){
+    %>
+    $('#contenedor').find('select, textarea').attr('disabled','disabled');
+    <%
+    }
+    %>
 
 </script>

@@ -24,6 +24,7 @@ import java.io.*;
 
 import static java.lang.String.format;
 
+import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
@@ -55,7 +56,7 @@ public class PnDAO extends HibernateDaoSupport{
 
     public List<PnAgendaInvitado> getPnAgendaInvitadosFromParticipante(int idParticipante){
         return getHibernateTemplate().find(
-                "from PnAgendaInvitado where pnAgendaByIdAgenda.participanteByIdParticipante.idParticipante = ?",
+                "from PnAgendaInvitado where pnAgendaByIdAgenda.participanteByIdParticipante.idParticipante = ? order by hora",
                 idParticipante
         );
     }
@@ -78,7 +79,6 @@ public class PnDAO extends HibernateDaoSupport{
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
             invitado.setPnAgendaByIdAgenda(getPnAgendaFromParticipante(participanteByIdParticipante.getIdParticipante()));
-            invitado.setEmpleadoByIdEmpleado(getEmpleado(invitado.getIdEmpleado()));
             invitado.setPnSubCapituloByIdPnSubcapitulo(getPnSubCapitulo(invitado.getIdItem()));
 
             getHibernateTemplate().save(invitado);
@@ -209,33 +209,33 @@ public class PnDAO extends HibernateDaoSupport{
         boolean hayLider = false;
 
         for (Empleado empleado : empleados){
-            logger.info("empleado.getPersonaByIdPersona().getNombreCompleto() = " + empleado.getPersonaByIdPersona().getNombreCompleto());
+            logger.debug("empleado.getPersonaByIdPersona().getNombreCompleto() = " + empleado.getPersonaByIdPersona().getNombreCompleto());
             //REVISO VALORACION IND GLOBAL
             /*List<PnValoracion> valoracionGlobal = getValoracionIndividualGlobalFromEmpleado(empleado.getIdEmpleado());
             if(valoracionGlobal.size() == 0){
                 salta = false;
             }*/
-            logger.info("Ind. Global: " + empleado.isEvaluaGlobal());
+            logger.debug("Ind. Global: " + empleado.isEvaluaGlobal());
 
             //REVISO VALORACION IND CAPITULOS
             /*List<PnValoracion> valoraciones = getValoracionIndividualCapitulosFromEmpleado(empleado.getIdEmpleado());
             if(valoraciones.size() == 0){
                 salta = false;
             }*/
-            logger.info("Ind. Cap.: " + empleado.isEvaluaCapitulos());
+            logger.debug("Ind. Cap.: " + empleado.isEvaluaCapitulos());
 
             //REVISO CUANTITATIVA
             /*List<PnCuantitativa> cuantitativas = getCuantitativaIndividualFromEmpleado(empleado.getIdEmpleado());
             if(cuantitativas.size() == 0){
                 salta = false;
             }*/
-            logger.info("Cuantitativa: " + empleado.isEvaluaItems());
+            logger.debug("Cuantitativa: " + empleado.isEvaluaItems());
 
             //REVISO SI HAY LIDER
             if(empleado.getPerfilByIdPerfil().getId() == 7){
                 hayLider = true;
             }
-            logger.info("hayLider = " + hayLider);
+            logger.debug("hayLider = " + hayLider);
 
 			if (!(empleado.isEvaluaGlobal() && empleado.isEvaluaCapitulos() && empleado.isEvaluaItems())) { // SI NO CUMPLE UN EMPLEADO NO SALTA
 				salta = false;
@@ -244,13 +244,13 @@ public class PnDAO extends HibernateDaoSupport{
         }
         // SALTA O NO
         if(salta && hayLider){
-            logger.info("SI SALTA");
+            logger.debug("SI SALTA");
             Participante participante = getParticipante(idParticipante);
             PnEtapaParticipante pnEtapaParticipante = getPnEtapaParticipante(2);
             participante.setPnEtapaParticipanteByIdEtapaParticipante(pnEtapaParticipante);
             getHibernateTemplate().update(participante);
         } else {
-            logger.info("NO SALTA");
+            logger.debug("NO SALTA");
         }
         return salta;
     }
@@ -292,6 +292,25 @@ public class PnDAO extends HibernateDaoSupport{
                 idEmpleado
         );
     }
+
+	public List<MyKey> getTotalesItems(int idEmpleado, int idTipoFormato){
+		String hql;
+		hql = "select pnSubCapituloByIdSubCapitulo.pnCapituloByIdCapitulo.id, pnSubCapituloByIdSubCapitulo.pnCapituloByIdCapitulo.nombreCapitulo, sum(total) from PnCuantitativa where tipoFormatoByIdTipoFormato.id = ? and empleadoByIdEmpleado.idEmpleado = ? group by pnSubCapituloByIdSubCapitulo.pnCapituloByIdCapitulo";
+		Object o[] = {idTipoFormato, idEmpleado};
+		List<Object[]> sumas = getHibernateTemplate().find(
+				hql, 
+				o);
+		List<MyKey> totales = new ArrayList<MyKey>();
+		for (Object[] objects : sumas) {
+			MyKey key = new MyKey();
+			key.setId((Integer) objects[0]);
+			key.setText((String) objects[1]);
+			key.setValue((new BigDecimal((Long) objects[2])).intValue());
+			logger.debug("objects[0] = " + objects[0] +"\tobjects[1] = " + objects[1] + "\tbjects[2] = " + objects[2]);
+			totales.add(key);
+		}
+		return totales;
+	}
 
     public List<PnValoracion> getValoracionIndividualGlobalFromEmpleado(int idEmpleado){
         return getHibernateTemplate().find(
@@ -341,7 +360,7 @@ public class PnDAO extends HibernateDaoSupport{
 
     public int saveValoracionIndividualItems(boolean definitivo,
 											 List<MyKey> valores){
-		logger.info("definitivo = " + definitivo);
+		logger.debug("definitivo = " + definitivo);
         try {
             WebContext wctx = WebContextFactory.get();
             HttpSession session = wctx.getSession(true);

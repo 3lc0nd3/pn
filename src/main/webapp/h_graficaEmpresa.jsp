@@ -1,15 +1,36 @@
 <%@ page import="java.util.List" %>
 <%@ page import="co.com.elramireza.pn.model.*" %>
+<%@ page import="co.com.elramireza.pn.util.MyKey" %>
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 
 <%
-    List<PnCapitulo> capitulos = pnManager.getPnCapitulos();
+    Empleado empleo = (Empleado) session.getAttribute("empleo");
+    Empresa empresa = empleo.getParticipanteByIdParticipante().getEmpresaByIdEmpresa();
+
+    List<MyKey> totalesItems = pnManager.getTotalesItems(empleo.getIdEmpleado(), 5);
 %>
 
 <div class="container">
     <div class="row">
         <div class="span8">
             <div id="chart1" style="height:400px;/*width:100%;*/ "></div>
+            <br>
+            <table class="table table-hover table-striped" width="50%">
+                <tr>
+                    <th>Cap&iacute;tulo</th>
+                    <th>Puntaje</th>
+                </tr>
+                <%
+                    for (MyKey key : totalesItems){
+                %>
+                <tr>
+                    <td><%=key.getText()%></td>
+                    <td><%=key.getValue()%></td>
+                </tr>
+                <%
+                    }
+                %>
+            </table>
         </div>
         <div class="span4">
             <jsp:include page="c_empresa_admon.jsp"    />
@@ -46,9 +67,9 @@
 
         var line1 = [
             <%
-                for (PnCapitulo capitulo : capitulos){
+                for (MyKey capitulo : totalesItems){
             %>
-            ['<%=capitulo.getNombreCapitulo()%>', <%=Math.random()*capitulo.getId()%>],
+            ['<%=capitulo.getText()%>', <%=capitulo.getValue()%>],
             <%
                 }
             %>
@@ -56,7 +77,7 @@
 
         var plot1 = $.jqplot('chart1', [line1], {
             animate: true,
-            title: 'Desempe&ntilde;o por Cap&iacute;tulos',
+            title: '<%=empresa.getNombreEmpresa()%> <br> Desempe&ntilde;o por Cap&iacute;tulos',
 //            series:[{renderer:$.jqplot.BarRenderer}],
             axesDefaults: {
                 tickRenderer: $.jqplot.CanvasAxisTickRenderer ,

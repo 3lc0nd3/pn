@@ -43,7 +43,7 @@
         <th align="center">
             <%=c.getPnSubCapituloByIdSubCapitulo().getPnCapituloByIdCapitulo().getNombreCapitulo()%>
         </th>
-        <th width="50" >Puntaje</th>
+        <th width="50" >Punt. Max.</th>
         <th width="50" >Valor</th>
         <th width="50" >Total</th>
     </tr>
@@ -61,7 +61,7 @@
             <%=c.getPnSubCapituloByIdSubCapitulo().getPonderacion()%>
         </td>
         <td align="right">
-            <%=c.getValor()%>
+            <%=c.getValor()%>%
         </td>
         <td align="right">
             <%=c.getTotal()%>
