@@ -57,14 +57,14 @@
                         <td>
                             <strong>Fortalezas</strong>
                             <br>
-                            <%=retro.getFortalezas()%>
+                            <%=retro.getFortalezas().replace("\n", "<br>")%>
                         </td>
                     </tr>
                     <tr>
                         <td>
                             <strong>Oportunidades</strong>
                             <br>
-                            <%=retro.getOportunidades()%>
+                            <%=retro.getOportunidades().replace("\n", "<br>")%>
                         </td>
                     </tr>
                 <%

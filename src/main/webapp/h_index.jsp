@@ -732,7 +732,7 @@
             idCargoEmpleado : null
         };
         dwr.util.getValues(encargado);
-        alert("encargado.idCargoEmpleado = " + encargado.idCargoEmpleado);
+//        alert("encargado.idCargoEmpleado = " + encargado.idCargoEmpleado);
 
         var personaDirectivo = {
             documentoIdentidad : directivo.documentoDirectivo,

@@ -7,11 +7,24 @@
 <%
 
 
-    Empleado empleo = (Empleado) session.getAttribute("empleo");
-    Empresa empresa = empleo.getParticipanteByIdParticipante().getEmpresaByIdEmpresa();
+    Participante participante;
+    Empresa empresa;
+
+    String k = request.getParameter("k");
+
+    if (k != null) { // VIENE DE FRONT CONTROLLER
+        participante = pnManager.getParticipante(Integer.parseInt(k));
+        empresa = participante.getEmpresaByIdEmpresa();
+
+    } else {
+        Empleado empleo = (Empleado) session.getAttribute("empleo");
+        empresa = empleo.getParticipanteByIdParticipante().getEmpresaByIdEmpresa();
+
+        participante = pnManager.getParticipante(empleo.getParticipanteByIdParticipante().getIdParticipante());
+    }
 
     List<PnRetroalimentacion> retros = pnManager.getPnRetroalimentaciones(
-            empleo.getParticipanteByIdParticipante().getIdParticipante()
+            participante.getIdParticipante()
     );
 
     SimpleDateFormat dfL = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
@@ -45,14 +58,14 @@
                         <td>
                             <strong>Fortalezas</strong>
                             <br>
-                            <%=retro.getFortalezas()%>
+                            <%=retro.getFortalezas().replace("\n", "<br>")%>
                         </td>
                     </tr>
                     <tr>
                         <td>
                             <strong>Oportunidades</strong>
                             <br>
-                            <%=retro.getOportunidades()%>
+                            <%=retro.getOportunidades().replace("\n", "<br>")%>
                         </td>
                     </tr>
                 <%

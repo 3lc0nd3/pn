@@ -120,15 +120,19 @@
     <h3 class="color">Detalle del Participante</h3>
 </div>
 <div id="empresaDiv"></div>
+<div class="border"></div>
+<div id="labelExpor">
+    <h3 class="color">Informe de Retroalimentaci&oacute;n</h3>
+</div>
+<span id="empresaExportDiv"></span>
 <br>
 <br>
 <div class="border"></div>
-
 <div id="labelGraf">
-    <a name="detalleEmpresa"></a>
     <h3 class="color">Gr&aacute;fico del Participante</h3>
 </div>
 <div id="empresaGradDiv"></div>
+
 
 
 <jsp:include page="c_footer_r.jsp"/>
@@ -148,12 +152,14 @@
 
 
     function revisaParticipante(id){
+
+        dwr.util.setValue("empresaExportDiv", '<a href="h_informeRetroW.jsp?k='+id+'">Exportar <img src="img/word.png" alt="Word" title="Word" width="36"></a>', { escapeHtml:false });
+
         frontController.getIncludePartAdmon(id, function(data){
             jQuery("#labelDetalle").show();
             dwr.util.setValue("empresaDiv", data, { escapeHtml:false });
             window.location = '#detalleEmpresa';
         });
-
         frontController.getIncludeGrafAdmon(id, function(data){
             jQuery("#labelDetalle").show();
             dwr.util.setValue("empresaGradDiv", data, { escapeHtml:false });

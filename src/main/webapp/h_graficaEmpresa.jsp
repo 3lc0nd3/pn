@@ -7,6 +7,7 @@
 <%
     Empresa empresa;
     Participante participante;
+
     Participante participante1Req = (Participante) request.getAttribute("participante");
     if (participante1Req != null) { // VIENE DE FRONT CONTROLLER
         participante = participante1Req;
