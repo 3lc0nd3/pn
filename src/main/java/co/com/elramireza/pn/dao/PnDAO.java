@@ -946,14 +946,14 @@ public class PnDAO extends HibernateDaoSupport{
 		enviaEmail(emails, asunto, mensaje, null, SUSCRIBE);
 	}
 
-	public String desvincularParticipante(int idParticipante){
+	public int desvincularParticipante(int idParticipante){
 		try {
 			Participante participante = getParticipante(idParticipante);
 			getHibernateTemplate().delete(participante);
-			return "";
+			return 1;
 		} catch (DataAccessException e) {
 			logger.debug(e.getMessage());
-			return e.getMessage();
+			return 0;
 		}
 	}
 

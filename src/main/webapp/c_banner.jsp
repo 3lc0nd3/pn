@@ -19,7 +19,8 @@
         <div class="row">
             <div class="span8">
                 <div class="logo">
-                    <h1><a href="#">
+                    <img src="img/slider01/3.png" width="180" style="margin: 5px 0px 5px 5px;float: left; ">
+                    <h1><a >
                         <%
                             Texto titulo;
                             titulo = pnManager.getTexto(11);

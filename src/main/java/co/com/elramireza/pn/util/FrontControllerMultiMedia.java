@@ -1,5 +1,6 @@
 package co.com.elramireza.pn.util;
 
+import co.com.elramireza.pn.model.Participante;
 import org.apache.log4j.Logger;
 import org.directwebremoting.WebContext;
 import org.directwebremoting.WebContextFactory;
@@ -69,6 +70,20 @@ public class FrontControllerMultiMedia {
         wctx.getHttpServletRequest().setAttribute("idNews", idNews);
         String url = format("/%s.jsp?role="+role, page);
         return wctx.forwardToString(url);
+    }
+
+    public String getIncludeGrafAdmon(int id) throws IOException, ServletException {
+        WebContext wctx = WebContextFactory.get();
+        Participante participante = pnDAO.getParticipante(id);
+        wctx.getHttpServletRequest().setAttribute("participante", participante);
+        return wctx.forwardToString("/h_graficaEmpresa.jsp");
+    }
+
+    public String getIncludePartAdmon(int id) throws IOException, ServletException {
+        WebContext wctx = WebContextFactory.get();
+        Participante participante = pnDAO.getParticipante(id);
+        wctx.getHttpServletRequest().setAttribute("participante", participante);
+        return wctx.forwardToString("/c_empresa_admon.jsp");
     }
 
     public String getIncludeEmpresaAdmon(int id) throws IOException, ServletException {

@@ -67,11 +67,11 @@
     <table cellpadding="0" cellspacing="0" border="0" class="display" id="participantesT">
         <thead>
         <tr>
-            <th>Premio</th>
+            <th>Participante</th>
             <th>Etapa</th>
             <th>Fecha</th>
             <th>Estado</th>
-            <th>Desvincular</th>
+            <th>Opciones</th>
         </tr>
         </thead>
         <%  //
@@ -102,7 +102,8 @@
             </td>
             <td><img id="imgActive<%=participante.getIdParticipante()%>" width="28" onclick="activaDesactiva(<%=participante.getIdParticipante()%>);" src="<%=imageActive%>" alt="<%=messaActive%>" title="<%=messaActive%>"></td>
             <td>
-                <img width="28" onclick="desvincule(<%=participante.getIdParticipante()%>);" src="images/broken_link.jpg" alt="desvincula" title="desvincula">
+                <img width="36" onclick="desvincule(<%=participante.getIdParticipante()%>);" src="images/broken_link.png" alt="desvincula" title="desvincula">
+                <img width="36" onclick="revisaParticipante(<%=participante.getIdParticipante()%>);" src="img/view.png" alt="ver" title="ver">
             </td>
         </tr>
         <%
@@ -110,22 +111,70 @@
         %>
     </table>
 </div>
+<br>
+<br>
+<div class="border"></div>
+
+<div id="labelDetalle">
+    <a name="detalleEmpresa"></a>
+    <h3 class="color">Detalle del Participante</h3>
+</div>
+<div id="empresaDiv"></div>
+<br>
+<br>
+<div class="border"></div>
+
+<div id="labelGraf">
+    <a name="detalleEmpresa"></a>
+    <h3 class="color">Gr&aacute;fico del Participante</h3>
+</div>
+<div id="empresaGradDiv"></div>
 
 
 <jsp:include page="c_footer_r.jsp"/>
+<!--[if lt IE 9]><script language="javascript" type="text/javascript" src="js/jqPlot/excanvas.min.js"></script><![endif]-->
+<script language="javascript" type="text/javascript" src="js/jqPlot/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="js/jqPlot/jquery.jqplot.css" />
+
+<script type="text/javascript" src="js/jqPlot/plugins/jqplot.dateAxisRenderer.min.js"></script>
+<script type="text/javascript" src="js/jqPlot/plugins/jqplot.canvasTextRenderer.min.js"></script>
+<script type="text/javascript" src="js/jqPlot/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
+<script type="text/javascript" src="js/jqPlot/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+<script type="text/javascript" src="js/jqPlot/plugins/jqplot.barRenderer.min.js"></script>
+
+<script src="scripts/interpretadorAjax.js"></script>
 
 <script type="text/javascript">
+
+
+    function revisaParticipante(id){
+        frontController.getIncludePartAdmon(id, function(data){
+            jQuery("#labelDetalle").show();
+            dwr.util.setValue("empresaDiv", data, { escapeHtml:false });
+            window.location = '#detalleEmpresa';
+        });
+
+        frontController.getIncludeGrafAdmon(id, function(data){
+            jQuery("#labelDetalle").show();
+            dwr.util.setValue("empresaGradDiv", data, { escapeHtml:false });
+//            window.location = '#labelDetalle';
+            var scsPopular = data.extractScript();
+            scsPopular.evalScript();
+        });
+
+    }
+
 
     function desvincule(idParticipante){
         if (idParticipante == 1) {
             alert("No puedes hacer eso");
         } else {
             pnRemoto.desvincularParticipante(idParticipante, function(data) {
-                if (data == '') {
+                if (data == 1) {
                     alert("Desvinculado Completo");
                     window.location = "participantes.htm";
                 } else {
-                    alert("Problemas ! " + data);
+                    alert("Problemas ! Tal ves tenga Empleados Asociados o Evaluaciones Realizadas");
                 }
             });
         }

@@ -1,8 +1,6 @@
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
-<%@ page import="java.text.MessageFormat" %>
-<%@ page import="static java.text.MessageFormat.format" %>
-<%@ page import="co.com.elramireza.pn.model.Texto" %>
 <%@ page import="co.com.elramireza.pn.model.Persona" %>
+<%@ page import="static java.text.MessageFormat.format" %>
 <%@ page import="co.com.elramireza.pn.model.Servicio" %>
 <jsp:include page="c_head.jsp"/>
 

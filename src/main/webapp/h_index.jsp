@@ -16,11 +16,17 @@
         mensajeLogin = "";
     }
 
-
+    System.out.println("empleo = " + empleo);
+    System.out.println("persona = " + persona);
 %>
 
+<%
+    if (persona == null) {
+%>
 <jsp:include page="c_slider01.jsp"/>
-
+<%
+    }
+%>
 <%--  LOGIN  --%>
 <div class="register">
     <div class="row">

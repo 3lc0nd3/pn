@@ -6,6 +6,8 @@
 <%@ page import="co.com.elramireza.pn.model.Texto" %>
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 <%
+
+    int idPerfil = 0;
     String imgSrcRepor;
     imgSrcRepor = "http://cdn1.iconfinder.com/data/icons/prettyoffice4/128/report.png";
     imgSrcRepor = "http://cdn1.iconfinder.com/data/icons/Futurosoft%20Icons%200.5.2/128x128/mimetypes/document.png";
@@ -20,6 +22,28 @@
         }
     }
 
+
+    if (empleo == null) {  // SOLO PARA ADMON
+        idPerfil = 1;
+    } else {
+        idPerfil = empleo.getPerfilByIdPerfil().getId();
+    }
+
+
+    Participante participante1Req = (Participante) request.getAttribute("participante");
+    if (participante1Req != null) { // SI VIENE DE  FRONTCONTROLLER
+        participante = participante1Req;
+        empresa = participante.getEmpresaByIdEmpresa();
+        idPerfil = 7;
+    }
+
+
+    System.out.println("idPerfil = " + idPerfil);
+
+
+//    if (empresa != null) {
+//        System.out.println("empresa.getNombreEmpresa() = " + empresa.getNombreEmpresa());
+//    }
     if(empresa != null && empresa.getIdEmpresa()!=1){ // HAY EMPRESA
 
 %>
@@ -37,15 +61,8 @@
 <span class="color">Etapa</span> <%=participante.getPnEtapaParticipanteByIdEtapaParticipante().getEtapaParticipante()%>
 <%
     }
-    if (
-            (empleo.getPerfilByIdPerfil().getId() == 7
-                    || empleo.getPerfilByIdPerfil().getId() == 1
-                    || empleo.getPerfilByIdPerfil().getId() == 2
-            )  // PARA LIDERES Y ADMON
-//                    &&
-//            participante.getPnEtapaParticipanteByIdEtapaParticipante().getIdEtapaParticipante() == 1
 
-            ) { // SOLO PARA LIDER
+    if (true)  { // SOLO PARA LIDER
 %>
 <a name="inicioResultados"></a>
 <br>
@@ -54,9 +71,9 @@
     <%
 //        System.out.println("empleo.getPerfilByIdPerfil().getId() = " + empleo.getPerfilByIdPerfil().getId());
         List<Empleado> evaluadoresFromParticipante = new ArrayList<Empleado>();
-        if (empleo.getPerfilByIdPerfil().getId() == 7 ) { // SI ES LIDER
+        if (idPerfil == 7 ) { // SI ES LIDER
             evaluadoresFromParticipante = pnManager.getEvaluadoresFromParticipante(participante.getIdParticipante());
-        } else if(empleo.getPerfilByIdPerfil().getId() == 2 ) {  // SI ES EVALUADOR
+        } else if(idPerfil == 2 ) {  // SI ES EVALUADOR
             evaluadoresFromParticipante.add(empleo);
         }
 
@@ -99,6 +116,9 @@
     <img src="img/pdf.png" alt="abrir" title="abrir" width="48">
     <span class="color">Informe de Postulaci&oacute;n PDF</span>
 </a>
+<%
+    if (idPerfil == 1) {
+%>
 <br>
 <a href="pdfs/cc-<%=empresa.getNit()%>.pdf" target="<%=empresa.getNit()%>">
     <img src="img/pdf.png" alt="abrir" title="abrir" width="48">
@@ -114,6 +134,9 @@
     <img src="img/pdf.png" alt="abrir" title="abrir" width="48">
     <span class="color">Recibo de Consignaci&oacute;n (50%) PDF</span>
 </a>
+<%
+    }
+%>
 <br>
 <a onclick="scrollToAnchor('inicioResultados')"><img width="32" src="images/back.png" alt="volver" title="volver">Ir arriba</a>
 

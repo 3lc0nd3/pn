@@ -123,7 +123,7 @@
                 <br>
                 <br>
                 <button id="b1" class="btn  btn-primary" onclick="guardaIndividual(false);">Guardar Avance</button>
-                <button id="b2" class="btn  btn-primary" onclick="guardaIndividual(true);">Guardar Final</button>
+                <button id="b2" class="btn  btn-primary" onclick="guardaFinal() ;">Guardar Final</button>
                 <%
                     }
                 %>
@@ -139,6 +139,12 @@
 <jsp:include page="c_footer_r.jsp"/>
 
 <script type="text/javascript">
+
+    function guardaFinal(){
+        if (confirm("Si acepta, no podra hacer mas cambios")) {
+            guardaIndividual(true);
+        }
+    }
 
     function guardaIndividual(definitivo){
         var valoresCriterios = [[],[]];
@@ -193,9 +199,9 @@
 //                    System.out.println("cualitativa = " + cualitativa.getFortalezas());
                     if(cualitativa != null){
     %>
-    dwr.util.setValue("fortalezas", poneSaltosDeLinea('<%=cualitativa.getFortalezas().replace("\n", "<br>")%>'));
-    dwr.util.setValue("oportunidades", poneSaltosDeLinea('<%=cualitativa.getOportunidades().replace("\n", "<br>")%>'));
-    dwr.util.setValue("pendientesVisita", poneSaltosDeLinea('<%=cualitativa.getPendientesVisita().replace("\n", "<br>")%>'));
+    dwr.util.setValue("fortalezas",         poneSaltosDeLinea('<%=cualitativa.getFortalezas().replace("\n", "<br>")%>'));
+    dwr.util.setValue("oportunidades",      poneSaltosDeLinea('<%=cualitativa.getOportunidades().replace("\n", "<br>")%>'));
+    dwr.util.setValue("pendientesVisita",   poneSaltosDeLinea('<%=cualitativa.getPendientesVisita().replace("\n", "<br>")%>'));
     <%
                     }
     %>

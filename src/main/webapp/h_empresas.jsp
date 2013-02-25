@@ -262,9 +262,9 @@
             <td> <%=empresa.getEmailEmpresa() %></td>
             <td> <%=empresa.getLocCiudadByIdCiudad().getNombreCiudad() %></td>
             <td><img id="imgActiveEmpresa<%=empresa.getIdEmpresa()%>" width="28" onclick="activaDesactiva(<%=empresa.getIdEmpresa()%>);" src="<%=imageActive%>" alt="<%=messaActive%>" title="<%=messaActive%>"></td>
-            <td><img width="28" onclick="revisaEmpresa(<%=empresa.getIdEmpresa()%>);" src="img/ojo.png" alt="ver" title="ver"></td>
+            <td><img width="32" onclick="revisaEmpresa(<%=empresa.getIdEmpresa()%>);" src="img/view.png" alt="ver" title="ver"></td>
             <td>
-                <img width="28" onclick="cargaEmpresa(<%=empresa.getIdEmpresa()%>);" src="img/edit.png" alt="edita" title="edita">
+                <img width="32" onclick="cargaEmpresa(<%=empresa.getIdEmpresa()%>);" src="img/edit.png" alt="edita" title="edita">
             </td>
         </tr>
         <%

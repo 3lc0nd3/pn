@@ -5,11 +5,20 @@
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 
 <%
-    Empleado empleo = (Empleado) session.getAttribute("empleo");
-    Empresa empresa = empleo.getParticipanteByIdParticipante().getEmpresaByIdEmpresa();
-
+    Empresa empresa;
     Participante participante;
-    participante = pnManager.getParticipante(empleo.getParticipanteByIdParticipante().getIdParticipante());
+    Participante participante1Req = (Participante) request.getAttribute("participante");
+    if (participante1Req != null) { // VIENE DE FRONT CONTROLLER
+        participante = participante1Req;
+        empresa = participante.getEmpresaByIdEmpresa();
+
+    } else {
+        Empleado empleo = (Empleado) session.getAttribute("empleo");
+        empresa = empleo.getParticipanteByIdParticipante().getEmpresaByIdEmpresa();
+
+        participante = pnManager.getParticipante(empleo.getParticipanteByIdParticipante().getIdParticipante());
+    }
+
 
     List<Empleado> evaluadoresFromParticipante = null;
     if (participante != null) {
@@ -17,10 +26,19 @@
     }
 
     List<MyKey> totalesItems;
-    if (evaluadoresFromParticipante != null) {
+    if (evaluadoresFromParticipante != null &&
+            evaluadoresFromParticipante.size()>0) {
+//        System.out.println("evaluadoresFromParticipante.size() = " + evaluadoresFromParticipante.size());
         totalesItems = pnManager.getTotalesItems(evaluadoresFromParticipante.get(0).getIdEmpleado(), 5);
     } else {
         totalesItems = new ArrayList<MyKey>();
+        List<PnCapitulo> capitulos = pnManager.getPnCapitulos();
+        for (PnCapitulo capitulo : capitulos) {
+            MyKey key = new MyKey();
+            key.setText(capitulo.getNombreCapitulo());
+            key.setValue(0);
+            totalesItems.add(key);
+        }
     }
 %>
 
@@ -53,7 +71,11 @@
             </table>
         </div>
         <div class="span4">
+            <%
+                if (participante1Req == null) {
+            %>
             <jsp:include page="c_empresa_admon.jsp"    />
+            <%}%>
         </div>
     </div>
 </div>
@@ -75,7 +97,7 @@
 <script type="text/javascript">
 
     $(document).ready(function(){
-        var line11 = [
+        /*var line11 = [
             ['Cup Holder Pinion Bob', 7],
             ['Generic Fog Lamp', 9],
             ['HDTV Receiver', 15],
@@ -84,7 +106,7 @@
             ['Transcender/Spice Rack', 6],
             ['Hair Spray Danger Indicator', 18]
         ];
-
+*/
         var line1 = [
             <%
                 for (MyKey capitulo : totalesItems){

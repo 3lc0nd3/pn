@@ -142,6 +142,8 @@
             <dwr:include method="getIncludeNews"/>
             <dwr:include method="getHitosPage"/>
             <dwr:include method="getIncludeEmpresaAdmon"/>
+            <dwr:include method="getIncludePartAdmon"/>
+            <dwr:include method="getIncludeGrafAdmon"/>
             <dwr:include method="getPlayer"/>
         </dwr:remote>
         <property name="pnDAO" ref="pnDAO"/>
