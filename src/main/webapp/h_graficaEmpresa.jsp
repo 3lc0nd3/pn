@@ -20,17 +20,33 @@
         participante = pnManager.getParticipante(empleo.getParticipanteByIdParticipante().getIdParticipante());
     }
 
+    System.out.println("participante = " + participante);
+    System.out.println("empresa = " + empresa);
+
 
     List<Empleado> evaluadoresFromParticipante = null;
     if (participante != null) {
         evaluadoresFromParticipante = pnManager.getEvaluadoresFromParticipante(participante.getIdParticipante());
     }
 
+    System.out.println("evaluadoresFromParticipante.size() = " + evaluadoresFromParticipante.size());
+
     List<MyKey> totalesItems;
     if (evaluadoresFromParticipante != null &&
             evaluadoresFromParticipante.size()>0) {
 //        System.out.println("evaluadoresFromParticipante.size() = " + evaluadoresFromParticipante.size());
         totalesItems = pnManager.getTotalesItems(evaluadoresFromParticipante.get(0).getIdEmpleado(), 5);
+        if (totalesItems.size()==0) {
+
+            totalesItems = new ArrayList<MyKey>();
+            List<PnCapitulo> capitulos = pnManager.getPnCapitulos();
+            for (PnCapitulo capitulo : capitulos) {
+                MyKey key = new MyKey();
+                key.setText(capitulo.getNombreCapitulo());
+                key.setValue(0);
+                totalesItems.add(key);
+            }
+        }
     } else {
         totalesItems = new ArrayList<MyKey>();
         List<PnCapitulo> capitulos = pnManager.getPnCapitulos();
