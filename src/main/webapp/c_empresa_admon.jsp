@@ -9,8 +9,7 @@
 
     int idPerfil = 0;
     String imgSrcRepor;
-    imgSrcRepor = "http://cdn1.iconfinder.com/data/icons/prettyoffice4/128/report.png";
-    imgSrcRepor = "http://cdn1.iconfinder.com/data/icons/Futurosoft%20Icons%200.5.2/128x128/mimetypes/document.png";
+    imgSrcRepor = "images/document.png";
 
     Empleado empleo = (Empleado) session.getAttribute("empleo");
     Empresa empresa = (Empresa) request.getAttribute("empresa");
