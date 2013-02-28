@@ -83,11 +83,12 @@
                     <h5>
                         <%
                             Texto titulo = pnManager.getTexto(2);
+                            Texto titulo1 = pnManager.getTexto(1);
                         %>
                         <%=titulo.getTexto1()%>
                         <span class="color">
                             <%=titulo.getTexto2()%>
-                        </span>
+                        </span> - <%=titulo1.getTexto1()%>
                     </h5>
                     <p>Copyright &copy; <a href="http://www.ccalidad.org" target="cc">www.ccalidad.org</a> </p>
                 </div>
