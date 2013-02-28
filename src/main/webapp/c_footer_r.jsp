@@ -20,7 +20,7 @@
                         %>
                         <%=titulo9.getTexto1()%>
                     </span> <a href="#">
-                    <i class="icon-asterisk"></i>Asterisk</a> <a href="#">
+                    <%--<i class="icon-asterisk"></i>Asterisk</a> <a href="#">--%>
                     <i class="icon-facebook"></i>Facebook</a> <a href="#">
                     <i class="icon-twitter"></i>Twitter</a> <a href="#">
                     <i class="icon-google-plus"></i>Google Plus</a> <a href="#">

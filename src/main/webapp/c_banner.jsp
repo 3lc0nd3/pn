@@ -29,7 +29,7 @@
                         <span class="color">
                             <%=titulo.getTexto2()%>
                         </span></a></h1>
-                    <div class="hmeta">
+                    <div class="hmeta" style="text-transform:uppercase;">
                         <%=titulo.getTexto3()%>
                     </div>
                 </div>
