@@ -68,15 +68,18 @@
                 <tr>
                     <th>Cap&iacute;tulo</th>
                     <th>Puntaje</th>
+                    <th>%</th>
                 </tr>
                 <%
                     int total = 0;
                     for (MyKey key : totalesItems){
                         total += key.getValue();
+                        PnCapitulo capitulo = pnManager.getPnCapitulo(key.getId());
                 %>
                 <tr>
                     <td><%=key.getText()%></td>
                     <td><%=key.getValue()%></td>
+                    <td><%=100*key.getValue()/capitulo.getMaximo()%></td>
                 </tr>
                 <%
                     }
@@ -127,8 +130,10 @@
         var line1 = [
             <%
                 for (MyKey capitulo : totalesItems){
+                PnCapitulo capi = pnManager.getPnCapitulo(capitulo.getId());
+
             %>
-            ['<%=capitulo.getText()%>', <%=capitulo.getValue()%>],
+            ['<%=capitulo.getText()%>', <%=100*capitulo.getValue()/capi.getMaximo()%>],
             <%
                 }
             %>
