@@ -54,6 +54,7 @@
             MyKey key = new MyKey();
             key.setText(capitulo.getNombreCapitulo());
             key.setValue(0);
+            key .setId(capitulo.getId());
             totalesItems.add(key);
         }
     }
