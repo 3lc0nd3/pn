@@ -10,6 +10,7 @@ import java.sql.Timestamp;
  * Time: 11:01 AM
  */
 @javax.persistence.Table(name = "pn_retroalimentacion")
+
 @Entity
 public class PnRetroalimentacion {
 	private int idRetro;
