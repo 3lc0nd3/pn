@@ -63,6 +63,7 @@
 <div class="container">
     <div class="row">
         <div class="span8">
+            <div id="chart2" style="height:400px;/*width:100%;*/ "></div>
             <div id="chart1" style="height:400px;/*width:100%;*/ "></div>
             <br>
             <table class="table table-hover table-striped" width="50%">
@@ -140,6 +141,29 @@
             %>
         ];
 
+        var s1 = [
+            <%
+                for (MyKey capitulo : totalesItems){
+                PnCapitulo capi = pnManager.getPnCapitulo(capitulo.getId());
+
+            %>
+            <%=100*capitulo.getValue()/capi.getMaximo()%>,
+            <%
+                }
+            %>
+        ];
+        var ticks = [
+            <%
+                for (MyKey capitulo : totalesItems){
+                PnCapitulo capi = pnManager.getPnCapitulo(capitulo.getId());
+
+            %>
+            "<%=capitulo.getText()%>",
+            <%
+                }
+            %>
+        ];
+
         var plot1 = $.jqplot('chart1', [line1], {
             animate: true,
             title: '<%=empresa.getNombreEmpresa()%> <br> Desempe&ntilde;o por Cap&iacute;tulos',
@@ -156,6 +180,30 @@
                     renderer: $.jqplot.CategoryAxisRenderer
                 }
             }
+        });
+
+
+        var plot2 =  $.jqplot('chart2', [s1], {
+            // Only animate if we're not using excanvas (not in IE 7 or IE 8)..
+            animate: !$.jqplot.use_excanvas,
+            seriesDefaults:{
+                renderer:$.jqplot.BarRenderer,
+                pointLabels: { show: true }
+            },
+            axesDefaults: {
+                tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
+                tickOptions: {
+                    angle: 45,
+                    fontSize: '10pt'
+                }
+            },
+            axes: {
+                xaxis: {
+                    renderer: $.jqplot.CategoryAxisRenderer,
+                    ticks: ticks
+                }
+            },
+            highlighter: { show: false }
         });
     });
 </script>
