@@ -101,7 +101,10 @@
                             <img src="images/help.png" onclick="muestraAyudaCriterio('<%=criterio.getId()%>','<%=capitulo.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
                             <%=criterio.getCriterio()%>
                         </td>
-                        <td>
+                        <td class="btn-primary">
+                            <%
+                                if (criterio.getId() != 15) {
+                            %>
                             <select name="<%=capitulo.getId()%>-<%=criterio.getId()%>" id="<%=criterio.getId()%>" onchange="muestraAyudaCriterio(<%=criterio.getId()%>, '<%=capitulo.getId()%>', false)" class="btn-primary selEval">
                             <%
                                 for (Integer v: pnManager.getValoresValoracion()){
@@ -111,6 +114,13 @@
                                 }
                             %>
                             </select>
+                            <%
+                                } else {
+                            %>
+                            <span id="<%=capitulo.getId()%>-15" class="btn-primary selEval"></span>
+                            <%
+                                }
+                            %>
                         </td>
                     </tr>
                     <tr id="<%=capitulo.getId()%>-contenido<%=criterio.getId()%>" style="display:none;">
@@ -169,6 +179,8 @@
         var dataValores = new Array();
 
     <%
+
+                        int total=0;
         for (PnCapitulo capitulo : pnCapitulos) {
     %>
         dataFortaleza.push  ({id:<%=capitulo.getId()%>, text: dwr.util.getValue("fortalezas-<%=capitulo.getId()%>")});
@@ -217,8 +229,21 @@
 
                     if(fromParticipante.size()>0){  // SOLO SI HAY VALORACION
                         for (PnValoracion valoracion : fromParticipante){
+                            if(valoracion.getPnCapituloByIdCapitulo().getId()==1){
+                                total = 0;
+                            } else {
+                                total += valoracion.getValor();
+                            }
     %>
     dwr.util.setValue("<%=valoracion.getPnCapituloByIdCapitulo().getId()%>-<%=valoracion.getPnCriterioByIdPnCriterio().getId()%>", <%=valoracion.getValor()%>);
+    <%
+
+                            if(valoracion.getPnCriterioByIdPnCriterio().getId() ==15){
+    %>
+    dwr.util.setValue("<%=valoracion.getPnCapituloByIdCapitulo().getId()%>-15", "<%=total%>");
+    <%
+                            }
+    %>
     <%
                         }
                     } else { // aca

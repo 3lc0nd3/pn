@@ -9,7 +9,7 @@ import java.sql.Timestamp;
  * Date: 6/02/13
  * Time: 11:01 AM
  */
-@javax.persistence.Table(name = "pn_retroalimentacion", schema = "", catalog = "pn")
+@javax.persistence.Table(name = "pn_retroalimentacion")
 @Entity
 public class PnRetroalimentacion {
 	private int idRetro;

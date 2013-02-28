@@ -86,7 +86,10 @@
                             <img src="images/help.png" onclick="muestraAyudaCriterio('<%=criterio.getId()%>',1, true);" width="24" alt="Contenido" title="Contenido">
                             <%=criterio.getCriterio()%>
                         </td>
-                        <td>
+                        <td class="btn-primary">
+                            <%
+                                if (criterio.getId() != 15) {
+                            %>
                             <select name="1-<%=criterio.getId()%>" id="1-<%=criterio.getId()%>" onchange="muestraAyudaCriterio(<%=criterio.getId()%>, 1, false)" class="btn-primary selEval">
                             <%
                                 for (Integer v: pnManager.getValoresValoracion()){
@@ -96,6 +99,13 @@
                                 }
                             %>
                             </select>
+                            <%
+                                } else {
+                            %>
+                            <span id="1-15" class="btn-primary selEval"></span>
+                            <%
+                                }
+                            %>
                         </td>
                     </tr>
                     <tr id="1-contenido<%=criterio.getId()%>" style="display:none;">
@@ -189,11 +199,18 @@
                        System.out.println("fromParticipante.size() = " + fromParticipante.size());
 
                     if(fromParticipante.size()>0){  // SOLO SI HAY VALORACION
+                        int total = 0;
                         for (PnValoracion valoracion : fromParticipante){
+                        total += valoracion.getValor();
     %>
     dwr.util.setValue("1-<%=valoracion.getPnCriterioByIdPnCriterio().getId()%>", <%=valoracion.getValor()%>);
     <%
+                        if(valoracion.getPnCriterioByIdPnCriterio().getId() == 15){
+    %>
+    dwr.util.setValue("1-15", "<%=total/14%> ");
+    <%
                         }
+                        } // END FOR
                     } else { // aca
                             System.out.println("ADIOS");
                             }
