@@ -5,6 +5,7 @@
 
 <%
     Texto texto16 = pnManager.getTexto(18);
+    Texto texto19 = pnManager.getTexto(19);
     Empleado empleo = (Empleado) session.getAttribute("empleo");
     Empresa empresa = empleo.getParticipanteByIdParticipante().getEmpresaByIdEmpresa();
 
@@ -72,7 +73,7 @@
                     </tr>
                     <tr>
                         <td  colspan="5">
-                            <textarea id="fortalezas<%=item.getPnCapituloByIdCapitulo().getId()%>" class="field span6" placeholder="Lo que lo ayudar&aacute; en crisis" rows="4" cols="10"></textarea>
+                            <textarea id="fortalezas<%=item.getPnCapituloByIdCapitulo().getId()%>" class="field span6" placeholder="<%=texto19.getTexto1()%>" rows="4" cols="10"></textarea>
                         </td>
                     </tr>
                     <tr>
@@ -80,7 +81,7 @@
                     </tr>
                     <tr>
                         <td colspan="5">
-                            <textarea id="oportunidades<%=item.getPnCapituloByIdCapitulo().getId()%>" class="field span6" placeholder="Tips de mejora" rows="4" cols="10"></textarea>
+                            <textarea id="oportunidades<%=item.getPnCapituloByIdCapitulo().getId()%>" class="field span6" placeholder="<%=texto19.getTexto2()%>" rows="4" cols="10"></textarea>
                         </td>
                     </tr>
                     <%

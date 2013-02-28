@@ -74,9 +74,12 @@
                     </div>
                 </div>
                 <%
+//                    System.out.println("pnAgenda 8888888888888= " + pnAgenda);
+//                    System.out.println("empleo.getParticipanteByIdParticipante().getPnEtapaParticipanteByIdEtapaParticipante().getIdEtapaParticipante() = " + empleo.getParticipanteByIdParticipante().getPnEtapaParticipanteByIdEtapaParticipante().getIdEtapaParticipante());
                     if(pnAgenda != null &&
                             empleo.getParticipanteByIdParticipante().getPnEtapaParticipanteByIdEtapaParticipante().getIdEtapaParticipante()==3
                             ){ // SOLO SI HAY
+//                        System.out.println("999999977777777777777777777777");
                 %>
                 <br>
                 <div class="formy">
@@ -86,10 +89,10 @@
                         <form class="form-horizontal">
 
                             <!-- Hora -->
-                            <div class="control-group">
-                                <label class="control-label" for="idEmpleado">Persona</label>
+                            <%--<div class="control-group">
+                                <label class="control-label" for="idEmpleado">Hora</label>
                                 <div class="controls">
-                                    <%--<input type="text" class="input-large" name="username" id="username">--%>
+                                    &lt;%&ndash;<input type="text" class="input-large" name="username" id="username">&ndash;%&gt;
                                     <select id="hora" name="hora">
                                         <%
                                         for (int i=6; i<=20; i++) {
@@ -101,9 +104,12 @@
                                     %>
                                     </select>
                                 </div>
-                            </div><!-- Empleado -->
+                            </div>
+                            --%>
+                            <input type="hidden" id="hora" name="hora" value="9">
+                            <!-- Empleado -->
                             <div class="control-group">
-                                <label class="control-label" for="idEmpleado">Persona</label>
+                                <label class="control-label" for="idEmpleado">Persona o Cargo</label>
                                 <div class="controls">
                                     <%--<input type="text" class="input-large" name="username" id="username">--%>
                                     <input type="text" id="idEmpleado" name="idEmpleado" >
@@ -145,14 +151,14 @@
                             <div class="control-group">
                                 <label class="control-label" for="documentos">Documentos</label>
                                 <div class="controls">
-                                    <textarea id="documentos" class="field span2" placeholder="Si desea solicitar documentos" rows="3" cols="5"></textarea>
+                                    <textarea id="documentos" class="field span2" placeholder="Documentos de verificaci&oacute;n requeridos durante la visita" rows="3" cols="5"></textarea>
                                 </div>
                             </div>
                             <!-- Text Preguntas -->
                             <div class="control-group">
                                 <label class="control-label" for="preguntas">Preguntas</label>
                                 <div class="controls">
-                                    <textarea id="preguntas" class="field span2" placeholder="Interrogantes a resolver en la visita" rows="3" cols="5"></textarea>
+                                    <textarea id="preguntas" class="field span2" placeholder="Inquietud, interrogante, duda a resolver durante la visita" rows="3" cols="5"></textarea>
                                 </div>
                             </div>
                             <!-- Buttons -->
@@ -173,11 +179,9 @@
                     <thead>
                     <tr>
                         <th>idHora</th>
+                        <%--<th>Hora</th>--%>
                         <th>
-                            Hora
-                        </th>
-                        <th>
-                            Empleado
+                            Cargo o Persona
                         </th>
                         <th>
                             &Iacute;tem
@@ -202,9 +206,7 @@
                         for (PnAgendaInvitado invitado:  pnManager.getPnAgendaInvitadosFromParticipante(empleo.getParticipanteByIdParticipante().getIdParticipante())){
                     %>
                     <tr>
-                        <td>
-                            <%=invitado.getHora()%>
-                        </td>
+                        <%--<td><%=invitado.getHora()%></td>--%>
                         <td>
                             <%=invitado.getHora()>12?invitado.getHora()-12:invitado.getHora()%>:00<%=invitado.getHora()<12?"A.M.":"P.M."%>
                         </td>

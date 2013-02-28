@@ -90,7 +90,10 @@
                             <%=titulo.getTexto2()%>
                         </span> - <%=titulo1.getTexto1()%>
                     </h5>
-                    <p>Copyright &copy; <a href="http://www.ccalidad.org" target="cc">www.ccalidad.org</a> </p>
+                    <p>Copyright &copy;
+                        <a href="http://www.ccalidad.org" target="cc">www.ccalidad.org</a> </p>
+                    -
+                    <a href="http://www.premionacionalexcelencia.org" target="pnn">www.premionacionalexcelencia.org</a> </p>
                 </div>
             </div>
         </div>
