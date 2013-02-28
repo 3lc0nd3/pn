@@ -12,7 +12,7 @@ import java.util.Collection;
  * Time: 10:40:35 AM
  */
 @Entity
-@Table(catalog = "pn", name = "empresa_categoria")
+@Table( name = "empresa_categoria")
 public class EmpresaCategoria {
     private int id;
 

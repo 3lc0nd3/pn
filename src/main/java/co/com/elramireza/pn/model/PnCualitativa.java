@@ -12,7 +12,7 @@ import java.sql.Timestamp;
  * Time: 05:40:55 PM
  */
 @Entity
-@Table(catalog = "pn", name = "pn_cualitativa")
+@Table( name = "pn_cualitativa")
 public class PnCualitativa {
     private int id;
 

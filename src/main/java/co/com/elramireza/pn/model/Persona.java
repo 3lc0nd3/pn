@@ -16,7 +16,7 @@ import static java.lang.String.format;
  * Time: 05:40:51 PM
  */
 @Entity
-@Table(catalog = "pn", name = "persona")
+@Table( name = "persona")
 public class Persona {
     private int idPersona;
 

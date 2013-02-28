@@ -11,7 +11,7 @@ import javax.persistence.*;
  * Time: 05:40:51 PM
  */
 @Entity
-@Table(catalog = "pn", name = "perfil")
+@Table( name = "perfil")
 public class Perfil {
     private int id;
 

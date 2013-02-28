@@ -927,7 +927,7 @@ public class PnDAO extends HibernateDaoSupport{
 						"Cargo: " + empleado.getCargoEmpleadoByIdCargo().getCargo() +
 						"<br>" +
 						"Perfil en el Sistema: " + empleado.getPerfilByIdPerfil().getPerfil() +
-						"<br>" +
+						"	<br>" +
 						"Login: " + personaByIdPersona.getEmailPersonal() +
 						"<br>" +
 						""
