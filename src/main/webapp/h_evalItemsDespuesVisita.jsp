@@ -99,7 +99,7 @@
                         <td align="right">
                             <%=item.getPonderacion()%>
                         </td>
-                        <td>
+                        <td width="70">
                             <select onchange="sValorItem(<%=item.getId()%>);" name="i<%=item.getId()%>" id="i<%=item.getId()%>" class="btn-primary selEval">
                             <%
                                 for (Integer v: pnManager.getValoresValoracion()){
