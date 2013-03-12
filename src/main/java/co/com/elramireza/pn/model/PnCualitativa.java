@@ -38,7 +38,19 @@ public class PnCualitativa {
         this.fechaCreacion = fechaCreacion;
     }
 
-    private String fortalezas;
+	private String vision;
+
+	@Basic
+	@Column(name = "vision")
+	public String getVision() {
+		return vision;
+	}
+
+	public void setVision(String vision) {
+		this.vision = vision;
+	}
+
+	private String fortalezas;
 
     @Basic
     @Column(name = "fortalezas")

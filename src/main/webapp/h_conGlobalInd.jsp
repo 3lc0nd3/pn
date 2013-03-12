@@ -17,16 +17,16 @@
     <div id="contenedor" class="container">
         <div class="row">
             <div class="span8">
-                <h2><%=texto16.getTexto1()%></h2>
+                <h2><%=texto16.getTexto2()%></h2>
                 para <strong><%=empresa.getNombreEmpresa()%></strong>
                 <br>
                 <br>
                 <%
-                    List<PnValoracion> fromParticipante = pnManager.getValoracionIndividualGlobalFromEmpleado(
+                    List<PnValoracion> fromParticipante = pnManager.getValoracionConsensoGlobalFromEmpleado(
                             empleo.getIdEmpleado());
 
                     PnCualitativa cualitativa = pnManager.getPnCualitativaFromEmpleadoTipoFormato(
-                            empleo.getIdEmpleado(), 1 // FORMATO 1 INDIVIDUAL
+                            empleo.getIdEmpleado(), 6 // FORMATO 6 CONSENSO
                     );
                     if(fromParticipante.size()==0){
                 %>
@@ -36,13 +36,13 @@
                     no hay valores
                 </div>
                 <%
-                    } else {
+                } else {
                 %>
 
                 <div class="alert alert-success">
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
                     Datos ingresados el <%=pnManager.dfDateTime.format(cualitativa.getFechaCreacion())%>
-                    <%
+                    <%--<%
                         if (empleo.isEvaluaGlobal()) {
                     %>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -51,7 +51,7 @@
 
                     <%
                         }
-                    %>
+                    %>--%>
                 </div>
                 <%
                     }
@@ -84,7 +84,7 @@
                         <th colspan="2" class="btn-inverse"><%=categoriaCriterio.getCategoriaCriterio()%></th>
                     </tr>
                     <%
-                            for (PnCriterio criterio: pnManager.getPnCriteriosFromCategoria(categoriaCriterio.getId())){
+                        for (PnCriterio criterio: pnManager.getPnCriteriosFromCategoria(categoriaCriterio.getId())){
                     %>
                     <tr>
                         <td class=" btn-primary">
@@ -96,16 +96,16 @@
                                 if (criterio.getId() != 15) {
                             %>
                             <select name="1-<%=criterio.getId()%>" id="1-<%=criterio.getId()%>" onchange="muestraAyudaCriterio(<%=criterio.getId()%>, 1, false)" class="btn-primary selEval">
-                            <%
-                                for (Integer v: pnManager.getValoresValoracion()){
-                            %>
+                                <%
+                                    for (Integer v: pnManager.getValoresValoracion()){
+                                %>
                                 <option <%=v==50?"selected":""%> class=" btn-primary" value="<%=v%>"><%=v%></option>
-                            <%
-                                }
-                            %>
+                                <%
+                                    }
+                                %>
                             </select>
                             <%
-                                } else {
+                            } else {
                             %>
                             <span id="1-15" class="btn-primary selEval"></span>
                             <%
@@ -134,14 +134,14 @@
                     %>
                 </table>
                 <%
-                    if (!empleo.isEvaluaGlobal()) {
+//                    if (!empleo.isEvaluaGlobal()) {
                 %>
                 <br>
                 <br>
-                <button id="b1" class="btn  btn-primary" onclick="guardaIndividual(false);">Guardar Avance</button>
-                <button id="b2" class="btn  btn-primary" onclick="guardaFinal() ;">Guardar Final</button>
+                <button id="b1" class="btn  btn-primary" onclick="guardaIndividual(false);">Guardar</button>
+                <%--<button id="b2" class="btn  btn-primary" onclick="guardaFinal() ;">Guardar Final</button>--%>
                 <%
-                    }
+//                    }
                 %>
             </div><%--  FIN SPAN8 --%>
             <div class="span4">
@@ -179,26 +179,26 @@
             disableId("b1");
         }
 
-        pnRemoto.saveVAloracionIndividual(definitivo,
+        pnRemoto.saveValoracionConsensoGlobal(definitivo,
                 valoresCriterios,
                 dwr.util.getValue("vision"),
                 dwr.util.getValue("fortalezas"),
                 dwr.util.getValue("oportunidades"),
                 dwr.util.getValue("pendientesVisita"),
                 function(data){
-            if(data == 1){
-                alert("Registro Correcto");
-                window.location = "evalGlobalInd.htm";
-            } else {
-                alert("Problemas !");
-            }
+                    if(data == 1){
+                        alert("Registro Correcto");
+                        window.location = "conGlobalInd.htm";
+                    } else {
+                        alert("Problemas !");
+                    }
 
                     if (definitivo) {
                         enableId("b2");
                     } else {
                         enableId("b1");
                     }
-        });
+                });
 
     }
 
@@ -214,11 +214,11 @@
 
 
     %>
-                dwr.util.setValue("1-<%=valoracion.getPnCriterioByIdPnCriterio().getId()%>", <%=valoracion.getValor()%>);
+    dwr.util.setValue("1-<%=valoracion.getPnCriterioByIdPnCriterio().getId()%>", <%=valoracion.getValor()%>);
     <%
                             } else {
     %>
-                dwr.util.setValue("1-15", "<%=total/14%>");
+    dwr.util.setValue("1-15", "<%=total/14%>");
     <%
                             }
                         } // END FOR
@@ -240,7 +240,7 @@
     <%
     if(empleo.isEvaluaGlobal()){
     %>
-    $('#contenedor').find('select, textarea').attr('disabled','disabled');
+//    $('#contenedor').find('select, textarea').attr('disabled','disabled');
     <%
     }
     %>

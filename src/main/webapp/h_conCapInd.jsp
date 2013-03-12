@@ -18,16 +18,16 @@
     <div id="contenedor" class="container">
         <div class="row">
             <div class="span8">
-                <h2><%=texto16.getTexto1()%></h2>
+                <h2><%=texto16.getTexto2()%></h2>
                 para <strong><%=empresa.getNombreEmpresa()%></strong>
                 <br>
                 <br>
                 <%
-                    List<PnValoracion> fromParticipante = pnManager.getValoracionIndividualCapitulosFromEmpleado(
+                    List<PnValoracion> fromParticipante = pnManager.getValoracionConsensoCapitulosFromEmpleado(
                             empleo.getIdEmpleado());
 
                     List<PnCualitativa> cualitativas = pnManager.getPnCualitativasFromEmpleadoTipoFormato(
-                            empleo.getIdEmpleado(), 2 // FORMATO 2 INDIVIDUALPOR CAPITULO
+                            empleo.getIdEmpleado(), 7 // FORMATO 7 CONSENSO POR CAPITULO
                     );
                     System.out.println("fromParticipante.size() = " + fromParticipante.size());
                     if(fromParticipante.size()==0){
@@ -38,13 +38,13 @@
                     no hay valores
                 </div>
                 <%
-                    } else {
+                } else {
                 %>
 
                 <div class="alert alert-success">
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
                     Datos ingresados el <%=pnManager.dfDateTime.format(cualitativas.get(0).getFechaCreacion())%>
-                    <%
+                    <%--<%
                         if (empleo.isEvaluaCapitulos()) {
                     %>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -53,7 +53,7 @@
 
                     <%
                         }
-                    %>
+                    %>--%>
                 </div>
                 <%
                     }
@@ -74,96 +74,96 @@
                     <br>
                     <h4 class="color"><%=capitulo.getNombreCapitulo()%></h4>
                     <br>
-                <table border="1" width="70%" align="center">
-                    <tr><th class="alert-info"><%=texto20.getTexto1()%></th></tr>
-                    <tr><td>
-                        <textarea id="vision-<%=capitulo.getId()%>" class="field span6" placeholder="<%=texto20.getTexto2()%>" rows="4" cols="10"></textarea>
-                    </td></tr>
-                    <tr><th class="alert-info">Fortalezas</th></tr>
-                    <tr><td>
-                        <textarea id="fortalezas-<%=capitulo.getId()%>" class="field span6" placeholder="<%=texto19.getTexto1()%>" rows="4" cols="10"></textarea>
-                    </td></tr>
-                    <tr><th class="alert-info">Oportunidades de Mejora</th></tr>
-                    <tr><td>
-                        <textarea id="oportunidades-<%=capitulo.getId()%>" class="field span6" placeholder="<%=texto19.getTexto2()%>" rows="4" cols="10"></textarea>
-                    </td></tr>
-                    <tr><th class="alert-info">Pendientes Vista de Campo</th></tr>
-                    <tr><td>
-                        <textarea id="pendientesVisita-<%=capitulo.getId()%>" class="field span6" placeholder="Puntos para tener en cuenta" rows="4" cols="10"></textarea>
-                    </td></tr>
-                </table>
-                <br>
-                <table border="1" align="center" width="90%">
-                    <%
-                        for (PnCategoriaCriterio categoriaCriterio:  categoriasCriterio){
-                    %>
-                    <tr>
-                        <th colspan="2" class="btn-inverse"><%=categoriaCriterio.getCategoriaCriterio()%></th>
-                    </tr>
-                    <%
+                    <table border="1" width="70%" align="center">
+                        <tr><th class="alert-info"><%=texto20.getTexto1()%></th></tr>
+                        <tr><td>
+                            <textarea id="vision-<%=capitulo.getId()%>" class="field span6" placeholder="<%=texto20.getTexto2()%>" rows="4" cols="10"></textarea>
+                        </td></tr>
+                        <tr><th class="alert-info">Fortalezas</th></tr>
+                        <tr><td>
+                            <textarea id="fortalezas-<%=capitulo.getId()%>" class="field span6" placeholder="<%=texto19.getTexto1()%>" rows="4" cols="10"></textarea>
+                        </td></tr>
+                        <tr><th class="alert-info">Oportunidades de Mejora</th></tr>
+                        <tr><td>
+                            <textarea id="oportunidades-<%=capitulo.getId()%>" class="field span6" placeholder="<%=texto19.getTexto2()%>" rows="4" cols="10"></textarea>
+                        </td></tr>
+                        <tr><th class="alert-info">Pendientes Vista de Campo</th></tr>
+                        <tr><td>
+                            <textarea id="pendientesVisita-<%=capitulo.getId()%>" class="field span6" placeholder="Puntos para tener en cuenta" rows="4" cols="10"></textarea>
+                        </td></tr>
+                    </table>
+                    <br>
+                    <table border="1" align="center" width="90%">
+                        <%
+                            for (PnCategoriaCriterio categoriaCriterio:  categoriasCriterio){
+                        %>
+                        <tr>
+                            <th colspan="2" class="btn-inverse"><%=categoriaCriterio.getCategoriaCriterio()%></th>
+                        </tr>
+                        <%
                             for (PnCriterio criterio: pnManager.getPnCriteriosFromCategoria(categoriaCriterio.getId())){
-                    %>
-                    <tr>
-                        <td class=" btn-primary">
-                            <img src="images/help.png" onclick="muestraAyudaCriterio('<%=criterio.getId()%>','<%=capitulo.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
-                            <%=criterio.getCriterio()%>
-                        </td>
-                        <td class="btn-primary">
-                            <%
-                                if (criterio.getId() != 15) {
-                            %>
-                            <select name="<%=capitulo.getId()%>-<%=criterio.getId()%>" id="<%=criterio.getId()%>" onchange="muestraAyudaCriterio(<%=criterio.getId()%>, '<%=capitulo.getId()%>', false)" class="btn-primary selEval">
-                            <%
-                                for (Integer v: pnManager.getValoresValoracion()){
-                            %>
-                                <option <%=v==50?"selected":""%> class="btn-primary selEval" value="<%=v%>"><%=v%></option>
-                            <%
-                                }
-                            %>
-                            </select>
-                            <%
+                        %>
+                        <tr>
+                            <td class=" btn-primary">
+                                <img src="images/help.png" onclick="muestraAyudaCriterio('<%=criterio.getId()%>','<%=capitulo.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
+                                <%=criterio.getCriterio()%>
+                            </td>
+                            <td class="btn-primary">
+                                <%
+                                    if (criterio.getId() != 15) {
+                                %>
+                                <select name="<%=capitulo.getId()%>-<%=criterio.getId()%>" id="<%=criterio.getId()%>" onchange="muestraAyudaCriterio(<%=criterio.getId()%>, '<%=capitulo.getId()%>', false)" class="btn-primary selEval">
+                                    <%
+                                        for (Integer v: pnManager.getValoresValoracion()){
+                                    %>
+                                    <option <%=v==50?"selected":""%> class="btn-primary selEval" value="<%=v%>"><%=v%></option>
+                                    <%
+                                        }
+                                    %>
+                                </select>
+                                <%
                                 } else {
-                            %>
-                            <span id="<%=capitulo.getId()%>-15" class="btn-primary selEval"></span>
-                            <%
+                                %>
+                                <span id="<%=capitulo.getId()%>-15" class="btn-primary selEval"></span>
+                                <%
+                                    }
+                                %>
+                            </td>
+                        </tr>
+                        <tr id="<%=capitulo.getId()%>-contenido<%=criterio.getId()%>" style="display:none;">
+                            <td colspan="2">
+                                <table cellpadding="0" cellspacing="0" border="1" width="100%">
+                                    <tr>
+                                        <td width="50%" class="contenido">
+                                            <span id="<%=capitulo.getId()%>-evalua<%=criterio.getId()%>"></span>
+                                            <%--<%=item.getEvalua()%>--%>
+                                        </td>
+                                        <td width="50%" class="contenido">
+                                            <span id="<%=capitulo.getId()%>-ayuda<%=criterio.getId()%>"></span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <%
                                 }
-                            %>
-                        </td>
-                    </tr>
-                    <tr id="<%=capitulo.getId()%>-contenido<%=criterio.getId()%>" style="display:none;">
-                        <td colspan="2">
-                            <table cellpadding="0" cellspacing="0" border="1" width="100%">
-                                <tr>
-                                    <td width="50%" class="contenido">
-                                        <span id="<%=capitulo.getId()%>-evalua<%=criterio.getId()%>"></span>
-                                        <%--<%=item.getEvalua()%>--%>
-                                    </td>
-                                    <td width="50%" class="contenido">
-                                        <span id="<%=capitulo.getId()%>-ayuda<%=criterio.getId()%>"></span>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <%
                             }
-                        }
-                    %>
-                </table>
+                        %>
+                    </table>
                     <br>&nbsp;
-                    </div>
+                </div>
                 <%
                     } //  END DEL MEGA FOR DE CAPITULOS
                 %>
                 <%
-                    if (!empleo.isEvaluaCapitulos()) {
+//                    if (!empleo.isEvaluaCapitulos()) {
                 %>
-                                         <br>
-                
-                <button id="b1" class="btn  btn-primary" onclick="guardaIndividualCapitulos(false);">Guardar Avance</button>
-                <button id="b2" class="btn  btn-primary" onclick="guardaIndividualCapitulos(true);">Guardar Final</button>
+                <br>
+
+                <button id="b1" class="btn  btn-primary" onclick="guardaIndividualCapitulos(false);">Guardar</button>
+                <%--<button id="b2" class="btn  btn-primary" onclick="guardaIndividualCapitulos(true);">Guardar Final</button>--%>
                 <%
-                    }
+//                    }
                 %>
             </div><%--  FIN SPAN8 --%>
             <div class="span4">
@@ -212,25 +212,25 @@
             disableId("b1");
         }
 
-        pnRemoto.saveValoracionIndividualCapitulos(definitivo,
+        pnRemoto.saveValoracionConsensoCapitulos(definitivo,
                 dataVision,
                 dataFortaleza,
                 dataOportunidad,
                 dataPendiente,
                 dataValores, function(data){
-            if(data == 1){
-                alert("Registro Correcto");
-                window.location = "evalCapInd.htm";
-            } else {
-                alert("Problemas !");
-            }
+                    if(data == 1){
+                        alert("Registro Correcto");
+                        window.location = "conCapInd.htm";
+                    } else {
+                        alert("Problemas !");
+                    }
 
                     if (definitivo) {
                         enableId("b2");
                     } else {
                         enableId("b1");
                     }
-        });
+                });
 
     }
 
@@ -274,7 +274,7 @@
     <%
     if(empleo.isEvaluaCapitulos()){
     %>
-    $('#contenedor').find('select, textarea').attr('disabled','disabled');
+//    $('#contenedor').find('select, textarea').attr('disabled','disabled');
     <%
     }
     %>
