@@ -1309,6 +1309,7 @@ label.error{
     height: 50px;
     /*height: 100%;*/
     line-height:27px;
+    font-weight: bold;
 }
 
 .letraVertical{

@@ -61,28 +61,16 @@ public class PnAgenda {
         this.fechaCreacion = fechaCreacion;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    private String notas;
 
-        PnAgenda pnAgenda = (PnAgenda) o;
-
-        if (id != pnAgenda.id) return false;
-        if (fechaAgenda != null ? !fechaAgenda.equals(pnAgenda.fechaAgenda) : pnAgenda.fechaAgenda != null)
-            return false;
-        if (fechaCreacion != null ? !fechaCreacion.equals(pnAgenda.fechaCreacion) : pnAgenda.fechaCreacion != null)
-            return false;
-
-        return true;
+    @Basic
+    @Column(name = "notas_agenda")
+    public String getNotas() {
+        return notas;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (fechaAgenda != null ? fechaAgenda.hashCode() : 0);
-        result = 31 * result + (fechaCreacion != null ? fechaCreacion.hashCode() : 0);
-        return result;
+    public void setNotas(String notas) {
+        this.notas = notas;
     }
 
     private Empleado empleadoByIdEmpleadoCreador;

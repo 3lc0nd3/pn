@@ -66,15 +66,15 @@ function contenidoAyuda(id){
 //        alert("valor = " + valor);
 //        alert("Total = " + dwr.util.getValue('l' + id));
     var ayuda;
-    if(valor<20){
+    if(valor<=20){
         ayuda = window["data" + id].c20;
-    } else if(valor >= 20 && valor < 40){
+    } else if(valor > 20 && valor <= 40){
         ayuda = window["data" + id].c40;
-    } else if(valor >= 40 && valor < 60){
+    } else if(valor > 40 && valor <= 60){
         ayuda = window["data" + id].c60;
-    } else if(valor >= 60 && valor < 80){
+    } else if(valor > 60 && valor <= 80){
         ayuda = window["data" + id].c80;
-    } else if(valor >= 80 ){
+    } else if(valor > 80 ){
         ayuda = window["data" + id].c100;
     }
 
@@ -89,15 +89,15 @@ function contenidoAyudaCriterio(id, idCapitulo){
     var ayuda;
     if (valor==50) {
         ayuda = window["dataCrite" + id].c50;
-    } else if(valor<20){
+    } else if(valor<=20){
         ayuda = window["dataCrite" + id].c20;
-    } else if(valor >= 20 && valor < 40){
+    } else if(valor > 20 && valor <= 40){
         ayuda = window["dataCrite" + id].c40;
-    } else if(valor >= 40 && valor < 60){
+    } else if(valor > 40 && valor <= 60){
         ayuda = window["dataCrite" + id].c60;
-    } else if(valor >= 60 && valor < 80){
+    } else if(valor > 60 && valor <= 80){
         ayuda = window["dataCrite" + id].c80;
-    } else if(valor >= 80 ){
+    } else if(valor > 80 ){
         ayuda = window["dataCrite" + id].c100;
     }
 

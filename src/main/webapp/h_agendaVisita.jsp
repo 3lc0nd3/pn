@@ -4,6 +4,8 @@
 
 <%
     Empleado empleo = (Empleado) session.getAttribute("empleo");
+    Participante participanteByIdParticipante = empleo.getParticipanteByIdParticipante();
+    Texto texto22 = pnManager.getTexto(22);
 %>
 
 <agenda>
@@ -17,6 +19,16 @@
                         int idParticipante = empleo.getParticipanteByIdParticipante().getIdParticipante();
                         System.out.println("idParticipante = " + idParticipante);
                         PnAgenda pnAgenda = pnManager.getPnAgendaFromParticipante(idParticipante);
+
+                        if (participanteByIdParticipante.getPnEtapaParticipanteByIdEtapaParticipante().getIdEtapaParticipante() != 3) {
+                    %>
+                    <div class="alert">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <%=texto22.getTexto1()%>
+                        <img src="img/stop.png" width="50">
+                    </div>
+                    <%
+                        }
                         System.out.println("pnAgenda = " + pnAgenda);
                         if(pnAgenda == null){ // NO HAY 
                     %>

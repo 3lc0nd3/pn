@@ -6,11 +6,12 @@
     Texto texto16 = pnManager.getTexto(17);
     Texto texto19 = pnManager.getTexto(19);
     Texto texto20 = pnManager.getTexto(21);
+    Texto texto23 = pnManager.getTexto(23);
     Empleado empleo = (Empleado) session.getAttribute("empleo");
     Empresa empresa = empleo.getParticipanteByIdParticipante().getEmpresaByIdEmpresa();
 
     List<PnCategoriaCriterio> categoriasCriterio = pnManager.getCategoriasCriterio();
-    categoriasCriterio.remove(categoriasCriterio.size()-1);
+//    categoriasCriterio.remove(categoriasCriterio.size()-1);
 
 %>
 
@@ -87,7 +88,7 @@
                     <tr><td>
                         <textarea id="oportunidades-<%=capitulo.getId()%>" class="field span6" placeholder="<%=texto19.getTexto2()%>" rows="4" cols="10"></textarea>
                     </td></tr>
-                    <tr><th class="alert-info">Pendientes Vista de Campo</th></tr>
+                    <tr><th class="alert-info">Puntos Pendientes Visita de Campo</th></tr>
                     <tr><td>
                         <textarea id="pendientesVisita-<%=capitulo.getId()%>" class="field span6" placeholder="Puntos para tener en cuenta" rows="4" cols="10"></textarea>
                     </td></tr>
@@ -106,7 +107,17 @@
                     <tr>
                         <td class=" btn-primary">
                             <img src="images/help.png" onclick="muestraAyudaCriterio('<%=criterio.getId()%>','<%=capitulo.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
+                            <%
+                                if (criterio.getId()!=15){
+                            %>
                             <%=criterio.getCriterio()%>
+                            <%
+                            } else {
+                            %>
+                            <%=texto23.getTexto2()%>
+                            <%
+                                }
+                            %>
                         </td>
                         <td class="btn-primary">
                             <%
@@ -236,12 +247,15 @@
 
     <%
 
-
+//                       System.out.println("fromParticipante.size() = " + fromParticipante.size());
                     if(fromParticipante.size()>0){  // SOLO SI HAY VALORACION
                         for (PnValoracion valoracion : fromParticipante){
-                            if(valoracion.getPnCapituloByIdCapitulo().getId()==1){
+//                        System.out.println("valoracion.getPnCapituloByIdCapitulo().getId() = " + valoracion.getPnCapituloByIdCapitulo().getId());
+//                        System.out.println("\tvaloracion.getPnCriterioByIdPnCriterio().getId() = " + valoracion.getPnCriterioByIdPnCriterio().getId());
+                            if(valoracion.getPnCriterioByIdPnCriterio().getId()==1){ // CUANDO REINICIA EL CAPITULO
                                 total = 0;
-                            } else {
+                            }
+                           if (valoracion.getPnCriterioByIdPnCriterio().getId()!= 15){
                                 total += valoracion.getValor();
                             }
     %>
@@ -250,14 +264,14 @@
 
                             if(valoracion.getPnCriterioByIdPnCriterio().getId() ==15){
     %>
-    dwr.util.setValue("<%=valoracion.getPnCapituloByIdCapitulo().getId()%>-15", "<%=total%>");
+    dwr.util.setValue("<%=valoracion.getPnCapituloByIdCapitulo().getId()%>-15", "<%=total/14%>");
     <%
                             }
     %>
     <%
                         }
                     } else { // aca
-                            System.out.println("ADIOS");
+                            System.out.println("NO HAY DATOS IND. CAPITULO");
                             }
                     if(cualitativas != null){
                         for (PnCualitativa cualitativa: cualitativas){

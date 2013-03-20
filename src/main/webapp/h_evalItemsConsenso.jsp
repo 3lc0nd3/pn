@@ -6,8 +6,10 @@
 
 <%
     Texto texto16 = pnManager.getTexto(18);
+    Texto texto22 = pnManager.getTexto(22);
     Empleado empleo = (Empleado) session.getAttribute("empleo");
-    Empresa empresa = empleo.getParticipanteByIdParticipante().getEmpresaByIdEmpresa();
+    Participante participanteByIdParticipante = empleo.getParticipanteByIdParticipante();
+    Empresa empresa = participanteByIdParticipante.getEmpresaByIdEmpresa();
 
     List<PnSubCapitulo> items = pnManager.getPnSubCapitulos();
 
@@ -46,6 +48,15 @@
                             ){ // SOLO SI HAY DATA y CONSENSO
                 %>
                 <button id="b2" class="btn  btn-primary" onclick="saltaAVisita();">Avanza a Agenda de Visita</button>
+                <%
+                    }
+                    if (participanteByIdParticipante.getPnEtapaParticipanteByIdEtapaParticipante().getIdEtapaParticipante() != 2) {
+                %>
+                <div class="alert">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <%=texto22.getTexto1()%>
+                    <img src="img/stop.png" width="50">
+                </div>
                 <%
                     }
                     if(cuantitativas.size()==0){ // NO HAY DATA
@@ -146,11 +157,11 @@
                             <%=item.getPonderacion()%>
                         </td>
                         <td>
-                            <select style="width: 60px" onchange="sValorItem(<%=item.getId()%>);" name="i<%=item.getId()%>" id="i<%=item.getId()%>" class="btn-primary selEval" >
+                            <select style="width: 60px" onchange="sValorItem(<%=item.getId()%>);" name="i<%=item.getId()%>" id="i<%=item.getId()%>" class="selEval" >
                             <%
                                 for (Integer v: pnManager.getValoresValoracion()){
                             %>
-                                <option class="btn-primary selEval" value="<%=v%>"><%=v%></option>
+                                <option class="selEval" value="<%=v%>"><%=v%></option>
                             <%
                                 }
                             %>
@@ -161,12 +172,18 @@
                         </td>
                     </tr>
                     <tr id="contenido<%=item.getId()%>" style="display:none;">
-                        <td colspan="5" class="contenido">
-                            <span id="evalua<%=item.getId()%>"></span>
-                            <%--<%=item.getEvalua()%>--%>
-                        </td>
-                        <td colspan="4" class="contenido">
-                            <span id="ayuda<%=item.getId()%>"></span>
+                        <td colspan="<%=5+evaluadores.size()%>">
+                            <table width="100%" border="1">
+                                <tr>
+                                    <td width="50%" class="contenido">
+                                        <span id="evalua<%=item.getId()%>"></span>
+                                        <%--<%=item.getEvalua()%>--%>
+                                    </td>
+                                    <td width="50%" class="contenido">
+                                        <span id="ayuda<%=item.getId()%>"></span>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
                     

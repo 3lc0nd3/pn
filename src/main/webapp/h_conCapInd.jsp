@@ -6,11 +6,14 @@
     Texto texto16 = pnManager.getTexto(17);
     Texto texto19 = pnManager.getTexto(19);
     Texto texto20 = pnManager.getTexto(21);
+    Texto texto22 = pnManager.getTexto(22);
+    Texto texto23 = pnManager.getTexto(23);
     Empleado empleo = (Empleado) session.getAttribute("empleo");
-    Empresa empresa = empleo.getParticipanteByIdParticipante().getEmpresaByIdEmpresa();
+    Participante participanteByIdParticipante = empleo.getParticipanteByIdParticipante();
+    Empresa empresa = participanteByIdParticipante.getEmpresaByIdEmpresa();
 
     List<PnCategoriaCriterio> categoriasCriterio = pnManager.getCategoriasCriterio();
-    categoriasCriterio.remove(categoriasCriterio.size()-1);
+//    categoriasCriterio.remove(categoriasCriterio.size()-1);
 
 %>
 
@@ -29,7 +32,17 @@
                     List<PnCualitativa> cualitativas = pnManager.getPnCualitativasFromEmpleadoTipoFormato(
                             empleo.getIdEmpleado(), 7 // FORMATO 7 CONSENSO POR CAPITULO
                     );
-                    System.out.println("fromParticipante.size() = " + fromParticipante.size());
+
+                    if (participanteByIdParticipante.getPnEtapaParticipanteByIdEtapaParticipante().getIdEtapaParticipante() != 2) {
+                %>
+                <div class="alert">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <%=texto22.getTexto1()%>
+                    <img src="img/stop.png" width="50">
+                </div>
+                <%
+                    }
+//                    System.out.println("fromParticipante.size() = " + fromParticipante.size());
                     if(fromParticipante.size()==0){
                 %>
 
@@ -106,7 +119,17 @@
                         <tr>
                             <td class=" btn-primary">
                                 <img src="images/help.png" onclick="muestraAyudaCriterio('<%=criterio.getId()%>','<%=capitulo.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
+                                <%
+                                    if (criterio.getId()!=15){
+                                %>
                                 <%=criterio.getCriterio()%>
+                                <%
+                                    } else {
+                                %>
+                                <%=texto23.getTexto2()%>
+                                <%
+                                    }
+                                %>
                             </td>
                             <td class="btn-primary">
                                 <%
@@ -239,9 +262,11 @@
 
                     if(fromParticipante.size()>0){  // SOLO SI HAY VALORACION
                         for (PnValoracion valoracion : fromParticipante){
-                            if(valoracion.getPnCapituloByIdCapitulo().getId()==1){
+                            if(valoracion.getPnCriterioByIdPnCriterio().getId()==1){
                                 total = 0;
-                            } else {
+                            }
+
+                            if (valoracion.getPnCriterioByIdPnCriterio().getId()!=15){
                                 total += valoracion.getValor();
                             }
     %>
@@ -250,7 +275,7 @@
 
                             if(valoracion.getPnCriterioByIdPnCriterio().getId() ==15){
     %>
-    dwr.util.setValue("<%=valoracion.getPnCapituloByIdCapitulo().getId()%>-15", "<%=total%>");
+    dwr.util.setValue("<%=valoracion.getPnCapituloByIdCapitulo().getId()%>-15", "<%=total/14%>");
     <%
                             }
     %>
@@ -270,7 +295,6 @@
                         } // FOR CUALITATIVAS
                     } // IF NULL
     %>
-
     <%
     if(empleo.isEvaluaCapitulos()){
     %>

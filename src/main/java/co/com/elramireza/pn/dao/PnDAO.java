@@ -113,6 +113,36 @@ public class PnDAO extends HibernateDaoSupport{
         }
     }
 
+    public int guardaNotasAgenda(String nota){
+        try {
+            WebContext wctx = WebContextFactory.get();
+            HttpSession session = wctx.getSession(true);
+            final Empleado empleado = (Empleado) session.getAttribute("empleo");
+
+            Participante participanteByIdParticipante = empleado.getParticipanteByIdParticipante();
+            //LO RECARGO PORQUE PUEDE ESTAR CAMBIANDO EN EL AIRE
+            participanteByIdParticipante = getParticipante(participanteByIdParticipante.getIdParticipante());
+            PnEtapaParticipante etapaParticipante = participanteByIdParticipante.getPnEtapaParticipanteByIdEtapaParticipante();
+            if(etapaParticipante.getIdEtapaParticipante()!=3){ // AGENDA
+                throw new SecurityException("No puede escribir datos. El Participante se encuentra en etapa: "+
+                        etapaParticipante.getEtapaParticipante());
+            }
+            PnAgenda agenda = getPnAgendaFromParticipante(participanteByIdParticipante.getIdParticipante());
+            agenda.setNotas(nota);
+            getHibernateTemplate().update(agenda);
+            return 1;
+        } catch (SecurityException e) {
+            e.printStackTrace();
+            logger.debug(e.getMessage());
+            return 0;
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            logger.debug(e.getMessage());
+            return 0;
+        }
+
+    }
+
     public PnAgenda getPnAgendaFromParticipante(int idParticipante){
         List<PnAgenda> pnAgendas = getHibernateTemplate().find(
                 "from PnAgenda where participanteByIdParticipante.idParticipante = ? ",

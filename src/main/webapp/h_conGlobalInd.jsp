@@ -6,8 +6,10 @@
     Texto texto16 = pnManager.getTexto(16);
     Texto texto19 = pnManager.getTexto(19);
     Texto texto20 = pnManager.getTexto(20);
+    Texto texto22 = pnManager.getTexto(22);
     Empleado empleo = (Empleado) session.getAttribute("empleo");
-    Empresa empresa = empleo.getParticipanteByIdParticipante().getEmpresaByIdEmpresa();
+    Participante participanteByIdParticipante = empleo.getParticipanteByIdParticipante();
+    Empresa empresa = participanteByIdParticipante.getEmpresaByIdEmpresa();
 
     List<PnCategoriaCriterio> categoriasCriterio = pnManager.getCategoriasCriterio();
 
@@ -28,6 +30,15 @@
                     PnCualitativa cualitativa = pnManager.getPnCualitativaFromEmpleadoTipoFormato(
                             empleo.getIdEmpleado(), 6 // FORMATO 6 CONSENSO
                     );
+                    if (participanteByIdParticipante.getPnEtapaParticipanteByIdEtapaParticipante().getIdEtapaParticipante() != 2) {
+                    %>
+                <div class="alert">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <%=texto22.getTexto1()%>
+                    <img src="img/stop.png" width="50">
+                </div>
+                <%
+                    }
                     if(fromParticipante.size()==0){
                 %>
 
@@ -62,15 +73,15 @@
                     <tr><td>
                         <textarea id="vision" class="field span6" placeholder="<%=texto20.getTexto2()%>" rows="4" cols="10"></textarea>
                     </td></tr>
-                    <tr><th class="alert-info">Fortalezas</th></tr>
-                    <tr><td>
+                    <tr style="display: none; visibility: hidden;"><th class="alert-info">Fortalezas</th></tr>
+                    <tr style="display: none; visibility: hidden;"><td>
                         <textarea id="fortalezas" class="field span6" placeholder="<%=texto19.getTexto1()%>" rows="4" cols="10"></textarea>
                     </td></tr>
-                    <tr><th class="alert-info">Oportunidades de Mejora</th></tr>
-                    <tr><td>
+                    <tr style="display: none; visibility: hidden;"><th class="alert-info">Oportunidades de Mejora</th></tr>
+                    <tr style="display: none; visibility: hidden;"><td>
                         <textarea id="oportunidades" class="field span6" placeholder="<%=texto19.getTexto2()%>" rows="4" cols="10"></textarea>
                     </td></tr>
-                    <tr><th class="alert-info">Pendientes Vista de Campo</th></tr>
+                    <tr><th class="alert-info">Puntos Pendientes Visita de Campo</th></tr>
                     <tr><td>
                         <textarea id="pendientesVisita" class="field span6" placeholder="Puntos para tener en cuenta" rows="4" cols="10"></textarea>
                     </td></tr>

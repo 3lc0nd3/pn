@@ -93,11 +93,11 @@
                             <%=item.getPonderacion()%>
                         </td>
                         <td>
-                            <select onchange="sValorItem(<%=item.getId()%>);" name="i<%=item.getId()%>" id="i<%=item.getId()%>" class="btn-primary selEval">
+                            <select onchange="sValorItem(<%=item.getId()%>);" name="i<%=item.getId()%>" id="i<%=item.getId()%>" class="selEval">
                             <%
                                 for (Integer v: pnManager.getValoresValoracion()){
                             %>
-                                <option class="btn-primary selEval" value="<%=v%>"><%=v%></option>
+                                <option class="selEval" value="<%=v%>"><%=v%></option>
                             <%
                                 }
                             %>
@@ -108,13 +108,20 @@
                         </td>
                     </tr>
                     <tr id="contenido<%=item.getId()%>" style="display:none;">
-                        <td colspan="2" class="contenido">
-                            <span id="evalua<%=item.getId()%>"></span>
-                            <%--<%=item.getEvalua()%>--%>
+                        <td colspan="6">
+                            <table width="100%" border="1">
+                                <tr>
+                                    <td width="50%" class="contenido">
+                                        <span id="evalua<%=item.getId()%>"></span>
+                                        <%--<%=item.getEvalua()%>--%>
+                                    </td>
+                                    <td width="50%" class="contenido">
+                                        <span id="ayuda<%=item.getId()%>"></span>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
-                        <td colspan="4" class="contenido">
-                            <span id="ayuda<%=item.getId()%>"></span>
-                        </td>
+
                     </tr>
                     
                     <%

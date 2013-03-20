@@ -236,6 +236,7 @@
             <dwr:include method="getPnCriterio"/>
             <dwr:include method="getTotalesItems"/>
             <dwr:include method="getPnAgendaInvitadosFromParticipante"/>
+            <dwr:include method="guardaNotasAgenda"/>
 
             <!--LOS QUE NO VAN-->
             <!--
