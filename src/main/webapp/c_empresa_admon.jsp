@@ -7,12 +7,28 @@
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 <%
 
+    long ct = System.currentTimeMillis();
     int idPerfil = 0;
+    int vieneDeFront = 0;
     String imgSrcRepor;
     imgSrcRepor = "images/document.png";
 
     Empleado empleo = (Empleado) session.getAttribute("empleo");
+    System.out.println("empleo = " + empleo);
     Empresa empresa = (Empresa) request.getAttribute("empresa");
+    System.out.println("empresa = " + empresa);
+    if(empresa!=null){
+        vieneDeFront =1;
+    }
+        /**
+         * RECARGO EL EMPLEADO SOLO SI NO ES ADMON
+         */
+    if(empresa == null){
+        if (empleo!=null) {
+            empleo = pnManager.getEmpleado(empleo.getIdEmpleado());
+        }
+    }
+
     Participante participante = null;
     if(empresa == null){ // NO VIENE DE FRONTCONTROLLER
         if(empleo != null){ // TIENE QUE ESTAR LOGUEADO
@@ -28,16 +44,16 @@
         idPerfil = empleo.getPerfilByIdPerfil().getId();
     }
 
-
     Participante participante1Req = (Participante) request.getAttribute("participante");
     if (participante1Req != null) { // SI VIENE DE  FRONTCONTROLLER
+        vieneDeFront =1 ;
         participante = participante1Req;
         empresa = participante.getEmpresaByIdEmpresa();
-        idPerfil = 7;
+        idPerfil = 7; // PARA QUE VEA TODOS LOS EVALUADORES
     }
 
-
-    System.out.println("idPerfil = " + idPerfil);
+    System.out.println("DEsde ADMON jsp idPerfil = " + idPerfil);
+    System.out.println("vieneDeFront = " + vieneDeFront);
 
 
 //    if (empresa != null) {
@@ -47,7 +63,7 @@
 
 %>
 
-<h2><%=empresa.getNombreEmpresa()%></h2>
+<h2>  <%=empresa.getNombreEmpresa()%></h2>
 <span class="color">Direcci&oacute;n</span> <%=empresa.getDireccionEmpresa()%>
 <br>
 <span class="color">Categor&iacute;a</span> <%=empresa.getEmpresaCategoriaByIdCategoriaEmpresa().getCategoria()%>
@@ -68,7 +84,7 @@
 <span class="color">Evaluadores:</span>
 <blockquote>
     <%
-//        System.out.println("empleo.getPerfilByIdPerfil().getId() = " + empleo.getPerfilByIdPerfil().getId());
+        //        System.out.println("empleo.getPerfilByIdPerfil().getId() = " + empleo.getPerfilByIdPerfil().getId());
         List<Empleado> evaluadoresFromParticipante = new ArrayList<Empleado>();
         if (idPerfil == 7 ) { // SI ES LIDER
             evaluadoresFromParticipante = pnManager.getEvaluadoresFromParticipante(participante.getIdParticipante());
@@ -111,30 +127,79 @@
 
 </div>
 <br>
-<a href="pdfs/ip-<%=empresa.getNit()%>.pdf" target="<%=empresa.getNit()%>">
+<%
+    if(participante!=null && participante.getFileInformePostula()!=null){
+%>
+<a href="pdfs/ip-<%=empresa.getNit()%>-<%=participante.getIdParticipante()%>.pdf?T=<%=ct%>" target="<%=empresa.getNit()%>">
     <img src="img/pdf.png" alt="abrir" title="abrir" width="48">
     <span class="color">Informe de Postulaci&oacute;n PDF</span>
 </a>
 <%
-    if (idPerfil == 1) {
+} else {
+    if(participante!=null){
+%>
+<img src="img/stop.png" alt="abrir" title="abrir" width="48">
+No hay Informe de Postulaci&oacute;n
+<%
+        }
+    }
+%>
+<%
+    if (idPerfil == 1 || idPerfil == 3 || vieneDeFront == 1) {
 %>
 <br>
-<a href="pdfs/cc-<%=empresa.getNit()%>.pdf" target="<%=empresa.getNit()%>">
+<%
+    if(empresa.getFileCertificadoConstitucion()!=null){
+%>
+<a href="pdfs/cc-<%=empresa.getNit()%>.pdf?T=<%=ct%>" target="<%=empresa.getNit()%>">
     <img src="img/pdf.png" alt="abrir" title="abrir" width="48">
     <span class="color">Certificado Constituci&oacute;n Legal PDF</span>
 </a>
+<%
+    } else {
+%>
+<img src="img/stop.png" alt="abrir" title="abrir" width="48">
+Certificado Constituci&oacute;n Legal
+<%
+    }
+%>
 <br>
-<a href="pdfs/ef-<%=empresa.getNit()%>.pdf" target="<%=empresa.getNit()%>">
+<%
+    if(empresa.getFileEstadoFinanciero()!=null){
+%>
+<a href="pdfs/ef-<%=empresa.getNit()%>.pdf?T=<%=ct%>" target="<%=empresa.getNit()%>">
     <img src="img/pdf.png" alt="abrir" title="abrir" width="48">
     <span class="color">Estados Financieros (3 a&ntilde;os) PDF</span>
 </a>
+<%
+} else {
+%>
+<img src="img/stop.png" alt="abrir" title="abrir" width="48">
+Estados Financieros (3 a&ntilde;os)
+<%
+    }
+%>
 <br>
-<a href="pdfs/co-<%=empresa.getNit()%>.pdf" target="<%=empresa.getNit()%>">
+<%
+    if(participante!=null && participante.getFileConsignacion()!=null){
+%>
+<a href="pdfs/co-<%=empresa.getNit()%>-<%=participante.getIdParticipante()%>.pdf?T=<%=ct%>" target="<%=empresa.getNit()%>">
     <img src="img/pdf.png" alt="abrir" title="abrir" width="48">
     <span class="color">Recibo de Consignaci&oacute;n (50%) PDF</span>
 </a>
 <%
+} else {
+    if(participante!=null){
+
+%>
+<img src="img/stop.png" alt="abrir" title="abrir" width="48">
+Recibo de Consignaci&oacute;n (50%)
+<%
+        }
     }
+%>
+<%
+    }  /* END MUESTRA ARCHIVOS SEGUN PERFILES  */
 %>
 <br>
 <a onclick="scrollToAnchor('inicioResultados')"><img width="32" src="images/back.png" alt="volver" title="volver">Ir arriba</a>

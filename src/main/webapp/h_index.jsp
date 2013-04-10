@@ -334,8 +334,7 @@
                                 </select>
                             </div>
                         </div>
-
-                        <!-- informe de postulacion-->
+                        <%--<!-- informe de postulacion-->
                         <div class="control-group">
                             <label class="control-label" for="fileInformePostulacionFile">Informe de Postulaci&oacute;n PDF</label>
                             <div class="controls">
@@ -365,7 +364,7 @@
                             <div class="controls">
                                 <input type="file" class=" required"  name="fileConsignacionFile" id="fileConsignacionFile">
                             </div>
-                        </div>
+                        </div>--%>
 
                         <h5>Datos del Primer Directivo</h5>
 
@@ -701,11 +700,11 @@
             valorActivos : null,
             idEmpresaCategoria : null,
             idEmpresaCategoriaTamano : null,
-            publicaEmpresa : null,
+            publicaEmpresa : null/*,
             fileInformePostulacionFile : null,
             fileCertificadoConstitucionFile : null,
             fileEstadoFinancieroFile : null,
-            fileConsignacionFile : null
+            fileConsignacionFile : null*/
         };
         dwr.util.getValues(empresa);
 
@@ -759,7 +758,8 @@
                     if(data == 1){
                         var formCS = dwr.util.byId("registroP");
                         formCS.reset();
-                        alert("Gracias por su registro");
+                        alert("Gracias por su registro. Por favor revise su correo: "+
+                                personaEncargado.emailPersonal);
                     }
                 });
 
@@ -869,4 +869,6 @@
             registraP();
         }
     });*/
+
+    $('#username').focus();
 </script>

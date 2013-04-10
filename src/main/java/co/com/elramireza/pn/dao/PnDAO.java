@@ -4,6 +4,7 @@ import co.com.elramireza.pn.model.*;
 import co.com.elramireza.pn.util.MyKey;
 import org.directwebremoting.WebContext;
 import org.directwebremoting.WebContextFactory;
+import org.directwebremoting.io.FileTransfer;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
@@ -21,6 +22,7 @@ import javax.mail.internet.MimeMultipart;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
+import java.awt.image.BufferedImage;
 import java.io.*;
 
 import static java.lang.String.format;
@@ -1534,8 +1536,9 @@ public class PnDAO extends HibernateDaoSupport{
 				empresa.setEmpresaCategoriaTamanoByIdCategoriaTamanoEmpresa(empresaCategoriaTamano);
 
 				String path = context.getRealPath("/pdfs");
-				System.out.println("path = " + path);
+//				System.out.println("path = " + path);
 
+				/*
 				String fileInformePostulacion  		= path+"/ip-"+empresa.getNit()+".pdf";
 				String fileCertificadoConstitucion  = path+"/cc-"+empresa.getNit()+".pdf";
 				String fileEstadoFinanciero         = path+"/ef-"+empresa.getNit()+".pdf";
@@ -1572,7 +1575,7 @@ public class PnDAO extends HibernateDaoSupport{
 				empresa.setFileCertificadoConstitucion(fileCertificadoConstitucion);
 				empresa.setFileEstadoFinanciero(fileEstadoFinanciero);
 				empresa.setFileConsignacion(fileConsignacion);
-
+*/
 				logger.info("est 1");
 
 				int idEmpresa = (Integer) saveEmpresa(empresa);
@@ -1637,6 +1640,136 @@ public class PnDAO extends HibernateDaoSupport{
 			return 0;
 		}
 	} /*  FIN INSCRIPCION  */
+
+    public int subeArchivoPostula(byte[] fileInformePostulacionFile){
+//        logger.info("fileInformePostulacionFile = " + fileInformePostulacionFile);
+
+        WebContext wctx = WebContextFactory.get();
+        HttpSession session = wctx.getSession(true);
+        final Empleado empleado = (Empleado) session.getAttribute("empleo");
+
+        if (empleado != null) {
+            ServletContext context = wctx.getServletContext();
+            String path = context.getRealPath("/pdfs");
+            Empresa empresa = empleado.getParticipanteByIdParticipante().getEmpresaByIdEmpresa();
+            String fileName = "ip-" + empresa.getNit() +"-"+empleado.getParticipanteByIdParticipante().getIdParticipante()+ ".pdf";
+            String fileInformePostulacion  		= path + "/" + fileName;
+
+            try {
+                FileOutputStream outputStream = new FileOutputStream(fileInformePostulacion);
+//                logger.debug("empresa.getFileInformePostulacionFile() = " + empresa.getFileInformePostulacionFile());
+                outputStream.write(fileInformePostulacionFile);
+                outputStream.close();
+
+                Participante participante = getParticipante(empleado.getParticipanteByIdParticipante().getIdParticipante());
+                participante.setFileInformePostula(fileName);
+                getHibernateTemplate().update(participante);
+
+                return 1;
+            } catch (IOException e) {
+                e.printStackTrace();
+                logger.debug(e.getMessage());
+                return 0;
+            }
+        }
+        return 0;
+    }
+    public int subeArchivoConsigna(byte[] fileConsignacionFile){
+
+        WebContext wctx = WebContextFactory.get();
+        HttpSession session = wctx.getSession(true);
+        final Empleado empleado = (Empleado) session.getAttribute("empleo");
+
+        if (empleado != null) {
+            ServletContext context = wctx.getServletContext();
+            String path = context.getRealPath("/pdfs");
+            Empresa empresa = empleado.getParticipanteByIdParticipante().getEmpresaByIdEmpresa();
+            String fileName = "co-" + empresa.getNit() +"-"+empleado.getParticipanteByIdParticipante().getIdParticipante()+ ".pdf";
+            String filePath  		= path + "/" + fileName;
+
+            try {
+                FileOutputStream outputStream = new FileOutputStream(filePath);
+//                logger.debug("empresa.getFileInformePostulacionFile() = " + empresa.getFileInformePostulacionFile());
+                outputStream.write(fileConsignacionFile);
+                outputStream.close();
+
+                Participante participante = getParticipante(empleado.getParticipanteByIdParticipante().getIdParticipante());
+                participante.setFileConsignacion(fileName);
+                getHibernateTemplate().update(participante);
+
+                return 1;
+            } catch (IOException e) {
+                e.printStackTrace();
+                logger.debug(e.getMessage());
+                return 0;
+            }
+        }
+        return 0;
+    }
+
+    public int subeArchivoCLegal(byte[] fileCertificadoConstitucionFile){
+        WebContext wctx = WebContextFactory.get();
+        HttpSession session = wctx.getSession(true);
+        final Empleado empleado = (Empleado) session.getAttribute("empleo");
+
+        if (empleado != null) {
+            ServletContext context = wctx.getServletContext();
+            String path = context.getRealPath("/pdfs");
+            Empresa empresa = empleado.getParticipanteByIdParticipante().getEmpresaByIdEmpresa();
+            String fileName = "cc-" + empresa.getNit() + ".pdf";
+            String filePath  		= path + "/" + fileName;
+
+            try {
+                FileOutputStream outputStream = new FileOutputStream(filePath);
+//                logger.debug("empresa.getFileInformePostulacionFile() = " + empresa.getFileInformePostulacionFile());
+                outputStream.write(fileCertificadoConstitucionFile);
+                outputStream.close();
+
+                empresa = getEmpresa(empresa.getIdEmpresa());
+                empresa.setFileCertificadoConstitucion(fileName);
+                getHibernateTemplate().update(empresa);
+
+                return 1;
+            } catch (IOException e) {
+                e.printStackTrace();
+                logger.debug(e.getMessage());
+                return 0;
+            }
+        }
+        return 0;
+    }
+
+    public int subeArchivoFinanciero(byte[] getFileEstadoFinancieroFile){
+        WebContext wctx = WebContextFactory.get();
+        HttpSession session = wctx.getSession(true);
+        final Empleado empleado = (Empleado) session.getAttribute("empleo");
+
+        if (empleado != null) {
+            ServletContext context = wctx.getServletContext();
+            String path = context.getRealPath("/pdfs");
+            Empresa empresa = empleado.getParticipanteByIdParticipante().getEmpresaByIdEmpresa();
+            String fileName = "ef-" + empresa.getNit() + ".pdf";
+            String filePath  		= path + "/" + fileName;
+
+            try {
+                FileOutputStream outputStream = new FileOutputStream(filePath);
+//                logger.debug("empresa.getFileInformePostulacionFile() = " + empresa.getFileInformePostulacionFile());
+                outputStream.write(getFileEstadoFinancieroFile);
+                outputStream.close();
+
+                empresa = getEmpresa(empresa.getIdEmpresa());
+                empresa.setFileEstadoFinanciero(fileName);
+                getHibernateTemplate().update(empresa);
+
+                return 1;
+            } catch (IOException e) {
+                e.printStackTrace();
+                logger.debug(e.getMessage());
+                return 0;
+            }
+        }
+        return 0;
+    }
 
 	public Perfil getPerfil(int id){
 		return (Perfil) getHibernateTemplate().get(Perfil.class, id);

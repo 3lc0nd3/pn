@@ -237,6 +237,10 @@
             <dwr:include method="getTotalesItems"/>
             <dwr:include method="getPnAgendaInvitadosFromParticipante"/>
             <dwr:include method="guardaNotasAgenda"/>
+            <dwr:include method="subeArchivoPostula"/>
+            <dwr:include method="subeArchivoCLegal"/>
+            <dwr:include method="subeArchivoConsigna"/>
+            <dwr:include method="subeArchivoFinanciero"/>
 
             <!--LOS QUE NO VAN-->
             <!--

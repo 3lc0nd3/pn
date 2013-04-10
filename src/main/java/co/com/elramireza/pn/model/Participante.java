@@ -104,6 +104,18 @@ public class Participante {
         this.pnEtapaParticipanteByIdEtapaParticipante = pnEtapaParticipanteByIdEtapaParticipante;
     }
 
+    private String fileInformePostula;
+
+    @Basic
+    @Column(name = "file_informe_postula")
+    public String getFileInformePostula() {
+        return fileInformePostula;
+    }
+
+    public void setFileInformePostula(String fileInformePostula) {
+        this.fileInformePostula = fileInformePostula;
+    }
+
     private String fileCertificadoConstitucion;
 
     @Basic

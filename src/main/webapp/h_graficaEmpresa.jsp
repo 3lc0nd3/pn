@@ -42,6 +42,7 @@
             List<PnCapitulo> capitulos = pnManager.getPnCapitulos();
             for (PnCapitulo capitulo : capitulos) {
                 MyKey key = new MyKey();
+                key.setId(capitulo.getId());
                 key.setText(capitulo.getNombreCapitulo());
                 key.setValue(0);
                 totalesItems.add(key);
@@ -58,6 +59,8 @@
             totalesItems.add(key);
         }
     }
+
+//    System.out.println("totalesItems.size() = " + totalesItems.size());
 %>
 
 <div class="container">
@@ -77,11 +80,15 @@
                     for (MyKey key : totalesItems){
                         total += key.getValue();
                         PnCapitulo capitulo = pnManager.getPnCapitulo(key.getId());
+//                        System.out.println("key.getId() = " + key.getId());
+//                        System.out.println("key.getText() = " + key.getText());
+//                        System.out.println("capitulo = " + capitulo);
+//                        System.out.println("capitulo.getMaximo() = " + capitulo.getMaximo());
                 %>
                 <tr>
                     <td><%=key.getText()%></td>
                     <td><%=key.getValue()%></td>
-                    <td><%=100*key.getValue()/capitulo.getMaximo()%></td>
+                    <td><%=capitulo.getMaximo()!=0?(100*key.getValue()/capitulo.getMaximo()):0%></td>
                 </tr>
                 <%
                     }
