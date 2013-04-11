@@ -1458,6 +1458,20 @@ public class PnDAO extends HibernateDaoSupport{
         return (PnEtapaParticipante) getHibernateTemplate().get(PnEtapaParticipante.class, id);
     }
 
+    public int cambiaP(int id,
+                       String p){
+        try {
+            Persona persona = getPersona(id);
+            persona.setPassword(getMD5(p));
+            getHibernateTemplate().update(persona);
+            return 1;
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            logger.debug(e.getMessage());
+            return 0;
+        }
+    }
+
 	public int saveInscrito(Empresa empresa,
 							Persona personaDirectivo,
 							Persona personaEncargado){

@@ -157,6 +157,17 @@ public class Persona {
         this.login = login;
     }
 
+    private String clave;
+
+    @Transient
+    public String getClave() {
+        return clave;
+    }
+
+    public void setClave(String clave) {
+        this.clave = clave;
+    }
+
     private String password;
 
     @Basic
