@@ -60,6 +60,12 @@
                     </li>
                     <%
                         }
+
+                        if(persona != null){
+                    %>
+                    <li><a href="chpass.htm">Cambio de Contra&ntilde;a</a></li>
+                    <%
+                        }
                     %>
                     <%--
                     EDWARD

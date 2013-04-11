@@ -1460,8 +1460,18 @@ public class PnDAO extends HibernateDaoSupport{
 
     public int cambiaP(int id,
                        String p){
+        WebContext wctx = WebContextFactory.get();
+        HttpSession session = wctx.getSession(true);
+        Persona persona = (Persona) session.getAttribute("persona");
+        if(persona == null){
+            return 0;
+        }
         try {
-            Persona persona = getPersona(id);
+            if (id != 0) { // ADMIN
+                persona = getPersona(id);
+            } else {  // PERSONA
+                persona = getPersona(persona.getIdPersona());
+            }
             persona.setPassword(getMD5(p));
             getHibernateTemplate().update(persona);
             return 1;
