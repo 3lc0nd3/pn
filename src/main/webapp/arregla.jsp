@@ -21,6 +21,9 @@
 
     <tr>
         <td>
+            <%=participante.getEmpresaByIdEmpresa().getNombreEmpresa()%>
+        </td>
+        <td>
             <%=participante.getIdParticipante()%>
         </td>
         <td>
@@ -52,6 +55,9 @@
             pnManager.getHibernateTemplate().update(empresa);
     %>
     <tr>
+        <td>
+            <%=empresa.getNombreEmpresa()%>
+        </td>
         <td>
             <%=empresa.getIdEmpresa()%>
         </td>
