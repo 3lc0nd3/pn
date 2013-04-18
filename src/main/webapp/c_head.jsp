@@ -47,6 +47,12 @@
     <link rel="shortcut icon" href="img/favicon/favicon.png">
     <link href="style/purchase.css" rel="stylesheet">
 
+    <style type="text/css">
+        select, option{
+            background-color: #ffffff;
+            color: #0000d5;
+        }
+    </style>
 
 </head>
 
