@@ -739,13 +739,13 @@ public class PnDAO extends HibernateDaoSupport{
                 cualitativa.setPnCapituloByIdCapitulo(capitulo);
                 cualitativa.setFechaCreacion(timestamp);
 
-				logger.info("vision cap = " + keyVision.getText());
+//				logger.info("vision cap = " + keyVision.getText());
 				cualitativa.setVision(keyVision.getText());
-                logger.debug("fortalezas = " + keyFortaleza.getText());
+//                logger.debug("fortalezas = " + keyFortaleza.getText());
                 cualitativa.setFortalezas(keyFortaleza.getText());
-                logger.debug("oportunidades = " + keyOportunidad.getText());
+//                logger.debug("oportunidades = " + keyOportunidad.getText());
                 cualitativa.setOportunidades(keyOportunidad.getText());
-                logger.debug("pendientesVisita = " + keyPendiente.getText());
+//                logger.debug("pendientesVisita = " + keyPendiente.getText());
                 cualitativa.setPendientesVisita(keyPendiente.getText());
 
                 Integer idCualitativa = (Integer) getHibernateTemplate().save(cualitativa);
