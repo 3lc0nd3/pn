@@ -135,11 +135,11 @@
                                 <%
                                     if (criterio.getId() != 15) {
                                 %>
-                                <select name="<%=capitulo.getId()%>-<%=criterio.getId()%>" id="<%=criterio.getId()%>" onchange="muestraAyudaCriterio(<%=criterio.getId()%>, '<%=capitulo.getId()%>', false)" class="btn-primary selEval">
+                                <select name="<%=capitulo.getId()%>-<%=criterio.getId()%>" id="<%=criterio.getId()%>" onchange="muestraAyudaCriterio(<%=criterio.getId()%>, '<%=capitulo.getId()%>', false)" class="selEval">
                                     <%
                                         for (Integer v: pnManager.getValoresValoracion()){
                                     %>
-                                    <option <%=v==50?"selected":""%> class="btn-primary selEval" value="<%=v%>"><%=v%></option>
+                                    <option <%=v==50?"selected":""%> class="selEval" value="<%=v%>"><%=v%></option>
                                     <%
                                         }
                                     %>

@@ -95,7 +95,7 @@
                             <%
                                 if (criterio.getId() != 15) {
                             %>
-                            <select name="1-<%=criterio.getId()%>" id="1-<%=criterio.getId()%>" onchange="muestraAyudaCriterio(<%=criterio.getId()%>, 1, false)" class="btn-primary selEval">
+                            <select name="1-<%=criterio.getId()%>" id="1-<%=criterio.getId()%>" onchange="muestraAyudaCriterio(<%=criterio.getId()%>, 1, false)" class="selEval">
                             <%
                                 for (Integer v: pnManager.getValoresValoracion()){
                             %>
@@ -107,7 +107,7 @@
                             <%
                                 } else {
                             %>
-                            <span id="1-15" class="btn-primary selEval"></span>
+                            <span id="1-15" class="selEval"></span>
                             <%
                                 }
                             %>
