@@ -173,7 +173,7 @@
                             }
                         %>
                     </table>
-                    <br>&nbsp;
+                    <br>&nbsp;<button id="b1" class="btn  btn-primary" onclick="guardaIndividualCapitulos(false);">Guardar Avance</button>
                 </div>
                 <%
                     } //  END DEL MEGA FOR DE CAPITULOS
