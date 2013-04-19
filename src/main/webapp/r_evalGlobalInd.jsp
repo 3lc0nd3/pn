@@ -25,7 +25,7 @@
     PnCualitativa cualitativa = pnManager.getPnCualitativaFromEmpleadoTipoFormato(
             idEmpleado, 1 // FORMATO 1 INDIVIDUAL
     );
-
+    if (cualitativa!= null) {
 %>
 <br>
 <b>Evaluaci&oacute;n</b>
@@ -42,6 +42,9 @@
     <tr><th class="alert-info">Pendientes Vista de Campo</th></tr>
     <tr><td><%=cualitativa.getPendientesVisita()%></td></tr>
 </table>
+<%
+    }
+%>
 <br>
 <table border="1" width="100%">
     <%
