@@ -161,7 +161,7 @@
                         }
                     %>
                 </table>
-                    <br>&nbsp;
+                    <br>&nbsp;  <button id="b1" class="btn  btn-primary" onclick="guardaIndividualCapitulos(false);">Guardar Avance</button>
                     </div>
                 <%
                     } //  END DEL MEGA FOR DE CAPITULOS
@@ -171,7 +171,7 @@
                 %>
                                          <br>
                 
-                <button id="b1" class="btn  btn-primary" onclick="guardaIndividualCapitulos(false);">Guardar Avance</button>
+                <%--<button id="b1" class="btn  btn-primary" onclick="guardaIndividualCapitulos(false);">Guardar Avance</button>--%>
                 <button id="b2" class="btn  btn-primary" onclick="guardaIndividualCapitulos(true);">Guardar Final</button>
                 <%
                     }
@@ -276,10 +276,14 @@
                     if(cualitativas != null){
                         for (PnCualitativa cualitativa: cualitativas){
     %>
-    dwr.util.setValue(          "vision-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea("<%=cualitativa.getVision().replace("\n", "<br>")%>"));
-    dwr.util.setValue(      "fortalezas-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea("<%=cualitativa.getFortalezas().replace("\n", "<br>")%>"));
-    dwr.util.setValue(   "oportunidades-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getOportunidades().replace("\n", "<br>")%>'));
-    dwr.util.setValue("pendientesVisita-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getPendientesVisita().replace("\n", "<br>")%>'));
+    try{
+    dwr.util.setValue(          "vision-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea("<%=cualitativa.getVision().replaceAll("\n", "<br>").replaceAll("\r", "")%>"));
+    dwr.util.setValue(      "fortalezas-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea("<%=cualitativa.getFortalezas().replaceAll("\n", "<br>").replaceAll("\r", "")%>"));
+    dwr.util.setValue(   "oportunidades-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getOportunidades().replaceAll("\n", "<br>").replaceAll("\r", "")%>'));
+    dwr.util.setValue("pendientesVisita-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getPendientesVisita().replaceAll("\n", "<br>").replaceAll("\r", "")%>'));
+    } catch(err){
+
+    }
     <%
                         } // FOR CUALITATIVAS
                     } // IF NULL

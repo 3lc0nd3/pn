@@ -272,8 +272,8 @@
     <%
         for (PnRetroalimentacion retroalimentacion : pnManager.getPnRetroalimentaciones(empleo.getParticipanteByIdParticipante().getIdParticipante())){
     %>
-    dwr.util.setValue(   "fortalezas<%=retroalimentacion.getPnCapituloByIdPnCapitulo().getId()%>",  poneSaltosDeLinea("<%=retroalimentacion.getFortalezas().replace("\n", "<br>")%>"));
-    dwr.util.setValue("oportunidades<%=retroalimentacion.getPnCapituloByIdPnCapitulo().getId()%>",  poneSaltosDeLinea("<%=retroalimentacion.getOportunidades().replace("\n", "<br>")%>"));
+    dwr.util.setValue(   "fortalezas<%=retroalimentacion.getPnCapituloByIdPnCapitulo().getId()%>",  poneSaltosDeLinea("<%=retroalimentacion.getFortalezas().replace("\n", "<br>").replace("\r", "")%>"));
+    dwr.util.setValue("oportunidades<%=retroalimentacion.getPnCapituloByIdPnCapitulo().getId()%>",  poneSaltosDeLinea("<%=retroalimentacion.getOportunidades().replace("\n", "<br>").replace("\r", "")%>"));
     <%
         }
     %>
