@@ -287,10 +287,10 @@
                     if(cualitativas != null){
                         for (PnCualitativa cualitativa: cualitativas){
     %>
-    dwr.util.setValue(          "vision-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea("<%=cualitativa.getVision().replace("\n", "<br>").replace("\r", "")%>"));
-    dwr.util.setValue(      "fortalezas-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea("<%=cualitativa.getFortalezas().replace("\n", "<br>").replace("\r", "")%>"));
-    dwr.util.setValue(   "oportunidades-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getOportunidades().replace("\n", "<br>").replace("\r", "")%>'));
-    dwr.util.setValue("pendientesVisita-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getPendientesVisita().replace("\n", "<br>").replace("\r", "")%>'));
+    dwr.util.setValue(          "vision-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea("<%=cualitativa.getVision().replace("\n", "<br>").replace("\r", "").replace("\"","'")%>"));
+    dwr.util.setValue(      "fortalezas-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea("<%=cualitativa.getFortalezas().replace("\n", "<br>").replace("\r", "").replace("\"","'")%>"));
+    dwr.util.setValue(   "oportunidades-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getOportunidades().replace("\n", "<br>").replace("\r", "").replace("\"","'")%>'));
+    dwr.util.setValue("pendientesVisita-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getPendientesVisita().replace("\n", "<br>").replace("\r", "").replace("\"","'")%>'));
     <%
                         } // FOR CUALITATIVAS
                     } // IF NULL
