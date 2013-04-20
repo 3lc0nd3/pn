@@ -277,10 +277,10 @@
                         for (PnCualitativa cualitativa: cualitativas){
     %>
     try{
-    dwr.util.setValue(          "vision-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea("<%=cualitativa.getVision().replaceAll("\n", "<br>").replaceAll("\r", "").replace("\"","'")%>"));
-    dwr.util.setValue(      "fortalezas-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea("<%=cualitativa.getFortalezas().replaceAll("\n", "<br>").replaceAll("\r", "").replace("\"","'")%>"));
-    dwr.util.setValue(   "oportunidades-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getOportunidades().replaceAll("\n", "<br>").replaceAll("\r", "").replace("\"","'")%>'));
-    dwr.util.setValue("pendientesVisita-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getPendientesVisita().replaceAll("\n", "<br>").replaceAll("\r", "").replace("\"","'")%>'));
+    dwr.util.setValue(          "vision-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea("<%=cualitativa.getVision().replaceAll("\n", "<br>").replaceAll("\r", "").replace("'","\"")%>"));
+    dwr.util.setValue(      "fortalezas-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea("<%=cualitativa.getFortalezas().replaceAll("\n", "<br>").replaceAll("\r", "").replace("'","\"")%>"));
+    dwr.util.setValue(   "oportunidades-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getOportunidades().replaceAll("\n", "<br>").replaceAll("\r", "").replace("'","\"")%>'));
+    dwr.util.setValue("pendientesVisita-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getPendientesVisita().replaceAll("\n", "<br>").replaceAll("\r", "").replace("'","\"")%>'));
     } catch(err){
 
     }
