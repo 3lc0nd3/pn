@@ -464,9 +464,11 @@ public class PnDAO extends HibernateDaoSupport{
                 valor.setTipoFormatoByIdTipoFormato(getTipoFormato(3)); // items individual
                 valor.setParticipanteByIdParticipante(participanteByIdParticipante);
                 valor.setEmpleadoByIdEmpleado(empleado);
-                valor.setPnSubCapituloByIdSubCapitulo(getPnSubCapitulo(key.getId()));
+                PnSubCapitulo pnSubCapitulo = getPnSubCapitulo(key.getId());
+                valor.setPnSubCapituloByIdSubCapitulo(pnSubCapitulo);
                 valor.setValor(key.getCriterio()); // VALOR
-                valor.setTotal(key.getValue()); // TOTAL
+//                valor.setTotal(key.getValue()); // TOTAL - ANTIGUO
+                valor.setTotal((int) Math.ceil(((double)pnSubCapitulo.getPonderacion() * (double)key.getCriterio()) / 100.0)); // TOTAL
                 valor.setFechaCreacion(timestamp);
                 getHibernateTemplate().save(valor);
             }
@@ -551,9 +553,11 @@ public class PnDAO extends HibernateDaoSupport{
                 valor.setTipoFormatoByIdTipoFormato(getTipoFormato(5)); // items Consenso
                 valor.setParticipanteByIdParticipante(participanteByIdParticipante);
                 valor.setEmpleadoByIdEmpleado(empleado);
-                valor.setPnSubCapituloByIdSubCapitulo(getPnSubCapitulo(key.getId()));
+                PnSubCapitulo pnSubCapitulo = getPnSubCapitulo(key.getId());
+                valor.setPnSubCapituloByIdSubCapitulo(pnSubCapitulo);
                 valor.setValor(key.getCriterio()); // VALOR
-                valor.setTotal(key.getValue()); // TOTAL
+//                valor.setTotal(key.getValue()); // TOTAL - ANTIGUO
+                valor.setTotal((int) Math.ceil(((double)pnSubCapitulo.getPonderacion() * (double)key.getCriterio()) / 100.0)); // TOTAL
                 valor.setFechaCreacion(timestamp);
                 getHibernateTemplate().save(valor);
             }
@@ -605,9 +609,11 @@ public class PnDAO extends HibernateDaoSupport{
                 valor.setTipoFormatoByIdTipoFormato(getTipoFormato(4)); // items Consenso
                 valor.setParticipanteByIdParticipante(participanteByIdParticipante);
                 valor.setEmpleadoByIdEmpleado(empleado);
-                valor.setPnSubCapituloByIdSubCapitulo(getPnSubCapitulo(key.getId()));
+                PnSubCapitulo pnSubCapitulo = getPnSubCapitulo(key.getId());
+                valor.setPnSubCapituloByIdSubCapitulo(pnSubCapitulo);
                 valor.setValor(key.getCriterio()); // VALOR
-                valor.setTotal(key.getValue()); // TOTAL
+//                valor.setTotal(key.getValue()); // TOTAL - ANTIGUO
+                valor.setTotal((int) Math.ceil(((double)pnSubCapitulo.getPonderacion() * (double)key.getCriterio()) / 100.0)); // TOTAL
                 valor.setFechaCreacion(timestamp);
                 getHibernateTemplate().save(valor);
             }
