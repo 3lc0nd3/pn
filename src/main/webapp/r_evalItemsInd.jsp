@@ -55,8 +55,6 @@
         <th width="50" >
             Total
             <br>
-            <%=oldIdCapitulo%>
-            <br>
             <%=totalesItems.get(oldIdCapitulo-1).getValue()%>
         </th>
     </tr>
