@@ -63,7 +63,7 @@
 
                         if(persona != null){
                     %>
-                    <li><a href="chpass.htm">Cambio de Contra&ntilde;a</a></li>
+                    <li><a href="chpass.htm">Cambio de Contrase&ntilde;a</a></li>
                     <%
                         }
                     %>
