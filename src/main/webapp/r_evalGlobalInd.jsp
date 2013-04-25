@@ -35,10 +35,8 @@
 <br>
 <h3><%=empleado.getPersonaByIdPersona().getNombreCompleto()%></h3>
 <table border="1" width="100%">
-    <tr><th class="alert-info">Fortalezas</th></tr>
-    <tr><td><%=cualitativa.getFortalezas()%></td></tr>
-    <tr><th class="alert-info">Oportunidades de Mejora</th></tr>
-    <tr><td><%=cualitativa.getOportunidades()%></td></tr>
+    <tr><th class="alert-info">Valoraci&oacute;n Global de la Organizaci&oacute;n</th></tr>
+    <tr><td><%=cualitativa.getVision()%></td></tr>
     <tr><th class="alert-info">Pendientes Vista de Campo</th></tr>
     <tr><td><%=cualitativa.getPendientesVisita()%></td></tr>
 </table>

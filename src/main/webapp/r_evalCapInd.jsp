@@ -58,6 +58,8 @@
             <%=vv.getPnCapituloByIdCapitulo().getNombreCapitulo()%>
         </td>
     </tr>
+    <tr><th class="alert-info">Valoraci&oacute;n Global de la Organizaci&oacute;n</th></tr>
+    <tr><td><%=cualitativa.getVision()%></td></tr>
     <tr><th colspan="2" class="alert-info">Fortalezas</th></tr>
     <tr><td colspan="2"><%=cualitativa.getFortalezas()%></td></tr>
     <tr><th colspan="2" class="alert-info">Oportunidades de Mejora</th></tr>
