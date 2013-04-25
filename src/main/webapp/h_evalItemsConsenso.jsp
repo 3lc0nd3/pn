@@ -190,15 +190,49 @@
                     <%
                         }
                     %>
+                    <tr>
+                        <th align="right" colspan="2">
+                            Puntuaci&oacute;n Total
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                        </th>
+                        <%
+                            int totalEval;
+                            for (int j = 0; j < evaluadores.size(); j++) {
+                                Empleado evaluador = evaluadores.get(j);
+                                List<MyKey> totalesItems = pnManager.getTotalesItems(evaluador.getIdEmpleado(), 3);
+
+                                totalEval = 0;
+                                for (int k = 0; k < totalesItems.size(); k++) {
+                                    MyKey myKey = totalesItems.get(k);
+                                    totalEval += myKey.getValue();
+                                }
+
+                        %>
+                        <th align="center">
+                            <%--<%=results.get(i).getPnSubCapituloByIdSubCapitulo().getSubCapitulo()%>--%>
+                            <%=totalEval%>
+
+                        </th>
+                        <%
+                            }
+                        %>
+                        <td colspan="2"></td>
+                        <th align="center">
+                            <span class="color" id="totalM">0</span>
+                        </th>
+                    </tr>
                 </table>
                 <table border="1" align="center" width="100%">
                     <tr>
-                        <th align="right">Puntuaci&oacute;n Total
+                        <th align="right">
                             &nbsp;
                             &nbsp;
                             &nbsp;
                             &nbsp;
-                            <span class="color" id="totalM">0</span>
+
                         </th>
                     </tr>
                 </table>
