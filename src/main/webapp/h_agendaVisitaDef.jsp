@@ -6,6 +6,15 @@
     Empleado empleo = (Empleado) session.getAttribute("empleo");
     PnAgenda pnAgenda = pnManager.getPnAgendaFromParticipante(empleo.getParticipanteByIdParticipante().getIdParticipante());
 
+    if (pnAgenda==null) {
+%>
+<div class="alert">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    No hay fecha asignada
+</div>
+<%
+    }                 else {
+
     if (empleo.getParticipanteByIdParticipante().getPnEtapaParticipanteByIdEtapaParticipante().getIdEtapaParticipante() == 3){
 %>
 <button id="b3" onclick="saltaADespuesDeVisita();"  type="button" class="btn btn-primary">Avanza a Retroalimentaci&oacute;n</button>
@@ -70,6 +79,10 @@
 <textarea id="notas" style="width: 80%" ROWS="8"><%=pnAgenda.getNotas()%></textarea>
 <br>
 <button id="b4" onclick="guardaNotasAgenda();"  type="button" class="btn  btn-primary">Guarda Notas</button>
+
+<%
+    }
+%>
 
 <jsp:include page="c_footer_r.jsp"/>
 
