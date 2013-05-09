@@ -14,23 +14,23 @@
     } else {
         idEmpleado = Integer.parseInt(id);
     }
-    nombre      = (Texto)  request.getAttribute("nombre");
+    nombre      = (Texto) request.getAttribute("nombre");
     System.out.println("nombre2222 = " + nombre);
 
     Empleado empleado = pnManager.getEmpleado(idEmpleado);
 
-    List<PnValoracion> fromParticipante = pnManager.getValoracionIndividualGlobalFromEmpleado(
+    List<PnValoracion> fromParticipante = pnManager.getValoracionConsensoGlobalFromEmpleado(
             idEmpleado);
 
     PnCualitativa cualitativa = pnManager.getPnCualitativaFromEmpleadoTipoFormato(
-            idEmpleado, 1 // FORMATO 1 INDIVIDUAL
+            idEmpleado, 6 // FORMATO 6 CONSENSO GLOBAL
     );
     if (cualitativa!= null) {
 %>
 <br>
 <b>Evaluaci&oacute;n</b>
 <br>
-<h3><%=nombre.getTexto1()%></h3>
+<h3><%=nombre.getTexto2()%></h3>
 <b>de</b>
 <br>
 <h3><%=empleado.getPersonaByIdPersona().getNombreCompleto()%></h3>

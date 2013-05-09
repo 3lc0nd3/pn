@@ -19,17 +19,17 @@
 
     Empleado empleado = pnManager.getEmpleado(idEmpleado);
 
-    List<PnCuantitativa> cuantitativas = pnManager.getCuantitativaIndividualFromEmpleado(
+    List<PnCuantitativa> cuantitativas = pnManager.getCuantitativaConsensoFromEmpleado(
             idEmpleado);
 
-    List<MyKey> totalesItems = pnManager.getTotalesItems(idEmpleado, 3);
+    List<MyKey> totalesItems = pnManager.getTotalesItems(idEmpleado, 4); // 4 ITEM CONS
     System.out.println("totalesItems.size() = " + totalesItems.size());
 
 %>
 <br>
 <b>Evaluaci&oacute;n</b>
 <br>
-<h3><%=nombre.getTexto1()%></h3>
+<h3><%=nombre.getTexto2()%></h3>
 <b>de</b>
 <br>
 <h3><%=empleado.getPersonaByIdPersona().getNombreCompleto()%></h3>

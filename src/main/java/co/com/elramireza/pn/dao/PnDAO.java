@@ -2259,7 +2259,7 @@ public class PnDAO extends HibernateDaoSupport{
 
 		Texto texto = getTexto(nombre);
 
-		wctx.getHttpServletRequest().setAttribute("nombre", texto.getTexto1());
+		wctx.getHttpServletRequest().setAttribute("nombre", texto);
 		wctx.getHttpServletRequest().setAttribute("id", idEmpleado);
 		String respuesta = "";
 		try {

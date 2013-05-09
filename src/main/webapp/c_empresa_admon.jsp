@@ -1,14 +1,12 @@
-<%@ page import="co.com.elramireza.pn.model.Empresa" %>
-<%@ page import="co.com.elramireza.pn.model.Empleado" %>
-<%@ page import="co.com.elramireza.pn.model.Participante" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="co.com.elramireza.pn.model.Texto" %>
+<%@ page import="co.com.elramireza.pn.model.*" %>
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 <%
 
     long ct = System.currentTimeMillis();
     int idPerfil = 0;
+    int idPerfilOriginal = 0;
     int vieneDeFront = 0;
     String imgSrcRepor;
     imgSrcRepor = "images/document.png";
@@ -40,8 +38,10 @@
 
     if (empleo == null) {  // SOLO PARA ADMON
         idPerfil = 1;
+        idPerfilOriginal = 1;
     } else {
         idPerfil = empleo.getPerfilByIdPerfil().getId();
+        idPerfilOriginal = empleo.getPerfilByIdPerfil().getId();
     }
 
     Participante participante1Req = (Participante) request.getAttribute("participante");
@@ -54,7 +54,7 @@
 
     System.out.println("DEsde ADMON jsp idPerfil = " + idPerfil);
     System.out.println("vieneDeFront = " + vieneDeFront);
-
+    System.out.println("idPerfilOriginal = " + idPerfilOriginal);
 
 //    if (empresa != null) {
 //        System.out.println("empresa.getNombreEmpresa() = " + empresa.getNombreEmpresa());
@@ -80,18 +80,62 @@
     if (true)  { // SOLO PARA LIDER
 %>
 <a name="inicioResultados"></a>
+<%
+    //        System.out.println("empleo.getPerfilByIdPerfil().getId() = " + empleo.getPerfilByIdPerfil().getId());
+    List<Empleado> evaluadoresFromParticipante = new ArrayList<Empleado>();
+    if (idPerfil == 7 ) { // SI ES LIDER
+        evaluadoresFromParticipante = pnManager.getEvaluadoresFromParticipante(participante.getIdParticipante());
+    } else if(idPerfil == 2 ) {  // SI ES EVALUADOR
+        evaluadoresFromParticipante.add(empleo);
+    }
+
+    if(idPerfil == 7 && evaluadoresFromParticipante.size()>1){ // GARANTIZO QUE VIENE UN LIDER EVALUADOR
+        Empleado lider = null;
+        for (Empleado evaluador : evaluadoresFromParticipante){
+            if(evaluador.getPerfilByIdPerfil().getId() == 7){
+                lider = evaluador;
+            }
+        }
+        List<PnValoracion>   datosConsensoGlobalFromEmpleado =       new ArrayList<PnValoracion>();
+        List<PnValoracion>   datosConsensoCapitulosFromEmpleado =    new ArrayList<PnValoracion>();
+        List<PnCuantitativa> datosCuantitativaConsensoFromEmpleado = new ArrayList<PnCuantitativa>();
+        if(lider!=null){
+            datosConsensoGlobalFromEmpleado = pnManager.getValoracionConsensoGlobalFromEmpleado(
+                    lider.getIdEmpleado());
+            datosConsensoCapitulosFromEmpleado = pnManager.getValoracionConsensoCapitulosFromEmpleado(
+                    lider.getIdEmpleado());
+            datosCuantitativaConsensoFromEmpleado = pnManager.getCuantitativaConsensoFromEmpleado(
+                    lider.getIdEmpleado());
+
+        }
+%>
+<br>
+<blockquote>
+    <span class="color">Evaluaci&oacute;n Consenso </span> <%=lider!=null?lider.getPersonaByIdPersona().getNombreCompleto():""%>
+    <blockquote><span onclick="cargaResultado(<%=lider.getIdEmpleado()%>,'evalGlobalCons', 16);"><img src="<%=imgSrcRepor%>" width="36">
+        Ind. Global
+        <img width="28" src="img/<%=datosConsensoGlobalFromEmpleado.size()!=0?"ok":"stop"%>.png" alt="">
+        </span>
+        <br>
+        <span onclick="cargaResultado(<%=lider.getIdEmpleado()%>,'evalCapCons', 17);"><img src="<%=imgSrcRepor%>" width="36">
+        Ind. Cap&iacute;tulos
+        <img width="28" src="img/<%=datosConsensoCapitulosFromEmpleado.size()!=0?"ok":"stop"%>.png" alt="">
+        </span>
+        <br>
+        <span  onclick="cargaResultado(<%=lider.getIdEmpleado()%>,'evalItemsCons', 18);"><img src="<%=imgSrcRepor%>" width="36">
+        Cuantitativa (&Iacute;tems)
+        <img width="28" src="img/<%=datosCuantitativaConsensoFromEmpleado.size()!=0?"ok":"stop"%>.png" alt="">
+        </span>
+    </blockquote>
+    <br>
+</blockquote>
+<%
+    }
+%>
 <br>
 <span class="color">Evaluadores:</span>
 <blockquote>
     <%
-        //        System.out.println("empleo.getPerfilByIdPerfil().getId() = " + empleo.getPerfilByIdPerfil().getId());
-        List<Empleado> evaluadoresFromParticipante = new ArrayList<Empleado>();
-        if (idPerfil == 7 ) { // SI ES LIDER
-            evaluadoresFromParticipante = pnManager.getEvaluadoresFromParticipante(participante.getIdParticipante());
-        } else if(idPerfil == 2 ) {  // SI ES EVALUADOR
-            evaluadoresFromParticipante.add(empleo);
-        }
-
         for (Empleado evaluador : evaluadoresFromParticipante){
     %>
     <span class="color"><%=evaluador.getPerfilByIdPerfil().getPerfil()%></span>

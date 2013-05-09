@@ -18,18 +18,18 @@
 
     Empleado empleado = pnManager.getEmpleado(idEmpleado);
 
-    List<PnValoracion> fromParticipante = pnManager.getValoracionIndividualCapitulosFromEmpleado(
+    List<PnValoracion> fromParticipante = pnManager.getValoracionConsensoCapitulosFromEmpleado(
             idEmpleado);
 
     List<PnCualitativa> cualitativas = pnManager.getPnCualitativasFromEmpleadoTipoFormato(
-            idEmpleado, 2 // FORMATO 2 INDIVIDUALPOR CAPITULO
+            idEmpleado, 7 // FORMATO 7 CONSENSO POR CAPITULO
     );
 
 %>
 <br>
 <b>Evaluaci&oacute;n</b>
 <br>
-<h3><%=nombre.getTexto1()%></h3>
+<h3><%=nombre.getTexto2()%></h3>
 <b>de</b>
 <br>
 <h3><%=empleado.getPersonaByIdPersona().getNombreCompleto()%></h3>
