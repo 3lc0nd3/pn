@@ -231,6 +231,7 @@
             <th> Tel&eacute;fonos </th>
             <th> Email </th>
             <th> Ciudad </th>
+            <th> Registro </th>
             <th width="28"> &nbsp;&nbsp;&nbsp;<%--&nbsp;&nbsp;&nbsp;--%> </th>
             <th width="28"> &nbsp;&nbsp;&nbsp;<%--&nbsp;&nbsp;&nbsp;--%> </th>
             <th width="28"> &nbsp;&nbsp;&nbsp;<%--&nbsp;&nbsp;&nbsp;--%> </th>
@@ -261,6 +262,9 @@
             </td>
             <td> <%=empresa.getEmailEmpresa() %></td>
             <td> <%=empresa.getLocCiudadByIdCiudad().getNombreCiudad() %></td>
+            <TD>
+                <%=pnManager.dfDateTime.format(empresa.getFechaCreacion())%>
+            </td>
             <td><img id="imgActiveEmpresa<%=empresa.getIdEmpresa()%>" width="28" onclick="activaDesactiva(<%=empresa.getIdEmpresa()%>);" src="<%=imageActive%>" alt="<%=messaActive%>" title="<%=messaActive%>"></td>
             <td><img width="32" onclick="revisaEmpresa(<%=empresa.getIdEmpresa()%>);" src="img/view.png" alt="ver" title="ver"></td>
             <td>
