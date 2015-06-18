@@ -1385,6 +1385,8 @@ public class PnDAO extends HibernateDaoSupport{
 			persona.setIdPersona(personaOld.getIdPersona());
 			persona.setEstado(personaOld.getEstado());
 			persona.setFechaCreacion(personaOld.getFechaCreacion());
+            persona.setPassword(personaOld.getPassword());
+            persona.setAspiranteEvaluador(personaOld.getAspiranteEvaluador());
 			getHibernateTemplate().update(persona);
 		} else {
 			persona.setEstado(false);
@@ -1448,6 +1450,7 @@ public class PnDAO extends HibernateDaoSupport{
                 aspirante.setEstado(false);
                 aspirante.setLocCiudadByIdCiudad(getCiudad(0));
                 aspirante.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
+                aspirante.setAspiranteEvaluador(1);
                 int idAspirante = (Integer) getHibernateTemplate().save(aspirante);
                 aspirante.setIdPersona(idAspirante);
             }

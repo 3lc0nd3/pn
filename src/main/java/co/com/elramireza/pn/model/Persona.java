@@ -20,6 +20,18 @@ import static java.lang.String.format;
 public class Persona {
     private int idPersona;
 
+    private Integer aspiranteEvaluador;
+
+    @Basic
+    @Column(name = "aspirante_evaluador", nullable = true)
+    public Integer getAspiranteEvaluador() {
+        return aspiranteEvaluador;
+    }
+
+    public void setAspiranteEvaluador(Integer aspiranteEvaluador) {
+        this.aspiranteEvaluador = aspiranteEvaluador;
+    }
+
     @Id
     @GenericGenerator(name = "generator", strategy = "increment")
     @GeneratedValue(generator = "generator")
