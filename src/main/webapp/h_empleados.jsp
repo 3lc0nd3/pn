@@ -109,7 +109,7 @@
 
 <div class="border"></div>
 
-<h3 class="color">Empleados seg&uacute;n <%=mensajePremios%></h3>
+<h3 style="color: darkslategray;">Empleados seg&uacute;n: <span class="color"><%=mensajePremios%></span></h3>
 
 <div class="row-fluid">
     <br>
