@@ -44,12 +44,21 @@
         idPerfilOriginal = empleo.getPerfilByIdPerfil().getId();
     }
 
+    Empleado encargadoProceso=null;
     Participante participante1Req = (Participante) request.getAttribute("participante");
     if (participante1Req != null) { // SI VIENE DE  FRONTCONTROLLER
         vieneDeFront =1 ;
         participante = participante1Req;
         empresa = participante.getEmpresaByIdEmpresa();
         idPerfil = 7; // PARA QUE VEA TODOS LOS EVALUADORES
+
+        List<Empleado> listaEncargado = pnManager.getHibernateTemplate().find(
+                "from Empleado where participanteByIdParticipante.id = ? and perfilByIdPerfil.id=3",
+                participante.getIdParticipante()
+        );
+        if(listaEncargado.size()>0){
+            encargadoProceso = listaEncargado.get(0);
+        }
     }
 
     System.out.println("DEsde ADMON jsp idPerfil = " + idPerfil);
@@ -75,7 +84,24 @@
 <br>
 <span class="color">Etapa</span> <%=participante.getPnEtapaParticipanteByIdEtapaParticipante().getEtapaParticipante()%>
 <%
-    }
+    } // FIN ETAPA
+
+    if(encargadoProceso!=null){  // ENCARGADO
+%>
+<br>
+<h4>Encargado del Proceso</h4>
+<span class="color">Nombre</span> <%=encargadoProceso.getPersonaByIdPersona().getNombreCompleto()%>
+<br>
+<span class="color">Celular</span> <%=encargadoProceso.getPersonaByIdPersona().getCelular()%>
+<br>
+<span class="color">Tel&eacute;fono</span> <%=encargadoProceso.getPersonaByIdPersona().getTelefonoFijo()%>
+<br>
+<span class="color">Email Corp</span> <%=encargadoProceso.getPersonaByIdPersona().getEmailCorporativo()%>
+<br>
+<span class="color">Email Personal</span> <%=encargadoProceso.getPersonaByIdPersona().getEmailPersonal()%>
+<br>
+<%
+    } // FIN ENCARGADO
 
     if (true)  { // SOLO PARA LIDER
 %>
