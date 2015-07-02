@@ -3,8 +3,10 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="co.com.elramireza.pn.model.Texto" %>
 <%@ page import="co.com.elramireza.pn.model.LocEstado" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 <%
+    SimpleDateFormat dfDateTime = new SimpleDateFormat("yyyy/MM/dd KK:mm aaa");
     Texto texto = pnManager.getTexto(12);
 
     List<Persona> personas = pnManager.getHibernateTemplate().find(
@@ -59,7 +61,7 @@
                 <%=persona.getTelefonoFijo() %>
             </td>
             <td>
-                <%=pnManager.dfDateTime.format(persona.getFechaCreacion())%>
+                <%=dfDateTime.format(persona.getFechaCreacion())%>
             </td>
             <td><img id="imgActivePersona<%=persona.getIdPersona()%>" width="28" onclick="activaDesactiva(<%=persona.getIdPersona()%>);" src="<%=imageActive%>" alt="<%=messaActive%>" title="<%=messaActive%>"></td>
             <%--<td>
