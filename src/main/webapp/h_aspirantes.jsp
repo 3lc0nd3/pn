@@ -27,6 +27,7 @@
             <%--<th> Email Personal</th>--%>
             <th> Tel&eacute;fonos </th>
             <%--<th> Celular </th>--%>
+            <th> Fecha Ingreso </th>
             <th> Estado </th>
             <%--<th width="28"> Editar </th>--%>
         </tr>
@@ -56,6 +57,9 @@
                 <%=persona.getCelular()!=null?persona.getCelular():""%>
                 <br>
                 <%=persona.getTelefonoFijo() %>
+            </td>
+            <td>
+                <%=pnManager.dfDateTime.format(persona.getFechaCreacion())%>
             </td>
             <td><img id="imgActivePersona<%=persona.getIdPersona()%>" width="28" onclick="activaDesactiva(<%=persona.getIdPersona()%>);" src="<%=imageActive%>" alt="<%=messaActive%>" title="<%=messaActive%>"></td>
             <%--<td>
