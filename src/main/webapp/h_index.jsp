@@ -6,10 +6,14 @@
 
     Persona persona = (Persona) session.getAttribute("persona");
     Empleado empleo = (Empleado) session.getAttribute("empleo");
+    PnTipoPremio tipoPremio = (PnTipoPremio) session.getAttribute("tipoPremio");
 
     Texto texto = pnManager.getTexto(1);
     Texto textoRegistro = pnManager.getTexto(10);
-    PnPremio premioActivo = pnManager.getPnPremioActivo();
+    PnPremio premioActivo = null;
+    if (tipoPremio != null) {
+        premioActivo = pnManager.getPnPremioActivo(tipoPremio);
+    }
 
     String mensajeLogin = (String) request.getAttribute("mensajeLogin");
     if (mensajeLogin == null) {
@@ -21,11 +25,13 @@
 %>
 
 <%
-    if (persona == null) {
+    // HAY PREMIO???
+    if(tipoPremio!=null){
+//    if (persona == null) {
 %>
-<jsp:include page="c_slider01.jsp"/>
+<%--<jsp:include page="c_slider01.jsp"/>--%>
 <%
-    }
+//    }
 %>
 <%--  LOGIN  --%>
 <div class="register">
@@ -40,6 +46,9 @@
             </div>
             <%
                 }
+
+                // TIPO PREMIO
+
                 if(persona == null){  //  NO HAY PERSONA
             %>
             <jsp:include page="c_login.jsp"/>
@@ -110,24 +119,20 @@
                 } // FIN SI HAY PERSONA
             %>
         </div>
-
         <div class="span6">
-            <h2><%=texto.getTexto1()%></h2>
+            <%=tipoPremio.getDescripcion()%>
+            <%--<h2><%=texto.getTexto1()%></h2>
             <p class="big grey">
                 <%=texto.getTexto2()%>
             </p>
             <p style="text-align:justify;">
                 <%=texto.getTexto3()%>
-            </p>
-
+            </p>--%>
         </div>
     </div>
 </div>
-
 <%--  END LOGIN  --%>
-
 <div class="border"></div>
-
 <%--  REGISTER  --%>
 <%
     if(premioActivo !=null && persona== null){ // SI HAY UN PnPREMIO ACTIVO
@@ -534,13 +539,10 @@
         </div>
     </div>
 </div>
-
-
 <div class="border"></div>
 <%
     }  /* END IF HAY UN PREMIO PN ACTIVO */
-%>
-<%
+
     if(persona == null){ // SOLO SI NO HAY PERSONA
         Texto textoEvaluador = pnManager.getTexto(15);
 %>
@@ -648,9 +650,37 @@
         </div>
     </div>
 </registroEval>
-
 <%
     } // FIN REGISTRA EVALUADOR
+
+
+    } else {  // NO HAY PREMIO
+        List<PnTipoPremio> tiposPremio = pnManager.getHibernateTemplate().find(
+                "from PnTipoPremio order by tipoPremio"
+        );
+%>
+<div class="register">
+    <div class="row">
+        <div class="span6">
+            <h2>Premios Disponibles</h2>
+            <%
+                for(PnTipoPremio pnTipoPremio: tiposPremio){
+            %>
+            <br>
+            <span style="margin-top:20px; margin-bottom:10px;">
+                <button id="b<%=pnTipoPremio.getId()%>" type="button" onclick="selEmpleoB(<%=pnTipoPremio%>);" class="btn btn-primary">
+                    <%=pnTipoPremio.getTipoPremio()%>
+                </button>
+            </span>
+            <%
+                }  //  FIN FOR TIPOS DE PREMIOS
+            %>
+        </div>
+        <div class="span6"></div>
+    </div>
+</div>
+<%
+    }  //  FIN HAY PREMIO???
 %>
 
 <%--  END REGISTER  --%>

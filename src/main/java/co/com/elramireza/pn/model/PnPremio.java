@@ -18,6 +18,8 @@ import java.sql.Timestamp;
 public class PnPremio {
     private int idPnPremio;
 
+    private PnTipoPremio tipoPremioById;
+
     @Id
     @Column(name = "id")
     public int getIdPnPremio() {
@@ -29,6 +31,16 @@ public class PnPremio {
     }
 
     private String nombrePremio;
+
+    @ManyToOne
+    @JoinColumn(name = "pn_tipo_premio", referencedColumnName = "id", nullable = false)
+    public PnTipoPremio getTipoPremioById() {
+        return tipoPremioById;
+    }
+
+    public void setTipoPremioById(PnTipoPremio tipoPremioById) {
+        this.tipoPremioById = tipoPremioById;
+    }
 
     @Basic
     @Column(name = "nombre")

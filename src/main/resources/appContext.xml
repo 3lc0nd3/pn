@@ -88,6 +88,7 @@
                 <value>co.com.elramireza.pn.model.EmpresaCategoriaTamano</value>
                 <value>co.com.elramireza.pn.model.PnEtapaParticipante</value>
                 <value>co.com.elramireza.pn.model.PnRetroalimentacion</value>
+                <value>co.com.elramireza.pn.model.PnTipoPremio</value>
             </list>
         </property>
     </bean>

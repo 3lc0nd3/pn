@@ -72,6 +72,7 @@
         <thead>
         <tr>
             <th>Id</th>
+            <th>Sigla</th>
             <th>Nombre</th>
             <th>Fecha Desde</th>
             <th>Fecha Hasta</th>
@@ -94,6 +95,7 @@
         %>
         <tr>
             <td><%=premio.getIdPnPremio()%></td>
+            <td><%=premio.getTipoPremioById().getSigla()%></td>
             <td><%=premio.getNombrePremio()%></td>
             <td><%=df.format(premio.getFechaDesde())%></td>
             <td><%=df.format(premio.getFechaHasta())%></td>

@@ -1,15 +1,16 @@
 <%@ page import="co.com.elramireza.pn.model.PnPremio" %>
+<%@ page import="co.com.elramireza.pn.model.PnTipoPremio" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
-
-<%
+    <%
 
 String str2=""+request.getAttribute("servicio");
-
-//                System.out.println("str2 = " + str2);
-
-PnPremio premioActivo = pnManager.getPnPremioActivo();
+PnTipoPremio tipoPremio = (PnTipoPremio) session.getAttribute("tipoPremio");
+PnPremio premioActivo = null;
+if (tipoPremio != null) {
+    premioActivo = pnManager.getPnPremioActivo(tipoPremio);
+}
 if(premioActivo!=null){
     session.setAttribute("premioActivo", premioActivo);
 }
@@ -50,8 +51,8 @@ if(premioActivo!=null){
 
     <!-- HTML5 Support for IE -->
     <!--[if lt IE 9]>
-  <script src="js/html5shim.js"></script>
-  <![endif]-->
+    <script src="js/html5shim.js"></script>
+    <![endif]-->
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="img/favicon/favicon.png">

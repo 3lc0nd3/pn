@@ -1,11 +1,11 @@
-<%@ page import="co.com.elramireza.pn.model.Texto" %>
-<%@ page import="co.com.elramireza.pn.model.Persona" %>
-<%@ page import="co.com.elramireza.pn.model.PnPremio" %>
-<%@ page import="co.com.elramireza.pn.model.Empleado" %>
+<%@ page import="co.com.elramireza.pn.model.*" %>
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 <%
     Persona persona = (Persona) session.getAttribute("persona");
     Empleado empleo = (Empleado) session.getAttribute("empleo");
+
+    PnPremio premioActivo = (PnPremio) session.getAttribute("premioActivo");
+    PnTipoPremio tipoPremio = (PnTipoPremio) session.getAttribute("tipoPremio");
 %>
 <script type="text/javascript">
     function salir(){
@@ -37,13 +37,14 @@
             <div class="span4">
                 <div class="fosrm">
                     <%
-                        PnPremio premioActivo = (PnPremio) session.getAttribute("premioActivo");
-                        if(premioActivo != null){
+                        if(tipoPremio != null){
+                            if(premioActivo != null){
                     %>
                     Actualmente:
                     <b><%=premioActivo.getNombrePremio()%></b>
                     <%
-                        }
+                            }  //  FIN IF PREMIO ACTIVO
+                        }  //  FIN IF TIPO PREMIO
                     %>
                     <%
                         if(persona!=null){

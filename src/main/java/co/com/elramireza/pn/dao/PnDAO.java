@@ -1496,7 +1496,8 @@ public class PnDAO extends HibernateDaoSupport{
 							Persona personaEncargado){
 
 		WebContext wctx = WebContextFactory.get();
-//        HttpSession session = wctx.getSession(true);
+        HttpSession session = wctx.getSession(true);
+        PnTipoPremio tipoPremio = (PnTipoPremio) session.getAttribute("tipoPremio");
 		ServletContext context = wctx.getServletContext();
 
 		logger.debug("empresa.getNit() = " + empresa.getNit());
@@ -1623,7 +1624,7 @@ public class PnDAO extends HibernateDaoSupport{
 			participante.setEstado(false); // HAY QUE ACTIVARLO
 			participante.setObservaciones("Registro Web");
 			participante.setEmpresaByIdEmpresa(empresa);
-			participante.setPnPremioByIdConvocatoria(getPnPremioActivo());
+			participante.setPnPremioByIdConvocatoria(getPnPremioActivo(tipoPremio));
 			participante.setPnEtapaParticipanteByIdEtapaParticipante(
 					getPnEtapaParticipante(1));
 
@@ -1894,12 +1895,13 @@ public class PnDAO extends HibernateDaoSupport{
 	}
 
 	/**
-	 * Retorna el Premio PN activo. Solo puede haber uno
+	 * Retorna el Premio activo Segun su Tipo o Categoria. Solo puede haber uno
 	 * @return p
 	 */
-	public PnPremio getPnPremioActivo(){
+	public PnPremio getPnPremioActivo(PnTipoPremio tipoPremio){
 		List<PnPremio> premios = getHibernateTemplate().find(
-				"from PnPremio where estadoInscripcion = true"
+				"from PnPremio where estadoInscripcion = true and tipoPremioById.id=?",
+                tipoPremio.getId()
 		);
 		if (premios.size()>0){
 			return premios.get(0);
