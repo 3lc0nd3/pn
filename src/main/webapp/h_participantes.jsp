@@ -1,8 +1,25 @@
 <%@ page import="co.com.elramireza.pn.model.PnPremio" %>
 <%@ page import="co.com.elramireza.pn.model.Empresa" %>
 <%@ page import="co.com.elramireza.pn.model.Participante" %>
+<%@ page import="java.util.List" %>
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 
+<%
+    String mensajePremios;
+    List<Participante> participantes;
+
+    PnPremio premioActivo = (PnPremio) session.getAttribute("premioActivo");
+    if(premioActivo != null){
+        mensajePremios = premioActivo.getNombrePremio();
+        participantes =pnManager.getHibernateTemplate().find(
+                "from Participante where pnPremioByIdConvocatoria.id = ? ",
+                premioActivo.getIdPnPremio()
+        );
+    } else {
+        mensajePremios = "Todos los premios";
+        participantes = pnManager.getParticipantes();
+    }
+%>
 
 <div class="register">
     <div class="row">
@@ -34,13 +51,19 @@
                             <div class="controls">
                                 <select id="idEmpresa" name="idEmpresa">
                                     <%
-                                        for (Empresa empresa: pnManager.getEmpresaActivas()){
+                                        List<Empresa> empresaActivas;
+                                        empresaActivas = pnManager.getHibernateTemplate().find("" +
+                                                "from Empresa where idEmpresa > 1 and estado = true order by nombreEmpresa");
+                                        for (Empresa empresa: empresaActivas){
                                     %>
                                     <option value="<%=empresa.getIdEmpresa()%>"><%=empresa.getNombreEmpresa()%></option>
                                     <%
                                         }
                                     %>
                                 </select>
+                                <br>
+                                S&oacute;lo aparecen empresas activas. Si no aparece ac&aacute; visite
+                                <a href="empresas.htm">Empresas</a> y act&iacute;vela.
                             </div>
                         </div>
                         <!-- Buttons -->
@@ -60,7 +83,7 @@
 
 <div class="border"></div>
 
-<h3 class="color">Participantes seg&uacute;n Premio</h3>
+<h3 style="color: darkslategray;">Participantes seg&uacute;n: <span class="color"><%=mensajePremios%></span></h3>
 
 <div class="row-fluid">
     <br>
@@ -77,7 +100,10 @@
         <%  //
             String imageActive;
             String messaActive;
-            for (Participante participante : pnManager.getParticipantes()){
+
+
+
+            for (Participante participante : participantes){
                 if(participante.getEstado()){
                     imageActive = "img/positive.png";
                     messaActive = "Desactivar?";
@@ -175,14 +201,18 @@
         if (idParticipante == 1) {
             alert("No puedes hacer eso");
         } else {
-            pnRemoto.desvincularParticipante(idParticipante, function(data) {
-                if (data == 1) {
-                    alert("Desvinculado Completo");
-                    window.location = "participantes.htm";
-                } else {
-                    alert("Problemas ! Tal ves tenga Empleados Asociados o Evaluaciones Realizadas");
+            if (confirm("Si desvincula al Participante se borran las evaluaciones de esta empresa en este premio")) {
+                if (confirm("Seguro quiere proceder a borrar este participante y sus resultados?")) {
+                    pnRemoto.desvincularParticipante(idParticipante, function(data) {
+                        if (data == 1) {
+                            alert("Desvinculado Completo");
+                            window.location = "participantes.htm";
+                        } else {
+                            alert("Problemas ! Tal ves tenga Empleados Asociados o Evaluaciones Realizadas");
+                        }
+                    });
                 }
-            });
+            }
         }
     }
 

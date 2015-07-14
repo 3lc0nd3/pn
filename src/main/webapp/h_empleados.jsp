@@ -1,6 +1,23 @@
 <%@ page import="co.com.elramireza.pn.model.*" %>
+<%@ page import="java.util.List" %>
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 
+<%
+    String mensajePremios;
+    List<Participante> participantes;
+
+    PnPremio premioActivo = (PnPremio) session.getAttribute("premioActivo");
+    if(premioActivo != null){
+        mensajePremios = premioActivo.getNombrePremio();
+        participantes =pnManager.getHibernateTemplate().find(
+                "from Participante where pnPremioByIdConvocatoria.id = ? ",
+                premioActivo.getIdPnPremio()
+        );
+    } else {
+        mensajePremios = "Todos los premios";
+        participantes = pnManager.getParticipantes();
+    }
+%>
 
 <div class="register">
     <div class="row">
@@ -32,7 +49,7 @@
                             <div class="controls">
                                 <select id="idParticipante" name="idParticipante" class="span6">
                                     <%
-                                        for (Participante participante: pnManager.getParticipantes()){
+                                        for (Participante participante: participantes){
                                             Empresa empresa = participante.getEmpresaByIdEmpresa();
                                     %>
                                     <option value="<%=participante.getIdParticipante()%>">
@@ -92,7 +109,7 @@
 
 <div class="border"></div>
 
-<h3 class="color">Empleados seg&uacute;n Empresa</h3>
+<h3 style="color: darkslategray;">Empleados seg&uacute;n: <span class="color"><%=mensajePremios%></span></h3>
 
 <div class="row-fluid">
     <br>
@@ -110,7 +127,12 @@
         <%  // TODO HACER ESTO EN UNA SOLA CONSULTA
             String imageActive;
             String messaActive;
-            for (Empleado empleado: pnManager.getEmpleados()){
+            List<Empleado> empleados = pnManager.getHibernateTemplate().find("" +
+                    "from Empleado where participanteByIdParticipante.empresaByIdEmpresa.idEmpresa <> 1" +
+                    " and participanteByIdParticipante.pnPremioByIdConvocatoria.id = ? " +
+                    " order by participanteByIdParticipante.empresaByIdEmpresa.nombreEmpresa , personaByIdPersona.nombrePersona , personaByIdPersona.apellido ",
+                    premioActivo.getIdPnPremio());
+            for (Empleado empleado: empleados){
                 /*if(participante.getEstado()){
                         imageActive = "img/positive.png";
                         messaActive = "Desactivar?";
@@ -148,14 +170,16 @@
 <script type="text/javascript">
 
     function desvincule(idEmpleado){
-        pnRemoto.desvinculaEmpleado(idEmpleado, function(data){
-            if(data == ''){
-                alert("Desvinculado Completo");
-                window.location = "empleados.htm";
-            } else {
-                alert("Problemas ! " + data);
-            }
-        });
+        if (confirm("Si desvincula al Empleado se borran las evaluaciones que &eacute;l realiz&oacute;")) {
+            pnRemoto.desvinculaEmpleado(idEmpleado, function(data){
+                if(data == ''){
+                    alert("Desvinculado Completo");
+                    window.location = "empleados.htm";
+                } else {
+                    alert("Problemas ! " + data);
+                }
+            });
+        }
     }
 
     function vincule(){

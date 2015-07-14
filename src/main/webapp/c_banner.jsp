@@ -37,6 +37,15 @@
             <div class="span4">
                 <div class="fosrm">
                     <%
+                        PnPremio premioActivo = (PnPremio) session.getAttribute("premioActivo");
+                        if(premioActivo != null){
+                    %>
+                    Actualmente:
+                    <b><%=premioActivo.getNombrePremio()%></b>
+                    <%
+                        }
+                    %>
+                    <%
                         if(persona!=null){
                     %>
                     <br>

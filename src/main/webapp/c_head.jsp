@@ -1,8 +1,18 @@
+<%@ page import="co.com.elramireza.pn.model.PnPremio" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
-    <%  String str2=""+request.getAttribute("servicio");
+
+<%
+
+String str2=""+request.getAttribute("servicio");
+
 //                System.out.println("str2 = " + str2);
+
+PnPremio premioActivo = pnManager.getPnPremioActivo();
+if(premioActivo!=null){
+    session.setAttribute("premioActivo", premioActivo);
+}
 
 %>
 <head>
