@@ -17,7 +17,8 @@ import java.sql.Timestamp;
 public class PnTipoPremio {
     private int id;
     private Persona personaById;
-    private String tipoPremio;
+    private String nombreTipoPremio;
+    private String frase;
     private String sigla;
     private String urlLogo;
     private String urlLogoSmall;
@@ -48,6 +49,16 @@ public class PnTipoPremio {
     }
 
     @Basic
+    @Column(name = "frase")
+    public String getFrase() {
+        return frase;
+    }
+
+    public void setFrase(String frase) {
+        this.frase = frase;
+    }
+
+    @Basic
     @Column(name = "sigla")
     public String getSigla() {
         return sigla;
@@ -68,13 +79,13 @@ public class PnTipoPremio {
     }
 
     @Basic
-    @Column(name = "tipo_premio")
-    public String getTipoPremio() {
-        return tipoPremio;
+    @Column(name = "nombre_tipo_premio")
+    public String getNombreTipoPremio() {
+        return nombreTipoPremio;
     }
 
-    public void setTipoPremio(String tipoPremio) {
-        this.tipoPremio = tipoPremio;
+    public void setNombreTipoPremio(String tipoPremio) {
+        this.nombreTipoPremio = tipoPremio;
     }
 
     @Basic
@@ -152,7 +163,7 @@ public class PnTipoPremio {
         if (postulese != null ? !postulese.equals(that.postulese) : that.postulese != null) return false;
         if (registroEvaluador != null ? !registroEvaluador.equals(that.registroEvaluador) : that.registroEvaluador != null)
             return false;
-        if (tipoPremio != null ? !tipoPremio.equals(that.tipoPremio) : that.tipoPremio != null) return false;
+        if (nombreTipoPremio != null ? !nombreTipoPremio.equals(that.nombreTipoPremio) : that.nombreTipoPremio != null) return false;
         if (urlLogo != null ? !urlLogo.equals(that.urlLogo) : that.urlLogo != null) return false;
 
         return true;
@@ -161,7 +172,7 @@ public class PnTipoPremio {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + (tipoPremio != null ? tipoPremio.hashCode() : 0);
+        result = 31 * result + (nombreTipoPremio != null ? nombreTipoPremio.hashCode() : 0);
         result = 31 * result + (urlLogo != null ? urlLogo.hashCode() : 0);
         result = 31 * result + (color != null ? color.hashCode() : 0);
         result = 31 * result + (descripcion != null ? descripcion.hashCode() : 0);

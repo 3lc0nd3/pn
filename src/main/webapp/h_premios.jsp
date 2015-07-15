@@ -3,6 +3,7 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 <%
+    PnTipoPremio tipoPremio = (PnTipoPremio) session.getAttribute("tipoPremio");
     Texto texto = pnManager.getTexto(1);
     Texto textoRegistro = pnManager.getTexto(10);
 %>
@@ -53,13 +54,15 @@
         </div>
 
         <div class="span6">
+
+            <%=tipoPremio.getDescripcion()%>
             <%--<h2><%=texto.getTexto1()%></h2>--%>
-            <p class="big grey">
+            <%--<p class="big grey">
                 <%=texto.getTexto2()%>
             </p>
             <p style="text-align:justify;">
                 <%=texto.getTexto3()%>
-            </p>
+            </p>--%>
 
         </div>
     </div>
@@ -84,7 +87,7 @@
             String imageActive;
             String messaActive;
             SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-            for (PnPremio premio : pnManager.getPnPremios()){
+            for (PnPremio premio : pnManager.getPnPremios(tipoPremio)){
                 if(premio.getEstadoInscripcion()){
                     imageActive = "img/positive.png";
                     messaActive = "Desactivar?";
@@ -120,7 +123,7 @@
             alert("Para uso interno, no lo puedes activar.");
         } else {
             $("#imgActiveInscripcion" + id).attr("src", "images/loading.gif");
-            pnRemoto.activeDesactivePremioN(id, function(data) {
+            pnRemoto.activeDesactivePremioN(id, <%=tipoPremio.getId()%>,function(data) {
                 if (data == 3) {
                     alert("Problemas !");
                 } else if (data == 2) {

@@ -2,9 +2,11 @@
 <%@ page import="co.com.elramireza.pn.model.Empresa" %>
 <%@ page import="co.com.elramireza.pn.model.Participante" %>
 <%@ page import="java.util.List" %>
+<%@ page import="co.com.elramireza.pn.model.PnTipoPremio" %>
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 
 <%
+    PnTipoPremio tipoPremio = (PnTipoPremio) session.getAttribute("tipoPremio");
     String mensajePremios;
     List<Participante> participantes;
 
@@ -16,8 +18,12 @@
                 premioActivo.getIdPnPremio()
         );
     } else {
-        mensajePremios = "Todos los premios";
-        participantes = pnManager.getParticipantes();
+        mensajePremios = "Todos los premios: " + tipoPremio.getSigla();
+//        participantes = pnManager.getParticipantes();
+        participantes =pnManager.getHibernateTemplate().find(
+                "from Participante where pnPremioByIdConvocatoria.tipoPremioById.id = ? ",
+                tipoPremio.getId()
+        );
     }
 %>
 
@@ -36,7 +42,7 @@
                                 <%--<input type="text" class="input-large" name="username" id="username">--%>
                                 <select id="idPremio" name="idPremio">
                                     <%
-                                        for (PnPremio premio: pnManager.getPnPremios()){
+                                        for (PnPremio premio: pnManager.getPnPremios(tipoPremio)){
                                     %>
                                     <option value="<%=premio.getIdPnPremio()%>"><%=premio.getNombrePremio()%></option>
                                     <%

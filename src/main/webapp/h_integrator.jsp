@@ -30,6 +30,9 @@
     if(exit!=null){ // TOCA SALIR
         session.removeAttribute("persona");
         session.removeAttribute("empleo");
+        session.removeAttribute("tipoPremio");
+        session.removeAttribute("premioActivo");
+
 //        persona = null;
 //        response.sendRedirect("/");
     }

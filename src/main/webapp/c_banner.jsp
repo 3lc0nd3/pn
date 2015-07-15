@@ -6,6 +6,15 @@
 
     PnPremio premioActivo = (PnPremio) session.getAttribute("premioActivo");
     PnTipoPremio tipoPremio = (PnTipoPremio) session.getAttribute("tipoPremio");
+
+    Texto titulo;
+    if(tipoPremio == null){
+        tipoPremio = new PnTipoPremio();
+        titulo = pnManager.getTexto(11);
+        tipoPremio.setNombreTipoPremio(titulo.getTexto1());
+        tipoPremio.setFrase(titulo.getTexto3());
+        tipoPremio.setUrlLogo("img/slider01/4.png");
+    }
 %>
 <script type="text/javascript">
     function salir(){
@@ -19,18 +28,12 @@
         <div class="row">
             <div class="span8">
                 <div class="logo">
-                    <img src="img/slider01/3.png" width="180" style="margin: 5px 0px 5px 5px;float: left; ">
-                    <h1><a >
-                        <%
-                            Texto titulo;
-                            titulo = pnManager.getTexto(11);
-                        %>
-                        <%=titulo.getTexto1()%>  <br>
-                        <span class="color">
-                            <%=titulo.getTexto2()%>
-                        </span></a></h1>
+                    <img src="<%=tipoPremio.getUrlLogo()%>" width="180" style="margin: 5px 0px 5px 5px;float: left; ">
+                    <h1><a>
+                        <%=tipoPremio.getNombreTipoPremio()%>
+                    </a></h1>
                     <div class="hmeta" style="text-transform:uppercase;">
-                        <%=titulo.getTexto3()%>
+                        <%=tipoPremio.getFrase()%>
                     </div>
                 </div>
             </div>   <%--SPAN 12--%>
@@ -74,12 +77,13 @@
                         }
                     %>
                     <%
-
+                        } // END IF HAY PERSONA
+                        if(tipoPremio.getId()!=0){
                     %>
                     <br>
                     <button type="button" onclick="salir();" class="btn btn-primary">Salir</button>
                     <%
-                        }
+                        }  //  END IF HAY TIPO DE PREMIO
                     %>
                    <form id="exitF" action="index.htm" method="post">
                         <input type="hidden" name="exit" value="1">

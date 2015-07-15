@@ -1,12 +1,11 @@
-<%@ page import="co.com.elramireza.pn.model.Servicio" %>
-<%@ page import="co.com.elramireza.pn.model.Persona" %>
-<%@ page import="co.com.elramireza.pn.model.ServicioRol" %>
 <%@ page import="java.util.List" %>
-<%@ page import="co.com.elramireza.pn.model.Empleado" %>
+<%@ page import="co.com.elramireza.pn.model.*" %>
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 <%
     Persona persona = (Persona) session.getAttribute("persona");
     Empleado empleo = (Empleado) session.getAttribute("empleo");
+    PnTipoPremio tipoPremio = (PnTipoPremio) session.getAttribute("tipoPremio");
+
 %>
 
 <!-- Navigation bar starts -->
@@ -22,6 +21,7 @@
                         if(persona != null && pnManager.isAdministrador(persona.getIdPersona())){ //SI ES ADMON LE CARGO PERFIL 1
                             List<ServicioRol> servicioRols = pnManager.getServiciosFromPerfil(1);
                     %>
+                    <%--  ADMIN  --%>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administraci&oacute;n<b class="caret"></b></a>
                         <ul class="dropdown-menu">
@@ -38,6 +38,13 @@
                         for (Servicio servicio: pnManager.getServiciosPublicosVisibles()){
                     %>
                     <li><a href="<%=servicio.getServicio()%>.htm"><%=servicio.getTextoServicio()%></a></li>
+                    <%
+                        }  //  FIN FOR PUBLICOS VISIBLES
+
+                        if(tipoPremio!=null && persona==null){  //  APUNTADORES DE REGISTRO
+                    %>
+                    <li><a href="#anchorPostulante">Postule su Empresa</a></li>
+                    <li><a href="#anchorEvaluador">Registro Evaluadores</a></li>
                     <%
                         }
 

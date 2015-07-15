@@ -1,10 +1,12 @@
 <%@ page import="co.com.elramireza.pn.model.*" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 
 <%
     String mensajePremios;
     List<Participante> participantes;
+    List<Empleado> empleados;PnTipoPremio tipoPremio = (PnTipoPremio) session.getAttribute("tipoPremio");
 
     PnPremio premioActivo = (PnPremio) session.getAttribute("premioActivo");
     if(premioActivo != null){
@@ -13,9 +15,20 @@
                 "from Participante where pnPremioByIdConvocatoria.id = ? ",
                 premioActivo.getIdPnPremio()
         );
+
+        empleados = pnManager.getHibernateTemplate().find("" +
+                        "from Empleado where participanteByIdParticipante.empresaByIdEmpresa.idEmpresa <> 1" +
+                        " and participanteByIdParticipante.pnPremioByIdConvocatoria.id = ? " +
+                        " order by participanteByIdParticipante.empresaByIdEmpresa.nombreEmpresa , personaByIdPersona.nombrePersona , personaByIdPersona.apellido ",
+                premioActivo.getIdPnPremio());
     } else {
-        mensajePremios = "Todos los premios";
-        participantes = pnManager.getParticipantes();
+        mensajePremios = "Todos los premios " + tipoPremio.getSigla();
+        participantes = pnManager.getParticipantes(tipoPremio);
+        empleados = pnManager.getHibernateTemplate().find("" +
+                " from Empleado where  participanteByIdParticipante.empresaByIdEmpresa.idEmpresa <> 1 " +
+                " and participanteByIdParticipante.pnPremioByIdConvocatoria.tipoPremioById.id = ? " +
+                " order by participanteByIdParticipante.empresaByIdEmpresa.nombreEmpresa , personaByIdPersona.nombrePersona , personaByIdPersona.apellido ",
+                tipoPremio.getId());
     }
 %>
 
@@ -53,7 +66,8 @@
                                             Empresa empresa = participante.getEmpresaByIdEmpresa();
                                     %>
                                     <option value="<%=participante.getIdParticipante()%>">
-                                        <%=participante.getPnPremioByIdConvocatoria().getNombrePremio()%> - 
+                                        <%=participante.getPnPremioByIdConvocatoria().getTipoPremioById().getSigla()%>
+                                        -
                                         <%=empresa.getNombreEmpresa()%>
                                     </option>
                                     <%
@@ -127,11 +141,7 @@
         <%  // TODO HACER ESTO EN UNA SOLA CONSULTA
             String imageActive;
             String messaActive;
-            List<Empleado> empleados = pnManager.getHibernateTemplate().find("" +
-                    "from Empleado where participanteByIdParticipante.empresaByIdEmpresa.idEmpresa <> 1" +
-                    " and participanteByIdParticipante.pnPremioByIdConvocatoria.id = ? " +
-                    " order by participanteByIdParticipante.empresaByIdEmpresa.nombreEmpresa , personaByIdPersona.nombrePersona , personaByIdPersona.apellido ",
-                    premioActivo.getIdPnPremio());
+
             for (Empleado empleado: empleados){
                 /*if(participante.getEstado()){
                         imageActive = "img/positive.png";

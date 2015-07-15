@@ -1,30 +1,32 @@
 <%@ page import="java.util.List" %>
-<%@ page import="co.com.elramireza.pn.model.Persona" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="co.com.elramireza.pn.model.Texto" %>
-<%@ page import="co.com.elramireza.pn.model.LocEstado" %>
 <%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="co.com.elramireza.pn.model.*" %>
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 <%
-    SimpleDateFormat dfDateTime = new SimpleDateFormat("yyyy/MM/dd KK:mm aaa");
+    SimpleDateFormat dfDateTime = new SimpleDateFormat("yyyy/MM/dd hh:mm aaa");
     Texto texto = pnManager.getTexto(12);
 
-    List<Persona> personas = pnManager.getHibernateTemplate().find(
-            "from Persona where aspiranteEvaluador = 1 order by nombrePersona"
+    PnTipoPremio tipoPremio = (PnTipoPremio) session.getAttribute("tipoPremio");
+
+    List<PnAspiranteEvaluador> aspirantes = pnManager.getHibernateTemplate().find(
+            "from PnAspiranteEvaluador where tipoPremioById.id = ? order by personaByIdPersona.nombrePersona",
+            tipoPremio.getId()
     );
 
 %>
 
 <div class="miembros">
-    <h2>Aspirantes a Evaluador</h2>
+    <h2>Aspirantes a Evaluador a <%=tipoPremio.getSigla()%>
+    </h2>
     <br>
 
     <table cellpadding="0" cellspacing="0" border="0" class="display" id="miembros">
         <thead>
         <tr>
+            <th> Premio </th>
             <th> Doc. </th>
             <th> Nombre </th>
-            <th> Apellido </th>
             <th> Emails</th>
             <%--<th> Email Personal</th>--%>
             <th> Tel&eacute;fonos </th>
@@ -37,7 +39,8 @@
         <%
             String imageActive;
             String messaActive;
-            for (Persona persona: personas){
+            for (PnAspiranteEvaluador aspiranteEvaluador: aspirantes){
+                Persona persona = aspiranteEvaluador.getPersonaByIdPersona();
                 if(persona.getEstado()){
                     imageActive = "img/positive.png";
                     messaActive = "Desactivar?";
@@ -47,9 +50,12 @@
                 }
         %>
         <tr>
+            <td> <%=aspiranteEvaluador.getPnPremioByIdConvocatoria()==null?"":aspiranteEvaluador.getPnPremioByIdConvocatoria().getNombrePremio() %></td>
             <td> <%=persona.getDocumentoIdentidad() %></td>
-            <td> <%=persona.getNombrePersona() %></td>
-            <td> <%=persona.getApellido() %></td>
+            <td>
+                <%=persona.getNombrePersona() %>
+                <%=persona.getApellido() %>
+            </td>
             <td>
                 <%=persona.getEmailPersonal()!=null?persona.getEmailPersonal():"" %>
                 <br>

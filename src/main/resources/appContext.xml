@@ -89,6 +89,7 @@
                 <value>co.com.elramireza.pn.model.PnEtapaParticipante</value>
                 <value>co.com.elramireza.pn.model.PnRetroalimentacion</value>
                 <value>co.com.elramireza.pn.model.PnTipoPremio</value>
+                <value>co.com.elramireza.pn.model.PnAspiranteEvaluador</value>
             </list>
         </property>
     </bean>
@@ -219,6 +220,7 @@
             <dwr:include method="getEmpleosFromPersona"/>
             <dwr:include method="getPersonaFromLoginPassword"/>
             <dwr:include method="selEmpleo"/>
+            <dwr:include method="selTipoPremio"/>
             <dwr:include method="registroAspirante"/>
             <dwr:include method="saveVAloracionIndividual"/>
             <dwr:include method="saveValoracionConsensoGlobal"/>
@@ -270,6 +272,7 @@
             </dwr:convert>
             <dwr:convert class="co.com.elramireza.pn.model.PnAgenda" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.PnAgendaInvitado" type="bean"/>
+            <dwr:convert class="co.com.elramireza.pn.model.PnAspiranteEvaluador" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.PnCapitulo" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.PnCategoriaCriterio" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.PnConclusion" type="bean"/>
@@ -277,6 +280,7 @@
             <dwr:convert class="co.com.elramireza.pn.model.PnCualitativa" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.PnCuantitativa" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.PnPremio" type="bean"/>
+            <dwr:convert class="co.com.elramireza.pn.model.PnTipoPremio" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.PnSubCapitulo" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.PnValoracion" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.Servicio" type="bean"/>

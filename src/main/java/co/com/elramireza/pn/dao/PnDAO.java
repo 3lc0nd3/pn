@@ -4,7 +4,6 @@ import co.com.elramireza.pn.model.*;
 import co.com.elramireza.pn.util.MyKey;
 import org.directwebremoting.WebContext;
 import org.directwebremoting.WebContextFactory;
-import org.directwebremoting.io.FileTransfer;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
@@ -22,7 +21,6 @@ import javax.mail.internet.MimeMultipart;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
-import java.awt.image.BufferedImage;
 import java.io.*;
 
 import static java.lang.String.format;
@@ -1268,8 +1266,15 @@ public class PnDAO extends HibernateDaoSupport{
 		}
 	}
 
-	public List<Participante> getParticipantes(){
-		return getHibernateTemplate().find("from Participante where empresaByIdEmpresa.tipoEmpresaByIdTipoEmpresa.id = 2 order by pnPremioByIdConvocatoria.nombrePremio, empresaByIdEmpresa.nombreEmpresa ");
+	public List<Participante> getParticipantes(PnTipoPremio tipoPremio){
+		return getHibernateTemplate().find(
+                "from Participante where " +
+                        " empresaByIdEmpresa.tipoEmpresaByIdTipoEmpresa.id = 2 " +
+                        " and " +
+                        " pnPremioByIdConvocatoria.tipoPremioById.id = ? " +
+                        " order by pnPremioByIdConvocatoria.nombrePremio, empresaByIdEmpresa.nombreEmpresa ",
+                tipoPremio.getId()
+                );
 	}
 
 	public List<Participante> getParticipantesFromPremio(int idPremio){
@@ -1405,6 +1410,28 @@ public class PnDAO extends HibernateDaoSupport{
         return empleados.size()>0;
     }
 
+    /**
+     * Selecciona tipo de premio
+     * @param id tipo de premio
+     * @return El objeto, o NULL
+     */
+    public PnTipoPremio selTipoPremio(int id){
+        try {
+            PnTipoPremio tipoPremio = getPnTipoPremio(id);
+            WebContext wctx = WebContextFactory.get();
+            HttpSession session = wctx.getSession(true);
+            session.setAttribute("tipoPremio", tipoPremio);
+            return tipoPremio;
+        } catch (Exception e) {
+            logger.debug(e.getMessage());
+            return null;
+        }
+    }
+
+    public PnTipoPremio getPnTipoPremio(int id){
+        return (PnTipoPremio) getHibernateTemplate().get(PnTipoPremio.class, id);
+    }
+
     public Empleado selEmpleo(int id){
         try {
             Empleado empleado = getEmpleado(id);
@@ -1439,22 +1466,36 @@ public class PnDAO extends HibernateDaoSupport{
         enviaEmail(emails, asunto, mensaje, null, SUSCRIBE);
     }
 
-    public int registroAspirante(Persona aspirante){
-        logger.info("aspirante.getNombre = " + aspirante.getNombrePersona());
-        logger.info("aspirante.getApellido() = " + aspirante.getApellido());
+    public int registroAspirante(Persona personaAspirante){
+        logger.info("aspirante.getNombre = " + personaAspirante.getNombrePersona());
+        logger.info("aspirante.getApellido() = " + personaAspirante.getApellido());
+        WebContext wctx = WebContextFactory.get();
+        HttpSession session = wctx.getSession(true);
+        PnTipoPremio tipoPremio = (PnTipoPremio) session.getAttribute("tipoPremio");
+
         try {
-            Persona aspiranteOld = getPersonaFromDoc(aspirante.getDocumentoIdentidad());
+            Persona aspiranteOld = getPersonaFromDoc(personaAspirante.getDocumentoIdentidad());
             if(aspiranteOld != null){
-                aspirante = aspiranteOld;
+                personaAspirante = aspiranteOld;
             } else { // NO EXISTE
-                aspirante.setEstado(false);
-                aspirante.setLocCiudadByIdCiudad(getCiudad(0));
-                aspirante.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
-                aspirante.setAspiranteEvaluador(1);
-                int idAspirante = (Integer) getHibernateTemplate().save(aspirante);
-                aspirante.setIdPersona(idAspirante);
+                personaAspirante.setEstado(false);
+                personaAspirante.setLocCiudadByIdCiudad(getCiudad(0));
+                personaAspirante.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
+                personaAspirante.setAspiranteEvaluador(1);
+                int idPersonaAspirante = (Integer) getHibernateTemplate().save(personaAspirante);
+                personaAspirante.setIdPersona(idPersonaAspirante);
             }
-            notificaEvaluadorAspiranteRegitro(aspirante);
+
+            PnAspiranteEvaluador aspiranteEvaluador = new PnAspiranteEvaluador();
+
+            aspiranteEvaluador.setPersonaByIdPersona(personaAspirante);
+            aspiranteEvaluador.setTipoPremioById(tipoPremio);
+            aspiranteEvaluador.setPnPremioByIdConvocatoria(getPnPremioActivo(tipoPremio));
+            aspiranteEvaluador.setFechaRegistro(new Timestamp(System.currentTimeMillis()));
+
+            int idAspirante = (Integer) getHibernateTemplate().save(aspiranteEvaluador);
+
+            notificaEvaluadorAspiranteRegitro(personaAspirante);
             return 1;
         } catch (DataAccessException e) {
 
@@ -1815,8 +1856,10 @@ public class PnDAO extends HibernateDaoSupport{
 		);
 	}
 
-	public List<PnPremio> getPnPremios(){
-		return getHibernateTemplate().find("from PnPremio where idPnPremio > 1");
+	public List<PnPremio> getPnPremios(PnTipoPremio tipoPremio){
+		return getHibernateTemplate().find("from PnPremio where idPnPremio > 1 and " +
+                " tipoPremioById.id = ? ",
+                tipoPremio.getId());
 	}
 
 	/**
@@ -1883,9 +1926,10 @@ public class PnDAO extends HibernateDaoSupport{
 		}
 	}
 
-	public int hayPnPremiosActivos(){
+	public int hayPnPremiosActivos(int idTipoPremio){
 		List<PnPremio> premios = getHibernateTemplate().find(
-				"from PnPremio where estadoInscripcion = true"
+				"from PnPremio where estadoInscripcion = true and tipoPremioById.id=?",
+                idTipoPremio
 		);
 		if (premios.size()>0){
 			return premios.get(0).getIdPnPremio();
@@ -1910,9 +1954,10 @@ public class PnDAO extends HibernateDaoSupport{
 		}
 	}
 
-	public int activeDesactivePremioN(int idPremio){
+	public int activeDesactivePremioN(int idPremio,
+                                      int idTipoPremio){
 		try {
-			int hay = hayPnPremiosActivos();
+			int hay = hayPnPremiosActivos(idTipoPremio);
 			if(hay >0 && hay !=idPremio){ // No hay mas Premios Activos y no es el mismo
 				return 2;
 			} else {
@@ -1944,9 +1989,13 @@ public class PnDAO extends HibernateDaoSupport{
 	}
 
 	public int savePnPremio(PnPremio premio ){
+        WebContext wctx = WebContextFactory.get();
+        HttpSession session = wctx.getSession(true);
+        PnTipoPremio tipoPremio = (PnTipoPremio) session.getAttribute("tipoPremio");
 		logger.debug("Entro");
 		logger.debug("premio.getIdPnPremio() = " + premio.getIdPnPremio());
 		try {
+            premio.setTipoPremioById(tipoPremio);
 			premio.setFechaDesde(new Timestamp(df.parse(premio.getTmpFechaDesde()).getTime()));
 			premio.setFechaHasta(new Timestamp(df.parse(premio.getTmpFechaHasta()).getTime()));
 			premio.setFechaCreacion(new Timestamp(System.currentTimeMillis()));

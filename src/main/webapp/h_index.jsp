@@ -153,6 +153,7 @@
 
         </div>
         <div class="span8">
+            <a name="anchorPostulante"></a>
             <div class="formy">
                 <div class="form">
                     <!-- Register form (not working)-->
@@ -288,9 +289,9 @@
 
                         <!-- valorActivos -->
                         <div class="control-group">
-                            <label class="control-label" for="valorActivos">Valor de Activos</label>
+                            <label class="control-label" for="valorActivos">Valor de Activos en SMMLV</label>
                             <div class="controls">
-                                <input type="text" class="input-large required currency" id="valorActivos" name="valorActivos">
+                                <input type="text" class="input-large required digits" id="valorActivos" name="valorActivos" maxlength="6" min="500000" max="500000">
                             </div>
                         </div>
 
@@ -550,6 +551,7 @@
     <div class="row">
 
         <div class="span8">
+            <a name="anchorEvaluador"></a>
             <div class="formy">
                 <div class="form">
                     <!-- Register form (not working)-->
@@ -638,7 +640,8 @@
         </div>
         <div class="span4">
 
-            <h2>
+            <%=tipoPremio.getRegistroEvaluador()%>
+            <%--<h2>
                 <%=textoEvaluador.getTexto1()%>
             </h2>
             <p class="big grey">
@@ -646,7 +649,7 @@
             </p>
             <p style="text-align:justify;">
                 <%=textoEvaluador.getTexto3()%>
-            </p>
+            </p>--%>
         </div>
     </div>
 </registroEval>
@@ -656,7 +659,7 @@
 
     } else {  // NO HAY PREMIO
         List<PnTipoPremio> tiposPremio = pnManager.getHibernateTemplate().find(
-                "from PnTipoPremio order by tipoPremio"
+                "from PnTipoPremio order by nombreTipoPremio"
         );
 %>
 <div class="register">
@@ -668,8 +671,8 @@
             %>
             <br>
             <span style="margin-top:20px; margin-bottom:10px;">
-                <button id="b<%=pnTipoPremio.getId()%>" type="button" onclick="selEmpleoB(<%=pnTipoPremio%>);" class="btn btn-primary">
-                    <%=pnTipoPremio.getTipoPremio()%>
+                <button id="b<%=pnTipoPremio.getId()%>" type="button" onclick="selTipoPremioB(<%=pnTipoPremio.getId()%>);" class="btn btn-primary">
+                    <%=pnTipoPremio.getNombreTipoPremio()%>
                 </button>
             </span>
             <%
@@ -800,6 +803,26 @@
         dwr.util.byId("cambiarPerfilF").submit();
     }
 
+    /**
+     * para cambiar el tipo de Premio
+     * */
+    function selTipoPremioB(idTipoPremio){
+//        disableId('b'+idEmpleo);
+//        var bTmp = dwr.util.byId('b'+idEmpleo);
+//        alert("bTmp = " + bTmp);
+
+        pnRemoto.selTipoPremio(idTipoPremio, function(data){
+            if(data!=null){
+//                alert("Vamos con: " + data.perfilByIdPerfil.perfil);
+//                enableId("b2");
+                window.location = "index.htm";
+            } else {
+                alert('Problemas !');
+                enableId("b2");
+            }
+        });
+    }
+
     function selEmpleoB(idEmpleo){
 //        disableId('b'+idEmpleo);
 //        var bTmp = dwr.util.byId('b'+idEmpleo);
@@ -901,4 +924,18 @@
     });*/
 
     $('#username').focus();
+
+    $('#webEmpresa').blur(function() {
+//        alert( "Handler for .blur() called." );
+        var webVal;
+        webVal = $('#webEmpresa').val();
+        if(webVal!='' && webVal.indexOf('http') != 0 ){
+
+            $('#webEmpresa').val('http://'+webVal);
+            webVal = $('#webEmpresa').val();
+//            alert("webVal = " + webVal);
+            jQuery("#registroP").validate();
+
+        }
+    });
 </script>
