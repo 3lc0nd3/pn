@@ -22,8 +22,17 @@
     </logger>
 
     <logger name="org.directwebremoting.util">
-        <level value="ERROR"/>
+        <level value="INFO"/>
     </logger>
+
+    <logger name="log4j.additivity.org.directwebremoting.impl.DefaultConverterManager">
+        <level value="INFO"/>
+    </logger>
+
+    <logger name="log4j.logger.org.directwebremoting.impl.DefaultConverterManager">
+        <level value="INFO"/>
+    </logger>
+
     <logger name="com.opensymphony.oscache">
         <level value="ERROR"/>
     </logger>

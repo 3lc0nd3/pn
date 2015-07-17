@@ -180,7 +180,7 @@
 <script type="text/javascript">
 
     function desvincule(idEmpleado){
-        if (confirm("Si desvincula al Empleado se borran las evaluaciones que &eacute;l realiz&oacute;")) {
+        if (confirm("Si desvincula al Empleado se borran las evaluaciones de esta persona;")) {
             pnRemoto.desvinculaEmpleado(idEmpleado, function(data){
                 if(data == ''){
                     alert("Desvinculado Completo");

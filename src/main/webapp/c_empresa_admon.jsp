@@ -12,9 +12,9 @@
     imgSrcRepor = "images/document.png";
 
     Empleado empleo = (Empleado) session.getAttribute("empleo");
-    System.out.println("empleo = " + empleo);
+//    System.out.println("empleo = " + empleo);
     Empresa empresa = (Empresa) request.getAttribute("empresa");
-    System.out.println("empresa = " + empresa);
+//    System.out.println("empresa = " + empresa);
     if(empresa!=null){
         vieneDeFront =1;
     }

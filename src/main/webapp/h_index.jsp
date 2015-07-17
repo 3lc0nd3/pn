@@ -20,8 +20,8 @@
         mensajeLogin = "";
     }
 
-    System.out.println("empleo = " + empleo);
-    System.out.println("persona = " + persona);
+//    System.out.println("empleo = " + empleo);
+//    System.out.println("persona = " + persona);
 %>
 
 <%
@@ -152,6 +152,243 @@
 
         </div>
         <div class="span8">
+            <%
+                if(tipoPremio.getId() == 2){   //  ES PEGI
+            %>
+            <a name="anchorPostulante"></a>
+            <div class="formy">
+                <div class="form">
+                    <!-- Register form (not working)-->
+                    <form id="registroP" class="form-horizontal" autocomplete="off">
+                        <h5>Datos generales de la Instituci&oacute;n postulante</h5>
+                        <!-- nit -->
+                        <div class="control-group">
+                            <label class="control-label" for="nit">Nit</label>
+                            <div class="controls">
+                                <input type="text" class="input-large required" <%--max="36" min="23"--%> id="nit" name="nit">
+                            </div>
+                        </div>
+                        <!-- nombre empresa-->
+                        <div class="control-group">
+                            <label class="control-label" for="nombreEmpresa">Nombre Instituci&oacute;n</label>
+                            <div class="controls">
+                                <input type="text" class="input-large required" id="nombreEmpresa" name="nombreEmpresa">
+                            </div>
+                        </div>
+
+                        <!-- departamento -->
+
+                                <input type="hidden" id="departamento" value="25">
+                                <input type="hidden" id="locCiudadEmpresa" value="150">
+
+                        <!-- Select box -->
+
+                        <!-- direccion empresa -->
+                        <div class="control-group">
+                            <label class="control-label required" for="direccionEmpresa">Localidad</label>
+                            <div class="controls">
+                                <%--<input type="text" class="input-large required" id="direccionEmpresa" name="direccionEmpresa">--%>
+                                <select id="direccionEmpresa"  name="direccionEmpresa" class="input-large required">
+                                    <option value="Usaquen">Usaquen</option>
+                                    <option value="Chapinero">Chapinero</option>
+                                    <option value="Santa Fe">Santa Fe</option>
+                                    <option value="San Cristobal">San Cristobal</option>
+                                    <option value="Usme">Usme</option>
+                                    <option value="Tunjuelito">Tunjuelito</option>
+                                    <option value="Bosa">Bosa</option>
+                                    <option value="Kennedy">Kennedy</option>
+                                    <option value="Fontibon">Fontibon</option>
+                                    <option value="Engativá">Engativá</option>
+                                    <option value="Suba">Suba</option>
+                                    <option value="Barrios Unidos">Barrios Unidos</option>
+                                    <option value="Teusaquillo">Teusaquillo</option>
+                                    <option value="Los Martires">Los Martires</option>
+                                    <option value="Antonio Nariño">Antonio Nariño</option>
+                                    <option value="Puente Aranda">Puente Aranda</option>
+                                    <option value="La Candelaria">La Candelaria</option>
+                                    <option value="Rafael Uribe Uribe">Rafael Uribe Uribe</option>
+                                    <option value="Ciudad Bolivar">Ciudad Bolivar</option>
+                                    <option value="Sumapaz">Sumapaz</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- telFijoEmpresa -->
+                        <%--<div class="control-group">
+                            <label class="control-label required" for="telFijoEmpresa">Tel&eacute;fono Fijo</label>
+                            <div class="controls">
+                                <input type="text" class="input-large required" id="telFijoEmpresa" name="telFijoEmpresa">
+                            </div>
+                        </div>--%>
+
+
+                        <h5>Datos del Rector</h5>
+
+                        <!-- Documento de Identidad -->
+                        <div class="control-group">
+                            <label class="control-label" for="documentoDirectivo">Documento Identidad</label>
+                            <div class="controls">
+                                <input type="text" class="input-large required" id="documentoDirectivo" name="documentoDirectivo">
+                            </div>
+                        </div>
+
+                        <!-- Nombre Directivo-->
+                        <div class="control-group">
+                            <label class="control-label" for="nombreDirectivo">Nombre</label>
+                            <div class="controls">
+                                <input type="text" class="input-large required" id="nombreDirectivo" name="nombreDirectivo">
+                            </div>
+                        </div>
+
+                        <!-- Apellido Directivo-->
+                        <div class="control-group">
+                            <label class="control-label" for="apellidoDirectivo">Apellido</label>
+                            <div class="controls">
+                                <input type="text" class="input-large required" id="apellidoDirectivo" name="apellidoDirectivo">
+                            </div>
+                        </div>
+
+                        <!-- TElefono Directivo-->
+                        <div class="control-group">
+                            <label class="control-label" for="telefonoDirectivo">Tel&eacute;fono Directo</label>
+                            <div class="controls">
+                                <input type="text" class="input-large required" id="telefonoDirectivo" name="telefonoDirectivo">
+                            </div>
+                        </div>
+
+                        <!-- telMovil Directivo -->
+                        <div class="control-group">
+                            <label class="control-label" for="telMovilDirectivo">Tel&eacute;fono M&oacute;vil</label>
+                            <div class="controls">
+                                <input type="text" class="input-large required digits" id="telMovilDirectivo" name="telMovilDirectivo" maxlength="10" min="3000000000">
+                            </div>
+                        </div>
+
+                        <!-- Email Directivo-->
+                        <div class="control-group">
+                            <label class="control-label" for="emailDirectivo">Email</label>
+                            <div class="controls">
+                                <input type="text" class="input-large required email" id="emailDirectivo" name="emailDirectivo">
+                            </div>
+                        </div>
+
+                        <h5>Datos del Encargado del Proceso</h5>
+
+                        <!-- Documento de Identidad Empleado -->
+                        <div class="control-group">
+                            <label class="control-label" for="documentoEmpleado">Documento Identidad</label>
+                            <div class="controls">
+                                <input type="text" class="input-large required" id="documentoEmpleado" name="documentoEmpleado">
+                            </div>
+                        </div>
+
+                        <!-- Nombre Empleado-->
+                        <div class="control-group">
+                            <label class="control-label" for="nombreEmpleado">Nombre</label>
+                            <div class="controls">
+                                <input type="text" class="input-large required" id="nombreEmpleado" name="nombreEmpleado">
+                            </div>
+                        </div>
+
+                        <!-- Apellido Empleado-->
+                        <div class="control-group">
+                            <label class="control-label" for="apellidoEmpleado">Apellido</label>
+                            <div class="controls">
+                                <input type="text" class="input-large required" id="apellidoEmpleado" name="apellidoEmpleado">
+                            </div>
+                        </div>
+
+                        <!-- TElefono Empleado-->
+                        <div class="control-group">
+                            <label class="control-label" for="telefonoEmpleado">Tel&eacute;fono Directo</label>
+                            <div class="controls">
+                                <input type="text" class="input-large required" id="telefonoEmpleado" name="telefonoEmpleado">
+                            </div>
+                        </div>
+
+                        <!-- telMovil Empleado -->
+                        <div class="control-group">
+                            <label class="control-label" for="telMovilEmpleado">Tel&eacute;fono M&oacute;vil</label>
+                            <div class="controls">
+                                <input type="text" class="input-large required digits" id="telMovilEmpleado" name="telMovilEmpleado" maxlength="10" min="3000000000">
+                            </div>
+                        </div>
+
+                        <!-- Email Empleado-->
+                        <div class="control-group">
+                            <label class="control-label" for="emailCorpEmpleado">Email Corporativo</label>
+                            <div class="controls">
+                                <input type="text" class="input-large required email" id="emailCorpEmpleado" name="emailCorpEmpleado">
+                            </div>
+                        </div>
+
+                        <!-- Email Personal Empleado-->
+                        <div class="control-group">
+                            <label class="control-label" for="emailPersonalEmpleado">Email Personal</label>
+                            <div class="controls">
+                                <input type="text" class="input-large required email" id="emailPersonalEmpleado" name="email-Personal-Empleado">
+                            </div>
+                        </div>
+
+                        <!-- cargo Empleado  -->
+                        <%--<div class="control-group">
+                            <label class="control-label" for="idCargoEmpleado">Cargo en la Instituci&oacute;n</label>
+                            <div class="controls">
+                                <select id="idCargoEmpleado" name="idCargoEmpleado" onchange="">
+                                    <option value="0">Seleccione...</option>
+                                    <%
+                                        for (CargoEmpleado cargoEmpleado: pnManager.getCargoEmpleadosParticipante()){
+                                    %>
+                                    <option value="<%=cargoEmpleado.getId()%>"><%=cargoEmpleado.getCargo()%></option>
+                                    <%
+                                        }
+                                    %>
+                                </select>
+                            </div>
+                        </div>--%>
+
+
+                        <!-- Username -->
+                        <%--<div class="control-group">
+                            <label class="control-label" for="username">Username</label>
+                            <div class="controls">
+                                <input type="text" class="input-large" id="username">
+                            </div>
+                        </div>--%>
+                        <!-- Password -->
+                        <%--<div class="control-group">
+                            <label class="control-label" for="password">Password</label>
+                            <div class="controls">
+                                <input type="password" class="input-large" id="password">
+                            </div>
+                        </div>--%>
+                        <!-- Checkbox -->
+                        <%--<div class="control-group">
+                            <div class="controls">
+                                <label class="checkbox inline">
+                                    <input type="checkbox" id="inlineCheckbox1" name="inlineCheckbox1" class="required" value="agree">
+                                    Acepto T&eacute;rminos y Condiciones
+                                </label>
+                            </div>
+                        </div>--%>
+
+
+
+                        <!-- Buttons -->
+                        <div class="form-actions">
+                            <!-- Buttons -->
+                            <%--<button type="button" class="btn" onclick="registraP();">Registrar</button>--%>
+                            <%--<input class="btn" type="submit" value=""/>--%>
+                            <button id="b2" type="submit" class="btn">Registrar</button>
+                            <%--<button type="reset" class="btn">Reset</button>--%>
+                        </div>
+                    </form>
+                    <%--Already have an Account? <a href="login.html">Login</a>--%>
+                </div> <%--  END DIV FORM  --%>
+            </div><%--  END FORMY  --%>
+            <%
+                } else {  // ES COMO LOS OTROS STANDAR
+            %>
             <a name="anchorPostulante"></a>
             <div class="formy">
                 <div class="form">
@@ -535,7 +772,9 @@
                     <%--Already have an Account? <a href="login.html">Login</a>--%>
                 </div> <%--  END DIV FORM  --%>
             </div><%--  END FORMY  --%>
-
+            <%
+                }
+            %>
         </div>
     </div>
 </div>
@@ -722,21 +961,21 @@
         var empresa = {
             nit : null,
             nombreEmpresa : null,
-            locCiudadEmpresa : null,
+            locCiudadEmpresa : 0,
             direccionEmpresa : null,
-            telFijoEmpresa : null,
-            telMovilEmpresa : null,
-            emailEmpresa : null,
-            webEmpresa : null,
-            actividadPrincipal : null,
-            productos : null,
-            marcas : null,
-            alcanceMercado : null,
-            empleados : null,
-            valorActivos : null,
-            idEmpresaCategoria : null,
-            idEmpresaCategoriaTamano : null,
-            publicaEmpresa : null/*,
+            telFijoEmpresa : 0,
+            telMovilEmpresa : 0,
+            emailEmpresa : '',
+            webEmpresa : '',
+            actividadPrincipal : '',
+            productos : '',
+            marcas : '',
+            alcanceMercado : '',
+            empleados : 0,
+            valorActivos : 0,
+            idEmpresaCategoria : 1,
+            idEmpresaCategoriaTamano : 6,
+            publicaEmpresa : 1/*,
             fileInformePostulacionFile : null,
             fileCertificadoConstitucionFile : null,
             fileEstadoFinancieroFile : null,
@@ -764,7 +1003,7 @@
             telMovilEmpleado : null,
             emailCorpEmpleado : null,
             emailPersonalEmpleado : null,
-            idCargoEmpleado : null
+            idCargoEmpleado : 1
         };
         dwr.util.getValues(encargado);
 //        alert("encargado.idCargoEmpleado = " + encargado.idCargoEmpleado);

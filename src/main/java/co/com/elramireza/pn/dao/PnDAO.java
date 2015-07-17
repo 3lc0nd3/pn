@@ -1535,6 +1535,7 @@ public class PnDAO extends HibernateDaoSupport{
 	public int saveInscrito(Empresa empresa,
 							Persona personaDirectivo,
 							Persona personaEncargado){
+        System.out.println("Buenasss");
 
 		WebContext wctx = WebContextFactory.get();
         HttpSession session = wctx.getSession(true);

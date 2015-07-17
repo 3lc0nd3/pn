@@ -8,7 +8,8 @@
 String str2=""+request.getAttribute("servicio");
 PnTipoPremio tipoPremio = (PnTipoPremio) session.getAttribute("tipoPremio");
 PnPremio premioActivo = null;
-String colorPremio = "blue";
+String colorPremio  ;
+colorPremio = "blue";
 if (tipoPremio != null) {
     premioActivo = pnManager.getPnPremioActivo(tipoPremio);
     colorPremio = tipoPremio.getColor();
@@ -46,6 +47,13 @@ if(premioActivo!=null){
     <%--<link href="style/orange.css" rel="stylesheet">--%>
     <%--<link href="style/purple.css" rel="stylesheet">--%>
     <%--<link href="style/green.css" rel="stylesheet">--%>
+    <%
+        String exit = request.getParameter("exit");
+        if(exit!=null){ // TOCA SALIR
+            colorPremio = "blue";
+        }
+        System.out.println("colorPremio = " + colorPremio);
+    %>
     <link href="style/<%=colorPremio%>.css" rel="stylesheet">
 
     <link href="style/bootstrap-responsive.css" rel="stylesheet">

@@ -4,6 +4,21 @@ body{
 	border-top: 3px solid #fe781e;
 }
 
+/*  EDWARD CAMBIO  */
+.btn-primary{
+    background-color: #fe781e;
+    background-image: linear-gradient(to bottom, #febf73, #fe781e);
+}
+
+.btn-primary:hover{
+    background-color: #db6d1d;
+}
+
+.btn-primary:active{
+    background-color: #db6d1d;
+}
+/*  FIN EDWARD CAMBIO  */
+
 a, a:visited{
 	color: #fe781e;
 }
