@@ -135,22 +135,20 @@
 <div class="border"></div>
 <%--  REGISTER  --%>
 <%
+//    System.out.println("tipoPremio.getBanner() = |" + tipoPremio.getBanner()+"|");
     if(premioActivo !=null && persona== null){ // SI HAY UN PnPREMIO ACTIVO
 %>
 <div class="register">
     <div class="row">
         <div class="span4">
-            <%=tipoPremio.getPostulese()%>
-            <%--<h2>
+            <h2>
                 <%=textoRegistro.getTexto1()%>
             </h2>
             <p class="big grey">        
                 <%=textoRegistro.getTexto2()%>
-                a la versi&oacute;n <%=premioActivo.getNombrePremio()%>
+                al <%=premioActivo.getNombrePremio()%>
             </p>
-            <p style="text-align:justify;">
-                <%=textoRegistro.getTexto3()%>
-            </p>--%>
+            <%=tipoPremio.getPostulese()%>
 
         </div>
         <div class="span8">
@@ -640,12 +638,11 @@
 
         </div>
         <div class="span4">
-
-            <%=tipoPremio.getRegistroEvaluador()%>
-            <%--<h2>
+            <h2>
                 <%=textoEvaluador.getTexto1()%>
             </h2>
-            <p class="big grey">
+            <%=tipoPremio.getRegistroEvaluador()%>
+            <%--<p class="big grey">
                 <%=textoEvaluador.getTexto2()%>
             </p>
             <p style="text-align:justify;">
@@ -665,22 +662,27 @@
 %>
 <div class="register">
     <div class="row">
-        <div class="span6">
+        <div class="span12">
             <h2>Premios Disponibles</h2>
+            <div class="row">
             <%
                 for(PnTipoPremio pnTipoPremio: tiposPremio){
             %>
-            <br>
-            <span style="margin-top:20px; margin-bottom:10px;">
-                <button id="b<%=pnTipoPremio.getId()%>" type="button" onclick="selTipoPremioB(<%=pnTipoPremio.getId()%>);" class="btn btn-primary">
-                    <%=pnTipoPremio.getNombreTipoPremio()%>
-                </button>
-            </span>
+            <div class="span6">
+                <%--<span style="margin-top:20px; margin-bottom:10px;">--%>
+                    <a onclick="selTipoPremioB(<%=pnTipoPremio.getId()%>);">
+                        <img src="<%=pnTipoPremio.getUrlLogoSmall()%>" alt="<%=pnTipoPremio.getSigla()%>">
+                    </a>
+                    <%--<button id="b<%=pnTipoPremio.getId()%>" type="button" onclick="selTipoPremioB(<%=pnTipoPremio.getId()%>);" class="btn btn-primary">
+                        <%=pnTipoPremio.getNombreTipoPremio()%>
+                    </button>--%>
+                <%--</span>--%>
+            </div>
             <%
                 }  //  FIN FOR TIPOS DE PREMIOS
             %>
+            </div>
         </div>
-        <div class="span6"></div>
     </div>
 </div>
 <%
