@@ -1220,7 +1220,7 @@ public class PnDAO extends HibernateDaoSupport{
 	public void notificaEmpleadoVinculo(Empleado empleado){
 		Persona personaByIdPersona = empleado.getPersonaByIdPersona();
 		logger.info("personaByIdPersona = " + personaByIdPersona);
-		String asunto = "Vinculado a PNEIG - " + empleado.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getNombrePremio()+
+		String asunto = "Vinculado - " + empleado.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getNombrePremio()+
                 ", " + empleado.getParticipanteByIdParticipante().getEmpresaByIdEmpresa().getNombreEmpresa();
 		logger.info("asunto = " + asunto);
 		String mensaje =
@@ -1451,13 +1451,15 @@ public class PnDAO extends HibernateDaoSupport{
         }
     }
 
-    public void notificaEvaluadorAspiranteRegitro(Persona aspirante){
+    public void notificaEvaluadorAspiranteRegitro(Persona aspirante,
+                                                  PnTipoPremio tipoPremio){
         String asunto = "Registro de Aspirante";
         String mensaje =
                 "Cordial saludo" +
                         "<br>" +
                         "<br>" +
-                        "Le informamos que hemos recibido su solicitud como Aspirante a Evaluador del PNEIG." +
+                        "Le informamos que hemos recibido su solicitud como Aspirante a Evaluador del " +
+                        tipoPremio.getNombreTipoPremio() +
                         "<br>" +
                         "Estamos evaluando su solicitud, en breve le comunicaremos que pasos seguir." +
                         "<br>" +
@@ -1495,7 +1497,7 @@ public class PnDAO extends HibernateDaoSupport{
 
             int idAspirante = (Integer) getHibernateTemplate().save(aspiranteEvaluador);
 
-            notificaEvaluadorAspiranteRegitro(personaAspirante);
+            notificaEvaluadorAspiranteRegitro(personaAspirante, tipoPremio);
             return 1;
         } catch (DataAccessException e) {
 
@@ -2081,7 +2083,7 @@ public class PnDAO extends HibernateDaoSupport{
 
 	String email[][] = {
 			{"", ""},
-			{"premiogestion@gmail.com", "corca*123", "Mensajes PNEIG"},
+			{"premiogestion@gmail.com", "corca*123", "Mensajes C.Calidad"},
 			{  "", ""},
 			{"5", "6"}
 	};

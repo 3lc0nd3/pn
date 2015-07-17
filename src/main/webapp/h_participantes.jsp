@@ -121,14 +121,8 @@
                 PnPremio premio = participante.getPnPremioByIdConvocatoria();
         %>
         <tr>
-            <td>
-                <%=empresa.getNombreEmpresa()%>
-                <br>
-                <%=premio.getNombrePremio()%>
-            </td>
-            <td>
-                <%=participante.getPnEtapaParticipanteByIdEtapaParticipante().getEtapaParticipante()%>
-            </td>
+            <td><%=empresa.getNombreEmpresa()%><br><%=premio.getNombrePremio()%></td>
+            <td><%=participante.getPnEtapaParticipanteByIdEtapaParticipante().getEtapaParticipante()%></td>
             <TD>
                 <%=pnManager.dfDateTime.format(participante.getFechaIngreso())%>
             </td>
