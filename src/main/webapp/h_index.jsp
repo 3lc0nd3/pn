@@ -668,15 +668,15 @@
             <%
                 for(PnTipoPremio pnTipoPremio: tiposPremio){
             %>
-            <div class="span6">
-                <%--<span style="margin-top:20px; margin-bottom:10px;">--%>
-                    <a onclick="selTipoPremioB(<%=pnTipoPremio.getId()%>);">
-                        <img src="<%=pnTipoPremio.getUrlLogoSmall()%>" alt="<%=pnTipoPremio.getSigla()%>">
-                    </a>
-                    <%--<button id="b<%=pnTipoPremio.getId()%>" type="button" onclick="selTipoPremioB(<%=pnTipoPremio.getId()%>);" class="btn btn-primary">
+            <div class="span4">
+                <a onclick="selTipoPremioB(<%=pnTipoPremio.getId()%>);">
+                    <img src="<%=pnTipoPremio.getUrlLogo()%>" alt="<%=pnTipoPremio.getSigla()%>" title="<%=pnTipoPremio.getSigla()%>">
+                </a>
+                <span style="margin-top:20px; margin-bottom:10px;">
+                    <button id="b<%=pnTipoPremio.getId()%>" type="button" onclick="selTipoPremioB(<%=pnTipoPremio.getId()%>);" class="btn btn-primary">
                         <%=pnTipoPremio.getNombreTipoPremio()%>
-                    </button>--%>
-                <%--</span>--%>
+                    </button>
+                </span>
             </div>
             <%
                 }  //  FIN FOR TIPOS DE PREMIOS
