@@ -140,7 +140,8 @@
 <div class="register">
     <div class="row">
         <div class="span4">
-            <h2>
+            <%=tipoPremio.getPostulese()%>
+            <%--<h2>
                 <%=textoRegistro.getTexto1()%>
             </h2>
             <p class="big grey">        
@@ -149,7 +150,7 @@
             </p>
             <p style="text-align:justify;">
                 <%=textoRegistro.getTexto3()%>
-            </p>
+            </p>--%>
 
         </div>
         <div class="span8">

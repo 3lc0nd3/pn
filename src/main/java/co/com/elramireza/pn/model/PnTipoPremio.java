@@ -20,6 +20,7 @@ public class PnTipoPremio {
     private String nombreTipoPremio;
     private String frase;
     private String sigla;
+    private String banner;
     private String urlLogo;
     private String urlLogoSmall;
     private String color;
@@ -36,6 +37,16 @@ public class PnTipoPremio {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "banner_tipo_premio")
+    public String getBanner() {
+        return banner;
+    }
+
+    public void setBanner(String banner) {
+        this.banner = banner;
     }
 
     @ManyToOne
