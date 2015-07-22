@@ -197,11 +197,7 @@
             <td> <%=persona.getDocumentoIdentidad() %></td>
             <td> <%=persona.getNombrePersona() %></td>
             <td> <%=persona.getApellido() %></td>
-            <td>
-                <%=persona.getEmailPersonal()!=null?persona.getEmailPersonal():"" %>
-                <br>
-                <%=persona.getEmailCorporativo() %>
-            </td>
+            <td><%=persona.getEmailPersonal()!=null?persona.getEmailPersonal():"" %><br><%=persona.getEmailCorporativo()%></td>
             <td>
                 <%=persona.getCelular()!=null?persona.getCelular():""%>
                 <br>
