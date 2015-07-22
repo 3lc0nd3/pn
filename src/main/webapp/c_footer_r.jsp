@@ -1,7 +1,10 @@
 
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 <%@ page import="co.com.elramireza.pn.model.Texto" %>
-
+<%@ page import="co.com.elramireza.pn.model.PnTipoPremio" %>
+<%
+    PnTipoPremio tipoPremio = (PnTipoPremio) session.getAttribute("tipoPremio");
+%>
 <hr/>
 <div class="border"></div>
 </div>   <%-- END CONTAINER --%>
@@ -88,7 +91,14 @@
                         <%=titulo.getTexto1()%>
                         <span class="color">
                             <%=titulo.getTexto2()%>
-                        </span> - <%=titulo1.getTexto1()%>
+                        </span>
+                        <%
+                            if(tipoPremio!=null){
+                        %>
+                        - <%=tipoPremio.getNombreTipoPremio()%>
+                        <%
+                            }
+                        %>
                     </h5>
                     <p>Copyright &copy;
                         <a href="http://www.ccalidad.org" target="cc">www.ccalidad.org</a> </p>

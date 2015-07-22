@@ -40,7 +40,14 @@ public class Fc extends HttpServlet{
         String requestURI = request.getRequestURI();
 //        System.out.println("requestURI = " + requestURI);
         int i = requestURI.lastIndexOf("/");
-        int j = request.getRequestURI().lastIndexOf(".htm");
+        int j;
+
+        if (request.getRequestURI().contains("premio")) {
+            j = request.getRequestURI().lastIndexOf(".premio");
+        } else {
+            j = request.getRequestURI().lastIndexOf(".htm");
+        }
+
         return request.getRequestURI().substring(i + 1, j);
     }
 

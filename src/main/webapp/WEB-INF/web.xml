@@ -69,6 +69,13 @@
         <url-pattern>*.htm</url-pattern>
     </servlet-mapping>
 
+    <servlet-mapping>
+        <servlet-name>frontController</servlet-name>
+        <url-pattern>*.premio</url-pattern>
+    </servlet-mapping>
+
+
+
     <!-- DWR  Mapping Spring-->
 
 
