@@ -52,7 +52,7 @@ if(premioActivo!=null){
         if(exit!=null){ // TOCA SALIR
             colorPremio = "blue";
         }
-        System.out.println("colorPremio = " + colorPremio);
+//        System.out.println("colorPremio = " + colorPremio);
     %>
     <link href="style/<%=colorPremio%>.css" rel="stylesheet">
 

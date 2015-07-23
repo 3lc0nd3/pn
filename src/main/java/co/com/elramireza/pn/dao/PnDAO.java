@@ -1432,6 +1432,17 @@ public class PnDAO extends HibernateDaoSupport{
         return (PnTipoPremio) getHibernateTemplate().get(PnTipoPremio.class, id);
     }
 
+    public PnTipoPremio getPnTipoPremioFromSigla(String sigla){
+        List<PnTipoPremio> tipoPremios = getHibernateTemplate().find(
+                "from PnTipoPremio  where sigla = ?", sigla);
+        if(tipoPremios.size()>0){
+            return tipoPremios.get(0);
+        } else {
+            return null;
+        }
+
+    }
+
     public Empleado selEmpleo(int id){
         try {
             Empleado empleado = getEmpleado(id);

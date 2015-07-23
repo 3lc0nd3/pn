@@ -64,13 +64,22 @@
         <!--</init-param>-->
     </servlet>
 
+    <servlet>
+        <servlet-name>PremioFc</servlet-name>
+        <servlet-class>co.com.elramireza.pn.front.PremioFc</servlet-class>
+        <!--<init-param>-->
+            <!--<param-name>name</param-name>-->
+            <!--<param-value>error.htm</param-value>-->
+        <!--</init-param>-->
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>frontController</servlet-name>
         <url-pattern>*.htm</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>frontController</servlet-name>
+        <servlet-name>PremioFc</servlet-name>
         <url-pattern>*.premio</url-pattern>
     </servlet-mapping>
 
