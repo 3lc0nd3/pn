@@ -55,13 +55,13 @@ public class PremioFc extends HttpServlet {
         int j;
 
         j = request.getRequestURI().lastIndexOf(".premio");
-        System.out.println("j = " + j);
+//        System.out.println("j = " + j);
 
         String sigla = request.getRequestURI().substring(i + 1, j);
 
         PnTipoPremio tipoPremio = null;
         if (pnDAO!=null) {
-            tipoPremio = pnDAO.getPnTipoPremioFromSigla(sigla);
+            tipoPremio = pnDAO.getPnTipoPremioFromSigla(sigla.toUpperCase());
         }
         if(tipoPremio!=null){
             session.setAttribute("tipoPremio", tipoPremio);

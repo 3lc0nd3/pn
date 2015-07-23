@@ -4,6 +4,9 @@ import co.com.elramireza.pn.model.*;
 import co.com.elramireza.pn.util.MyKey;
 import org.directwebremoting.WebContext;
 import org.directwebremoting.WebContextFactory;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
@@ -1433,8 +1436,13 @@ public class PnDAO extends HibernateDaoSupport{
     }
 
     public PnTipoPremio getPnTipoPremioFromSigla(String sigla){
-        List<PnTipoPremio> tipoPremios = getHibernateTemplate().find(
-                "from PnTipoPremio  where sigla = ?", sigla);
+        List<PnTipoPremio> tipoPremios;
+
+        DetachedCriteria criteria;
+        criteria = DetachedCriteria.forClass(PnTipoPremio.class);
+        criteria.add(Restrictions.ilike("sigla", sigla, MatchMode.ANYWHERE));
+        tipoPremios = getHibernateTemplate().findByCriteria(criteria);
+
         if(tipoPremios.size()>0){
             return tipoPremios.get(0);
         } else {
