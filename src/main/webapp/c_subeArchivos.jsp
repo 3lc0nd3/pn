@@ -1,4 +1,9 @@
+<%@ page import="co.com.elramireza.pn.model.PnTipoPremio" %>
+<%@ page import="co.com.elramireza.pn.model.PnPremio" %><%
 
+    PnPremio premioActivo = (PnPremio) session.getAttribute("premioActivo");
+    PnTipoPremio tipoPremio = (PnTipoPremio) session.getAttribute("tipoPremio");
+%>
 <div class="formy">
     <div class="form">
         <%--<form id="registroP" class="form-horizontal" autocomplete="off">--%>
@@ -30,6 +35,9 @@
 
     </div>
 </div>
+<%
+    if(tipoPremio.getId()!=2){
+%>
 <br>
 <div class="formy">
     <div class="form">
@@ -44,6 +52,12 @@
         </div>
     </div>
 </div>
+<%
+    }
+%>
+<%
+    if(tipoPremio.getId()!=2){
+%>
 <br>
 <div class="formy">
     <div class="form">
@@ -58,3 +72,6 @@
         </div>
     </div>
 </div>
+<%
+    }
+%>

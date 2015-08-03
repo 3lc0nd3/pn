@@ -4,6 +4,9 @@
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 <%
 
+    PnPremio premioActivo = (PnPremio) session.getAttribute("premioActivo");
+    PnTipoPremio tipoPremio = (PnTipoPremio) session.getAttribute("tipoPremio");
+
     long ct = System.currentTimeMillis();
     int idPerfil = 0;
     int idPerfilOriginal = 0;
@@ -74,10 +77,16 @@
 
 <h2>  <%=empresa.getNombreEmpresa()%></h2>
 <span class="color">Direcci&oacute;n</span> <%=empresa.getDireccionEmpresa()%>
+<%
+    if(tipoPremio.getId()!=2){
+%>
 <br>
 <span class="color">Categor&iacute;a</span> <%=empresa.getEmpresaCategoriaByIdCategoriaEmpresa().getCategoria()%>
 <br>
 <span class="color">Tama&ntilde;o</span> <%=empresa.getEmpresaCategoriaTamanoByIdCategoriaTamanoEmpresa().getTamano()%>
+<%
+    } // FIN ES TIPO 2 PEGI
+%>
 <%
     if(empleo!=null && empleo.getParticipanteByIdParticipante().getEmpresaByIdEmpresa().getIdEmpresa()!=1){
 %>
@@ -235,6 +244,8 @@ Certificado Constituci&oacute;n Legal
 %>
 <br>
 <%
+    if(tipoPremio.getId()!=2){
+
     if(empresa.getFileEstadoFinanciero()!=null){
 %>
 <a href="pdfs/ef-<%=empresa.getNit()%>.pdf?T=<%=ct%>" target="<%=empresa.getNit()%>">
@@ -248,9 +259,11 @@ Certificado Constituci&oacute;n Legal
 Estados Financieros (3 a&ntilde;os)
 <%
     }
+    }
 %>
 <br>
 <%
+    if(tipoPremio.getId()!=2){
     if(participante!=null && participante.getFileConsignacion()!=null){
 %>
 <a href="pdfs/co-<%=empresa.getNit()%>-<%=participante.getIdParticipante()%>.pdf?T=<%=ct%>" target="<%=empresa.getNit()%>">
@@ -266,6 +279,7 @@ Estados Financieros (3 a&ntilde;os)
 Recibo de Consignaci&oacute;n (50%)
 <%
         }
+    }
     }
 %>
 <%

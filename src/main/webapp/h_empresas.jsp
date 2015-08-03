@@ -2,6 +2,15 @@
 <%@ page import="co.com.elramireza.pn.model.*" %>
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 <%
+
+    PnPremio premioActivo = (PnPremio) session.getAttribute("premioActivo");
+    PnTipoPremio tipoPremio = (PnTipoPremio) session.getAttribute("tipoPremio");
+
+    String organizaciones = "Empresa";
+    if(tipoPremio.getId()==2){
+        organizaciones = "Colegio";
+    }
+
     Texto texto = pnManager.getTexto(13);
 
     List<Empresa> empresas = pnManager.getHibernateTemplate().find(
@@ -13,7 +22,7 @@
     <div class="row">
         <div class="span10">
             <div class="formy">
-                <a name="datosDeEmpresa"></a><h5>Datos de Empresa</h5>
+                <a name="datosDeEmpresa"></a><h5>Datos de <%=organizaciones%></h5>
                 <div class="form">
                     <!-- Login form (not working)-->
                     <form id="registroEmpresa" class="form-horizontal" autocomplete="off">
@@ -163,7 +172,7 @@
 
                         <!-- idEmpresaCategoriaTamano  -->
                         <div class="control-group">
-                            <label class="control-label" for="idEmpresaCategoriaTamano">Tama&ntilde;o de la Empresa</label>
+                            <label class="control-label" for="idEmpresaCategoriaTamano">Tama&ntilde;o de la <%=organizaciones%></label>
                             <div class="controls">
                                 <select id="idEmpresaCategoriaTamano"  name="idEmpresaCategoriaTamano"  onchange="">
                                     <option value="0">Seleccione...</option>
@@ -180,7 +189,7 @@
 
                         <!-- publicaEmpresa -->
                         <div class="control-group">
-                            <label class="control-label" for="publicaEmpresa">Es Empresa P&uacute;blica</label>
+                            <label class="control-label" for="publicaEmpresa">Es <%=organizaciones%> P&uacute;blica</label>
                             <div class="controls">
                                 <select id="publicaEmpresa" name="publicaEmpresa" onchange="changeEstado();">
                                     <option value="0">Seleccione...</option>

@@ -42,7 +42,7 @@ public class Fc extends HttpServlet{
         int i = requestURI.lastIndexOf("/");
         int j;
 
-        if (request.getRequestURI().contains("premio")) {
+        if (request.getRequestURI().contains(".premio")) {
             j = request.getRequestURI().lastIndexOf(".premio");
         } else {
             j = request.getRequestURI().lastIndexOf(".htm");

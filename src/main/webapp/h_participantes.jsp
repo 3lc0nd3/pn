@@ -10,6 +10,11 @@
     String mensajePremios;
     List<Participante> participantes;
 
+    String organizaciones = "Empresas";
+    if(tipoPremio.getId()==2){
+        organizaciones = "Colegios";
+    }
+
     PnPremio premioActivo = (PnPremio) session.getAttribute("premioActivo");
     if(premioActivo != null){
         mensajePremios = premioActivo.getNombrePremio();
@@ -53,7 +58,7 @@
                         </div>
                         <!-- Empresas -->
                         <div class="control-group">
-                            <label class="control-label" for="idEmpresa">Empresas</label>
+                            <label class="control-label" for="idEmpresa"><%=organizaciones%></label>
                             <div class="controls">
                                 <select id="idEmpresa" name="idEmpresa">
                                     <%
@@ -68,8 +73,8 @@
                                     %>
                                 </select>
                                 <br>
-                                S&oacute;lo aparecen empresas activas. Si no aparece ac&aacute; visite
-                                <a href="empresas.htm">Empresas</a> y act&iacute;vela.
+                                S&oacute;lo aparecen <%=organizaciones%> activas. Si no aparece ac&aacute; visite
+                                <a href="empresas.htm"><%=organizaciones%></a> y act&iacute;vela.
                             </div>
                         </div>
                         <!-- Buttons -->

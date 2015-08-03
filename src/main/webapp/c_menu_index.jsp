@@ -26,8 +26,12 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administraci&oacute;n<b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <%  for (ServicioRol servicioRol: servicioRols){
+                                Servicio servicioByIdServicio = servicioRol.getServicioByIdServicio();
+                                    if (tipoPremio.getId()==2 && servicioByIdServicio.getIdServicio()==13){ //  EMPRESAS
+                                        servicioByIdServicio.setTextoServicio("Colegios");
+                                    }
                             %>
-                            <li><a href="<%=servicioRol.getServicioByIdServicio().getServicio()%>.htm"><%=servicioRol.getServicioByIdServicio().getTextoServicio()%></a></li>
+                            <li><a href="<%=servicioByIdServicio.getServicio()%>.htm"><%=servicioByIdServicio.getTextoServicio()%></a></li>
                             <%
                                 } // EN FOR SERVICIOS PERFIL 1
                             %>
@@ -42,8 +46,12 @@
                         }  //  FIN FOR PUBLICOS VISIBLES
 
                         if(tipoPremio!=null && persona==null){  //  APUNTADORES DE REGISTRO
+                            String organizaciones = "Empresa";
+                            if(tipoPremio.getId()==2){
+                                organizaciones = "Colegio";
+                            }
                     %>
-                    <li><a href="#anchorPostulante">Postule su Empresa</a></li>
+                    <li><a href="#anchorPostulante">Postule su <%=organizaciones%></a></li>
                     <li><a href="#anchorEvaluador">Registro Evaluadores</a></li>
                     <%
                         }
