@@ -39,12 +39,16 @@
                     no hay valores
                 </div>
                 <%
-                    } else {
+                } else {
                 %>
 
                 <div class="alert alert-success">
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
-                    Datos ingresados el <%=pnManager.dfDateTime.format(cualitativas.get(0).getFechaCreacion())%>
+                    Datos ingresados el
+                    <%=pnManager.dfDateTime.format(
+//                        cualitativas.get(0).getFechaCreacion()
+                            fromParticipante.get(0).getFecha()
+                    )%>
                     <%
                         if (empleo.isEvaluaCapitulos()) {
                     %>
@@ -69,108 +73,204 @@
                             bg = "#eeeded";
                         }
 
+                        PnCualitativa cualitativa = pnManager.getPnCualitativa(2, capitulo.getId(), empleo);
                 %>
                 <br>
                 <div class="esquinasRedondas" style="background-color:<%=bg%>; text-align:center;">
                     <br>
                     <h4 class="color"><%=capitulo.getNombreCapitulo()%></h4>
                     <br>
-                <table border="1" width="70%" align="center">
-                    <tr><th class="alert-info"><%=texto20.getTexto1()%></th></tr>
-                    <tr><td>
-                        <textarea id="vision-<%=capitulo.getId()%>" class="field span6" placeholder="<%=texto20.getTexto2()%>" rows="4" cols="10"></textarea>
-                    </td></tr>
-                    <tr><th class="alert-info">Fortalezas</th></tr>
-                    <tr><td>
-                        <textarea id="fortalezas-<%=capitulo.getId()%>" class="field span6" placeholder="<%=texto19.getTexto1()%>" rows="4" cols="10"></textarea>
-                    </td></tr>
-                    <tr><th class="alert-info">Oportunidades de Mejora</th></tr>
-                    <tr><td>
-                        <textarea id="oportunidades-<%=capitulo.getId()%>" class="field span6" placeholder="<%=texto19.getTexto2()%>" rows="4" cols="10"></textarea>
-                    </td></tr>
-                    <tr><th class="alert-info">Puntos Pendientes Visita de Campo</th></tr>
-                    <tr><td>
-                        <textarea id="pendientesVisita-<%=capitulo.getId()%>" class="field span6" placeholder="Puntos para tener en cuenta" rows="4" cols="10"></textarea>
-                    </td></tr>
-                </table>
-                <br>
-                <table border="1" align="center" width="90%">
-                    <%
-                        for (PnCategoriaCriterio categoriaCriterio:  categoriasCriterio){
-                    %>
-                    <tr>
-                        <th colspan="2" class="btn-inverse"><%=categoriaCriterio.getCategoriaCriterio()%></th>
-                    </tr>
-                    <%
+                    <table border="1" width="70%" align="center">
+
+                        <tr><th class="alert-info">
+                            <img src="images/help.png" onclick="muestraAyudaCualitativa('v','<%=capitulo.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
+                            <%=texto20.getTexto1()%></th></tr>
+                        <tr>
+                            <td class="contenido" bgcolor="white">
+                            <span id="vision-<%=capitulo.getId()%>">
+                                <%=cualitativa.getVision()%>
+                            </span>
+                                <br>
+                                <br>
+                                <a onclick="editarCualitativa('vision', <%=capitulo.getId()%>);">
+                                    <img src="images/edit.png" alt="Editar">
+                                    Editar
+                                </a>
+                            </td>
+                        </tr>
+                        <tr id="vision-tr-<%=capitulo.getId()%>" style="display:none;"><td>
+                            <textarea id="vision-text-<%=capitulo.getId()%>" class="field span6" placeholder="" rows="4" cols="10"></textarea>
+                            <img  style="margin-bottom: 12px;" src="img/atencion.gif" width="25" height="25" alt="">
+                            <a style="margin-bottom: 15px;" class="btn btn-danger" onclick="guardaCualitativa('vision', <%=capitulo.getId()%>);">Guardar</a>
+                            <%--<br>&nbsp;--%>
+                        </td></tr>
+                        <tr id="v-<%=capitulo.getId()%>-contenido" style="display:none;">
+                            <td  class="contenido">
+                                <%=texto20.getTexto2()%>
+                            </td>
+                        </tr>
+
+                        <tr><th class="alert-info">
+                            <img src="images/help.png" onclick="muestraAyudaCualitativa('f','<%=capitulo.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
+                            Fortalezas</th></tr>
+                        <tr>
+                            <td class="contenido" bgcolor="white">
+                            <span id="fortalezas-<%=capitulo.getId()%>">
+                                <%=cualitativa.getFortalezas()%>
+                            </span>
+                                <br>
+                                <br>
+                                <a onclick="editarCualitativa('fortalezas', <%=capitulo.getId()%>);">
+                                    <img src="images/edit.png" alt="Editar">
+                                    Editar
+                                </a>
+                            </td>
+                        </tr>
+                        <tr id="fortalezas-tr-<%=capitulo.getId()%>" style="display:none;"><td>
+                            <textarea id="fortalezas-text-<%=capitulo.getId()%>" class="field span6" placeholder="" rows="4" cols="10"></textarea>
+                            <img  style="margin-bottom: 12px;" src="img/atencion.gif" width="25" height="25" alt="">
+                            <a style="margin-bottom: 15px;" class="btn btn-danger" onclick="guardaCualitativa('fortalezas', <%=capitulo.getId()%>);">Guardar</a>
+                        </td></tr>
+                        <tr id="f-<%=capitulo.getId()%>-contenido" style="display:none;">
+                            <td class="contenido">
+                                <%=texto19.getTexto1()%>
+                            </td>
+                        </tr>
+
+                        <tr><th class="alert-info">
+                            <img src="images/help.png" onclick="muestraAyudaCualitativa('o','<%=capitulo.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
+                            Oportunidades de Mejora</th></tr>
+                        <tr>
+                            <td class="contenido" bgcolor="white">
+                            <span id="oportunidades-<%=capitulo.getId()%>">
+                                <%=cualitativa.getOportunidades()%>
+                            </span>
+                                <br>
+                                <br>
+                                <a onclick="editarCualitativa('oportunidades', <%=capitulo.getId()%>);">
+                                    <img src="images/edit.png" alt="Editar">
+                                    Editar
+                                </a>
+                            </td>
+                        </tr>
+                        <tr id="oportunidades-tr-<%=capitulo.getId()%>" style="display:none;"><td>
+                            <textarea id="oportunidades-text-<%=capitulo.getId()%>" class="field span6" placeholder="" rows="4" cols="10"></textarea>
+                            <img  style="margin-bottom: 12px;" src="img/atencion.gif" width="25" height="25" alt="">
+                            <a style="margin-bottom: 15px;" class="btn btn-danger" onclick="guardaCualitativa('oportunidades', <%=capitulo.getId()%>);">Guardar</a>
+                        </td></tr>
+                        <tr id="o-<%=capitulo.getId()%>-contenido" style="display:none;">
+                            <td colspan="2" class="contenido">
+                                <%=texto19.getTexto2()%>
+                            </td>
+                        </tr>
+
+                        <tr><th class="alert-info">
+                            <img src="images/help.png" onclick="muestraAyudaCualitativa('p','<%=capitulo.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
+                            Puntos Pendientes Visita de Campo</th></tr>
+                        <tr>
+                            <td class="contenido" bgcolor="white">
+                            <span id="pendientesVisita-<%=capitulo.getId()%>">
+                                <%=cualitativa.getPendientesVisita()%>
+                            </span>
+                                <br>
+                                <br>
+                                <a onclick="editarCualitativa('pendientesVisita', <%=capitulo.getId()%>);">
+                                    <img src="images/edit.png" alt="Editar">
+                                    Editar
+                                </a>
+                            </td>
+                        </tr>
+                        <tr id="pendientesVisita-tr-<%=capitulo.getId()%>" style="display:none;"><td>
+                            <textarea id="pendientesVisita-text-<%=capitulo.getId()%>" class="field span6" placeholder="" rows="4" cols="10"></textarea>
+                            <img  style="margin-bottom: 12px;" src="img/atencion.gif" width="25" height="25" alt="">
+                            <a style="margin-bottom: 15px;" class="btn btn-danger" onclick="guardaCualitativa('pendientesVisita', <%=capitulo.getId()%>);">Guardar</a>
+                        </td></tr>
+                        <tr id="p-<%=capitulo.getId()%>-contenido" style="display:none;">
+                            <td colspan="2" class="contenido">
+                                Puntos para tener en cuenta
+                            </td>
+                        </tr>
+
+
+                    </table>
+                    <br>
+                    <table border="1" align="center" width="90%">
+                        <%
+                            for (PnCategoriaCriterio categoriaCriterio:  categoriasCriterio){
+                        %>
+                        <tr>
+                            <th colspan="2" class="btn-inverse"><%=categoriaCriterio.getCategoriaCriterio()%></th>
+                        </tr>
+                        <%
                             for (PnCriterio criterio: pnManager.getPnCriteriosFromCategoria(categoriaCriterio.getId())){
-                    %>
-                    <tr>
-                        <td class=" btn-primary">
-                            <img src="images/help.png" onclick="muestraAyudaCriterio('<%=criterio.getId()%>','<%=capitulo.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
-                            <%
-                                if (criterio.getId()!=15){
-                            %>
-                            <%=criterio.getCriterio()%>
-                            <%
-                            } else {
-                            %>
-                            <%=texto23.getTexto2()%>
-                            <%
-                                }
-                            %>
-                        </td>
-                        <td class="btn-primary">
-                            <%
-                                if (criterio.getId() != 15) {
-                            %>
-                            <select name="<%=capitulo.getId()%>-<%=criterio.getId()%>" id="<%=criterio.getId()%>" onchange="muestraAyudaCriterio(<%=criterio.getId()%>, '<%=capitulo.getId()%>', false)" class="selEval">
-                            <%
-                                for (Integer v: pnManager.getValoresValoracion()){
-                            %>
-                                <option <%=v==50?"selected":""%> class="selEval" value="<%=v%>"><%=v%></option>
-                            <%
-                                }
-                            %>
-                            </select>
-                            <%
+                        %>
+                        <tr>
+                            <td class=" btn-primary">
+                                <img src="images/help.png" onclick="muestraAyudaCriterio('<%=criterio.getId()%>','<%=capitulo.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
+                                <%
+                                    if (criterio.getId()!=15){
+                                %>
+                                <%=criterio.getCriterio()%>
+                                <%
                                 } else {
-                            %>
-                            <span id="<%=capitulo.getId()%>-15" class="btn-primary selEval"></span>
-                            <%
+                                %>
+                                <%=texto23.getTexto2()%>
+                                <%
+                                    }
+                                %>
+                            </td>
+                            <td class="btn-primary">
+                                <%
+                                    if (criterio.getId() != 15) {
+                                %>
+                                <select name="<%=capitulo.getId()%>-<%=criterio.getId()%>" id="<%=criterio.getId()%>" onchange="muestraAyudaCriterio(<%=criterio.getId()%>, '<%=capitulo.getId()%>', false)" class="selEval">
+                                    <%
+                                        for (Integer v: pnManager.getValoresValoracion()){
+                                    %>
+                                    <option <%=v==50?"selected":""%> class="selEval" value="<%=v%>"><%=v%></option>
+                                    <%
+                                        }
+                                    %>
+                                </select>
+                                <%
+                                } else {
+                                %>
+                                <span id="<%=capitulo.getId()%>-15" class="btn-primary selEval"></span>
+                                <%
+                                    }
+                                %>
+                            </td>
+                        </tr>
+                        <tr id="<%=capitulo.getId()%>-contenido<%=criterio.getId()%>" style="display:none;">
+                            <td colspan="2">
+                                <table cellpadding="0" cellspacing="0" border="1" width="100%">
+                                    <tr>
+                                        <td width="50%" class="contenido">
+                                            <span id="<%=capitulo.getId()%>-evalua<%=criterio.getId()%>"></span>
+                                            <%--<%=item.getEvalua()%>--%>
+                                        </td>
+                                        <td width="50%" class="contenido">
+                                            <span id="<%=capitulo.getId()%>-ayuda<%=criterio.getId()%>"></span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <%
                                 }
-                            %>
-                        </td>
-                    </tr>
-                    <tr id="<%=capitulo.getId()%>-contenido<%=criterio.getId()%>" style="display:none;">
-                        <td colspan="2">
-                            <table cellpadding="0" cellspacing="0" border="1" width="100%">
-                                <tr>
-                                    <td width="50%" class="contenido">
-                                        <span id="<%=capitulo.getId()%>-evalua<%=criterio.getId()%>"></span>
-                                        <%--<%=item.getEvalua()%>--%>
-                                    </td>
-                                    <td width="50%" class="contenido">
-                                        <span id="<%=capitulo.getId()%>-ayuda<%=criterio.getId()%>"></span>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <%
                             }
-                        }
-                    %>
-                </table>
+                        %>
+                    </table>
                     <br>&nbsp;  <button id="b1" class="btn  btn-primary" onclick="guardaIndividualCapitulos(false);">Guardar Avance</button>
-                    </div>
+                </div>
                 <%
                     } //  END DEL MEGA FOR DE CAPITULOS
                 %>
                 <%
                     if (!empleo.isEvaluaCapitulos()) {
                 %>
-                                         <br>
-                
+                <br>
+
                 <%--<button id="b1" class="btn  btn-primary" onclick="guardaIndividualCapitulos(false);">Guardar Avance</button>--%>
                 <button id="b2" class="btn  btn-primary" onclick="guardaIndividualCapitulos(true);">Guardar Final</button>
                 <%
@@ -190,31 +290,23 @@
 <script type="text/javascript">
 
     function guardaIndividualCapitulos(definitivo){
-        var dataVision   = new Array();
-        var dataFortaleza   = new Array();
-        var dataOportunidad = new Array();
-        var dataPendiente   = new Array();
 
         var dataValores = new Array();
 
-    <%
+        <%
 
-                        int total=0;
-        for (PnCapitulo capitulo : pnCapitulos) {
-    %>
-        dataVision.push     ({id:<%=capitulo.getId()%>, text: dwr.util.getValue("vision-<%=capitulo.getId()%>")});
-        dataFortaleza.push  ({id:<%=capitulo.getId()%>, text: dwr.util.getValue("fortalezas-<%=capitulo.getId()%>")});
-        dataOportunidad.push({id:<%=capitulo.getId()%>, text: dwr.util.getValue("oportunidades-<%=capitulo.getId()%>")});
-        dataPendiente.push  ({id:<%=capitulo.getId()%>, text: dwr.util.getValue("pendientesVisita-<%=capitulo.getId()%>")});
-    <%
-            for (PnCriterio criterio : pnManager.getPnCriterios()){
-    %>
+                            int total=0;
+            for (PnCapitulo capitulo : pnCapitulos) {
+        %>
+        <%
+                for (PnCriterio criterio : pnManager.getPnCriterios()){
+        %>
         dataValores.push    ({id:<%=capitulo.getId()%>, criterio:<%=criterio.getId()%>,
             value: dwr.util.getValue("<%=capitulo.getId()%>-<%=criterio.getId()%>")});
-    <%
+        <%
+                }
             }
-        }
-    %>
+        %>
 //        alert(dwr.util.toDescriptiveString(dataValores, 2));
 
         if (definitivo) {
@@ -224,24 +316,20 @@
         }
 
         pnRemoto.saveValoracionIndividualCapitulos(definitivo,
-                dataVision,
-                dataFortaleza,
-                dataOportunidad,
-                dataPendiente,
                 dataValores, function(data){
-            if(data == 1){
-                alert("Registro Correcto");
-                window.location = "evalCapInd.htm";
-            } else {
-                alert("Problemas !");
-            }
+                    if(data == 1){
+                        alert("Registro Correcto");
+                        window.location = "evalCapInd.htm";
+                    } else {
+                        alert("Problemas !");
+                    }
 
                     if (definitivo) {
                         enableId("b2");
                     } else {
                         enableId("b1");
                     }
-        });
+                });
 
     }
 
@@ -276,14 +364,14 @@
                     if(cualitativas != null){
                         for (PnCualitativa cualitativa: cualitativas){
     %>
-    try{
-    dwr.util.setValue(          "vision-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getVision().replaceAll("\n", "<br>").replaceAll("\r", "").replace("'","\"")%>'));
-    dwr.util.setValue(      "fortalezas-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getFortalezas().replaceAll("\n", "<br>").replaceAll("\r", "").replace("'","\"")%>'));
-    dwr.util.setValue(   "oportunidades-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getOportunidades().replaceAll("\n", "<br>").replaceAll("\r", "").replace("'","\"")%>'));
-    dwr.util.setValue("pendientesVisita-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getPendientesVisita().replaceAll("\n", "<br>").replaceAll("\r", "").replace("'","\"")%>'));
-    } catch(err){
+    //    try{
+    <%--dwr.util.setValue(          "vision-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getVision().replaceAll("\n", "<br>").replaceAll("\r", "").replace("'","\"")%>'));--%>
+    <%--dwr.util.setValue(      "fortalezas-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getFortalezas().replaceAll("\n", "<br>").replaceAll("\r", "").replace("'","\"")%>'));--%>
+    <%--dwr.util.setValue(   "oportunidades-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getOportunidades().replaceAll("\n", "<br>").replaceAll("\r", "").replace("'","\"")%>'));--%>
+    <%--dwr.util.setValue("pendientesVisita-<%=cualitativa.getPnCapituloByIdCapitulo().getId()%>",  poneSaltosDeLinea('<%=cualitativa.getPendientesVisita().replaceAll("\n", "<br>").replaceAll("\r", "").replace("'","\"")%>'));--%>
+    //    } catch(err){
 
-    }
+    //    }
     <%
                         } // FOR CUALITATIVAS
                     } // IF NULL
@@ -296,4 +384,35 @@
     <%
     }
     %>
+
+    /**
+     fortalezas oportunidades pendientesVisita vision
+     */
+    function editarCualitativa(campo, idCapitulo) {
+        pnRemoto.getPnCualitativa(2, idCapitulo, null, function(data){
+//            alert("data = " + data[campo]);
+            $("#"+campo+"-tr-"+idCapitulo).show();
+            dwr.util.setValue(campo+"-text-"+idCapitulo, data[campo]);
+
+            var SearchInput = $("#"+campo+"-text-"+idCapitulo);
+
+            // Multiply by 2 to ensure the cursor always ends up at the end;
+            // Opera sometimes sees a carriage return as 2 characters.
+            var strLength= SearchInput.val().length * 2;
+
+            SearchInput.focus();
+            SearchInput[0].setSelectionRange(strLength, strLength);
+        });
+    }
+
+    function guardaCualitativa(campo, idCapitulo){
+        var txt = dwr.util.getValue(campo+"-text-"+idCapitulo);
+//        alert("txt = " + txt);
+        pnRemoto.actualizaCualitativa(2, idCapitulo, txt, campo, function(data){
+//            alert("data = " + data);
+            dwr.util.setValue(campo+"-"+idCapitulo, data[campo]);
+            dwr.util.setValue(campo+"-text-"+idCapitulo, "");
+            $("#"+campo+"-tr-"+idCapitulo).hide();
+        });
+    }
 </script>

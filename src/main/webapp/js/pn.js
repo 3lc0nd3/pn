@@ -104,6 +104,10 @@ function contenidoAyudaCriterio(id, idCapitulo){
     dwr.util.setValue(idCapitulo+"-ayuda" + id,  replaceAll(ayuda,    "\n", "<br>"), { escapeHtml:false });
 }
 
+function muestraAyudaCualitativa(idCualitativa, idCapitulo){
+    $("#"+idCualitativa+"-"+idCapitulo+"-contenido").toggle();
+}
+
 function muestraAyuda(id, palanca){
     if(palanca){
         $("#contenido" + id).toggle();
@@ -153,6 +157,16 @@ function scrollToAnchor(aid){
 
 function cargaResultado(idEmpleado, page, nombre){
     pnRemoto.getIncludeResultadoInd(idEmpleado, page, nombre, function(data){
+        if (data!=null) {
+            dwr.util.setValue("resultado", data, { escapeHtml:false });
+//            window.location.hash="aResultado";
+            scrollToAnchor("aResultado");
+        }
+    });
+}
+
+function cargaResultadoConcenso(idParticipante, page, nombre){
+    pnRemoto.getIncludeResultadoConsenso(idParticipante, page, nombre, function(data){
         if (data!=null) {
             dwr.util.setValue("resultado", data, { escapeHtml:false });
 //            window.location.hash="aResultado";

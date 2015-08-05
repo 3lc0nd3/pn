@@ -135,6 +135,7 @@
             <th>Cargo</th>
             <th>Perfil S</th>
             <th>Empleado</th>
+            <th>Fecha Vinc</th>
             <th>Desvincular</th>
         </tr>
         </thead>
@@ -162,6 +163,9 @@
                 <%=persona.getNombreCompleto()%>
                 <br>
                 <%=persona.getEmailPersonal()%>
+            </td>
+            <td>
+                <%=empleado.getFechaIngreso()%>
             </td>
             <%--<td><img id="imgActive<%=participante.getIdParticipante()%>" width="28" onclick="activaDesactiva(<%=participante.getIdParticipante()%>);" src="<%=imageActive%>" alt="<%=messaActive%>" title="<%=messaActive%>"></td>--%>
             <td>

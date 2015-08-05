@@ -1,5 +1,7 @@
 package co.com.elramireza.pn.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -17,6 +19,8 @@ public class PnCualitativa {
     private int id;
 
     @Id
+    @GenericGenerator(name = "generator", strategy = "increment")
+    @GeneratedValue(generator = "generator")
     @Column(name = "id")
     public int getId() {
         return id;
