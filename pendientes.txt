@@ -1,0 +1,5 @@
+Premio Version
+
+ALTER TABLE `pn_premio` ADD `version` VARCHAR( 200 ) NOT NULL AFTER `nombre` ;
+
+ALTER TABLE pn_premio ADD '' DATE NOT NULL AFTER 'estado_inscripcion' ;

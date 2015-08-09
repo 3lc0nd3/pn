@@ -18,6 +18,18 @@ import java.sql.Timestamp;
 public class PnPremio {
     private int idPnPremio;
 
+    private String version;
+
+    @Basic
+    @Column(name = "version")
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
     private PnTipoPremio tipoPremioById;
 
     @Id

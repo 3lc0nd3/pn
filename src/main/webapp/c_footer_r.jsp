@@ -111,6 +111,9 @@
     </div>
 </footer>
 
+<!-- DATE -->
+<script src="js/date.js"></script>
+
 <!-- JS -->
 <script src="js/jquery.js"></script>
 <script src="js/bootstrap.js"></script>

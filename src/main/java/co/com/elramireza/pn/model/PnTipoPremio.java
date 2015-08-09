@@ -2,6 +2,7 @@ package co.com.elramireza.pn.model;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * Created with Edward L. Ramirez A.

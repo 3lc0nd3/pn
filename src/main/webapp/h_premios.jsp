@@ -28,6 +28,13 @@
                                 <input type="text" class="input-large required" name="nombrePremio" id="nombrePremio">
                             </div>
                         </div>
+                        <!-- Username -->
+                        <div class="control-group">
+                            <label class="control-label" for="version">Versi&oacute;n</label>
+                            <div class="controls">
+                                <input type="text" class="input-large required" name="version" id="version">
+                            </div>
+                        </div>
                         <!-- fecha desde -->
                         <div class="control-group">
                             <label class="control-label" for="tmpFechaDesde">Fecha Desde</label>
@@ -77,6 +84,7 @@
             <th>Id</th>
             <th>Sigla</th>
             <th>Nombre</th>
+            <th>Versi&oacute;n</th>
             <th>Fecha Desde</th>
             <th>Fecha Hasta</th>
             <th>Estado Inscripci&oacute;n</th>
@@ -100,6 +108,7 @@
             <td><%=premio.getIdPnPremio()%></td>
             <td><%=premio.getTipoPremioById().getSigla()%></td>
             <td><%=premio.getNombrePremio()%></td>
+            <td><%=premio.getVersion()%></td>
             <td><%=df.format(premio.getFechaDesde())%></td>
             <td><%=df.format(premio.getFechaHasta())%></td>
             <td><img id="imgActiveInscripcion<%=premio.getIdPnPremio()%>" width="28" onclick="activaDesactiva(<%=premio.getIdPnPremio()%>);" src="<%=imageActive%>" alt="<%=messaActive%>" title="<%=messaActive%>"></td>
@@ -168,11 +177,21 @@
         var premio = {
             idPnPremio : null,
             nombrePremio : null,
+            version : null,
             tmpFechaDesde : null,
-            tmpFechaHasta : null
+            tmpFechaHasta : null,
+            fechaDesde : null,
+            fechaHasta : null
         };
 
         dwr.util.getValues(premio);
+
+        premio.fechaDesde = getDateFromFormat(premio.tmpFechaDesde, "dd-MM-yyyy");
+        premio.fechaHasta = getDateFromFormat(premio.tmpFechaHasta, "dd-MM-yyyy");
+
+//        alert("premio.tmpFechaDesde = " + premio.tmpFechaDesde+" premio.fechaDesde = " + premio.fechaDesde);
+//        alert("premio.tmpFechaHasta = " + premio.tmpFechaHasta+" premio.fechaHasta = " + premio.fechaHasta);
+
 //        alert("premio.idPnPremio = " + premio.idPnPremio);
 
         pnRemoto.savePnPremio(premio, function(data){

@@ -27,7 +27,7 @@
                         <ul class="dropdown-menu">
                             <%  for (ServicioRol servicioRol: servicioRols){
                                 Servicio servicioByIdServicio = servicioRol.getServicioByIdServicio();
-                                    if (tipoPremio.getId()==2 && servicioByIdServicio.getIdServicio()==13){ //  EMPRESAS
+                                    if (tipoPremio!=null && tipoPremio.getId()==2 && servicioByIdServicio.getIdServicio()==13){ //  EMPRESAS
                                         servicioByIdServicio.setTextoServicio("Colegios");
                                     }
                             %>

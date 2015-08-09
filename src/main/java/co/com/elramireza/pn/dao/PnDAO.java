@@ -2133,26 +2133,59 @@ public class PnDAO extends HibernateDaoSupport{
 		}
 	}
 
+    public int savePnTipoPremio(PnTipoPremio tipoPremio){
+        WebContext wctx = WebContextFactory.get();
+        HttpSession session = wctx.getSession(true);
+        Persona persona = (Persona) session.getAttribute("persona");
+        try {
+            PnTipoPremio tipoPremioOld = getPnTipoPremio(tipoPremio.getId());
+            tipoPremio.setPersonaById(persona);
+            if(tipoPremioOld==null){
+                tipoPremio.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
+                tipoPremio.setUrlLogo("");
+                tipoPremio.setUrlLogoSmall("");
+                tipoPremio.setBanner("");
+            } else {
+                tipoPremio.setUrlLogo(tipoPremioOld.getUrlLogo());
+                tipoPremio.setUrlLogoSmall(tipoPremioOld.getUrlLogoSmall());
+                tipoPremio.setBanner(tipoPremioOld.getBanner());
+                tipoPremio.setFechaCreacion(tipoPremioOld.getFechaCreacion());
+            }
+            getHibernateTemplate().saveOrUpdate(tipoPremio);
+            return 1;
+        } catch (DataAccessException e) {
+            logger.debug(e.getMessage());
+            return 0;
+        }
+    }
+
 	public int savePnPremio(PnPremio premio ){
         WebContext wctx = WebContextFactory.get();
         HttpSession session = wctx.getSession(true);
         PnTipoPremio tipoPremio = (PnTipoPremio) session.getAttribute("tipoPremio");
 		logger.debug("Entro");
 		logger.debug("premio.getIdPnPremio() = " + premio.getIdPnPremio());
+        PnPremio pnPremioOld = getPnPremio(premio.getIdPnPremio());
 		try {
-            premio.setTipoPremioById(tipoPremio);
-			premio.setFechaDesde(new Timestamp(df.parse(premio.getTmpFechaDesde()).getTime()));
-			premio.setFechaHasta(new Timestamp(df.parse(premio.getTmpFechaHasta()).getTime()));
-			premio.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
+            if (pnPremioOld==null) {
+                premio.setTipoPremioById(tipoPremio);
+                premio.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
+            } else { // es OLD
+                premio.setTipoPremioById(pnPremioOld.getTipoPremioById());
+                premio.setEstadoInscripcion(pnPremioOld.getEstadoInscripcion());
+                premio.setFechaCreacion(pnPremioOld.getFechaCreacion());
+            }
+//            premio.setFechaDesde(new Timestamp(df.parse(premio.getTmpFechaDesde()).getTime()));
+//			premio.setFechaHasta(new Timestamp(df.parse(premio.getTmpFechaHasta()).getTime()));
 			getHibernateTemplate().saveOrUpdate(premio);
 			return 1;
 		} catch (DataAccessException e) {
 			logger.debug(e.getMessage());
 			return 0;
-		} catch (ParseException e) {
+		} /*catch (ParseException e) {
 			logger.debug(e.getMessage());
 			return 0;
-		}
+		}*/
 	}
 
 	public List<Empleado> getEmpleosFromPersona(int idPersona){
