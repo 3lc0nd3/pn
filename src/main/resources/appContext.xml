@@ -38,7 +38,7 @@
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
-                <prop key="hibernate.connection.url">jdbc:mysql://localhost/pn</prop>
+                <prop key="hibernate.connection.url">jdbc:mysql://localhost/pn?zeroDateTimeBehavior=convertToNull</prop>
                 <prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>
                 <prop key="hibernate.connection.username">pn</prop>
                 <prop key="hibernate.connection.password">pn</prop>

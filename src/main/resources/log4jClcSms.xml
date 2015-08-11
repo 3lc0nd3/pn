@@ -21,9 +21,13 @@
         <level value="ERROR"/>
     </logger>
 
-    <logger name="org.directwebremoting.util">
-        <level value="INFO"/>
+    <!--<logger name="org.directwebremoting.util">
+        <level value="DEBUG"/>
     </logger>
+
+    <logger name="org.springframework.orm.hibernate3">
+        <level value="DEBUG"/>
+    </logger>-->
 
     <logger name="log4j.additivity.org.directwebremoting.impl.DefaultConverterManager">
         <level value="INFO"/>

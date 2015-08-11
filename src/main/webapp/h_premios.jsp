@@ -12,43 +12,640 @@
 <premios>
 <div class="register">
     <div class="row">
-        <div class="span6">
+        <div class="span7">
             <div class="formy">
                 <a name="formPremio"></a><h5>Premios</h5>
-                <div class="form">
+                <div class="1form">
                     <!-- Login form (not working)-->
                     <form id="formPremiof" class="form-inline">
 
-                        <input id="idPnPremio" type="hidden" > 
+                        <input id="idPnPremio" type="hidden" >
 
-                        <!-- Username -->
-                        <div class="control-group">
-                            <label class="control-label" for="nombrePremio">Nombre</label>
-                            <div class="controls">
-                                <input type="text" class="input-large required" name="nombrePremio" id="nombrePremio">
+                        <div class="row">
+                            <div class="span3">
+                                <!-- name -->
+                                <div class="control-group">
+                                    <label class="control-label" for="nombrePremio">Nombre</label>
+                                    <div class="controls">
+                                        <input type="text" class="input-large required" name="nombrePremio" id="nombrePremio">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span3">
+                                <!-- version -->
+                                <div class="control-group">
+                                    <label class="control-label" for="version">Versi&oacute;n</label>
+                                    <div class="controls">
+                                        <input type="text" class="input-large required" name="version" id="version" maxlength="20">
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <!-- Username -->
-                        <div class="control-group">
-                            <label class="control-label" for="version">Versi&oacute;n</label>
-                            <div class="controls">
-                                <input type="text" class="input-large required" name="version" id="version">
+
+                        <div class="row">
+                            <div class="span1"></div>
+                            <div class="span5">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label">0 Premio Completo</label>
+                                </div>
                             </div>
                         </div>
-                        <!-- fecha desde -->
-                        <div class="control-group">
-                            <label class="control-label" for="tmpFechaDesde">Fecha Desde</label>
-                            <div class="controls">
-                                <input type="text" readonly class="input-large required" name="tmpFechaDesde" id="tmpFechaDesde">
+                        <div class="row">
+                            <div class="span3">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label" for="fechaDesde">Fecha Desde</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="fechaDesde" id="fechaDesde">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span3">
+                                <!-- fecha  hasta-->
+                                <div class="control-group">
+                                    <label class="control-label" for="fechaHasta">Fecha Hasta</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="fechaHasta" id="fechaHasta">
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <!-- fecha  hasta-->
-                        <div class="control-group">
-                            <label class="control-label" for="tmpFechaHasta">Fecha Desde</label>
-                            <div class="controls">
-                                <input type="text" readonly class="input-large required" name="tmpFechaHasta" id="tmpFechaHasta">
+
+                        <div class="row">
+                            <div class="span1"></div>
+                            <div class="span5">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label">
+                                        1	inscripci&oacute;n de evaluadores
+                                    </label>
+                                </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="span3">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label" for="inscripcionEvaluadoresDesde">Fecha Desde</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="inscripcionEvaluadoresDesde" id="inscripcionEvaluadoresDesde">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span3">
+                                <!-- fecha  hasta-->
+                                <div class="control-group">
+                                    <label class="control-label" for="inscripcionEvaluadoresHasta">Fecha Hasta</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="inscripcionEvaluadoresHasta" id="inscripcionEvaluadoresHasta">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="row">
+                            <div class="span1"></div>
+                            <div class="span5">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label">
+                                        2	formaci&oacute;n de evaluadores
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="span3">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label" for="formacionEvaluadoresDesde">Fecha Desde</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="formacionEvaluadoresDesde" id="formacionEvaluadoresDesde">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span3">
+                                <!-- fecha  hasta-->
+                                <div class="control-group">
+                                    <label class="control-label" for="formacionEvaluadoresHasta">Fecha Hasta</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="formacionEvaluadoresHasta" id="formacionEvaluadoresHasta">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="span1"></div>
+                            <div class="span5">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label">
+                                        3	invitaci&oacute;n a postulaci&oacute;n al premio
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="span3">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label" for="invitacionPostulacionDesde">Fecha Desde</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="invitacionPostulacionDesde" id="invitacionPostulacionDesde">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span3">
+                                <!-- fecha  hasta-->
+                                <div class="control-group">
+                                    <label class="control-label" for="invitacionPostulacionHasta">Fecha Hasta</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="invitacionPostulacionHasta" id="invitacionPostulacionHasta">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="span1"></div>
+                            <div class="span5">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label">
+                                        4	inscripci&oacute;n de postulantes
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="span3">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label" for="inscripcionPostulantesDesde">Fecha Desde</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="inscripcionPostulantesDesde" id="inscripcionPostulantesDesde">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span3">
+                                <!-- fecha  hasta-->
+                                <div class="control-group">
+                                    <label class="control-label" for="inscripcionPostulantesHasta">Fecha Hasta</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="inscripcionPostulantesHasta" id="inscripcionPostulantesHasta">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="span1"></div>
+                            <div class="span5">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label">
+                                        5	orientaci&oacute;n y acompa&ntilde;amiento a postulantes
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="span3">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label" for="orientacionPostulantesDesde">Fecha Desde</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="orientacionPostulantesDesde" id="orientacionPostulantesDesde">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span3">
+                                <!-- fecha  hasta-->
+                                <div class="control-group">
+                                    <label class="control-label" for="orientacionPostulantesHasta">Fecha Hasta</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="orientacionPostulantesHasta" id="orientacionPostulantesHasta">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="span1"></div>
+                            <div class="span5">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label">
+                                        6	entrega de informes ejecutivos a la corporaci&oacute;n calidad
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="span3">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label" for="entregaInformesEjecutivosDesde">Fecha Desde</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="entregaInformesEjecutivosDesde" id="entregaInformesEjecutivosDesde">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span3">
+                                <!-- fecha  hasta-->
+                                <div class="control-group">
+                                    <label class="control-label" for="entregaInformesEjecutivosHasta">Fecha Hasta</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="entregaInformesEjecutivosHasta" id="entregaInformesEjecutivosHasta">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="span1"></div>
+                            <div class="span5">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label">
+                                        7	evaluaci&oacute;n de las organizaciones postulantes
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="span3">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label" for="evaluacionOrganizacionesDesde">Fecha Desde</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="evaluacionOrganizacionesDesde" id="evaluacionOrganizacionesDesde">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span3">
+                                <!-- fecha  hasta-->
+                                <div class="control-group">
+                                    <label class="control-label" for="evaluacionOrganizacionesHasta">Fecha Hasta</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="evaluacionOrganizacionesHasta" id="evaluacionOrganizacionesHasta">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="span1"></div>
+                            <div class="span5">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label">
+                                        8	visitas de campo
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="span3">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label" for="visitasCampoDesde">Fecha Desde</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="visitasCampoDesde" id="visitasCampoDesde">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span3">
+                                <!-- fecha  hasta-->
+                                <div class="control-group">
+                                    <label class="control-label" for="visitasCampoHasta">Fecha Hasta</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="visitasCampoHasta" id="visitasCampoHasta">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="span1"></div>
+                            <div class="span5">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label">
+                                        9	sustentaci&oacute;n ante jurados
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="span3">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label" for="sustentacionJuradosDesde">Fecha Desde</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="sustentacionJuradosDesde" id="sustentacionJuradosDesde">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span3">
+                                <!-- fecha  hasta-->
+                                <div class="control-group">
+                                    <label class="control-label" for="sustentacionJuradosHasta">Fecha Desde</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="sustentacionJuradosHasta" id="sustentacionJuradosHasta">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="span1"></div>
+                            <div class="span5">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label">
+                                        10	ceremonia de entrega del premio
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="span3">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label" for="ceremoniaEntregaPremio">Fecha</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="ceremoniaEntregaPremio" id="ceremoniaEntregaPremio">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span3">
+
+                            </div>
+                        </div>
+
+                        <%--<div class="row">
+                            <div class="span1"></div>
+                            <div class="span5">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label">
+
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="span3">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label" for="">Fecha Desde</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="" id="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span3">
+                                <!-- fecha  hasta-->
+                                <div class="control-group">
+                                    <label class="control-label" for="">Fecha Desde</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="" id="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>--%>
+
+                        <%--<div class="row">
+                            <div class="span1"></div>
+                            <div class="span5">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label">
+
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="span3">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label" for="">Fecha Desde</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="" id="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span3">
+                                <!-- fecha  hasta-->
+                                <div class="control-group">
+                                    <label class="control-label" for="">Fecha Desde</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="" id="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>--%>
+
+                        <%--<div class="row">
+                            <div class="span1"></div>
+                            <div class="span5">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label">
+
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="span3">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label" for="">Fecha Desde</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="" id="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span3">
+                                <!-- fecha  hasta-->
+                                <div class="control-group">
+                                    <label class="control-label" for="">Fecha Desde</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="" id="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>--%>
+
+                        <%--<div class="row">
+                            <div class="span1"></div>
+                            <div class="span5">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label">
+
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="span3">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label" for="">Fecha Desde</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="" id="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span3">
+                                <!-- fecha  hasta-->
+                                <div class="control-group">
+                                    <label class="control-label" for="">Fecha Desde</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="" id="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>--%>
+
+                        <%--<div class="row">
+                            <div class="span1"></div>
+                            <div class="span5">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label">
+
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="span3">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label" for="">Fecha Desde</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="" id="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span3">
+                                <!-- fecha  hasta-->
+                                <div class="control-group">
+                                    <label class="control-label" for="">Fecha Desde</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="" id="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>--%>
+
+                        <%--<div class="row">
+                            <div class="span1"></div>
+                            <div class="span5">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label">
+
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="span3">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label" for="">Fecha Desde</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="" id="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span3">
+                                <!-- fecha  hasta-->
+                                <div class="control-group">
+                                    <label class="control-label" for="">Fecha Desde</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="" id="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>--%>
+
+                        <%--<div class="row">
+                            <div class="span1"></div>
+                            <div class="span5">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label">
+
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="span3">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label" for="">Fecha Desde</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="" id="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span3">
+                                <!-- fecha  hasta-->
+                                <div class="control-group">
+                                    <label class="control-label" for="">Fecha Desde</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="" id="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>--%>
+
+                        <%--<div class="row">
+                            <div class="span1"></div>
+                            <div class="span5">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label">
+
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="span3">
+                                <!-- fecha desde -->
+                                <div class="control-group">
+                                    <label class="control-label" for="">Fecha Desde</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="" id="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span3">
+                                <!-- fecha  hasta-->
+                                <div class="control-group">
+                                    <label class="control-label" for="">Fecha Desde</label>
+                                    <div class="controls">
+                                        <input type="text" readonly class="input-large required" name="" id="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>--%>
+
+
+
                         <!-- Buttons -->
                         <div class="form-actions">
                             <!-- Buttons -->
@@ -60,7 +657,7 @@
             </div>
         </div>
 
-        <div class="span6">
+        <div class="span5">
 
             <%=tipoPremio.getDescripcion()%>
             <%--<h2><%=texto.getTexto1()%></h2>--%>
@@ -158,7 +755,32 @@
     function editaPremio(id){
         pnRemoto.getPnPremio(id, function(data){
             if(data!=null){
+//                alert("XXXX data.inscripcionEvaluadoresHasta = " + data.inscripcionEvaluadoresHasta);
 //                alert("Guardado");
+                data.fechaDesde=formatDate(data.fechaDesde,'dd-MM-yyyy');
+                data.fechaHasta=formatDate(data.fechaHasta,'dd-MM-yyyy');
+
+                data.inscripcionEvaluadoresDesde=formatDate(data.inscripcionEvaluadoresDesde,'dd-MM-yyyy');
+                data.formacionEvaluadoresDesde=formatDate(data.formacionEvaluadoresDesde,'dd-MM-yyyy');
+                data.invitacionPostulacionDesde=formatDate(data.invitacionPostulacionDesde,'dd-MM-yyyy');
+                data.inscripcionPostulantesDesde=formatDate(data.inscripcionPostulantesDesde,'dd-MM-yyyy');
+                data.orientacionPostulantesDesde=formatDate(data.orientacionPostulantesDesde,'dd-MM-yyyy');
+                data.entregaInformesEjecutivosDesde=formatDate(data.entregaInformesEjecutivosDesde,'dd-MM-yyyy');
+                data.evaluacionOrganizacionesDesde=formatDate(data.evaluacionOrganizacionesDesde,'dd-MM-yyyy');
+                data.visitasCampoDesde=formatDate(data.visitasCampoDesde,'dd-MM-yyyy');
+                data.sustentacionJuradosDesde=formatDate(data.sustentacionJuradosDesde,'dd-MM-yyyy');
+                data.ceremoniaEntregaPremio=formatDate(data.ceremoniaEntregaPremio,'dd-MM-yyyy');
+                data.inscripcionEvaluadoresHasta=formatDate(data.inscripcionEvaluadoresHasta,'dd-MM-yyyy');
+                data.formacionEvaluadoresHasta=formatDate(data.formacionEvaluadoresHasta,'dd-MM-yyyy');
+                data.invitacionPostulacionHasta=formatDate(data.invitacionPostulacionHasta,'dd-MM-yyyy');
+                data.inscripcionPostulantesHasta=formatDate(data.inscripcionPostulantesHasta,'dd-MM-yyyy');
+                data.orientacionPostulantesHasta=formatDate(data.orientacionPostulantesHasta,'dd-MM-yyyy');
+                data.entregaInformesEjecutivosHasta=formatDate(data.entregaInformesEjecutivosHasta,'dd-MM-yyyy');
+                data.evaluacionOrganizacionesHasta=formatDate(data.evaluacionOrganizacionesHasta,'dd-MM-yyyy');
+                data.visitasCampoHasta=formatDate(data.visitasCampoHasta,'dd-MM-yyyy');
+                data.sustentacionJuradosHasta=formatDate(data.sustentacionJuradosHasta,'dd-MM-yyyy');
+
+
                 dwr.util.setValues(data);
                 window.location = '#formPremio';
             } else {
@@ -178,19 +800,59 @@
             idPnPremio : null,
             nombrePremio : null,
             version : null,
-            tmpFechaDesde : null,
-            tmpFechaHasta : null,
+//            tmpFechaDesde : null,
+//            tmpFechaHasta : null,
             fechaDesde : null,
-            fechaHasta : null
+            fechaHasta : null,
+            inscripcionEvaluadoresDesde : null,
+            formacionEvaluadoresDesde : null,
+            invitacionPostulacionDesde : null,
+            inscripcionPostulantesDesde : null,
+            orientacionPostulantesDesde : null,
+            entregaInformesEjecutivosDesde : null,
+            evaluacionOrganizacionesDesde : null,
+            visitasCampoDesde : null,
+            sustentacionJuradosDesde : null,
+            ceremoniaEntregaPremio : null,
+            inscripcionEvaluadoresHasta : null,
+            formacionEvaluadoresHasta : null,
+            invitacionPostulacionHasta : null,
+            inscripcionPostulantesHasta : null,
+            orientacionPostulantesHasta : null,
+            entregaInformesEjecutivosHasta : null,
+            evaluacionOrganizacionesHasta : null,
+            visitasCampoHasta : null,
+            sustentacionJuradosHasta : null,
+            ceremoniaEntregaPremio : null
         };
 
         dwr.util.getValues(premio);
 
-        premio.fechaDesde = getDateFromFormat(premio.tmpFechaDesde, "dd-MM-yyyy");
-        premio.fechaHasta = getDateFromFormat(premio.tmpFechaHasta, "dd-MM-yyyy");
+        premio.fechaDesde = getDateFromFormat(premio.fechaDesde, 'dd-MM-yyyy');
+        premio.fechaHasta = getDateFromFormat(premio.fechaHasta, 'dd-MM-yyyy');
 
-//        alert("premio.tmpFechaDesde = " + premio.tmpFechaDesde+" premio.fechaDesde = " + premio.fechaDesde);
-//        alert("premio.tmpFechaHasta = " + premio.tmpFechaHasta+" premio.fechaHasta = " + premio.fechaHasta);
+        premio.inscripcionEvaluadoresDesde = getDateFromFormat(premio.inscripcionEvaluadoresDesde, 'dd-MM-yyyy');
+        premio.formacionEvaluadoresDesde = getDateFromFormat(premio.formacionEvaluadoresDesde, 'dd-MM-yyyy');
+        premio.invitacionPostulacionDesde = getDateFromFormat(premio.invitacionPostulacionDesde, 'dd-MM-yyyy');
+        premio.inscripcionPostulantesDesde = getDateFromFormat(premio.inscripcionPostulantesDesde, 'dd-MM-yyyy');
+        premio.orientacionPostulantesDesde = getDateFromFormat(premio.orientacionPostulantesDesde, 'dd-MM-yyyy');
+        premio.entregaInformesEjecutivosDesde = getDateFromFormat(premio.entregaInformesEjecutivosDesde, 'dd-MM-yyyy');
+        premio.evaluacionOrganizacionesDesde = getDateFromFormat(premio.evaluacionOrganizacionesDesde, 'dd-MM-yyyy');
+        premio.visitasCampoDesde = getDateFromFormat(premio.visitasCampoDesde, 'dd-MM-yyyy');
+        premio.sustentacionJuradosDesde = getDateFromFormat(premio.sustentacionJuradosDesde, 'dd-MM-yyyy');
+        premio.ceremoniaEntregaPremio = getDateFromFormat(premio.ceremoniaEntregaPremio, 'dd-MM-yyyy');
+        premio.inscripcionEvaluadoresHasta = getDateFromFormat(premio.inscripcionEvaluadoresHasta, 'dd-MM-yyyy');
+        premio.formacionEvaluadoresHasta = getDateFromFormat(premio.formacionEvaluadoresHasta, 'dd-MM-yyyy');
+        premio.invitacionPostulacionHasta = getDateFromFormat(premio.invitacionPostulacionHasta, 'dd-MM-yyyy');
+        premio.inscripcionPostulantesHasta = getDateFromFormat(premio.inscripcionPostulantesHasta, 'dd-MM-yyyy');
+        premio.orientacionPostulantesHasta = getDateFromFormat(premio.orientacionPostulantesHasta, 'dd-MM-yyyy');
+        premio.entregaInformesEjecutivosHasta = getDateFromFormat(premio.entregaInformesEjecutivosHasta, 'dd-MM-yyyy');
+        premio.evaluacionOrganizacionesHasta = getDateFromFormat(premio.evaluacionOrganizacionesHasta, 'dd-MM-yyyy');
+        premio.visitasCampoHasta = getDateFromFormat(premio.visitasCampoHasta, 'dd-MM-yyyy');
+        premio.sustentacionJuradosHasta = getDateFromFormat(premio.sustentacionJuradosHasta, 'dd-MM-yyyy');
+
+//        alert("premio.fechaDesde = " + premio.fechaDesde);
+//        alert("premio.fechaHasta = " + premio.fechaHasta);
 
 //        alert("premio.idPnPremio = " + premio.idPnPremio);
 
@@ -205,15 +867,29 @@
 
     }
 
-    $('#tmpFechaDesde').datepicker({
-        format: 'dd-mm-yyyy',
-        autoclose: true
-    });
-    $('#tmpFechaHasta').datepicker({
-        format: 'dd-mm-yyyy',
-        autoclose: true
-    }).on('changeDate', function(ev){
-    });
+    $('#fechaDesde').datepicker({format: 'dd-mm-yyyy',autoclose: true});
+    $('#fechaHasta').datepicker({format: 'dd-mm-yyyy',autoclose: true});
+
+    $('#inscripcionEvaluadoresDesde').datepicker({format: 'dd-mm-yyyy',autoclose: true});
+    $('#formacionEvaluadoresDesde').datepicker({format: 'dd-mm-yyyy',autoclose: true});
+    $('#invitacionPostulacionDesde').datepicker({format: 'dd-mm-yyyy',autoclose: true});
+    $('#inscripcionPostulantesDesde').datepicker({format: 'dd-mm-yyyy',autoclose: true});
+    $('#orientacionPostulantesDesde').datepicker({format: 'dd-mm-yyyy',autoclose: true});
+    $('#entregaInformesEjecutivosDesde').datepicker({format: 'dd-mm-yyyy',autoclose: true});
+    $('#evaluacionOrganizacionesDesde').datepicker({format: 'dd-mm-yyyy',autoclose: true});
+    $('#visitasCampoDesde').datepicker({format: 'dd-mm-yyyy',autoclose: true});
+    $('#sustentacionJuradosDesde').datepicker({format: 'dd-mm-yyyy',autoclose: true});
+    $('#ceremoniaEntregaPremio').datepicker({format: 'dd-mm-yyyy',autoclose: true});
+    $('#inscripcionEvaluadoresHasta').datepicker({format: 'dd-mm-yyyy',autoclose: true});
+    $('#formacionEvaluadoresHasta').datepicker({format: 'dd-mm-yyyy',autoclose: true});
+    $('#invitacionPostulacionHasta').datepicker({format: 'dd-mm-yyyy',autoclose: true});
+    $('#inscripcionPostulantesHasta').datepicker({format: 'dd-mm-yyyy',autoclose: true});
+    $('#orientacionPostulantesHasta').datepicker({format: 'dd-mm-yyyy',autoclose: true});
+    $('#entregaInformesEjecutivosHasta').datepicker({format: 'dd-mm-yyyy',autoclose: true});
+    $('#evaluacionOrganizacionesHasta').datepicker({format: 'dd-mm-yyyy',autoclose: true});
+    $('#visitasCampoHasta').datepicker({format: 'dd-mm-yyyy',autoclose: true});
+    $('#sustentacionJuradosHasta').datepicker({format: 'dd-mm-yyyy',autoclose: true});
+
 
     jQuery(document).ready(function() {
         jQuery("#formPremiof").validate();

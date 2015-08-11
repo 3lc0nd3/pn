@@ -62,12 +62,12 @@
                     <tr><td>
                         <textarea id="vision" class="field span6" placeholder="<%=texto20.getTexto2()%>" rows="4" cols="10"></textarea>
                     </td></tr>
-                    <tr style="display: none; visibility: hidden;"><th class="alert-info">Fortalezas</th></tr>
-                    <tr style="display: none; visibility: hidden;"><td>
+                    <tr <%--style="display: none; visibility: hidden;"--%>><th class="alert-info">Fortalezas</th></tr>
+                    <tr <%--style="display: none; visibility: hidden;"--%>><td>
                         <textarea id="fortalezas" class="field span6" placeholder="<%=texto19.getTexto1()%>" rows="4" cols="10"></textarea>
                     </td></tr>
-                    <tr style="display: none; visibility: hidden;"><th class="alert-info">Oportunidades de Mejora</th></tr>
-                    <tr style="display: none; visibility: hidden;"><td>
+                    <tr <%--style="display: none; visibility: hidden;"--%>><th class="alert-info">Oportunidades de Mejora</th></tr>
+                    <tr <%--style="display: none; visibility: hidden;"--%>><td>
                         <textarea id="oportunidades" class="field span6" placeholder="<%=texto19.getTexto2()%>" rows="4" cols="10"></textarea>
                     </td></tr>
                     <tr><th class="alert-info">Puntos Pendientes Visita de Campo</th></tr>

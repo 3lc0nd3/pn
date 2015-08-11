@@ -135,6 +135,9 @@
 <script type='text/javascript' src='dwr/interface/frontController.js'></script>
 <script type='text/javascript' src='dwr/util.js'></script>
 
+<link href="scripts/jquery/jquery-notice/jquery.notice.css" rel="stylesheet">
+<script src="scripts/jquery/jquery-notice/jquery.notice.js"></script>
+
 <script src="js/myScript.js"></script>
 
 <script src="js/jquery-validate/jquery.validate.min.js"></script>

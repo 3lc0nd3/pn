@@ -1,3 +1,41 @@
+
+dwr.engine.setErrorHandler(errp4s);
+
+var muestraExec = true;
+var cuantosExec = 3;
+
+function errp4s(msg, exc){
+    alrtError(dwr.util.toDescriptiveString(exc, 2));
+    alrtError(exc.stackTrace[0].className);
+    if(muestraExec){
+//        msg += "<br>" + dwr.util.toDescriptiveString(exc, 3);
+        for (var i = 0; i<cuantosExec; i++) {
+            msg += "<br>" + exc.stackTrace[i].className;
+            msg += "<br>" + exc.stackTrace[i].methodName;
+            msg += "<br>" + exc.stackTrace[i].lineNumber;
+        }
+    }
+    alrtError(msg);
+
+//    alrt(msg + ' ' + exc);
+    botonOperativo();
+}
+
+function alrt(msg){
+    jQuery.noticeAdd({
+        text: msg,
+        stay: false,
+        type: 'notice-success'
+    });
+}
+function alrtError(msg){
+    jQuery.noticeAdd({
+        text: msg,
+        stay: true,
+        type: 'notice-error'
+    });
+}
+
 function utf8_encode (argString) {
     if (argString === null || typeof argString === "undefined") {
         return "";

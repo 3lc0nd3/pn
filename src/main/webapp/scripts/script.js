@@ -1,8 +1,25 @@
 
 dwr.engine.setErrorHandler(errp4s);
 
-var muestraExec = false;
+var muestraExec = true;
 var cuantosExec = 3;
+
+function errp4s(msg, exc){
+    alrtError(dwr.util.toDescriptiveString(exc, 2));
+    alrtError(exc.stackTrace[0].className);
+    if(muestraExec){
+//        msg += "<br>" + dwr.util.toDescriptiveString(exc, 3);
+        for (var i = 0; i<cuantosExec; i++) {
+            msg += "<br>" + exc.stackTrace[i].className;
+            msg += "<br>" + exc.stackTrace[i].methodName;
+            msg += "<br>" + exc.stackTrace[i].lineNumber;
+        }
+    }
+    alrtError(msg);
+
+//    alrt(msg + ' ' + exc);
+    botonOperativo();
+}
 
 function alrt(msg){
     jQuery.noticeAdd({
@@ -465,23 +482,6 @@ function eliminaCertamen(idCertamen){
     swRemoto.deleteCertamen(idCertamen, function(data){
 
     });
-}
-
-function errp4s(msg, exc){
-//    alrt(dwr.util.toDescriptiveString(exc, 2));
-//    alrt(exc.stackTrace[0].className);
-    if(muestraExec){
-//        msg += "<br>" + dwr.util.toDescriptiveString(exc, 3);
-        for (var i = 0; i<cuantosExec; i++) {
-            msg += "<br>" + exc.stackTrace[i].className;
-            msg += "<br>" + exc.stackTrace[i].methodName;
-            msg += "<br>" + exc.stackTrace[i].lineNumber;
-        }
-    }
-    alrtError(msg);
-
-//    alrt(msg + ' ' + exc);
-    botonOperativo();
 }
 
 function errh(msg, exc) {

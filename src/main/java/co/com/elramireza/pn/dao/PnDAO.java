@@ -2017,8 +2017,6 @@ public class PnDAO extends HibernateDaoSupport{
 
 	public PnPremio getPnPremio(int id){
 		PnPremio premio = (PnPremio) getHibernateTemplate().get(PnPremio.class, id);
-		premio.setTmpFechaDesde(df.format(premio.getFechaDesde()));
-		premio.setTmpFechaHasta(df.format(premio.getFechaHasta()));
 		return premio;
 	}
 
@@ -2166,26 +2164,32 @@ public class PnDAO extends HibernateDaoSupport{
 		logger.debug("Entro");
 		logger.debug("premio.getIdPnPremio() = " + premio.getIdPnPremio());
         PnPremio pnPremioOld = getPnPremio(premio.getIdPnPremio());
-		try {
-            if (pnPremioOld==null) {
+        logger.info("pnPremioOld = " + pnPremioOld);
+        try {
+            if (pnPremioOld==null) {  // NEW
+                logger.info("es nuevo");
+                logger.info("pnPremioOld = " + pnPremioOld);
                 premio.setTipoPremioById(tipoPremio);
                 premio.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
+                getHibernateTemplate().save(premio);
             } else { // es OLD
                 premio.setTipoPremioById(pnPremioOld.getTipoPremioById());
                 premio.setEstadoInscripcion(pnPremioOld.getEstadoInscripcion());
                 premio.setFechaCreacion(pnPremioOld.getFechaCreacion());
+                getHibernateTemplate().update(premio);
             }
 //            premio.setFechaDesde(new Timestamp(df.parse(premio.getTmpFechaDesde()).getTime()));
 //			premio.setFechaHasta(new Timestamp(df.parse(premio.getTmpFechaHasta()).getTime()));
-			getHibernateTemplate().saveOrUpdate(premio);
+//			getHibernateTemplate().saveOrUpdate(premio);
 			return 1;
 		} catch (DataAccessException e) {
 			logger.debug(e.getMessage());
 			return 0;
-		} /*catch (ParseException e) {
+		} catch (Exception e) {
+            e.printStackTrace();
 			logger.debug(e.getMessage());
 			return 0;
-		}*/
+		}
 	}
 
 	public List<Empleado> getEmpleosFromPersona(int idPersona){

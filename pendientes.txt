@@ -2,4 +2,23 @@ Premio Version
 
 ALTER TABLE `pn_premio` ADD `version` VARCHAR( 200 ) NOT NULL AFTER `nombre` ;
 
-ALTER TABLE pn_premio ADD '' DATE NOT NULL AFTER 'estado_inscripcion' ;
+ALTER TABLE `pn_premio` ADD `inscripcion_evaluadores_desde` DATE NOT NULL AFTER `estado_inscripcion` ;
+ALTER TABLE `pn_premio` ADD `formacion_evaluadores_desde` DATE NOT NULL AFTER `estado_inscripcion` ;
+ALTER TABLE `pn_premio` ADD `Invitacion_postulacion_desde` DATE NOT NULL AFTER `estado_inscripcion` ;
+ALTER TABLE `pn_premio` ADD `inscripcion_postulantes_desde` DATE NOT NULL AFTER `estado_inscripcion` ;
+ALTER TABLE `pn_premio` ADD `orientacion_postulantes_desde` DATE NOT NULL AFTER `estado_inscripcion` ;
+ALTER TABLE `pn_premio` ADD `entrega_informes_ejecutivos_desde` DATE NOT NULL AFTER `estado_inscripcion` ;
+ALTER TABLE `pn_premio` ADD `evaluacion_organizaciones_desde` DATE NOT NULL AFTER `estado_inscripcion` ;
+ALTER TABLE `pn_premio` ADD `visitas_campo_desde` DATE NOT NULL AFTER `estado_inscripcion` ;
+ALTER TABLE `pn_premio` ADD `sustentacion_jurados_desde` DATE NOT NULL AFTER `estado_inscripcion` ;
+ALTER TABLE `pn_premio` ADD `inscripcion_evaluadores_hasta` DATE NOT NULL AFTER `estado_inscripcion` ;
+ALTER TABLE `pn_premio` ADD `formacion_evaluadores_hasta` DATE NOT NULL AFTER `estado_inscripcion` ;
+ALTER TABLE `pn_premio` ADD `Invitacion_postulacion_hasta` DATE NOT NULL AFTER `estado_inscripcion` ;
+ALTER TABLE `pn_premio` ADD `inscripcion_postulantes_hasta` DATE NOT NULL AFTER `estado_inscripcion` ;
+ALTER TABLE `pn_premio` ADD `orientacion_postulantes_hasta` DATE NOT NULL AFTER `estado_inscripcion` ;
+ALTER TABLE `pn_premio` ADD `entrega_informes_ejecutivos_hasta` DATE NOT NULL AFTER `estado_inscripcion` ;
+ALTER TABLE `pn_premio` ADD `evaluacion_organizaciones_hasta` DATE NOT NULL AFTER `estado_inscripcion` ;
+ALTER TABLE `pn_premio` ADD `visitas_campo_hasta` DATE NOT NULL AFTER `estado_inscripcion` ;
+ALTER TABLE `pn_premio` ADD `sustentacion_jurados_hasta` DATE NOT NULL AFTER `estado_inscripcion` ;
+ALTER TABLE `pn_premio` ADD `ceremonia_entrega_premio` DATE NOT NULL AFTER `estado_inscripcion` ;
+
