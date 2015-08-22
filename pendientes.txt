@@ -22,3 +22,11 @@ ALTER TABLE `pn_premio` ADD `visitas_campo_hasta` DATE NOT NULL AFTER `estado_in
 ALTER TABLE `pn_premio` ADD `sustentacion_jurados_hasta` DATE NOT NULL AFTER `estado_inscripcion` ;
 ALTER TABLE `pn_premio` ADD `ceremonia_entrega_premio` DATE NOT NULL AFTER `estado_inscripcion` ;
 
+
+
+ALTER TABLE  `pn_categoria_criterio` ADD  `id_tipo_premio` INT NOT NULL AFTER  `id` , ADD INDEX (  `id_tipo_premio` ) ;
+UPDATE  `pn_categoria_criterio` SET  `id_tipo_premio` =1;
+ALTER TABLE  `pn_categoria_criterio` ADD FOREIGN KEY (  `id_tipo_premio` ) REFERENCES  `pn`.`pn_tipo_premio` (
+`id`
+) ON DELETE RESTRICT ON UPDATE RESTRICT ;
+

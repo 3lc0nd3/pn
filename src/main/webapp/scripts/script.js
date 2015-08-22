@@ -1,7 +1,8 @@
 
-dwr.engine.setErrorHandler(errp4s);
+//dwr.engine.setErrorHandler(errp4s);
 
-var muestraExec = true;
+//var muestraExec = true;
+var muestraExec = false;
 var cuantosExec = 3;
 
 function errp4s(msg, exc){

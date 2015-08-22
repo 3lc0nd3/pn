@@ -130,6 +130,7 @@
             <td><%=df.format(pnTipoPremio.getFechaCreacion())%></td>
             <td>
                 <img width="36" onclick="editaPremio(<%=pnTipoPremio.getId()%>);" src="img/edit.png" alt="edita" title="edita">
+                <img width="36" onclick="revisaTipoPremio(<%=pnTipoPremio.getId()%>);" src="img/view.png" alt="ver" title="ver">
             </td>
         </tr>
         <%
@@ -138,8 +139,20 @@
     </table>
 </div>
 
-
+<br>
+<br>
+<div class="border"></div>
+<div id="labelExpor">
+    <h3 class="color">Detalle de Calificaci&oacute;n</h3>
+    <a name="detalleEmpresa"></a>
+</div>
+<span id="empresaDiv"></span>
+<br>
+<br>
+<div class="border"></div>
 <jsp:include page="c_footer_r.jsp"/>
+
+<script src="scripts/interpretadorAjax.js"></script>
 
 <script type="text/javascript">
 
@@ -257,4 +270,22 @@
             }
         } );
     } );
+
+    function revisaTipoPremio(id){
+
+//        dwr.util.setValue("empresaExportDiv", '<a href="h_informeRetroW.jsp?k='+id+'">Exportar <img src="img/word.png" alt="Word" title="Word" width="36"></a>', { escapeHtml:false });
+
+        frontController.getIncludeTipoPremioAdmon(id, function(data){
+//            alert("data = " + data);
+            dwr.util.setValue("empresaDiv", data, { escapeHtml:false });
+            window.location = '#detalleEmpresa';
+            var scsPopular = data.extractScript();
+//            alert("scsPopular = " + scsPopular);
+            scsPopular.evalScript();
+        });
+
+    }
+
+
+
 </script>

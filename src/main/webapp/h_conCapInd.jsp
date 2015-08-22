@@ -8,11 +8,17 @@
     Texto texto20 = pnManager.getTexto(21);
     Texto texto22 = pnManager.getTexto(22);
     Texto texto23 = pnManager.getTexto(23);
+    PnTipoPremio tipoPremio = (PnTipoPremio) session.getAttribute("tipoPremio");
     Empleado empleo = (Empleado) session.getAttribute("empleo");
     Participante participanteByIdParticipante = empleo.getParticipanteByIdParticipante();
     Empresa empresa = participanteByIdParticipante.getEmpresaByIdEmpresa();
 
-    List<PnCategoriaCriterio> categoriasCriterio = pnManager.getCategoriasCriterio();
+    List<PnPrincipioCualitativo> principioCualitativos = pnManager.getHibernateTemplate().find(
+            "from PnPrincipioCualitativo where pnTipoPremioById.id=?",
+            tipoPremio.getId()
+    );
+
+    List<PnCategoriaCriterio> categoriasCriterio = pnManager.getCategoriasCriterio(tipoPremio.getId());
 //    categoriasCriterio.remove(categoriasCriterio.size()-1);
 
 %>
@@ -95,7 +101,49 @@
                     <h4 class="color"><%=capitulo.getNombreCapitulo()%></h4>
                     <br>
                     <table border="1" width="70%" align="center">
+                        <%
+                            for (PnPrincipioCualitativo principioCualitativo: principioCualitativos){
+                        %>
                         <tr><th class="alert-info">
+                            <img src="images/help.png" onclick="muestraAyudaCualitativa('<%=principioCualitativo.getCampo()%>','<%=capitulo.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
+                            <%=principioCualitativo.getNombreCualitativa()%></th>
+                        </tr>
+                        <tr>
+                            <td class="contenido" bgcolor="white">
+                            <span id="<%=principioCualitativo.getCampo()%>-<%=capitulo.getId()%>">
+                                <%
+                                    Class noparams[] = {};
+                                    Class cls = Class.forName("co.com.elramireza.pn.model.PnCualitativa");
+                                    Object obj = cualitativa;
+                                    String campo = principioCualitativo.getCampo().substring(0, 1).toUpperCase() + principioCualitativo.getCampo().substring(1);
+                                    java.lang.reflect.Method method =  cls.getDeclaredMethod("get"+campo, noparams);
+                                    String res = (String) method.invoke(obj, null);
+                                %>
+                                <%=res%>
+                            </span>
+                                <br>
+                                <br>
+                                <a onclick="editarCualitativa('<%=principioCualitativo.getCampo()%>', <%=capitulo.getId()%>);">
+                                    <img src="images/edit.png" alt="Editar">
+                                    Editar
+                                </a>
+                            </td>
+                        </tr>
+                        <tr id="<%=principioCualitativo.getCampo()%>-tr-<%=capitulo.getId()%>" style="display:none;"><td>
+                            <textarea id="<%=principioCualitativo.getCampo()%>-text-<%=capitulo.getId()%>" class="field span6" placeholder="" rows="4" cols="10"></textarea>
+                            <img  style="margin-bottom: 12px;" src="img/atencion.gif" width="25" height="25" alt="">
+                            <a style="margin-bottom: 15px;" class="btn btn-danger" onclick="guardaCualitativa('<%=principioCualitativo.getCampo()%>', <%=capitulo.getId()%>);">Guardar</a>
+                            <%--<br>&nbsp;--%>
+                        </td></tr>
+                        <tr id="<%=principioCualitativo.getCampo()%>-<%=capitulo.getId()%>-contenido" style="display:none;">
+                            <td  class="contenido">
+                                <%=pnManager.txtToHtml(principioCualitativo.getTextoCualitativa())%>
+                            </td>
+                        </tr>
+                        <%
+                            }  //  END FOR principioCualitativos
+                        %>
+                        <%--<tr><th class="alert-info">
                             <img src="images/help.png" onclick="muestraAyudaCualitativa('v','<%=capitulo.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
                             <%=texto20.getTexto1()%></th></tr>
                         <tr>
@@ -200,7 +248,7 @@
                             <td colspan="2" class="contenido">
                                 Puntos para tener en cuenta
                             </td>
-                        </tr>
+                        </tr>--%>
 
                     </table>
                     <br>
@@ -271,7 +319,7 @@
                             }
                         %>
                     </table>
-                    <br>&nbsp;<button id="b1" class="btn  btn-primary" onclick="guardaIndividualCapitulos(false);">Guardar Avance</button>
+                    <br>&nbsp;<button id="ba" class="btn  btn-primary" onclick="guardaIndividualCapitulos(false);">Guardar Avance</button>
                 </div>
                 <%
                     } //  END DEL MEGA FOR DE CAPITULOS

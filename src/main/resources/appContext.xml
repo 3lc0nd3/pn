@@ -90,6 +90,10 @@
                 <value>co.com.elramireza.pn.model.PnRetroalimentacion</value>
                 <value>co.com.elramireza.pn.model.PnTipoPremio</value>
                 <value>co.com.elramireza.pn.model.PnAspiranteEvaluador</value>
+                <value>co.com.elramireza.pn.model.PnModeloCualitativa</value>
+                <value>co.com.elramireza.pn.model.PnPrincipioCualitativo</value>
+                <value>co.com.elramireza.pn.model.PnModeloCriterio</value>
+                <value>co.com.elramireza.pn.model.PnModeloCategoriaCriterio</value>
             </list>
         </property>
     </bean>
@@ -146,6 +150,7 @@
             <dwr:include method="getIncludeEmpresaAdmon"/>
             <dwr:include method="getIncludePartAdmon"/>
             <dwr:include method="getIncludeGrafAdmon"/>
+            <dwr:include method="getIncludeTipoPremioAdmon"/>
             <dwr:include method="getPlayer"/>
         </dwr:remote>
         <property name="pnDAO" ref="pnDAO"/>
@@ -253,6 +258,7 @@
             <dwr:include method="actualizaRetroalimentacion"/>
             <dwr:include method="getPnTipoPremio"/>
             <dwr:include method="savePnTipoPremio"/>
+            <dwr:include method="actualizaPrincipioCalificacion"/>
 
             <!--LOS QUE NO VAN-->
             <!--
@@ -298,6 +304,8 @@
             <dwr:convert class="co.com.elramireza.pn.model.TipoEmpresa" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.TipoFormato" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.PnEtapaParticipante" type="bean"/>
+            <dwr:convert class="co.com.elramireza.pn.model.PnModeloCualitativa" type="bean"/>
+            <dwr:convert class="co.com.elramireza.pn.model.PnPrincipioCualitativo" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.util.MyKey" type="bean"/>
 
             <dwr:convert class="java.io.File" type="bean"/>

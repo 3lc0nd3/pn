@@ -1,26 +1,23 @@
 package co.com.elramireza.pn.model;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 
 /**
- * Created by Edward L. Ramirez A.
+ * Created with Edward L. Ramirez A.
  * cel 300 554 3367
  * email elramireza@gmail.com
  * User: usuariox
- * Date: 2/01/2013
- * Time: 05:40:54 PM
+ * Date: 22/08/15
+ * Time: 04:14 AM
+ * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table( name = "pn_categoria_criterio")
-public class PnCategoriaCriterio {
+@Table(name = "pn_modelo_categoria_criterio")
+public class PnModeloCategoriaCriterio {
     private int id;
-    private PnTipoPremio pnTipoPremioById;
+    private String categoriaCriterio;
 
     @Id
-    @GenericGenerator(name = "generator", strategy = "increment")
-    @GeneratedValue(generator = "generator")
     @Column(name = "id")
     public int getId() {
         return id;
@@ -28,18 +25,6 @@ public class PnCategoriaCriterio {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    private String categoriaCriterio;
-
-    @ManyToOne
-    @JoinColumn(name = "id_tipo_premio", referencedColumnName = "id", nullable = false)
-    public PnTipoPremio getPnTipoPremioById() {
-        return pnTipoPremioById;
-    }
-
-    public void setPnTipoPremioById(PnTipoPremio pnTipoPremioById) {
-        this.pnTipoPremioById = pnTipoPremioById;
     }
 
     @Basic
@@ -57,7 +42,7 @@ public class PnCategoriaCriterio {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        PnCategoriaCriterio that = (PnCategoriaCriterio) o;
+        PnModeloCategoriaCriterio that = (PnModeloCategoriaCriterio) o;
 
         if (id != that.id) return false;
         if (categoriaCriterio != null ? !categoriaCriterio.equals(that.categoriaCriterio) : that.categoriaCriterio != null)

@@ -149,6 +149,8 @@
 <script src="js/datePicker/bootstrap-datepicker.js"></script>
 <script src="js/datePicker/locales/bootstrap-datepicker.es.js"></script>
 
+<script src="js/jquery.jeditable.js"></script>
+
 
     <%-- Data Table--%>
 

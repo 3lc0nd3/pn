@@ -7,11 +7,12 @@
     Texto texto19 = pnManager.getTexto(19);
     Texto texto20 = pnManager.getTexto(20);
     Texto texto22 = pnManager.getTexto(22);
+    PnTipoPremio tipoPremio = (PnTipoPremio) session.getAttribute("tipoPremio");
     Empleado empleo = (Empleado) session.getAttribute("empleo");
     Participante participanteByIdParticipante = empleo.getParticipanteByIdParticipante();
     Empresa empresa = participanteByIdParticipante.getEmpresaByIdEmpresa();
 
-    List<PnCategoriaCriterio> categoriasCriterio = pnManager.getCategoriasCriterio();
+    List<PnCategoriaCriterio> categoriasCriterio = pnManager.getCategoriasCriterio(tipoPremio.getId());
 
 %>
 

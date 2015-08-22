@@ -37,6 +37,8 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Edward L. Ramirez A.
@@ -246,9 +248,10 @@ public class PnDAO extends HibernateDaoSupport{
                 idPerfil);
     }
 
-    public List<PnCategoriaCriterio> getCategoriasCriterio(){
+    public List<PnCategoriaCriterio> getCategoriasCriterio(int idTipoPremio){
         return getHibernateTemplate().find(
-                "from PnCategoriaCriterio order by id "
+                "from PnCategoriaCriterio where pnTipoPremioById.id = ? order by id ",
+                idTipoPremio
         );
     }
 
@@ -408,6 +411,32 @@ public class PnDAO extends HibernateDaoSupport{
     }
 
     public static final String d = "";
+
+    public int actualizaPrincipioCalificacion(final int idTipoPremio,
+                                              final int id,
+                                              final String value,
+                                              final String t,
+                                              final String f){
+        WebContext wctx = WebContextFactory.get();
+        HttpSession session = wctx.getSession(true);
+        final Empleado empleado = (Empleado) session.getAttribute("empleo");
+        logger.debug("empleado = " + empleado);
+        getHibernateTemplate().execute(new HibernateCallback() {
+            public Object doInHibernate(org.hibernate.Session session) throws HibernateException, SQLException {
+                String s = "update "+t+" set " + f + " = ? where id = ? and pnTipoPremioById.id =?";
+                logger.info("s = " + s);
+                Query query = session.createQuery(
+                        s
+                );
+                query.setString(0, value); // el nuevo texto
+                query.setInteger(1, id); // EMPLEADO - DEPENDE DE PARTICIPANTE
+                query.setInteger(2, idTipoPremio); // TIPO FORMATO
+                query.executeUpdate();
+                return null;
+            }
+        });
+        return 1;
+    }
 
     /**
      * Update un texto
@@ -613,6 +642,7 @@ public class PnDAO extends HibernateDaoSupport{
                         etapaParticipante.getEtapaParticipante());
             }
 
+            //Borro los datos Anteriores
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             getHibernateTemplate().execute(new HibernateCallback() {
                 public Object doInHibernate(org.hibernate.Session session) throws HibernateException, SQLException {
@@ -1022,7 +1052,6 @@ public class PnDAO extends HibernateDaoSupport{
 										String pendientesVisita){
 		logger.info("definitivo = " + definitivo);
 		try {
-			//Borro los datos Anteriores
             WebContext wctx = WebContextFactory.get();
             HttpSession session = wctx.getSession(true);
             final Empleado empleado = (Empleado) session.getAttribute("empleo");
@@ -1037,6 +1066,7 @@ public class PnDAO extends HibernateDaoSupport{
                 etapaParticipante.getEtapaParticipante());
             }
 
+            //Borro los datos Anteriores
             getHibernateTemplate().execute(new HibernateCallback() {
                 public Object doInHibernate(org.hibernate.Session session) throws HibernateException, SQLException {
                     Query query = session.createQuery(
@@ -2565,5 +2595,52 @@ public class PnDAO extends HibernateDaoSupport{
             logger.debug(e.getMessage());
             return 0;
         }
+    }
+
+    public static String txtToHtml(String s) {
+        StringBuilder builder = new StringBuilder();
+        boolean previousWasASpace = false;
+        for (char c : s.toCharArray()) {
+            if (c == ' ') {
+                if (previousWasASpace) {
+                    builder.append("&nbsp;");
+                    previousWasASpace = false;
+                    continue;
+                }
+                previousWasASpace = true;
+            } else {
+                previousWasASpace = false;
+            }
+            switch (c) {
+                case '<':
+                    builder.append("&lt;");
+                    break;
+                case '>':
+                    builder.append("&gt;");
+                    break;
+                case '&':
+                    builder.append("&amp;");
+                    break;
+                case '"':
+                    builder.append("&quot;");
+                    break;
+                case '\n':
+                    builder.append("<br>");
+                    break;
+                // We need Tab support here, because we print StackTraces as HTML
+                case '\t':
+                    builder.append("&nbsp; &nbsp; &nbsp;");
+                    break;
+                default:
+                    builder.append(c);
+
+            }
+        }
+        String converted = builder.toString();
+        String str = "(?i)\\b((?:https?://|www\\d{0,3}[.]|[a-z0-9.\\-]+[.][a-z]{2,4}/)(?:[^\\s()<>]+|\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\))+(?:\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\)|[^\\s`!()\\[\\]{};:\'\".,<>?«»“”‘’]))";
+        Pattern patt = Pattern.compile(str);
+        Matcher matcher = patt.matcher(converted);
+        converted = matcher.replaceAll("<a href=\"$1\">$1</a>");
+        return converted;
     }
 }

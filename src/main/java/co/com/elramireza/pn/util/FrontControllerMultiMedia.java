@@ -1,6 +1,7 @@
 package co.com.elramireza.pn.util;
 
 import co.com.elramireza.pn.model.Participante;
+import co.com.elramireza.pn.model.PnTipoPremio;
 import org.apache.log4j.Logger;
 import org.directwebremoting.WebContext;
 import org.directwebremoting.WebContextFactory;
@@ -84,6 +85,13 @@ public class FrontControllerMultiMedia {
         Participante participante = pnDAO.getParticipante(id);
         wctx.getHttpServletRequest().setAttribute("participante", participante);
         return wctx.forwardToString("/c_empresa_admon.jsp");
+    }
+
+    public String getIncludeTipoPremioAdmon(int id) throws IOException, ServletException {
+        WebContext wctx = WebContextFactory.get();
+        PnTipoPremio tipoPremio = pnDAO.getPnTipoPremio(id);
+        wctx.getHttpServletRequest().setAttribute("tipoPremio", tipoPremio);
+        return wctx.forwardToString("/c_tipo_premio_admon.jsp");
     }
 
     public String getIncludeEmpresaAdmon(int id) throws IOException, ServletException {
