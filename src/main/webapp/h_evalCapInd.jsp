@@ -8,16 +8,18 @@
     Texto texto19 = pnManager.getTexto(19);
     Texto texto20 = pnManager.getTexto(21);
     Texto texto23 = pnManager.getTexto(23);
-    PnTipoPremio tipoPremio = (PnTipoPremio) session.getAttribute("tipoPremio");
+
     Empleado empleo = (Empleado) session.getAttribute("empleo");
     Empresa empresa = empleo.getParticipanteByIdParticipante().getEmpresaByIdEmpresa();
 
     List<PnPrincipioCualitativo> principioCualitativos = pnManager.getHibernateTemplate().find(
             "from PnPrincipioCualitativo where pnTipoPremioById.id=?",
-            tipoPremio.getId()
+            empleo.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getTipoPremioById().getId()
     );
 
-    List<PnCategoriaCriterio> categoriasCriterio = pnManager.getCategoriasCriterio(tipoPremio.getId());
+    List<PnCategoriaCriterio> categoriasCriterio = pnManager.getCategoriasCriterio(
+            empleo.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getTipoPremioById().getId()
+    );
 //    categoriasCriterio.remove(categoriasCriterio.size()-1);
 
 %>

@@ -66,10 +66,14 @@
 
         categoriasCriterios = pnManager.getCategoriasCriterio(tipoPremio.getId());
     }
+
+    List<PnCapitulo> capitulos = pnManager.getPnCapitulos();
 %>
 <h2><%=tipoPremio.getSigla()%> - <%=tipoPremio.getNombreTipoPremio()%></h2>
-<h4>Cualitativa</h4>
-<table class="table-bordered table">
+<h4>
+    <img src="images/help.png" onclick="muestraSeccion('cualitativaT');" width="24" alt="Cualitativa" title="Cualitativa">
+    Cualitativa</h4>
+<table id="cualitativaT" class="table-bordered table" style="display:none;">
     <tr>
         <th>Nombre</th>
         <th>Texto</th>
@@ -86,32 +90,72 @@
         </td>
     </tr>
     <%
-        }
+        }  //  END FOR CUALITATIVOS
     %>
 </table>
 <%--  END CUALITATIVA  --%>
-<h4>Criterios</h4>
-<table class="table-bordered table">
+
+<%--  CRITERIOS  --%>
+<h4>
+    <img src="images/help.png" onclick="muestraSeccion('criteriosT');" width="24" alt="Criterios" title="Criterios">
+    Criterios</h4>
+<table id="criteriosT" style="display:none;" class="table-bordered table">
     <%
         for(PnCategoriaCriterio categoriaCriterio: categoriasCriterios){
     %>
     <tr>
-        <td bgcolor="#f0f8ff"><p><%=categoriaCriterio.getCategoriaCriterio()%></p></td>
+        <td bgcolor="#f0f8ff">
+            <img src="images/help.png" onclick="muestraCriterios('<%=categoriaCriterio.getId()%>');" width="24" alt="Contenido" title="Contenido">
+        </td>
+        <td bgcolor="#f0f8ff">
+            <p class="editable_textarea" id="PnCategoriaCriterio_categoriaCriterio_<%=categoriaCriterio.getId()%>" style="font-weight: bolder;"><%=categoriaCriterio.getCategoriaCriterio()%></p>
+        </td>
     </tr>
-    <tr>
-        <td>
+    <tr id="categoria<%=categoriaCriterio.getId()%>" style="display:none;">
+        <td colspan="2">
             <table class="table-bordered table" style="width: 100%">
                 <%
                     List<PnCriterio> criterios = pnManager.getPnCriteriosFromCategoria(categoriaCriterio.getId());
                     for (PnCriterio criterio: criterios){
                 %>
                 <tr>
-                    <th>Criterio</th>
-                    <th>Evalua</th>
+                    <th><img src="images/help.png" onclick="muestraValoresCriterios('<%=criterio.getId()%>');" width="24" alt="Contenido" title="Contenido"></th>
+                    <td><p class="editable_textarea" id="PnCriterio_criterio_<%=criterio.getId()%>"><%=criterio.getCriterio()%></p></td>
+
                 </tr>
-                <tr>
-                    <td><p><%=criterio.getCriterio()%></p></td>
-                    <td><p><%=criterio.getEvalua()%></p></td>
+                <tr id="criterio<%=criterio.getId()%>" style="display:none;">
+                    <td colspan="2">
+                        <table>
+                            <tr>
+                                <th>Evalua</th>
+                                <td><p class="editable_textarea" id="PnCriterio_evalua_<%=criterio.getId()%>"><%=criterio.getEvalua()%></p></td>
+                            </tr>
+                            <tr>
+                                <th>0..20</th>
+                                <td><p class="editable_textarea" id="PnCriterio_c20_<%=criterio.getId()%>"><%=criterio.getC20()%></p></td>
+                            </tr>
+                            <tr>
+                                <th>21..40</th>
+                                <td><p class="editable_textarea" id="PnCriterio_c40_<%=criterio.getId()%>"><%=criterio.getC40()%></p></td>
+                            </tr>
+                            <tr>
+                                <th>50</th>
+                                <td><p class="editable_textarea" id="PnCriterio_c50_<%=criterio.getId()%>"><%=criterio.getC50()%></p></td>
+                            </tr>
+                            <tr>
+                                <th>41..60</th>
+                                <td><p class="editable_textarea" id="PnCriterio_c60_<%=criterio.getId()%>"><%=criterio.getC60()%></p></td>
+                            </tr>
+                            <tr>
+                                <th>61..80</th>
+                                <td><p class="editable_textarea" id="PnCriterio_c80_<%=criterio.getId()%>"><%=criterio.getC80()%></p></td>
+                            </tr>
+                            <tr>
+                                <th>81..100</th>
+                                <td><p class="editable_textarea" id="PnCriterio_c100_<%=criterio.getId()%>"><%=criterio.getC100()%></p></td>
+                            </tr>
+                        </table>
+                    </td>
                 </tr>
                 <%
                     }  //  END FOR CRITERIO SEGUN CATEGORIA
@@ -126,6 +170,28 @@
 </table>
 <%--  END CRITERIOS  --%>
 
+<%--  ITEMS Cuantitativa  --%>
+<h4>
+    <img src="images/help.png" onclick="muestraSeccion('cuantitativaT');" width="24" alt="Cuantitativa" title="Cuantitativa">
+    Cuantitativa</h4>
+<table id="cuantitativaT" style="display:none;" class="table-bordered table">
+    <%
+        for(PnCapitulo capitulo: capitulos){
+    %>
+    <tr>
+        <td bgcolor="#f0f8ff">
+            <img src="images/help.png" onclick="muestraCosas('<%=capitulo.getId()%>');" width="24" alt="Contenido" title="Contenido">
+        </td>
+        <td bgcolor="#f0f8ff">
+            <p class="editable_textarea" id="PnCategoriaCriterio_categoriaCriterio_<%=capitulo.getId()%>" style="font-weight: bolder;"><%=capitulo.getNombreCapitulo()%></p>
+        </td>
+    </tr>
+    <%
+        }  //  END FOR CAPITULOS
+    %>
+</table>
+<%--  END ITEMS Cuantitativa  --%>
+
 <script src="js/jquery.js"></script>
 <script src="js/jquery.jeditable.js"></script>
 <script type="text/javascript">
@@ -134,6 +200,7 @@
             function(value, settings){
                 var principioParams = this.id.split("_");
 //                alert("principioParams = " + principioParams[2]); // 0 t,1 f,2 id
+//                alert("principioParams = " + principioParams); // 0 t,1 f,2 id
                 pnRemoto.actualizaPrincipioCalificacion(
                         <%=tipoPremio.getId()%>,
                         principioParams[2],
@@ -155,4 +222,28 @@
                 cssclass : "editable"
             }
     );
+
+    function muestraCriterios(idCategoria){
+        var contenidoTR = "#categoria" + idCategoria;
+//        alert("contenidoTR = " + contenidoTR);
+        $(contenidoTR).toggle();
+    }
+
+    function muestraValoresCriterios(idCriterio){
+        var contenidoTR = "#criterio" + idCriterio;
+//        alert("contenidoTR = " + contenidoTR);
+        $(contenidoTR).toggle();
+    }
+
+    function muestraCosas(name, id){
+        var contenidoTR = "#"+name + id;
+//        alert("contenidoTR = " + contenidoTR);
+        $(contenidoTR).toggle();
+    }
+
+    function muestraSeccion(seccion){
+        var contenidoTR = "#"+seccion;
+//        alert("contenidoTR = " + contenidoTR);
+        $(contenidoTR).toggle();
+    }
 </script>

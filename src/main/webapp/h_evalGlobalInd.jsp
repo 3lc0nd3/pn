@@ -6,11 +6,13 @@
     Texto texto16 = pnManager.getTexto(16);
     Texto texto19 = pnManager.getTexto(19);
     Texto texto20 = pnManager.getTexto(20);
-    PnTipoPremio tipoPremio = (PnTipoPremio) session.getAttribute("tipoPremio");
+
     Empleado empleo = (Empleado) session.getAttribute("empleo");
     Empresa empresa = empleo.getParticipanteByIdParticipante().getEmpresaByIdEmpresa();
 
-    List<PnCategoriaCriterio> categoriasCriterio = pnManager.getCategoriasCriterio(tipoPremio.getId());
+    List<PnCategoriaCriterio> categoriasCriterio = pnManager.getCategoriasCriterio(
+            empleo.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getTipoPremioById().getId()
+    );
 
 %>
 
@@ -25,7 +27,7 @@
                 <%
                     List<PnPrincipioCualitativo> principioCualitativos = pnManager.getHibernateTemplate().find(
                             "from PnPrincipioCualitativo where pnTipoPremioById.id=?",
-                            tipoPremio.getId()
+                            empleo.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getTipoPremioById().getId()
                     );
 
                     List<PnValoracion> fromParticipante = pnManager.getValoracionIndividualGlobalFromEmpleado(

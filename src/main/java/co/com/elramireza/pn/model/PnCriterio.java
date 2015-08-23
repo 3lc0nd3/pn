@@ -16,6 +16,14 @@ import javax.persistence.*;
 @Table( name = "pn_criterio", schema = "")
 public class PnCriterio {
     private int id;
+    private String criterio;
+    private String evalua;
+    private String c20;
+    private String c40;
+    private String c60;
+    private String c80;
+    private String c100;
+    private String c50;
 
     @Id
     @GenericGenerator(name = "generator", strategy = "increment")
@@ -29,7 +37,6 @@ public class PnCriterio {
         this.id = id;
     }
 
-    private String criterio;
 
     @Basic
     @Column(name = "criterio")
@@ -53,7 +60,6 @@ public class PnCriterio {
         this.pnCategoriaCriterioByIdCategoriaCriterio = pnCategoriaCriterioByIdCategoriaCriterio;
     }
 
-	private String evalua;
 
 	@Column(name = "evalua")
 	@Basic
@@ -65,7 +71,6 @@ public class PnCriterio {
 		this.evalua = evalua;
 	}
 
-	private String c20;
 
 	@Column(name = "c_20")
 	@Basic
@@ -77,7 +82,6 @@ public class PnCriterio {
 		this.c20 = c20;
 	}
 
-	private String c40;
 
 	@Column(name = "c_40")
 	@Basic
@@ -89,7 +93,6 @@ public class PnCriterio {
 		this.c40 = c40;
 	}
 
-	private String c60;
 
 	@Column(name = "c_60")
 	@Basic
@@ -101,7 +104,6 @@ public class PnCriterio {
 		this.c60 = c60;
 	}
 
-	private String c80;
 
 	@Column(name = "c_80")
 	@Basic
@@ -113,7 +115,6 @@ public class PnCriterio {
 		this.c80 = c80;
 	}
 
-	private String c100;
 
 	@Column(name = "c_100")
 	@Basic
@@ -125,7 +126,6 @@ public class PnCriterio {
 		this.c100 = c100;
 	}
 
-	private String c50;
 
 	@Column(name = "c_50")
 	@Basic

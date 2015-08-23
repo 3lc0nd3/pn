@@ -72,7 +72,8 @@
                 <button id="b<%=empleado.getIdEmpleado()%>" type="button" onclick="selEmpleoB(<%=empleado.getIdEmpleado()%>);" class="btn btn-primary">
                     <%=empleado.getPerfilByIdPerfil().getPerfil()%>
                     en
-                    <%=empleado.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getNombrePremio()%>
+                    <%=empleado.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getTipoPremioById().getSigla()%>
+                    - <%=empleado.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getNombrePremio()%>
                     -
                     <%=empleado.getParticipanteByIdParticipante().getEmpresaByIdEmpresa().getNombreEmpresa()%>
                 </button>

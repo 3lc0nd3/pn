@@ -423,14 +423,19 @@ public class PnDAO extends HibernateDaoSupport{
         logger.debug("empleado = " + empleado);
         getHibernateTemplate().execute(new HibernateCallback() {
             public Object doInHibernate(org.hibernate.Session session) throws HibernateException, SQLException {
-                String s = "update "+t+" set " + f + " = ? where id = ? and pnTipoPremioById.id =?";
+                String s = "update "+t+" set " + f + " = ? where id = ?";
+                if (!t.equals("PnCriterio")) {
+                    s +=" and pnTipoPremioById.id =?";
+                }
                 logger.info("s = " + s);
                 Query query = session.createQuery(
                         s
                 );
                 query.setString(0, value); // el nuevo texto
                 query.setInteger(1, id); // EMPLEADO - DEPENDE DE PARTICIPANTE
-                query.setInteger(2, idTipoPremio); // TIPO FORMATO
+                if (!t.equals("PnCriterio")) {
+                    query.setInteger(2, idTipoPremio); // TIPO FORMATO
+                }
                 query.executeUpdate();
                 return null;
             }

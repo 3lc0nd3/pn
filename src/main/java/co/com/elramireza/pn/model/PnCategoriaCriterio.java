@@ -16,6 +16,7 @@ import javax.persistence.*;
 @Table( name = "pn_categoria_criterio")
 public class PnCategoriaCriterio {
     private int id;
+    private String categoriaCriterio;
     private PnTipoPremio pnTipoPremioById;
 
     @Id
@@ -30,7 +31,6 @@ public class PnCategoriaCriterio {
         this.id = id;
     }
 
-    private String categoriaCriterio;
 
     @ManyToOne
     @JoinColumn(name = "id_tipo_premio", referencedColumnName = "id", nullable = false)
