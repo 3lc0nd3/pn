@@ -1,5 +1,7 @@
 package co.com.elramireza.pn.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 
 /**
@@ -14,8 +16,15 @@ import javax.persistence.*;
 @Table( name = "pn_capitulo")
 public class PnCapitulo {
     private int id;
+    private int numeroCapitulo;
+    private String nombreCapitulo;
+    private String evaluaCapitulo;
+    private int maximo;
+    private PnTipoPremio pnTipoPremioById;
 
     @Id
+    @GenericGenerator(name = "generator", strategy = "increment")
+    @GeneratedValue(generator = "generator")
     @Column(name = "id")
     public int getId() {
         return id;
@@ -25,7 +34,15 @@ public class PnCapitulo {
         this.id = id;
     }
 
-    private String nombreCapitulo;
+    @Basic
+    @Column(name = "numero_capitulo")
+    public int getNumeroCapitulo() {
+        return numeroCapitulo;
+    }
+
+    public void setNumeroCapitulo(int numeroCapitulo) {
+        this.numeroCapitulo = numeroCapitulo;
+    }
 
     @Basic
     @Column(name = "criterio")
@@ -37,7 +54,6 @@ public class PnCapitulo {
         this.nombreCapitulo = nombreCapitulo;
     }
 
-    private String evaluaCapitulo;
 
     @Basic
     @Column(name = "evalua_capitulo")
@@ -49,7 +65,6 @@ public class PnCapitulo {
         this.evaluaCapitulo = evaluaCapitulo;
     }
 
-    private int maximo;
 
     @Basic
     @Column(name = "maximo")
@@ -59,5 +74,16 @@ public class PnCapitulo {
 
     public void setMaximo(int maximo) {
         this.maximo = maximo;
+    }
+
+
+    @ManyToOne
+    @JoinColumn(name = "id_tipo_premio", referencedColumnName = "id", nullable = false)
+    public PnTipoPremio getPnTipoPremioById() {
+        return pnTipoPremioById;
+    }
+
+    public void setPnTipoPremioById(PnTipoPremio pnTipoPremioById) {
+        this.pnTipoPremioById = pnTipoPremioById;
     }
 }

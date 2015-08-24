@@ -412,6 +412,15 @@ public class PnDAO extends HibernateDaoSupport{
 
     public static final String d = "";
 
+    /**
+     * Actualiza Valores en Admon Tipo Premio
+     * @param idTipoPremio
+     * @param id
+     * @param value
+     * @param t
+     * @param f
+     * @return
+     */
     public int actualizaPrincipioCalificacion(final int idTipoPremio,
                                               final int id,
                                               final String value,
@@ -424,7 +433,7 @@ public class PnDAO extends HibernateDaoSupport{
         getHibernateTemplate().execute(new HibernateCallback() {
             public Object doInHibernate(org.hibernate.Session session) throws HibernateException, SQLException {
                 String s = "update "+t+" set " + f + " = ? where id = ?";
-                if (!t.equals("PnCriterio")) {
+                if (!t.equals("PnCriterio") && !t.equals("PnSubCapitulo")) {
                     s +=" and pnTipoPremioById.id =?";
                 }
                 logger.info("s = " + s);
@@ -433,7 +442,7 @@ public class PnDAO extends HibernateDaoSupport{
                 );
                 query.setString(0, value); // el nuevo texto
                 query.setInteger(1, id); // EMPLEADO - DEPENDE DE PARTICIPANTE
-                if (!t.equals("PnCriterio")) {
+                if (!t.equals("PnCriterio") && !t.equals("PnSubCapitulo")) {
                     query.setInteger(2, idTipoPremio); // TIPO FORMATO
                 }
                 query.executeUpdate();
@@ -622,12 +631,16 @@ public class PnDAO extends HibernateDaoSupport{
         }
     }
 
-    public List<PnCapitulo> getPnCapitulos(){
-        return getHibernateTemplate().find("from PnCapitulo order by id ");
+    public List<PnCapitulo> getPnCapitulos(int idTipoPremio){
+        return getHibernateTemplate().find("from PnCapitulo where " +
+                " pnTipoPremioById.id=? order by numeroCapitulo ",
+                idTipoPremio);
     }
 
-    public List<PnSubCapitulo> getPnSubCapitulos(){
-        return getHibernateTemplate().find("from PnSubCapitulo order by codigoItem ");
+    public List<PnSubCapitulo> getPnSubCapitulos(int idTipoPremio){
+        return getHibernateTemplate().find("from PnSubCapitulo " +
+                " where pnCapituloByIdCapitulo.pnTipoPremioById.id=? order by pnCapituloByIdCapitulo.numeroCapitulo, codigoItem ",
+                idTipoPremio);
     }
 
     public int saveValoracionIndividualItems(boolean definitivo,

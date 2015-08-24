@@ -7,12 +7,14 @@
     Texto texto19 = pnManager.getTexto(19);
     Texto texto20 = pnManager.getTexto(20);
     Texto texto22 = pnManager.getTexto(22);
-    PnTipoPremio tipoPremio = (PnTipoPremio) session.getAttribute("tipoPremio");
+
     Empleado empleo = (Empleado) session.getAttribute("empleo");
     Participante participanteByIdParticipante = empleo.getParticipanteByIdParticipante();
     Empresa empresa = participanteByIdParticipante.getEmpresaByIdEmpresa();
 
-    List<PnCategoriaCriterio> categoriasCriterio = pnManager.getCategoriasCriterio(tipoPremio.getId());
+    List<PnCategoriaCriterio> categoriasCriterio = pnManager.getCategoriasCriterio(
+            empleo.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getTipoPremioById().getId()
+    );
 
 %>
 
@@ -25,6 +27,11 @@
                 <br>
                 <br>
                 <%
+                    List<PnPrincipioCualitativo> principioCualitativos = pnManager.getHibernateTemplate().find(
+                            "from PnPrincipioCualitativo where pnTipoPremioById.id=?",
+                            empleo.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getTipoPremioById().getId()
+                    );
+
                     List<PnValoracion> fromParticipante = pnManager.getValoracionConsensoGlobalFromEmpleado(
                             empleo.getIdEmpleado());
 
@@ -70,22 +77,16 @@
                 %>
                 <br>
                 <table border="1" width="70%">
-                    <tr><th class="alert-info"><%=texto20.getTexto1()%></th></tr>
+                    <%
+                        for (PnPrincipioCualitativo principioCualitativo: principioCualitativos){
+                    %>
+                    <tr><th class="alert-info"><%=principioCualitativo.getNombreCualitativa()%></th></tr>
                     <tr><td>
-                        <textarea id="vision" class="field span6" placeholder="<%=texto20.getTexto2()%>" rows="4" cols="10"></textarea>
+                        <textarea id="<%=principioCualitativo.getCampo()%>" class="field span6" placeholder="<%=principioCualitativo.getTextoCualitativa()%>" rows="4" cols="10"></textarea>
                     </td></tr>
-                    <tr><th class="alert-info">Fortalezas</th></tr>
-                    <tr><td>
-                        <textarea id="fortalezas" class="field span6" placeholder="<%=texto19.getTexto1()%>" rows="4" cols="10"></textarea>
-                    </td></tr>
-                    <tr><th class="alert-info">Oportunidades de Mejora</th></tr>
-                    <tr><td>
-                        <textarea id="oportunidades" class="field span6" placeholder="<%=texto19.getTexto2()%>" rows="4" cols="10"></textarea>
-                    </td></tr>
-                    <tr><th class="alert-info">Puntos Pendientes Visita de Campo</th></tr>
-                    <tr><td>
-                        <textarea id="pendientesVisita" class="field span6" placeholder="Puntos para tener en cuenta" rows="4" cols="10"></textarea>
-                    </td></tr>
+                    <%
+                        }  //  END FOR principioCualitativos
+                    %>
                 </table>
                 <br>
                 <table border="1" width="90%">

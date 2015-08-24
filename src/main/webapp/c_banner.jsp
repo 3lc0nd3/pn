@@ -44,7 +44,10 @@
                             if(premioActivo != null){
                     %>
                     Actualmente:
-                    <b><%=premioActivo.getNombrePremio()%></b>
+                    <b>
+                        <%=premioActivo.getTipoPremioById().getSigla()%> -
+                        <%=premioActivo.getNombrePremio()%>
+                    </b>
                     <%
                             }  //  FIN IF PREMIO ACTIVO
                         }  //  FIN IF TIPO PREMIO
@@ -70,7 +73,10 @@
                     <br>
                     <strong><%=empleo.getPerfilByIdPerfil().getPerfil()%></strong>
                     <br>
-                    en: <%=empleo.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getNombrePremio()%>
+                    en:
+                    <%=empleo.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getTipoPremioById().getSigla()%>
+                    -
+                    <%=empleo.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getNombrePremio()%>
                     <br>
                     <%=empleo.getParticipanteByIdParticipante().getEmpresaByIdEmpresa().getNombreEmpresa()%>
                     <%

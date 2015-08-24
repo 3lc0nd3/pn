@@ -136,7 +136,9 @@
                                         <%
                                             String oldCapitulo = "";
                                             boolean cambia = false;
-                                            for (PnSubCapitulo item: pnManager.getPnSubCapitulos()){
+                                            for (PnSubCapitulo item: pnManager.getPnSubCapitulos(
+                                                    empleo.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getTipoPremioById().getId()
+                                            )){
                                                 if(!oldCapitulo.equals(item.getPnCapituloByIdCapitulo().getNombreCapitulo())){
                                                     oldCapitulo = item.getPnCapituloByIdCapitulo().getNombreCapitulo();
                                                     cambia = true;

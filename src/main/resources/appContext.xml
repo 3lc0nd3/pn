@@ -94,6 +94,8 @@
                 <value>co.com.elramireza.pn.model.PnPrincipioCualitativo</value>
                 <value>co.com.elramireza.pn.model.PnModeloCriterio</value>
                 <value>co.com.elramireza.pn.model.PnModeloCategoriaCriterio</value>
+                <value>co.com.elramireza.pn.model.PnModeloCapitulo</value>
+                <value>co.com.elramireza.pn.model.PnModeloSubCapitulo</value>
             </list>
         </property>
     </bean>

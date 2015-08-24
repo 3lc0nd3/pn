@@ -1,25 +1,32 @@
 package co.com.elramireza.pn.model;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 
 /**
- * Created by Edward L. Ramirez A.
+ * Created with Edward L. Ramirez A.
  * cel 300 554 3367
  * email elramireza@gmail.com
  * User: usuariox
- * Date: 2/01/2013
- * Time: 05:40:57 PM
+ * Date: 24/08/15
+ * Time: 01:20 AM
+ * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table( name = "pn_sub_capitulo")
-public class PnSubCapitulo {
+@Table(name = "pn_modelo_sub_capitulo")
+public class PnModeloSubCapitulo {
     private int id;
+    private PnModeloSubCapitulo modeloCapitulo;
+    private int ponderacion;
+    private String codigoItem;
+    private String subCapitulo;
+    private String evaluaItem;
+    private String c20;
+    private String c40;
+    private String c60;
+    private String c80;
+    private String c100;
 
     @Id
-    @GenericGenerator(name = "generator", strategy = "increment")
-    @GeneratedValue(generator = "generator")
     @Column(name = "id")
     public int getId() {
         return id;
@@ -29,19 +36,16 @@ public class PnSubCapitulo {
         this.id = id;
     }
 
-    private String evalua;
 
-    @Basic
-    @Column(name = "evalua_item")
-    public String getEvalua() {
-        return evalua;
+    @ManyToOne
+    @JoinColumn(name = "id_capitulo", referencedColumnName = "id", nullable = false)
+    public PnModeloSubCapitulo getModeloCapitulo() {
+        return modeloCapitulo;
     }
 
-    public void setEvalua(String evalua) {
-        this.evalua = evalua;
+    public void setModeloCapitulo(PnModeloSubCapitulo modeloSubCapitulo) {
+        this.modeloCapitulo = modeloSubCapitulo;
     }
-
-    private int ponderacion;
 
     @Basic
     @Column(name = "ponderacion")
@@ -53,7 +57,15 @@ public class PnSubCapitulo {
         this.ponderacion = ponderacion;
     }
 
-    private String subCapitulo;
+    @Basic
+    @Column(name = "codigo_item")
+    public String getCodigoItem() {
+        return codigoItem;
+    }
+
+    public void setCodigoItem(String codigoItem) {
+        this.codigoItem = codigoItem;
+    }
 
     @Basic
     @Column(name = "sub_capitulo")
@@ -65,31 +77,15 @@ public class PnSubCapitulo {
         this.subCapitulo = subCapitulo;
     }
 
-    private PnCapitulo pnCapituloByIdCapitulo;
-
-    @ManyToOne
-    @JoinColumn(name = "id_capitulo", referencedColumnName = "id", nullable = false)
-    public PnCapitulo getPnCapituloByIdCapitulo() {
-        return pnCapituloByIdCapitulo;
-    }
-
-    public void setPnCapituloByIdCapitulo(PnCapitulo pnCapituloByIdCapitulo) {
-        this.pnCapituloByIdCapitulo = pnCapituloByIdCapitulo;
-    }
-
-    private String codigoItem;
-
     @Basic
-    @Column(name = "codigo_item")
-    public String getCodigoItem() {
-        return codigoItem;
+    @Column(name = "evalua_item")
+    public String getEvaluaItem() {
+        return evaluaItem;
     }
 
-    public void setCodigoItem(String codigoItem) {
-        this.codigoItem = codigoItem;
+    public void setEvaluaItem(String evaluaItem) {
+        this.evaluaItem = evaluaItem;
     }
-
-    private String c20;
 
     @Basic
     @Column(name = "c_20")
@@ -101,8 +97,6 @@ public class PnSubCapitulo {
         this.c20 = c20;
     }
 
-    private String c40;
-
     @Basic
     @Column(name = "c_40")
     public String getC40() {
@@ -112,8 +106,6 @@ public class PnSubCapitulo {
     public void setC40(String c40) {
         this.c40 = c40;
     }
-
-    private String c60;
 
     @Basic
     @Column(name = "c_60")
@@ -125,8 +117,6 @@ public class PnSubCapitulo {
         this.c60 = c60;
     }
 
-    private String c80;
-
     @Basic
     @Column(name = "c_80")
     public String getC80() {
@@ -137,8 +127,6 @@ public class PnSubCapitulo {
         this.c80 = c80;
     }
 
-    private String c100;
-
     @Basic
     @Column(name = "c_100")
     public String getC100() {
@@ -148,4 +136,7 @@ public class PnSubCapitulo {
     public void setC100(String c100) {
         this.c100 = c100;
     }
+
+
+
 }

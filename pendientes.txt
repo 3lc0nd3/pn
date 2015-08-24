@@ -30,3 +30,13 @@ ALTER TABLE  `pn_categoria_criterio` ADD FOREIGN KEY (  `id_tipo_premio` ) REFER
 `id`
 ) ON DELETE RESTRICT ON UPDATE RESTRICT ;
 
+
+
+ALTER TABLE  `pn_capitulo` ADD  `id_tipo_premio` INT NOT NULL AFTER  `id` ,
+ADD  `numero_capitulo` INT NOT NULL AFTER  `id_tipo_premio` ,
+ADD INDEX (  `id_tipo_premio` ) ;
+UPDATE `pn_capitulo` SET `id_tipo_premio`=1, `numero_capitulo` =  `id`;
+ALTER TABLE  `pn_capitulo` ADD FOREIGN KEY (  `id_tipo_premio` ) REFERENCES  `pn`.`pn_tipo_premio` (
+`id`
+) ON DELETE RESTRICT ON UPDATE RESTRICT ;
+

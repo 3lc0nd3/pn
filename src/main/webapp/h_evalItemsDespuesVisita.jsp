@@ -11,7 +11,9 @@
     Participante participanteByIdParticipante = empleo.getParticipanteByIdParticipante();
     Empresa empresa = empleo.getParticipanteByIdParticipante().getEmpresaByIdEmpresa();
 
-    List<PnSubCapitulo> items = pnManager.getPnSubCapitulos();
+    List<PnSubCapitulo> items = pnManager.getPnSubCapitulos(
+            empleo.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getTipoPremioById().getId()
+    );
 
 %>
 
@@ -66,7 +68,7 @@
                     %>
                     <tr>
                         <th>
-                            <%=item.getPnCapituloByIdCapitulo().getId()%>
+                            <%=item.getPnCapituloByIdCapitulo().getNumeroCapitulo()%>
                         </th>
                         <th colspan="1">
                             <%=item.getPnCapituloByIdCapitulo().getNombreCapitulo()%>
@@ -202,7 +204,9 @@
     function guardaItems(){
         var retro = new Array();
     <%
-        for (PnCapitulo capitulo : pnManager.getPnCapitulos()){
+        for (PnCapitulo capitulo : pnManager.getPnCapitulos(
+        empleo.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getTipoPremioById().getId()
+        )){
     %>
         retro.push({
             id:<%=capitulo.getId()%>,

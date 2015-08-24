@@ -11,7 +11,9 @@
     Participante participanteByIdParticipante = empleo.getParticipanteByIdParticipante();
     Empresa empresa = participanteByIdParticipante.getEmpresaByIdEmpresa();
 
-    List<PnSubCapitulo> items = pnManager.getPnSubCapitulos();
+    List<PnSubCapitulo> items = pnManager.getPnSubCapitulos(
+            empleo.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getTipoPremioById().getId()
+    );
 
     List<PnCuantitativa> cuantitativas = pnManager.getCuantitativaConsensoFromEmpleado(
             empleo.getIdEmpleado());
@@ -100,7 +102,7 @@
                     %>
                     <tr>
                         <th>
-                            <%=item.getPnCapituloByIdCapitulo().getId()%>
+                            <%=item.getPnCapituloByIdCapitulo().getNumeroCapitulo()%>
                         </th>
                         <th colspan="1">
                             <%=item.getPnCapituloByIdCapitulo().getNombreCapitulo()%>

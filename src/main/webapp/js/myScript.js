@@ -1,5 +1,5 @@
 
-//dwr.engine.setErrorHandler(errp4s);
+dwr.engine.setErrorHandler(errp4s);
 
 var muestraExec = true;
 var cuantosExec = 3;

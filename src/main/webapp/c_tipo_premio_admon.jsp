@@ -28,10 +28,8 @@
         );
     }
 
-    List<PnCategoriaCriterio> categoriasCriterios = pnManager.getHibernateTemplate().find(
-            "from PnCategoriaCriterio where pnTipoPremioById.id = ? order by id",
-            tipoPremio.getId()
-    );
+    List<PnCategoriaCriterio> categoriasCriterios = pnManager.getCategoriasCriterio(
+            tipoPremio.getId());
 
     if(categoriasCriterios.size() == 0){
         List<PnModeloCategoriaCriterio> modeloCategoriaCriterios = pnManager.getHibernateTemplate().find(
@@ -41,6 +39,7 @@
             PnCategoriaCriterio categoriaCriterio = new PnCategoriaCriterio();
             categoriaCriterio.setPnTipoPremioById(tipoPremio);
             categoriaCriterio.setCategoriaCriterio(modeloCategoriaCriterio.getCategoriaCriterio());
+
             Integer id = (Integer) pnManager.getHibernateTemplate().save(categoriaCriterio);
             categoriaCriterio.setId(id);
 
@@ -67,7 +66,46 @@
         categoriasCriterios = pnManager.getCategoriasCriterio(tipoPremio.getId());
     }
 
-    List<PnCapitulo> capitulos = pnManager.getPnCapitulos();
+    List<PnCapitulo> capitulos = pnManager.getPnCapitulos(tipoPremio.getId());
+
+    if(capitulos.size()==0){
+        List<PnModeloCapitulo> modeloCapitulos = pnManager.getHibernateTemplate().find(
+                "from PnModeloCapitulo order by numeroCapitulo"
+        );
+        for(PnModeloCapitulo modeloCapitulo: modeloCapitulos){
+            PnCapitulo capitulo = new PnCapitulo();
+            capitulo.setPnTipoPremioById(tipoPremio);
+            capitulo.setNumeroCapitulo(modeloCapitulo.getNumeroCapitulo());
+            capitulo.setEvaluaCapitulo(modeloCapitulo.getEvaluaCapitulo());
+            capitulo.setNombreCapitulo(modeloCapitulo.getCriterio());
+            capitulo.setMaximo(modeloCapitulo.getMaximo());
+
+            Integer id = (Integer) pnManager.getHibernateTemplate().save(capitulo);
+            capitulo.setId(id);
+
+            //  TRAIGO TODOS LOS MODELOS DE SUB_CAPITULO, SEGUN EL MODELO DE CAPITULO
+            List<PnModeloSubCapitulo> modeloSubCapitulos = pnManager.getHibernateTemplate().find(
+                    "from PnModeloSubCapitulo where modeloCapitulo.id =? order by codigoItem",
+                    modeloCapitulo.getId()
+            );
+            for(PnModeloSubCapitulo modeloSubCapitulo: modeloSubCapitulos){
+                PnSubCapitulo subCapitulo = new PnSubCapitulo();
+                subCapitulo.setPnCapituloByIdCapitulo(capitulo);
+                subCapitulo.setPonderacion(modeloSubCapitulo.getPonderacion());
+                subCapitulo.setCodigoItem(modeloSubCapitulo.getCodigoItem());
+                subCapitulo.setSubCapitulo(modeloSubCapitulo.getSubCapitulo());
+                subCapitulo.setEvalua(modeloSubCapitulo.getEvaluaItem());
+                subCapitulo.setC20(modeloSubCapitulo.getC20());
+                subCapitulo.setC40(modeloSubCapitulo.getC40());
+                subCapitulo.setC60(modeloSubCapitulo.getC60());
+                subCapitulo.setC80(modeloSubCapitulo.getC80());
+                subCapitulo.setC100(modeloSubCapitulo.getC100());
+                pnManager.getHibernateTemplate().save(subCapitulo);
+            }  //  END FOR MODELOS DE SUB_CAPITULO
+        }  //  END FOR MODELOS DE CAPITULO
+
+        capitulos = pnManager.getPnCapitulos(tipoPremio.getId());
+    }
 %>
 <h2><%=tipoPremio.getSigla()%> - <%=tipoPremio.getNombreTipoPremio()%></h2>
 <h4>
@@ -180,10 +218,72 @@
     %>
     <tr>
         <td bgcolor="#f0f8ff">
-            <img src="images/help.png" onclick="muestraCosas('<%=capitulo.getId()%>');" width="24" alt="Contenido" title="Contenido">
+            <img src="images/help.png" onclick="muestraCosas('capitulo','<%=capitulo.getId()%>');" width="24" alt="Contenido" title="Contenido">
+        </td>
+        <td>
+            <p class="editable_textarea" id="PnCapitulo_numeroCapitulo_<%=capitulo.getId()%>" ><%=capitulo.getNumeroCapitulo()%></p>
         </td>
         <td bgcolor="#f0f8ff">
-            <p class="editable_textarea" id="PnCategoriaCriterio_categoriaCriterio_<%=capitulo.getId()%>" style="font-weight: bolder;"><%=capitulo.getNombreCapitulo()%></p>
+            <p class="editable_textarea" id="PnCapitulo_nombreCapitulo_<%=capitulo.getId()%>" style="font-weight: bolder;"><%=capitulo.getNombreCapitulo()%></p>
+        </td>
+    </tr>
+    <tr id="capitulo<%=capitulo.getId()%>" style="display:none;">
+        <td colspan="3">
+            <table class="table-bordered table" style="width: 100%">
+                <%
+                    List<PnSubCapitulo> pnSubCapitulos = pnManager.getHibernateTemplate().find(
+                            "from PnSubCapitulo where pnCapituloByIdCapitulo.id =? order by codigoItem",
+                            capitulo.getId()
+                    );
+                    for (PnSubCapitulo subCapitulo: pnSubCapitulos){
+                %>
+                <tr>
+                    <th>
+                        <img src="images/help.png" onclick="muestraCosas('subCapitulo','<%=subCapitulo.getId()%>');" width="24" alt="Contenido" title="Contenido">
+                    </th>
+                    <td>
+                        <p class="editable_textarea" id="PnSubCapitulo_codigoItem_<%=subCapitulo.getId()%>" ><%=subCapitulo.getCodigoItem()%></p>
+                    </td>
+                    <td><p class="editable_textarea" id="PnSubCapitulo_subCapitulo_<%=subCapitulo.getId()%>"><%=subCapitulo.getSubCapitulo()%></p></td>
+                </tr>
+                <tr id="subCapitulo<%=subCapitulo.getId()%>" style="display:none;">
+                    <td colspan="3">
+                        <table>
+                            <tr>
+                                <th>Evalua</th>
+                                <td><p class="editable_textarea" id="PnSubCapitulo_evalua_<%=subCapitulo.getId()%>"><%=subCapitulo.getEvalua()%></p></td>
+                            </tr>
+                            <tr>
+                                <th>Puntaje</th>
+                                <td><p class="editable_textarea" id="PnSubCapitulo_ponderacion_<%=subCapitulo.getId()%>"><%=subCapitulo.getPonderacion()%></p></td>
+                            </tr>
+                            <tr>
+                                <th>0..20</th>
+                                <td><p class="editable_textarea" id="PnSubCapitulo_c20_<%=subCapitulo.getId()%>"><%=subCapitulo.getC20()%></p></td>
+                            </tr>
+                            <tr>
+                                <th>21..40</th>
+                                <td><p class="editable_textarea" id="PnSubCapitulo_c40_<%=subCapitulo.getId()%>"><%=subCapitulo.getC40()%></p></td>
+                            </tr>
+                            <tr>
+                                <th>41..60</th>
+                                <td><p class="editable_textarea" id="PnSubCapitulo_c60_<%=subCapitulo.getId()%>"><%=subCapitulo.getC60()%></p></td>
+                            </tr>
+                            <tr>
+                                <th>61..80</th>
+                                <td><p class="editable_textarea" id="PnSubCapitulo_c80_<%=subCapitulo.getId()%>"><%=subCapitulo.getC80()%></p></td>
+                            </tr>
+                            <tr>
+                                <th>81..100</th>
+                                <td><p class="editable_textarea" id="PnSubCapitulo_c100_<%=subCapitulo.getId()%>"><%=subCapitulo.getC100()%></p></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <%
+                    }
+                %>
+            </table>
         </td>
     </tr>
     <%

@@ -8,7 +8,9 @@
     Empleado empleo = (Empleado) session.getAttribute("empleo");
     Empresa empresa = empleo.getParticipanteByIdParticipante().getEmpresaByIdEmpresa();
 
-    List<PnSubCapitulo> items = pnManager.getPnSubCapitulos();
+    List<PnSubCapitulo> items = pnManager.getPnSubCapitulos(
+            empleo.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getTipoPremioById().getId()
+    );
 
 %>
 
@@ -17,7 +19,8 @@
         <div class="row">
             <div class="span8">
                 <h2><%=texto16.getTexto1()%></h2>
-                para <strong><%=empresa.getNombreEmpresa()%></strong>
+                para <strong><%=empresa.getNombreEmpresa()%> en
+                <%=empleo.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getTipoPremioById().getSigla()%></strong>
                 <br>
                 <br>
 
@@ -64,7 +67,7 @@
                     %>
                     <tr>
                         <th>
-                            <%=item.getPnCapituloByIdCapitulo().getId()%>
+                            <%=item.getPnCapituloByIdCapitulo().getNumeroCapitulo()%>
                         </th>
                         <th colspan="1">
                             <%=item.getPnCapituloByIdCapitulo().getNombreCapitulo()%>
