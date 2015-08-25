@@ -85,7 +85,9 @@
                     }
 
                     //MEGA FOR DE CAPITULOS
-                    List<PnCapitulo> pnCapitulos = pnManager.getPnCapitulos();
+                    List<PnCapitulo> pnCapitulos = pnManager.getPnCapitulos(
+                            empleo.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getTipoPremioById().getId()
+                    );
                     for (PnCapitulo capitulo: pnCapitulos){
                         String bg;
                         if(capitulo.getId()%2 == 1){
