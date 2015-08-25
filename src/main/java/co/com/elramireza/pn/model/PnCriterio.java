@@ -24,6 +24,7 @@ public class PnCriterio {
     private String c80;
     private String c100;
     private String c50;
+    private PnCategoriaCriterio pnCategoriaCriterioByIdCategoriaCriterio;
 
     @Id
     @GenericGenerator(name = "generator", strategy = "increment")
@@ -48,8 +49,6 @@ public class PnCriterio {
         this.criterio = criterio;
     }
 
-    private PnCategoriaCriterio pnCategoriaCriterioByIdCategoriaCriterio;
-
     @ManyToOne
     @JoinColumn(name = "id_categoria_criterio", referencedColumnName = "id", nullable = false)
     public PnCategoriaCriterio getPnCategoriaCriterioByIdCategoriaCriterio() {
@@ -59,7 +58,6 @@ public class PnCriterio {
     public void setPnCategoriaCriterioByIdCategoriaCriterio(PnCategoriaCriterio pnCategoriaCriterioByIdCategoriaCriterio) {
         this.pnCategoriaCriterioByIdCategoriaCriterio = pnCategoriaCriterioByIdCategoriaCriterio;
     }
-
 
 	@Column(name = "evalua")
 	@Basic
@@ -82,7 +80,6 @@ public class PnCriterio {
 		this.c20 = c20;
 	}
 
-
 	@Column(name = "c_40")
 	@Basic
 	public String getC40() {
@@ -92,7 +89,6 @@ public class PnCriterio {
 	public void setC40(String c40) {
 		this.c40 = c40;
 	}
-
 
 	@Column(name = "c_60")
 	@Basic
@@ -104,7 +100,6 @@ public class PnCriterio {
 		this.c60 = c60;
 	}
 
-
 	@Column(name = "c_80")
 	@Basic
 	public String getC80() {
@@ -115,7 +110,6 @@ public class PnCriterio {
 		this.c80 = c80;
 	}
 
-
 	@Column(name = "c_100")
 	@Basic
 	public String getC100() {
@@ -125,7 +119,6 @@ public class PnCriterio {
 	public void setC100(String c100) {
 		this.c100 = c100;
 	}
-
 
 	@Column(name = "c_50")
 	@Basic

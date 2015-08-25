@@ -261,6 +261,9 @@
             <dwr:include method="getPnTipoPremio"/>
             <dwr:include method="savePnTipoPremio"/>
             <dwr:include method="actualizaPrincipioCalificacion"/>
+            <dwr:include method="deleteCriterioAdmin"/>
+            <dwr:include method="addCriterioAdmin"/>
+            <!--<dwr:include method=""/>-->
 
             <!--LOS QUE NO VAN-->
             <!--

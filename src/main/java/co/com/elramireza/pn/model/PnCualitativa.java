@@ -17,6 +17,14 @@ import java.sql.Timestamp;
 @Table( name = "pn_cualitativa")
 public class PnCualitativa {
     private int id;
+    private Timestamp fechaCreacion;
+    private String vision;
+    private String fortalezas;
+    private String oportunidades;
+    private String pendientesVisita;
+    private PnCapitulo pnCapituloByIdCapitulo;
+    private Empleado empleadoByIdEmpleado;
+    private TipoFormato tipoFormatoByIdTipoFormato;
 
     @Id
     @GenericGenerator(name = "generator", strategy = "increment")
@@ -30,8 +38,6 @@ public class PnCualitativa {
         this.id = id;
     }
 
-    private Timestamp fechaCreacion;
-
     @Basic
     @Column(name = "fecha_creacion")
     public Timestamp getFechaCreacion() {
@@ -41,8 +47,6 @@ public class PnCualitativa {
     public void setFechaCreacion(Timestamp fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
     }
-
-	private String vision;
 
 	@Basic
 	@Column(name = "vision")
@@ -54,8 +58,6 @@ public class PnCualitativa {
 		this.vision = vision;
 	}
 
-	private String fortalezas;
-
     @Basic
     @Column(name = "fortalezas")
     public String getFortalezas() {
@@ -66,8 +68,6 @@ public class PnCualitativa {
         this.fortalezas = fortalezas;
     }
 
-    private String oportunidades;
-
     @Basic
     @Column(name = "oportunidades")
     public String getOportunidades() {
@@ -77,8 +77,6 @@ public class PnCualitativa {
     public void setOportunidades(String oportunidades) {
         this.oportunidades = oportunidades;
     }
-
-    private String pendientesVisita;
 
     @Basic
     @Column(name = "pendientes_visita")
@@ -119,8 +117,6 @@ public class PnCualitativa {
         return result;
     }
 
-    private PnCapitulo pnCapituloByIdCapitulo;
-
     @ManyToOne
     @JoinColumn(name = "id_capitulo", referencedColumnName = "id", nullable = true)
     public PnCapitulo getPnCapituloByIdCapitulo() {
@@ -130,8 +126,6 @@ public class PnCualitativa {
     public void setPnCapituloByIdCapitulo(PnCapitulo pnCapituloByIdCapitulo) {
         this.pnCapituloByIdCapitulo = pnCapituloByIdCapitulo;
     }
-
-    private Empleado empleadoByIdEmpleado;
 
     @ManyToOne
     @JoinColumn(name = "id_empleado", referencedColumnName = "id")
@@ -154,8 +148,6 @@ public class PnCualitativa {
     public void setParticipanteByIdParticipante(Participante participanteByIdParticipante) {
         this.participanteByIdParticipante = participanteByIdParticipante;
     }
-
-    private TipoFormato tipoFormatoByIdTipoFormato;
 
     @ManyToOne
     @JoinColumn(name = "id_tipo_formato", referencedColumnName = "id", nullable = false)

@@ -148,9 +148,13 @@
         <td bgcolor="#f0f8ff">
             <p class="editable_textarea" id="PnCategoriaCriterio_categoriaCriterio_<%=categoriaCriterio.getId()%>" style="font-weight: bolder;"><%=categoriaCriterio.getCategoriaCriterio()%></p>
         </td>
+        <td>
+            <span onclick="addCriterio('<%=categoriaCriterio.getId()%>');"><img src="img/edit.png" width="24" alt="Nuevo Criterio" title="Nuevo Criterio">
+            Nuevo Criterio</span>
+        </td>
     </tr>
     <tr id="categoria<%=categoriaCriterio.getId()%>" style="display:none;">
-        <td colspan="2">
+        <td colspan="3">
             <table class="table-bordered table" style="width: 100%">
                 <%
                     List<PnCriterio> criterios = pnManager.getPnCriteriosFromCategoria(categoriaCriterio.getId());
@@ -159,11 +163,13 @@
                 <tr>
                     <th><img src="images/help.png" onclick="muestraValoresCriterios('<%=criterio.getId()%>');" width="24" alt="Contenido" title="Contenido"></th>
                     <td><p class="editable_textarea" id="PnCriterio_criterio_<%=criterio.getId()%>"><%=criterio.getCriterio()%></p></td>
-
+                    <td><span onclick="deleteCriterio('<%=criterio.getId()%>');"><img src="images/drop.png" width="24" alt="Borrar este Criterio" title="Borrar este Criterio">
+                        Borrar este Criterio</span>
+                    </td>
                 </tr>
                 <tr id="criterio<%=criterio.getId()%>" style="display:none;">
-                    <td colspan="2">
-                        <table>
+                    <td colspan="3">
+                        <table style="width: 100%">
                             <tr>
                                 <th>Evalua</th>
                                 <td><p class="editable_textarea" id="PnCriterio_evalua_<%=criterio.getId()%>"><%=criterio.getEvalua()%></p></td>
@@ -346,4 +352,27 @@
 //        alert("contenidoTR = " + contenidoTR);
         $(contenidoTR).toggle();
     }
+
+    function addCriterio(idCategoriaCriterio){
+        pnRemoto.addCriterioAdmin(idCategoriaCriterio, function(data){
+            if(data==0){
+                alrtError("Problemas");
+            } else {
+                alrt("Creado");
+                revisaTipoPremio(<%=tipoPremio.getId()%>);
+            }
+        });
+    }
+
+    function deleteCriterio(idCriterio){
+        pnRemoto.deleteCriterioAdmin(idCriterio, function(data){
+            if(data==0){
+                alrtError("Problemas");
+            } else {
+                alrtError("Eliminado");
+                revisaTipoPremio(<%=tipoPremio.getId()%>);
+            }
+        });
+    }
+
 </script>

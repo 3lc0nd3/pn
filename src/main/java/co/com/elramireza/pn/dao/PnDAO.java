@@ -248,6 +248,50 @@ public class PnDAO extends HibernateDaoSupport{
                 idPerfil);
     }
 
+    /**
+     * borra si se puede
+     * @param idCriterio id
+     * @return 1 ok, 0 DB error, 2 dependencias
+     */
+    public int deleteCriterioAdmin(int idCriterio){
+        try {
+            List<PnValoracion> valoraciones = getHibernateTemplate().find(
+                    "from PnValoracion where pnCriterioByIdPnCriterio.id=?",
+                    idCriterio
+            );
+            if(valoraciones.size()>0){
+                return 2;
+            } else {
+                PnCriterio criterio = getPnCriterio(idCriterio);
+                getHibernateTemplate().delete(criterio);
+                return 1;
+            }
+        } catch (DataAccessException e) {
+//            e.printStackTrace();
+            logger.debug(e.getMessage());
+            return 0;
+        }
+    }
+
+    /**
+     * Add criterio vacio a una Categoria de criterio
+     * @param idCategoriaCriterio
+     * @return
+     */
+    public int addCriterioAdmin(int idCategoriaCriterio){
+        try {
+            PnCriterio criterio = new PnCriterio();
+            criterio.setPnCategoriaCriterioByIdCategoriaCriterio(getPnCategoriaCriterio(idCategoriaCriterio));
+            criterio.setCriterio("nuevo");
+            getHibernateTemplate().save(criterio);
+            return 1;
+        } catch (DataAccessException e) {
+//            e.printStackTrace();
+            logger.debug(e.getMessage());
+            return 0;
+        }
+    }
+
     public List<PnCategoriaCriterio> getCategoriasCriterio(int idTipoPremio){
         return getHibernateTemplate().find(
                 "from PnCategoriaCriterio where pnTipoPremioById.id = ? order by id ",
@@ -1278,6 +1322,10 @@ public class PnDAO extends HibernateDaoSupport{
 
     public PnCriterio getPnCriterio(int id){
         return (PnCriterio) getHibernateTemplate().get(PnCriterio.class, id);
+    }
+
+    public PnCategoriaCriterio getPnCategoriaCriterio(int id){
+        return (PnCategoriaCriterio) getHibernateTemplate().get(PnCategoriaCriterio.class, id);
     }
 
     public TipoFormato getTipoFormato(int id){

@@ -27,6 +27,12 @@ public class PnValoracion {
     }
 
     private int valor;
+    private Timestamp fecha;
+    private PnCapitulo pnCapituloByIdCapitulo;
+    private Empleado empleadoByIdEmpleado;
+    private PnCriterio pnCriterioByIdPnCriterio;
+    private Participante participanteByIdParticipante;
+    private TipoFormato tipoFormatoByIdTipoFormato;
 
     @Basic
     @Column(name = "valor")
@@ -37,8 +43,6 @@ public class PnValoracion {
     public void setValor(int valor) {
         this.valor = valor;
     }
-
-    private Timestamp fecha;
 
     @Basic
     @Column(name = "fecha")
@@ -72,8 +76,6 @@ public class PnValoracion {
         return result;
     }
 
-    private PnCapitulo pnCapituloByIdCapitulo;
-
     @ManyToOne
     @JoinColumn(name = "id_capitulo", referencedColumnName = "id")
     public PnCapitulo getPnCapituloByIdCapitulo() {
@@ -83,8 +85,6 @@ public class PnValoracion {
     public void setPnCapituloByIdCapitulo(PnCapitulo pnCapituloByIdCapitulo) {
         this.pnCapituloByIdCapitulo = pnCapituloByIdCapitulo;
     }
-
-    private Empleado empleadoByIdEmpleado;
 
     @ManyToOne
     @JoinColumn(name = "id_empleado", referencedColumnName = "id")
@@ -96,8 +96,6 @@ public class PnValoracion {
         this.empleadoByIdEmpleado = empleadoByIdEmpleado;
     }
 
-    private PnCriterio pnCriterioByIdPnCriterio;
-
     @ManyToOne
     @JoinColumn(name = "id_pn_criterio", referencedColumnName = "id", nullable = false)
     public PnCriterio getPnCriterioByIdPnCriterio() {
@@ -108,8 +106,6 @@ public class PnValoracion {
         this.pnCriterioByIdPnCriterio = pnCriterioByIdPnCriterio;
     }
 
-    private Participante participanteByIdParticipante;
-
     @ManyToOne
     @JoinColumn(name = "id_participante", referencedColumnName = "id", nullable = false)
     public Participante getParticipanteByIdParticipante() {
@@ -119,8 +115,6 @@ public class PnValoracion {
     public void setParticipanteByIdParticipante(Participante participanteByIdParticipante) {
         this.participanteByIdParticipante = participanteByIdParticipante;
     }
-
-    private TipoFormato tipoFormatoByIdTipoFormato;
 
     @ManyToOne
     @JoinColumn(name = "id_tipo_formato", referencedColumnName = "id", nullable = false)
