@@ -110,7 +110,7 @@
 <h2><%=tipoPremio.getSigla()%> - <%=tipoPremio.getNombreTipoPremio()%></h2>
 <h4>
     <img src="images/help.png" onclick="muestraSeccion('cualitativaT');" width="24" alt="Cualitativa" title="Cualitativa">
-    Cualitativa</h4>
+    Individual Global (Cualitativa)</h4>
 <table id="cualitativaT" class="table-bordered table" style="display:none;">
     <tr>
         <th>Nombre</th>
@@ -136,7 +136,7 @@
 <%--  CRITERIOS  --%>
 <h4>
     <img src="images/help.png" onclick="muestraSeccion('criteriosT');" width="24" alt="Criterios" title="Criterios">
-    Criterios</h4>
+    Global Individual Cuantitativa Cap&iacute;tulos (Criterios)</h4>
 <table id="criteriosT" style="display:none;" class="table-bordered table">
     <%
         for(PnCategoriaCriterio categoriaCriterio: categoriasCriterios){
@@ -217,7 +217,7 @@
 <%--  ITEMS Cuantitativa  --%>
 <h4>
     <img src="images/help.png" onclick="muestraSeccion('cuantitativaT');" width="24" alt="Cuantitativa" title="Cuantitativa">
-    Cuantitativa</h4>
+    Cuantitativa (&Iacute;tems)</h4>
 <table id="cuantitativaT" style="display:none;" class="table-bordered table">
     <%
         for(PnCapitulo capitulo: capitulos){

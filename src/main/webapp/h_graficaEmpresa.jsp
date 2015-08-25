@@ -39,7 +39,9 @@
         if (totalesItems.size()==0) {
 
             totalesItems = new ArrayList<MyKey>();
-            List<PnCapitulo> capitulos = pnManager.getPnCapitulos();
+            List<PnCapitulo> capitulos = pnManager.getPnCapitulos(
+                    participante.getPnPremioByIdConvocatoria().getTipoPremioById().getId()
+            );
             for (PnCapitulo capitulo : capitulos) {
                 MyKey key = new MyKey();
                 key.setId(capitulo.getId());
@@ -50,7 +52,9 @@
         }
     } else {
         totalesItems = new ArrayList<MyKey>();
-        List<PnCapitulo> capitulos = pnManager.getPnCapitulos();
+        List<PnCapitulo> capitulos = pnManager.getPnCapitulos(
+                participante.getPnPremioByIdConvocatoria().getTipoPremioById().getId()
+        );
         for (PnCapitulo capitulo : capitulos) {
             MyKey key = new MyKey();
             key.setText(capitulo.getNombreCapitulo());
