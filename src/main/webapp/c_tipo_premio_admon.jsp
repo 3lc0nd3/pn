@@ -136,7 +136,7 @@
 <%--  CRITERIOS  --%>
 <h4>
     <img src="images/help.png" onclick="muestraSeccion('criteriosT');" width="24" alt="Criterios" title="Criterios">
-    Global Individual Cuantitativa Cap&iacute;tulos (Criterios)</h4>
+    Individual Cuantitativa Cap&iacute;tulos (Enfoque, Implementaci&oacute;n y Resultados)</h4>
 <table id="criteriosT" style="display:none;" class="table-bordered table">
     <%
         for(PnCategoriaCriterio categoriaCriterio: categoriasCriterios){
@@ -217,7 +217,7 @@
 <%--  ITEMS Cuantitativa  --%>
 <h4>
     <img src="images/help.png" onclick="muestraSeccion('cuantitativaT');" width="24" alt="Cuantitativa" title="Cuantitativa">
-    Cuantitativa (&Iacute;tems)</h4>
+    Individual Cuantitativa por Cap&iacute;tulos (&Iacute;tems)</h4>
 <table id="cuantitativaT" style="display:none;" class="table-bordered table">
     <%
         for(PnCapitulo capitulo: capitulos){
