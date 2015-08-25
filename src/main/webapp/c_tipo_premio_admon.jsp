@@ -236,6 +236,15 @@
     <tr id="capitulo<%=capitulo.getId()%>" style="display:none;">
         <td colspan="3">
             <table class="table-bordered table" style="width: 100%">
+                <tr>
+                    <td colspan="2">
+                        Evalua:
+                    </td>
+
+                    <td>
+                        <p class="editable_textarea" id="PnCapitulo_evaluaCapitulo_<%=capitulo.getId()%>" ><%=capitulo.getEvaluaCapitulo()%></p>
+                    </td>
+                </tr>
                 <%
                     List<PnSubCapitulo> pnSubCapitulos = pnManager.getHibernateTemplate().find(
                             "from PnSubCapitulo where pnCapituloByIdCapitulo.id =? order by codigoItem",
