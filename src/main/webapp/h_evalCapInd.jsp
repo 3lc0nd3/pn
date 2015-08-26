@@ -352,7 +352,7 @@
             for (PnCapitulo capitulo : pnCapitulos) {
         %>
         <%
-                for (PnCriterio criterio : pnManager.getPnCriterios()){
+                for (PnCriterio criterio : pnManager.getPnCriterios(empleo.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getTipoPremioById().getId())){
         %>
         dataValores.push    ({id:<%=capitulo.getId()%>, criterio:<%=criterio.getId()%>,
             value: dwr.util.getValue("<%=capitulo.getId()%>-<%=criterio.getId()%>")});

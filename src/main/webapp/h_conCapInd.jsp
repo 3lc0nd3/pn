@@ -368,7 +368,7 @@
         dataOportunidad.push({id:<%=capitulo.getId()%>, text: dwr.util.getValue("oportunidades-<%=capitulo.getId()%>")});
         dataPendiente.push  ({id:<%=capitulo.getId()%>, text: dwr.util.getValue("pendientesVisita-<%=capitulo.getId()%>")});
         <%
-                for (PnCriterio criterio : pnManager.getPnCriterios()){
+                for (PnCriterio criterio : pnManager.getPnCriterios(empleo.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getTipoPremioById().getId())){
         %>
         dataValores.push    ({id:<%=capitulo.getId()%>, criterio:<%=criterio.getId()%>,
             value: dwr.util.getValue("<%=capitulo.getId()%>-<%=criterio.getId()%>")});

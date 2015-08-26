@@ -365,8 +365,11 @@ public class PnDAO extends HibernateDaoSupport{
                 idParticipante);
     }
 
-    public List<PnCriterio> getPnCriterios(){
-        return getHibernateTemplate().find("from PnCriterio order by id");
+    public List<PnCriterio> getPnCriterios(int idTipoPremio){
+        return getHibernateTemplate().find("from PnCriterio where " +
+                " pnCategoriaCriterioByIdCategoriaCriterio.pnTipoPremioById.id = ? " +
+                " order by id",
+                idTipoPremio);
     }
 
     public List<PnCriterio> getPnCriteriosFromCategoria(int idCategoria){
@@ -392,7 +395,8 @@ public class PnDAO extends HibernateDaoSupport{
 
     public List <PnCuantitativa> getCuantitativaIndividualFromEmpleado(int idEmpleado){
         return getHibernateTemplate().find(
-                "from PnCuantitativa where tipoFormatoByIdTipoFormato.id = 3 and empleadoByIdEmpleado.idEmpleado = ?",
+                "from PnCuantitativa where tipoFormatoByIdTipoFormato.id = 3 and empleadoByIdEmpleado.idEmpleado = ? " +
+                        " order by pnSubCapituloByIdSubCapitulo.pnCapituloByIdCapitulo.numeroCapitulo, pnSubCapituloByIdSubCapitulo.codigoItem",
                 idEmpleado
         );
     }

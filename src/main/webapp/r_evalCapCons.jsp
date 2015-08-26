@@ -18,6 +18,11 @@
 
     Empleado empleado = pnManager.getEmpleado(idEmpleado);
 
+    List<PnPrincipioCualitativo> principioCualitativos = pnManager.getHibernateTemplate().find(
+            "from PnPrincipioCualitativo where pnTipoPremioById.id=?",
+            empleado.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getTipoPremioById().getId()
+    );
+
     List<PnValoracion> fromParticipante = pnManager.getValoracionConsensoCapitulosFromEmpleado(
             idEmpleado);
 
@@ -35,20 +40,16 @@
 <h3><%=empleado.getPersonaByIdPersona().getNombreCompleto()%></h3>
 
 <table border="1" width="100%">
-<%
+    <%
     int oldCapitulo = 0;
     int oldCategoriaCriterio = 0;
     PnCualitativa cualitativa = null;
     for (int i = 0; i < fromParticipante.size(); i++) {
         PnValoracion vv = fromParticipante.get(i);
-        if (oldCapitulo != vv.getPnCapituloByIdCapitulo().getId()) {
-            oldCapitulo = vv.getPnCapituloByIdCapitulo().getId();
-            cualitativa = cualitativas.get(vv.getPnCapituloByIdCapitulo().getId()-1);
-        }
-%>
-    <%
+        if (oldCapitulo != vv.getPnCapituloByIdCapitulo().getNumeroCapitulo()) {
+            oldCapitulo =  vv.getPnCapituloByIdCapitulo().getNumeroCapitulo();
+            cualitativa = cualitativas.get(vv.getPnCapituloByIdCapitulo().getNumeroCapitulo()-1);
 
-        if (1 == vv.getPnCriterioByIdPnCriterio().getId()) {
     %>
     <tr>
         <td colspan="2">&nbsp</td>
@@ -58,13 +59,13 @@
             <%=vv.getPnCapituloByIdCapitulo().getNombreCapitulo()%>
         </td>
     </tr>
-    <tr><th class="alert-info">Valoraci&oacute;n Global de la Organizaci&oacute;n</th></tr>
-    <tr><td><%=cualitativa.getVision()%></td></tr>
-    <tr><th colspan="2" class="alert-info">Fortalezas</th></tr>
+    <tr><th colspan="2" class="alert-info"><%=principioCualitativos.get(0).getNombreCualitativa()%></th></tr>
+    <tr><td colspan="2"><%=cualitativa.getVision()%></td></tr>
+    <tr><th colspan="2" class="alert-info"><%=principioCualitativos.get(1).getNombreCualitativa()%></th></tr>
     <tr><td colspan="2"><%=cualitativa.getFortalezas()%></td></tr>
-    <tr><th colspan="2" class="alert-info">Oportunidades de Mejora</th></tr>
+    <tr><th colspan="2" class="alert-info"><%=principioCualitativos.get(2).getNombreCualitativa()%></th></tr>
     <tr><td colspan="2"><%=cualitativa.getOportunidades()%></td></tr>
-    <tr><th colspan="2" class="alert-info">Pendientes Vista de Campo</th></tr>
+    <tr><th colspan="2" class="alert-info"><%=principioCualitativos.get(3).getNombreCualitativa()%></th></tr>
     <tr><td colspan="2"><%=cualitativa.getPendientesVisita()%></td></tr>
     <%
         }

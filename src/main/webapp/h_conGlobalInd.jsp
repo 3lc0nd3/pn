@@ -179,8 +179,11 @@
         var valoresCriterios = [[],[]];
 
     <%
-        for (int i = 0; i < pnManager.getPnCriterios().size(); i++) {
-            PnCriterio criterio = pnManager.getPnCriterios().get(i);
+        List<PnCriterio> pnCriterios = pnManager.getPnCriterios(
+        empleo.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getTipoPremioById().getId()
+        );
+        for (int i = 0; i < pnCriterios.size(); i++) {
+            PnCriterio criterio = pnCriterios.get(i);
     %>
         valoresCriterios[<%=i%>] = [<%=criterio.getId()%>,dwr.util.getValue("1-<%=criterio.getId()%>")];
     <%

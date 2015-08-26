@@ -24,7 +24,6 @@
 
     List<MyKey> totalesItems = pnManager.getTotalesItems(idEmpleado, 3);
     System.out.println("totalesItems.size() = " + totalesItems.size());
-
 %>
 <br>
 <b>Evaluaci&oacute;n</b>
@@ -40,12 +39,12 @@
         int oldIdCapitulo = 0;
         for (PnCuantitativa c: cuantitativas){
             total += c.getTotal();
-            if (oldIdCapitulo != c.getPnSubCapituloByIdSubCapitulo().getPnCapituloByIdCapitulo().getId()) { //DIFERENTES
-                oldIdCapitulo = c.getPnSubCapituloByIdSubCapitulo().getPnCapituloByIdCapitulo().getId();
+            if (oldIdCapitulo != c.getPnSubCapituloByIdSubCapitulo().getPnCapituloByIdCapitulo().getNumeroCapitulo()) { //DIFERENTES
+                oldIdCapitulo = c.getPnSubCapituloByIdSubCapitulo().getPnCapituloByIdCapitulo().getNumeroCapitulo();
     %>
     <tr class="btn-inverse">
         <th align="center" >
-            <%=c.getPnSubCapituloByIdSubCapitulo().getPnCapituloByIdCapitulo().getId()%>
+            <%=c.getPnSubCapituloByIdSubCapitulo().getPnCapituloByIdCapitulo().getNumeroCapitulo()%>
         </th>
         <th align="center">
             <%=c.getPnSubCapituloByIdSubCapitulo().getPnCapituloByIdCapitulo().getNombreCapitulo()%>

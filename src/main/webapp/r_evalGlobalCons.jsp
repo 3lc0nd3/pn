@@ -19,6 +19,11 @@
 
     Empleado empleado = pnManager.getEmpleado(idEmpleado);
 
+    List<PnPrincipioCualitativo> principioCualitativos = pnManager.getHibernateTemplate().find(
+            "from PnPrincipioCualitativo where pnTipoPremioById.id=?",
+            empleado.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getTipoPremioById().getId()
+    );
+
     List<PnValoracion> fromParticipante = pnManager.getValoracionConsensoGlobalFromEmpleado(
             idEmpleado);
 
@@ -35,10 +40,18 @@
 <br>
 <h3><%=empleado.getPersonaByIdPersona().getNombreCompleto()%></h3>
 <table border="1" width="100%">
-    <tr><th class="alert-info">Valoraci&oacute;n Global de la Organizaci&oacute;n</th></tr>
+    <%--<tr><th class="alert-info">Valoraci&oacute;n Global de la Organizaci&oacute;n</th></tr>
     <tr><td><%=cualitativa.getVision()%></td></tr>
     <tr><th class="alert-info">Pendientes Vista de Campo</th></tr>
-    <tr><td><%=cualitativa.getPendientesVisita()%></td></tr>
+    <tr><td><%=cualitativa.getPendientesVisita()%></td></tr>--%>
+        <tr><th colspan="2" class="alert-info"><%=principioCualitativos.get(0).getNombreCualitativa()%></th></tr>
+        <tr><td colspan="2"><%=cualitativa.getVision()%></td></tr>
+        <tr><th colspan="2" class="alert-info"><%=principioCualitativos.get(1).getNombreCualitativa()%></th></tr>
+        <tr><td colspan="2"><%=cualitativa.getFortalezas()%></td></tr>
+        <tr><th colspan="2" class="alert-info"><%=principioCualitativos.get(2).getNombreCualitativa()%></th></tr>
+        <tr><td colspan="2"><%=cualitativa.getOportunidades()%></td></tr>
+        <tr><th colspan="2" class="alert-info"><%=principioCualitativos.get(3).getNombreCualitativa()%></th></tr>
+        <tr><td colspan="2"><%=cualitativa.getPendientesVisita()%></td></tr>
 </table>
 <%
     }

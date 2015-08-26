@@ -76,7 +76,7 @@
     Notas
 </span>
 <br>
-<textarea id="notas" style="width: 80%" ROWS="8"><%=pnAgenda.getNotas()%></textarea>
+<textarea id="notas" style="width: 80%" ROWS="8"><%=pnAgenda.getNotas()==null?"":pnAgenda.getNotas()%></textarea>
 <br>
 <button id="b4" onclick="guardaNotasAgenda();"  type="button" class="btn  btn-primary">Guarda Notas</button>
 
