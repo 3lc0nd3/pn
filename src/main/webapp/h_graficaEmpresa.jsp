@@ -158,7 +158,11 @@
 
         var s1 = [
             <%
+            System.out.println("2 ___");
+            c_a=0;
                 for (MyKey capitulo : totalesItems){
+
+                System.out.println(c_a++ +"capitulo.getId() = " + capitulo.getId());
                 PnCapitulo capi = pnManager.getPnCapitulo(capitulo.getId());
 
             %>
