@@ -150,7 +150,7 @@
                 PnCapitulo capi = pnManager.getPnCapitulo(capitulo.getId());
 
             %>
-            ['<%=capitulo.getText()%>', <%=100*capitulo.getValue()/capi.getMaximo()%>],
+            ['<%=capitulo.getText().trim()%>', <%=100*capitulo.getValue()/capi.getMaximo()%>],
             <%
                 }
             %>
@@ -179,7 +179,7 @@
                 PnCapitulo capi = pnManager.getPnCapitulo(capitulo.getId());
 
             %>
-            "<%=capitulo.getText()%>",
+            "<%=capitulo.getText().trim()%>",
             <%
 
                 System.out.println(c_a++ +"capitulo.getId() = " + capitulo.getId());
