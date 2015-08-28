@@ -2,6 +2,7 @@
 <%@ page import="co.com.elramireza.pn.model.*" %>
 <%@ page import="co.com.elramireza.pn.util.MyKey" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.math.BigDecimal" %>
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 
 <%
@@ -31,11 +32,31 @@
 
     System.out.println("evaluadoresFromParticipante.size() = " + evaluadoresFromParticipante.size());
 
-    List<MyKey> totalesItems;
+    List<MyKey> totalesItems= new ArrayList<MyKey>();;
     if (evaluadoresFromParticipante != null &&
             evaluadoresFromParticipante.size()>0) {
-//        System.out.println("evaluadoresFromParticipante.size() = " + evaluadoresFromParticipante.size());
-        totalesItems = pnManager.getTotalesItems(evaluadoresFromParticipante.get(0).getIdEmpleado(), 5);
+//        TODO CAMBIAR ESTO
+//        totalesItems = pnManager.getTotalesItems(evaluadoresFromParticipante.get(0).getIdEmpleado(), 5);
+
+        String hql = "select pnSubCapituloByIdSubCapitulo.pnCapituloByIdCapitulo.id, " +
+                " pnSubCapituloByIdSubCapitulo.pnCapituloByIdCapitulo.nombreCapitulo, " +
+                " sum(total) from PnCuantitativa " +
+                " where tipoFormatoByIdTipoFormato.id = ? and empleadoByIdEmpleado.idEmpleado = ? " +
+                " group by pnSubCapituloByIdSubCapitulo.pnCapituloByIdCapitulo" +
+                " order by pnSubCapituloByIdSubCapitulo.pnCapituloByIdCapitulo.numeroCapitulo";
+        Object o[] = {5, evaluadoresFromParticipante.get(0).getIdEmpleado()};
+        List<Object[]> sumas = pnManager.getHibernateTemplate().find(
+                hql,
+                o);
+//        List<MyKey> totales = new ArrayList<MyKey>();
+        for (Object[] objects : sumas) {
+            MyKey key = new MyKey();
+            key.setId((Integer) objects[0]);
+            key.setText((String) objects[1]);
+            key.setValue((new BigDecimal((Long) objects[2])).intValue());
+            totalesItems.add(key);
+        }
+
         if (totalesItems.size()==0) {
 
             totalesItems = new ArrayList<MyKey>();
