@@ -78,7 +78,7 @@
                                 <%
                                     if(pnAgenda != null){ // SOLO SI HAY
                                 %>
-                                <button id="b3" onclick="saltaADespuesDeVisita();"  type="button" class="btn">Avanza a Retroalimentaci&oacute;n</button>
+                                <button id="b3" onclick="saltaADespuesDeVisita();"  type="button" class="btn">Avanza a Eval. Final</button>
                                 <%
                                     }
                                 %>

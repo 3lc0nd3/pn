@@ -19,7 +19,7 @@
             &&
             empleo.getPerfilByIdPerfil().getId() == 7){
 %>
-<button id="b3" onclick="saltaADespuesDeVisita();"  type="button" class="btn btn-primary">Avanza a Retroalimentaci&oacute;n</button>
+<button id="b3" onclick="saltaADespuesDeVisita();"  type="button" class="btn btn-primary">Avanza a Eval. Final</button>
 <%
     }
 %>
