@@ -140,6 +140,8 @@
             ['Hair Spray Danger Indicator', 18]
         ];
 */
+        alrt("Cargando");
+
         var line1 = [
             <%
                 for (MyKey capitulo : totalesItems){
