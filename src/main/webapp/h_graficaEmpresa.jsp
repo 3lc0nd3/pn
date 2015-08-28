@@ -169,12 +169,16 @@
         ];
         var ticks = [
             <%
+            System.out.println("3");
+            c_a=0;
                 for (MyKey capitulo : totalesItems){
                 PnCapitulo capi = pnManager.getPnCapitulo(capitulo.getId());
 
             %>
             "<%=capitulo.getText()%>",
             <%
+
+                System.out.println(c_a++ +"capitulo.getId() = " + capitulo.getId());
                 }
             %>
         ];
