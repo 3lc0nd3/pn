@@ -144,7 +144,9 @@
 
         var line1 = [
             <%
+            int c_a=0;
                 for (MyKey capitulo : totalesItems){
+                System.out.println(c_a++ +"capitulo.getId() = " + capitulo.getId());
                 PnCapitulo capi = pnManager.getPnCapitulo(capitulo.getId());
 
             %>

@@ -403,7 +403,11 @@ public class PnDAO extends HibernateDaoSupport{
 
 	public List<MyKey> getTotalesItems(int idEmpleado, int idTipoFormato){
 		String hql;
-		hql = "select pnSubCapituloByIdSubCapitulo.pnCapituloByIdCapitulo.id, pnSubCapituloByIdSubCapitulo.pnCapituloByIdCapitulo.nombreCapitulo, sum(total) from PnCuantitativa where tipoFormatoByIdTipoFormato.id = ? and empleadoByIdEmpleado.idEmpleado = ? group by pnSubCapituloByIdSubCapitulo.pnCapituloByIdCapitulo";
+		hql = "select pnSubCapituloByIdSubCapitulo.pnCapituloByIdCapitulo.id, " +
+                " pnSubCapituloByIdSubCapitulo.pnCapituloByIdCapitulo.nombreCapitulo, " +
+                " sum(total) from PnCuantitativa " +
+                " where tipoFormatoByIdTipoFormato.id = ? and empleadoByIdEmpleado.idEmpleado = ? " +
+                " group by pnSubCapituloByIdSubCapitulo.pnCapituloByIdCapitulo";
 		Object o[] = {idTipoFormato, idEmpleado};
 		List<Object[]> sumas = getHibernateTemplate().find(
 				hql, 
