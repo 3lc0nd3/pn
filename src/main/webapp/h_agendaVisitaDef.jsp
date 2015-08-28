@@ -13,9 +13,11 @@
     No hay fecha asignada
 </div>
 <%
-    }                 else {
+    } else {
 
-    if (empleo.getParticipanteByIdParticipante().getPnEtapaParticipanteByIdEtapaParticipante().getIdEtapaParticipante() == 3){
+    if (empleo.getParticipanteByIdParticipante().getPnEtapaParticipanteByIdEtapaParticipante().getIdEtapaParticipante() == 3
+            &&
+            empleo.getPerfilByIdPerfil().getId() == 7){
 %>
 <button id="b3" onclick="saltaADespuesDeVisita();"  type="button" class="btn btn-primary">Avanza a Retroalimentaci&oacute;n</button>
 <%
@@ -67,11 +69,14 @@
         <%--<td></td>--%>
     </tr>
     <%
-        }
+        }  //  END FOR INVITADOS AGENDA
     %>
 </table>
 
 <br>
+<%
+    if(empleo.getPerfilByIdPerfil().getId() == 7){
+%>
 <span style="font-weight: bold">
     Notas
 </span>
@@ -81,6 +86,7 @@
 <button id="b4" onclick="guardaNotasAgenda();"  type="button" class="btn  btn-primary">Guarda Notas</button>
 
 <%
+        }  //  END IF NOTAS LIDER
     }
 %>
 
@@ -93,9 +99,9 @@
         var nota = dwr.util.getValue("notas");
         pnRemoto.guardaNotasAgenda(nota, function(data){
             if(data ==1){
-                alert("Guardado Correcto");
+                alrt("Guardado Correcto");
             } else {
-                alert("Problemas !");
+                alrtError("Problemas !");
             }
             enableId("b4");
         });

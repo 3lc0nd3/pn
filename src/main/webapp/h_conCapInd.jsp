@@ -480,6 +480,7 @@
             dwr.util.setValue(campo+"-"+idCapitulo, data[campo]);
             dwr.util.setValue(campo+"-text-"+idCapitulo, "");
             $("#"+campo+"-tr-"+idCapitulo).hide();
+            alrt("Guardado");
         });
     }
 </script>

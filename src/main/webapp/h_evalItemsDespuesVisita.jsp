@@ -1,6 +1,8 @@
+<%--suppress ALL --%>
 <%@ page import="java.util.List" %>
 <%@ page import="co.com.elramireza.pn.model.*" %>
 <%@ page import="co.com.elramireza.pn.util.MyKey" %>
+<%@ page import="java.lang.reflect.InvocationTargetException" %>
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 
 <%
@@ -15,6 +17,10 @@
             empleo.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getTipoPremioById().getId()
     );
 
+    List<PnPrincipioCualitativo> principioCualitativos = pnManager.getHibernateTemplate().find(
+            "from PnPrincipioCualitativo where pnTipoPremioById.id=?",
+            empleo.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getTipoPremioById().getId()
+    );
 %>
 
 <individual>
@@ -65,6 +71,11 @@
                         for (PnSubCapitulo item: items){
                             if(idCapituloOld != item.getPnCapituloByIdCapitulo().getId()){
                                 idCapituloOld = item.getPnCapituloByIdCapitulo().getId();
+
+                                PnRetroalimentacion retroalimentacion = pnManager.getPnRetroalimentacion(
+                                        participanteByIdParticipante.getIdParticipante(),
+                                        item.getPnCapituloByIdCapitulo().getId()
+                                );
                     %>
                     <tr>
                         <th>
@@ -81,7 +92,7 @@
                             <span class="color" id="t-<%=item.getPnCapituloByIdCapitulo().getId()%>"></span>
                         </th>
                     </tr>
-                    <tr>
+                    <%--<tr>
                         <th colspan="5" class="alert-info">Fortalezas</th>
                     </tr>
                     <tr>
@@ -96,9 +107,70 @@
                         <td colspan="5">
                             <textarea id="oportunidades<%=item.getPnCapituloByIdCapitulo().getId()%>" class="field span6" placeholder="<%=texto19.getTexto2()%>" rows="4" cols="10"></textarea>
                         </td>
+                    </tr>--%>
+                    <%
+                        for (PnPrincipioCualitativo principioCualitativo: principioCualitativos){
+                            if(
+                                    principioCualitativo.getCampo().equals("oportunidades")
+                                    || principioCualitativo.getCampo().equals("fortalezas")
+                                    ){
+
+                    %>
+                    <tr><th colspan="5" class="alert-info">
+                        <img src="images/help.png" onclick="muestraAyudaCualitativa('<%=principioCualitativo.getCampo()%>','<%=idCapituloOld%>');" width="24" alt="Contenido" title="Contenido">
+                        <%=principioCualitativo.getNombreCualitativa()%></th>
+                    </tr>
+                    <tr>
+                        <td colspan="5"  class="contenido" bgcolor="white">
+                            <span id="<%=principioCualitativo.getCampo()%>-<%=idCapituloOld%>">
+                                <%
+                                    Class noparams[] = {};
+                                    Class cls = Class.forName("co.com.elramireza.pn.model.PnRetroalimentacion");
+                                    Object obj = retroalimentacion;
+                                    String campo = principioCualitativo.getCampo().substring(0, 1).toUpperCase() + principioCualitativo.getCampo().substring(1);
+                                    java.lang.reflect.Method method = null;
+                                    String res = null;
+                                    try {
+                                        String nameCampo = "get" + campo;
+                                        method = cls.getDeclaredMethod(nameCampo, noparams);
+                                        res = (String) method.invoke(obj, null);
+                                    } catch (NoSuchMethodException e) {
+
+                                    } catch (IllegalAccessException e) {
+
+
+                                    } catch (InvocationTargetException e) {
+
+                                    }
+                                %>
+                                <%=res%>
+                            </span>
+                            <br>
+                            <br>
+                            <a onclick="editarCualitativa('<%=principioCualitativo.getCampo()%>', <%=idCapituloOld%>, <%=participanteByIdParticipante.getIdParticipante()%>);">
+                                <img src="images/edit.png" alt="Editar">
+                                Editar
+                            </a>
+                        </td>
+                    </tr>
+                    <tr id="<%=principioCualitativo.getCampo()%>-tr-<%=idCapituloOld%>" style="display:none;">
+                        <td  colspan="5" >
+                        <textarea id="<%=principioCualitativo.getCampo()%>-text-<%=idCapituloOld%>" class="field span6" placeholder="" rows="4" cols="10"></textarea>
+                        <img  style="margin-bottom: 12px;" src="img/atencion.gif" width="25" height="25" alt="">
+                        <a style="margin-bottom: 15px;" class="btn btn-danger" onclick="guardaCualitativa('<%=principioCualitativo.getCampo()%>', <%=idCapituloOld%>);">Guardar</a>
+                        <%--<br>&nbsp;--%>
+                    </td></tr>
+                    <tr id="<%=principioCualitativo.getCampo()%>-<%=idCapituloOld%>-contenido" style="display:none;">
+                        <td  colspan="5"  class="contenido">
+                            <%=pnManager.txtToHtml(principioCualitativo.getTextoCualitativa())%>
+                        </td>
                     </tr>
                     <%
-                            }
+                        }  //  END IF fortalezas y Oportunidades
+                        }  //  END FOR principioCualitativos
+                    %>
+                    <%
+                            }  //  END IF ES CAPITULO NUEVO
                     %>
                     <tr>
                         <td>
@@ -207,12 +279,13 @@
         for (PnCapitulo capitulo : pnManager.getPnCapitulos(
         empleo.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getTipoPremioById().getId()
         )){
+
     %>
-        retro.push({
+        /*retro.push({
             id:<%=capitulo.getId()%>,
             text: dwr.util.getValue("fortalezas<%=capitulo.getId()%>"), // fortalezas
             text2:dwr.util.getValue("oportunidades<%=capitulo.getId()%>") // oportunidades
-        });
+        });*/
     <%
         }
     %>
@@ -276,10 +349,39 @@
     <%
         for (PnRetroalimentacion retroalimentacion : pnManager.getPnRetroalimentaciones(empleo.getParticipanteByIdParticipante().getIdParticipante())){
     %>
-    dwr.util.setValue(   "fortalezas<%=retroalimentacion.getPnCapituloByIdPnCapitulo().getId()%>",  poneSaltosDeLinea('<%=retroalimentacion.getFortalezas().replace("\n", "<br>").replace("\r", "").replace("'","\"")%>'));
-    dwr.util.setValue("oportunidades<%=retroalimentacion.getPnCapituloByIdPnCapitulo().getId()%>",  poneSaltosDeLinea('<%=retroalimentacion.getOportunidades().replace("\n", "<br>").replace("\r", "").replace("'","\"")%>'));
+    <%--dwr.util.setValue(   "fortalezas<%=retroalimentacion.getPnCapituloByIdPnCapitulo().getId()%>",  poneSaltosDeLinea('<%=retroalimentacion.getFortalezas().replace("\n", "<br>").replace("\r", "").replace("'","\"")%>'));--%>
+    <%--dwr.util.setValue("oportunidades<%=retroalimentacion.getPnCapituloByIdPnCapitulo().getId()%>",  poneSaltosDeLinea('<%=retroalimentacion.getOportunidades().replace("\n", "<br>").replace("\r", "").replace("'","\"")%>'));--%>
     <%
         }
     %>
+
+    function guardaCualitativa(campo, idCapitulo){
+        var txt = dwr.util.getValue(campo+"-text-"+idCapitulo);
+//        alert("txt = " + txt);
+        pnRemoto.actualizaDespuesVisitaItems(idCapitulo, txt, campo, function(data){
+//            alert("data = " + data);
+            dwr.util.setValue(campo+"-"+idCapitulo, data[campo]);
+            dwr.util.setValue(campo+"-text-"+idCapitulo, "");
+            $("#"+campo+"-tr-"+idCapitulo).hide();
+            alrt("Guardado");
+        });
+    }
+
+    function editarCualitativa(campo, idCapitulo, idParticipante) {
+        pnRemoto.getPnRetroalimentacion(idParticipante, idCapitulo, function(data){
+//            alert("data = " + data[campo]);
+            $("#"+campo+"-tr-"+idCapitulo).show();
+            dwr.util.setValue(campo+"-text-"+idCapitulo, data[campo]);
+
+            var SearchInput = $("#"+campo+"-text-"+idCapitulo);
+
+            // Multiply by 2 to ensure the cursor always ends up at the end;
+            // Opera sometimes sees a carriage return as 2 characters.
+            var strLength= SearchInput.val().length * 2;
+
+            SearchInput.focus();
+            SearchInput[0].setSelectionRange(strLength, strLength);
+        });
+    }
 
 </script>

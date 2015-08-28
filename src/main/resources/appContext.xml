@@ -263,6 +263,7 @@
             <dwr:include method="actualizaPrincipioCalificacion"/>
             <dwr:include method="deleteCriterioAdmin"/>
             <dwr:include method="addCriterioAdmin"/>
+            <dwr:include method="actualizaDespuesVisitaItems"/>
             <!--<dwr:include method=""/>-->
 
             <!--LOS QUE NO VAN-->
@@ -311,6 +312,7 @@
             <dwr:convert class="co.com.elramireza.pn.model.PnEtapaParticipante" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.PnModeloCualitativa" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.PnPrincipioCualitativo" type="bean"/>
+            <dwr:convert class="co.com.elramireza.pn.model.PnRetroalimentacion" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.util.MyKey" type="bean"/>
 
             <dwr:convert class="java.io.File" type="bean"/>

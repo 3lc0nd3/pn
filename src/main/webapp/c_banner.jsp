@@ -46,7 +46,7 @@
                     Actualmente:
                     <b>
                         <%=premioActivo.getTipoPremioById().getSigla()%> -
-                        <%=premioActivo.getNombrePremio()%>
+                        <%=premioActivo.getVersion()%>
                     </b>
                     <%
                             }  //  FIN IF PREMIO ACTIVO
@@ -78,7 +78,7 @@
                     -
                     <%=empleo.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getNombrePremio()%>
                     <br>
-                    <%=empleo.getParticipanteByIdParticipante().getEmpresaByIdEmpresa().getNombreEmpresa()%>
+                    <strong><%=empleo.getParticipanteByIdParticipante().getEmpresaByIdEmpresa().getNombreEmpresa()%></strong>
                     <%
                         }
                     %>

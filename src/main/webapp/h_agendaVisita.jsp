@@ -1,3 +1,4 @@
+<%--suppress ALL --%>
 <%@ page import="java.util.Date" %>
 <%@ page import="co.com.elramireza.pn.model.*" %>
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />

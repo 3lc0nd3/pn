@@ -761,6 +761,39 @@ public class PnDAO extends HibernateDaoSupport{
 		}
     }
 
+    /**
+     * con ajax
+     * @param idCapitulo
+     * @param txt
+     * @param target
+     * @return
+     */
+    public PnRetroalimentacion actualizaDespuesVisitaItems(final int idCapitulo,
+                                                           final String txt,
+                                                           final String target){
+        WebContext wctx = WebContextFactory.get();
+        HttpSession session = wctx.getSession(true);
+        final Empleado empleado = (Empleado) session.getAttribute("empleo");
+        logger.debug("empleado = " + empleado);
+
+        getHibernateTemplate().execute(new HibernateCallback() {
+            @Override
+            public Object doInHibernate(Session session) throws HibernateException, SQLException {
+                Query query = session.createQuery(
+                        "update PnRetroalimentacion set "+target+" = ? where participanteByIdParticipante.id=? and pnCapituloByIdPnCapitulo.id = ?"
+                );
+
+                query.setString(0, txt);
+                query.setInteger(1, empleado.getParticipanteByIdParticipante().getIdParticipante());
+                query.setInteger(2, idCapitulo);
+
+                query.executeUpdate();
+                return null;  //To change body of implemented methods use File | Settings | F
+            }
+        });
+        return getPnRetroalimentacion(empleado.getParticipanteByIdParticipante().getIdParticipante(),idCapitulo);
+    }
+
     public int saveValoracionDespuesVisitaItems(List<MyKey> valores,
 												List<MyKey> retro){
         try {
@@ -790,7 +823,7 @@ public class PnDAO extends HibernateDaoSupport{
                 }
             });
 
-            getHibernateTemplate().execute(new HibernateCallback() {
+            /*getHibernateTemplate().execute(new HibernateCallback() {
                 public Object doInHibernate(org.hibernate.Session session) throws HibernateException, SQLException {
                     Query query = session.createQuery(
                             "delete from PnRetroalimentacion where participanteByIdParticipante.idParticipante= ?"
@@ -812,7 +845,7 @@ public class PnDAO extends HibernateDaoSupport{
 				retroalimentacion.setOportunidades(key.getText2());
 				retroalimentacion.setFechaCreacion(timestamp);
 				getHibernateTemplate().save(retroalimentacion);
-			}
+			}*/
             for (MyKey key: valores){
                 PnCuantitativa valor = new PnCuantitativa();
                 valor.setTipoFormatoByIdTipoFormato(getTipoFormato(5)); // items Consenso
