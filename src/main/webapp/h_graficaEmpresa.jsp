@@ -140,7 +140,7 @@
             ['Hair Spray Danger Indicator', 18]
         ];
 */
-        alrt("Cargando");
+        alrt("Cargando!");
 
         var line1 = [
             <%
