@@ -1453,6 +1453,36 @@ public class PnDAO extends HibernateDaoSupport{
 		}
 	}
 
+    /**
+     *
+     * @param idEmpleado
+     * @return
+     */
+	public String activateEmpleado(int idEmpleado){
+		try {
+			Empleado empleado = getEmpleado(idEmpleado);
+            Persona laPersona = empleado.getPersonaByIdPersona();
+
+            //  1. activar la persona.
+            laPersona.setEstado(true);
+            getHibernateTemplate().update(laPersona);
+
+            //  2. notifica y envia password.
+            notificaEmpleadoVinculo(empleado);
+
+			return "";
+		} catch (ConstraintViolationException e) {
+            logger.debug(e.getMessage());
+			return (e.getMessage());
+		} catch (DataAccessException e) {
+			logger.debug(e.getMessage());
+			return (e.getMessage());
+
+		}
+	}
+
+
+
 	public List<Perfil> getPerfiles(){
 		return getHibernateTemplate().find("from Perfil order by perfil ");
 	}
@@ -1498,7 +1528,7 @@ public class PnDAO extends HibernateDaoSupport{
 	}
 
 	public void notificaEmpleadoVinculo(Empleado empleado){
-		Persona personaByIdPersona = empleado.getPersonaByIdPersona();
+		Persona personaByIdPersona = getPersona(empleado.getPersonaByIdPersona().getIdPersona());
 		logger.info("personaByIdPersona = " + personaByIdPersona);
 		String asunto = "Vinculado - " + empleado.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getNombrePremio()+
                 ", " + empleado.getParticipanteByIdParticipante().getEmpresaByIdEmpresa().getNombreEmpresa();
@@ -2685,6 +2715,98 @@ public class PnDAO extends HibernateDaoSupport{
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
         return respuesta;
+    }
+
+    public int enviarAgenda(int idParticipante){
+        try {
+            Participante participante = getParticipante(idParticipante);
+            List<Empleado> empleados = getEmpleadosFromParticipante(idParticipante);
+            PnAgenda agenda = getPnAgendaFromParticipante(idParticipante);
+            List<PnAgendaInvitado> invitados = getPnAgendaInvitadosFromParticipante(idParticipante);
+            List<Empleado> evaluadores = getEvaluadoresFromParticipante(idParticipante);
+            String mensaje = "";
+            mensaje += "<h4>\n" +
+                    "    Visita programada para:  " + dfNameMonth.format(agenda.getFechaAgenda());
+            mensaje += "</h4>\n" +
+                    "<br>\n" +
+                    "<h5>\n" +
+                    "    Evaluadores:\n" +
+                    "</h5>\n" +
+                    "<blockquote><ul  type = disc style=\"margin-left: 20px;\">";
+            for (Empleado evaluador: evaluadores){
+            mensaje += "<li style=\"text-transform: capitalize;\">" +evaluador.getPersonaByIdPersona().getNombreCompleto();
+            mensaje += "</li>";
+            }  //  END FOR EVALUADORES
+            mensaje += "</ul></blockquote>\n" +
+                    "<br>";
+
+            mensaje += "<br> <h5>Agenda Planeada</h5>";
+            mensaje += "<table cellpadding=\"0\" cellspacing=\"0\" border=\"1\"  id=\"invitados\" class=\"table table-hover table-striped\" >";
+            mensaje += "";
+            mensaje += "";
+            mensaje += "<thead>\n" +
+                    "    <tr>\n" +
+                    "        <th>\n" +
+                    "            Cargo o Persona\n" +
+                    "        </th>\n" +
+                    "        <th>\n" +
+                    "            &Iacute;tem\n" +
+                    "        </th>\n" +
+                    "        <th>\n" +
+                    "            Documentos Requeridos\n" +
+                    "        </th>\n" +
+                    "        <th>\n" +
+                    "            Preguntas\n" +
+                    "        </th>\n" +
+                    "    </tr>\n" +
+                    "    </thead>";
+            mensaje += "";
+            mensaje += "";
+            for (PnAgendaInvitado invitado: invitados ) {
+                mensaje += "<tr>\n" +
+                        "        <td>" + invitado.getIdEmpleado();
+                mensaje += "</td>\n" +
+                        "        <td>" + invitado.getPnSubCapituloByIdPnSubcapitulo().getCodigoItem() + " " +
+                        invitado.getPnSubCapituloByIdPnSubcapitulo().getSubCapitulo();
+                mensaje += "</td>\n" +
+                        "        <td>" + invitado.getDocumentos().replace("\n", "<br>");
+                mensaje += "</td>\n" +
+                        "        <td>" + invitado.getPreguntas().replace("\n", "<br>");
+                mensaje += "</td>\n" +
+                        "    </tr>";
+            }  //  END FOR INVITADOS AGENDA
+            mensaje += "</table>";
+            mensaje += "";
+            mensaje += "";
+            mensaje += "";
+            String sigla = participante.getPnPremioByIdConvocatoria().getTipoPremioById().getSigla();
+            logger.info("sigla = " + sigla);
+            String version = participante.getPnPremioByIdConvocatoria().getVersion();
+            logger.info("version = " + version);
+
+            for (int i = 0; i < empleados.size(); i++) {
+                Empleado empleado = empleados.get(i);
+                String emailPersonal = empleado.getPersonaByIdPersona().getEmailPersonal();
+                String[] emails = {emailPersonal};
+                enviaEmail(
+                        emails,
+                        "Agenda de Visita "
+                                + sigla
+                                + " " + version,
+                        mensaje,
+                        null,
+                        SUSCRIBE);
+            }  //  END FOR EMPLEADOS
+
+
+
+
+
+
+            return 1;
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     public int responderPreguntasP(final String p1,

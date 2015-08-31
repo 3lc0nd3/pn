@@ -74,10 +74,11 @@
                             <div class="form-actions">
                                 <!-- Buttons -->
                                 <%--<button type="button" class="btn">Consultar</button>--%>
-                                <button id="b1" onclick="definaFecha();"           type="button" class="btn">Defina Fecha</button>
+                                <button id="b1" onclick="definaFecha();" type="button" class="btn">Defina Fecha</button>
                                 <%
                                     if(pnAgenda != null){ // SOLO SI HAY
                                 %>
+                                <button id="b22" onclick="enviarAgenda();"  type="button" class="btn">Enviar Agenda por Email</button>
                                 <button id="b3" onclick="saltaADespuesDeVisita();"  type="button" class="btn">Avanza a Eval. Final</button>
                                 <%
                                     }
@@ -261,6 +262,20 @@
 
 <script type="text/javascript">
 
+    function enviarAgenda(){
+        if (confirm("Desea enviar la agenda a todo el equipo?")) {
+            botonEnProceso("b22");
+            pnRemoto.enviarAgenda(<%=participanteByIdParticipante.getIdParticipante()%>, function(data){
+                //            alert("data = " + data);
+                if(data == 1){
+                    alrt("Agenda Enviada");
+                } else {
+                    alrtError("Problemas !");
+                }
+                botonOperativo("b22");
+            });
+        }
+    }
     function saltaADespuesDeVisita(){
         if (confirm("Si avanza no puede hacer cambios en Agenda.")) {
             botonEnProceso("b3");

@@ -133,10 +133,11 @@
             <th>Premio</th>
             <th>Empresa</th>
             <th>Cargo</th>
-            <th>Perfil S</th>
+            <th>Perfil</th>
             <th>Empleado</th>
+            <th>Estado</th>
             <th>Fecha Vinc</th>
-            <th>Desvincular</th>
+            <th>Opciones</th>
         </tr>
         </thead>
         <%  // TODO HACER ESTO EN UNA SOLA CONSULTA
@@ -144,15 +145,15 @@
             String messaActive;
 
             for (Empleado empleado: empleados){
-                /*if(participante.getEstado()){
-                        imageActive = "img/positive.png";
-                        messaActive = "Desactivar?";
-                    } else {
-                        imageActive = "img/negative.png";
-                        messaActive = "Activar?";
-                    }*/
                 Participante participante = empleado.getParticipanteByIdParticipante();
                 Persona persona = empleado.getPersonaByIdPersona();
+                if(persona.getEstado()){
+                    imageActive = "img/positive.png";
+                    messaActive = "Desactivar?";
+                } else {
+                    imageActive = "img/negative.png";
+                    messaActive = "Activar?";
+                }
         %>
         <tr>
             <td> <%=participante.getPnPremioByIdConvocatoria().getNombrePremio()%></td>
@@ -164,12 +165,13 @@
                 <br>
                 <%=persona.getEmailPersonal()%>
             </td>
+            <td><img id="imgActivePersona<%=persona.getIdPersona()%>" width="28" onclick="activaDesactiva(<%=persona.getIdPersona()%>);" src="<%=imageActive%>" alt="<%=messaActive%>" title="<%=messaActive%>"></td>
             <td>
                 <%=empleado.getFechaIngreso()%>
             </td>
-            <%--<td><img id="imgActive<%=participante.getIdParticipante()%>" width="28" onclick="activaDesactiva(<%=participante.getIdParticipante()%>);" src="<%=imageActive%>" alt="<%=messaActive%>" title="<%=messaActive%>"></td>--%>
             <td>
-                <img width="28" onclick="desvincule(<%=empleado.getIdEmpleado()%>);" src="images/broken_link.jpg" alt="desvincula" title="desvincula">
+                <img style="cursor: pointer;" width="40" onclick="activeEmpleado(<%=empleado.getIdEmpleado()%>,'<%=persona.getNombreCompleto()%>');" src="img/plane.png" alt="activa" title="activa">
+                <img style="cursor: pointer;" width="28" onclick="desvincule(<%=empleado.getIdEmpleado()%>);" src="img/broken.png" alt="desvincula" title="desvincula">
             </td>
         </tr>
         <%
@@ -191,6 +193,22 @@
                     window.location = "empleados.htm";
                 } else {
                     alert("Problemas ! " + data);
+                }
+            });
+        }
+    }
+
+    /*
+    * activa
+    *
+    */
+    function activeEmpleado(idEmpleado, nombre){
+        if (confirm("Al activar al Empleado "+nombre+" se le concede acceso al sistema")) {
+            pnRemoto.activateEmpleado(idEmpleado, function(data){
+                if(data == ''){
+                    alrt("Empleado Activado");
+                } else {
+                    alrtError("Problemas! " + data);
                 }
             });
         }
@@ -219,17 +237,17 @@
     }
 
     function activaDesactiva(id){
-        $("#imgActive"+id).attr("src","images/loading.gif");
-        pnRemoto.activeDesactiveParticipante(id, function(data){
+        $("#imgActivePersona"+id).attr("src","images/loading.gif");
+        pnRemoto.activeDesactivePersona(id, function(data){
             if(data!=null){
                 if(data){
-                    $("#imgActive"+id).attr("src","img/positive.png");
-                    $("#imgActive"+id).attr("title", "Desactivar?");
-                    $("#imgActive"+id).attr("alt",   "Desactivar?");
+                    $("#imgActivePersona"+id).attr("src","img/positive.png");
+                    $("#imgActivePersona"+id).attr("title", "Desactivar?");
+                    $("#imgActivePersona"+id).attr("alt",   "Desactivar?");
                 } else {
-                    $("#imgActive"+id).attr("src","img/negative.png");
-                    $("#imgActive"+id).attr("title", "Activar?");
-                    $("#imgActive"+id).attr("alt",   "Activar?");
+                    $("#imgActivePersona"+id).attr("src","img/negative.png");
+                    $("#imgActivePersona"+id).attr("title", "Activar?");
+                    $("#imgActivePersona"+id).attr("alt",   "Activar?");
                 }
             } else {
                 alert("Problemas !");

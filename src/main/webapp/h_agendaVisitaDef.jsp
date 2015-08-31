@@ -49,7 +49,6 @@
 <table cellpadding="0" cellspacing="0" border="0"  id="invitados" class="table table-hover table-striped" >
     <thead>
     <tr>
-        <%--<th>Hora</th>--%>
         <th>
             Cargo o Persona
         </th>
@@ -73,7 +72,6 @@
         for (PnAgendaInvitado invitado:  pnManager.getPnAgendaInvitadosFromParticipante(empleo.getParticipanteByIdParticipante().getIdParticipante())){
     %>
     <tr>
-        <%--<td><%=invitado.getHora()>12?invitado.getHora()-12:invitado.getHora()%>:00<%=invitado.getHora()<12?"A.M.":"P.M."%></td>--%>
         <td>
             <%=invitado.getIdEmpleado()%>
         </td>
@@ -87,8 +85,6 @@
         <td>
             <%=invitado.getPreguntas().replace("\n", "<br>")%>
         </td>
-        <%--<td><%=invitado.getResultados()!=null?invitado.getResultados().replace("\n", "<br>"):""%></td>--%>
-        <%--<td></td>--%>
     </tr>
     <%
         }  //  END FOR INVITADOS AGENDA

@@ -222,6 +222,8 @@
             <dwr:include method="desvincularParticipante"/>
             <dwr:include method="vinculaEmpleado"/>
             <dwr:include method="desvinculaEmpleado"/>
+            <dwr:include method="activateEmpleado"/>
+            <dwr:include method="enviarAgenda"/>
             <dwr:include method="getMD5"/>
             <dwr:include method="testEmail"/>
             <dwr:include method="getEmpleosFromPersona"/>
