@@ -201,7 +201,7 @@
 <%--<jsp:include page="r_evalGlobalInd.jsp?id=8"/>--%>
 <a name="aResultado"></a>
 <br>
-<a onclick="scrollToAnchor('inicioResultados')"><img width="32" src="images/back.png" alt="volver" title="volver">Ir arriba</a>
+<a style="cursor: pointer;" onclick="scrollToAnchor('inicioResultados')"><img width="32" src="images/back.png" alt="volver" title="volver">Ir arriba</a>
 <div id="resultado">
 
 </div>
@@ -286,7 +286,7 @@ Recibo de Consignaci&oacute;n (50%)
     }  /* END MUESTRA ARCHIVOS SEGUN PERFILES  */
 %>
 <br>
-<a onclick="scrollToAnchor('inicioResultados')"><img width="32" src="images/back.png" alt="volver" title="volver">Ir arriba</a>
+<a style="cursor: pointer;" onclick="scrollToAnchor('inicioResultados')"><img width="32" src="images/back.png" alt="volver" title="volver">Ir arriba</a>
 
 <br>
 <br>
