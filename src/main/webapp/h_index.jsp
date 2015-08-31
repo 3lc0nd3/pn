@@ -69,11 +69,11 @@
             %>
             <br>
             <span style="margin-top:20px; margin-bottom:10px;">
-                <button id="b<%=empleado.getIdEmpleado()%>" type="button" onclick="selEmpleoB(<%=empleado.getIdEmpleado()%>);" class="btn btn-primary">
+                <button id="b<%=empleado.getIdEmpleado()%>" type="button" onclick="selEmpleoB(<%=empleado.getIdEmpleado()%>);" class="btn btn-primary" style="margin-bottom: 5px;">
                     <%=empleado.getPerfilByIdPerfil().getPerfil()%>
                     en
                     <%=empleado.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getTipoPremioById().getSigla()%>
-                    - <%=empleado.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getNombrePremio()%>
+                    - <%=empleado.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getVersion()%>
                     -
                     <%=empleado.getParticipanteByIdParticipante().getEmpresaByIdEmpresa().getNombreEmpresa()%>
                 </button>

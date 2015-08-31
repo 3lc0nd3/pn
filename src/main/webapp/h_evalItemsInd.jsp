@@ -12,6 +12,14 @@
             empleo.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getTipoPremioById().getId()
     );
 
+    List<PnCuantitativa> cuantitativas = pnManager.getCuantitativaIndividualFromEmpleado(
+            empleo.getIdEmpleado());
+
+    if(
+            empleo.isEvaluaGlobal()
+        &&
+            empleo.isEvaluaCapitulos()
+            ){  //  IF COMPLETO LA GLOBAL
 %>
 
 <individual>
@@ -25,10 +33,8 @@
                 <br>
 
                 <%
-                    List<PnCuantitativa> cuantitativas = pnManager.getCuantitativaIndividualFromEmpleado(
-                            empleo.getIdEmpleado());
 
-                    if(cuantitativas.size()==0){
+                    if(cuantitativas.size()==0){  //  NO HAY VALORES
                 %>
 
                 <div class="alert">
@@ -102,7 +108,7 @@
                             <%=item.getPonderacion()%>
                         </td>
                         <td>
-                            <select onchange="sValorItem(<%=item.getId()%>);" name="i<%=item.getId()%>" id="i<%=item.getId()%>" class="selEval">
+                            <select onchange="sValorItem(<%=item.getId()%>, this);" name="i<%=item.getId()%>" id="i<%=item.getId()%>" class="selEval">
                             <%
                                 for (Integer v: pnManager.getValoresValoracion()){
                             %>
@@ -132,7 +138,7 @@
                         </td>
 
                     </tr>
-                    
+
                     <%
                         }
                     %>
@@ -154,7 +160,7 @@
                 %>
                 <br>
                 <button id="b1" class="btn  btn-primary" onclick="guardaItems(false);">Guardar Avance</button>
-                <button id="b2" class="btn  btn-primary" onclick="guardaItems(true);">Guardar Final</button>
+                <button id="b2" class="btn  btn-primary" onclick="guardaFinal();">Guardar Final</button>
                 <%
                     }
                 %>
@@ -166,13 +172,35 @@
 
     </div>
 </individual>
+<%
 
+    }  //  END IF COMPLETO LA GLOBAL
+
+    else {
+%>
+<div class="alert alert-danger">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    Debe completar la Eval. Global Individual
+    <br>
+    y
+    <br>
+    Debe completar la Eval. Capítulos Individual
+</div>
+<%
+    }
+%>
 
 <jsp:include page="c_footer_r.jsp"/>
 
 <script type="text/javascript">
 
-
+    <%
+    if(cuantitativas.size()==0){  //  NO HAY VALORES
+    %>
+    $(".selEval option[value=50]").attr('selected','selected');
+    <%
+    }
+    %>
     <%
         for (PnSubCapitulo item: items){
     %>
@@ -180,6 +208,14 @@
     <%
         }
     %>
+
+    function guardaFinal(){
+        if (confirm("Si acepta, no podra hacer mas cambios")) {
+            if (confirm("Seguro")) {
+                guardaItems(true);
+            }
+        }
+    }
 
     function guardaItems(definitivo){
         var dataValores = new Array();
@@ -219,10 +255,11 @@
         });
     }
 
-    function sValorItem(id){
+    function sValorItem(id, t){
+//        alrt("t = " + t.value);
 //        alert("id = " + id);
-        var valor = dwr.util.getValue("i"+id);
-//        alert("item = " + eval('tmp'+id));
+        var valor = $("#i"+id).val();
+//        alrt("valor = " + valor);
         var aux = valor * eval('tmp'+id) / 100;
         
         dwr.util.setValue("l"+id, Math.ceil(aux));

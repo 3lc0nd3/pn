@@ -54,7 +54,9 @@ import java.util.regex.Pattern;
 public class PnDAO extends HibernateDaoSupport{
 
 	public SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-	public SimpleDateFormat dfDateTime = new SimpleDateFormat("dd/MM/yyyy KK:mm aaa");
+	public SimpleDateFormat dfDateTime  = new SimpleDateFormat("dd/MM/yyyy KK:mm aaa");
+	public SimpleDateFormat dfNameMonth = new SimpleDateFormat("dd MMMMMM yyyy");
+	public SimpleDateFormat dfNameMonthHour = new SimpleDateFormat("dd MMMMMM yyyy KK:mm aaa");
 
 	public String test(String s){
 		logger.info("s = " + s);
@@ -160,41 +162,56 @@ public class PnDAO extends HibernateDaoSupport{
         }
     }
 
+    /**
+     * Guarda la agenda. Si ya existe la debe actualizar.
+     * @param fechaS
+     * @return
+     */
     public int saveAgenda(String fechaS){
         try {
             WebContext wctx = WebContextFactory.get();
             HttpSession session = wctx.getSession(true);
             final Empleado empleado = (Empleado) session.getAttribute("empleo");
 
-            Participante participanteByIdParticipante = empleado.getParticipanteByIdParticipante();
             //LO RECARGO PORQUE PUEDE ESTAR CAMBIANDO EN EL AIRE
-            participanteByIdParticipante = getParticipante(participanteByIdParticipante.getIdParticipante());
+            final Participante participanteByIdParticipante = getParticipante(
+                    empleado.getParticipanteByIdParticipante().getIdParticipante()
+            );
             PnEtapaParticipante etapaParticipante = participanteByIdParticipante.getPnEtapaParticipanteByIdEtapaParticipante();
             if(etapaParticipante.getIdEtapaParticipante()!=3 ){ // AGENDA
                 throw new SecurityException("No puede escribir datos. El Participante se encuentra en etapa: "+
                         etapaParticipante.getEtapaParticipante());
             }
-            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-            final Participante participanteByIdParticipante1 = participanteByIdParticipante;
-            getHibernateTemplate().execute(new HibernateCallback() {
-                public Object doInHibernate(org.hibernate.Session session) throws HibernateException, SQLException {
-                    Query query = session.createQuery(
-                            "delete from PnAgenda where participanteByIdParticipante.idParticipante = ?"
-                    );
-                    query.setInteger(0, participanteByIdParticipante1.getIdParticipante()); // EMPLEADO - DEPENDE DE PARTICIPANTE
-                    query.executeUpdate();
-                    return null;
-                }
-            });
+            final Timestamp fechaAgenda = new Timestamp(df.parse(fechaS).getTime());
+            final Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-            PnAgenda pnAgenda = new PnAgenda();
-            pnAgenda.setParticipanteByIdParticipante(participanteByIdParticipante1);
-            pnAgenda.setEmpleadoByIdEmpleadoCreador(empleado);
-            pnAgenda.setFechaAgenda(new Timestamp(df.parse(fechaS).getTime()));
-            pnAgenda.setFechaCreacion(timestamp);
-            getHibernateTemplate().save(pnAgenda);
-            return 1;
+            //  REVISO SI YA TIENE AGENDA.
+
+            PnAgenda agendaOld = getPnAgendaFromParticipante(participanteByIdParticipante.getIdParticipante());
+            if(agendaOld != null){  //  YA TIENE
+                getHibernateTemplate().execute(new HibernateCallback() {
+                    public Object doInHibernate(org.hibernate.Session session) throws HibernateException, SQLException {
+                        Query query = session.createQuery(
+                                "update PnAgenda set fechaAgenda=?, fechaCreacion=? where participanteByIdParticipante.idParticipante = ?"
+                        );
+                        query.setTimestamp(0, fechaAgenda); // EMPLEADO - DEPENDE DE PARTICIPANTE
+                        query.setTimestamp(1, timestamp); // EMPLEADO - DEPENDE DE PARTICIPANTE
+                        query.setInteger(2, participanteByIdParticipante.getIdParticipante()); // EMPLEADO - DEPENDE DE PARTICIPANTE
+                        query.executeUpdate();
+                        return null;
+                    }
+                });
+                return 1;
+            } else {  //  NO TIENE AGENDA
+                PnAgenda pnAgenda = new PnAgenda();
+                pnAgenda.setParticipanteByIdParticipante(participanteByIdParticipante);
+                pnAgenda.setEmpleadoByIdEmpleadoCreador(empleado);
+                pnAgenda.setFechaAgenda(fechaAgenda);
+                pnAgenda.setFechaCreacion(timestamp);
+                getHibernateTemplate().save(pnAgenda);
+                return 1;
+            }  //  END IF TIENE AGENDA
         } catch (DataAccessException e) {
 //            e.printStackTrace();
             logger.debug(e.getMessage());

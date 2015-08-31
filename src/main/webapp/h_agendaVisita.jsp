@@ -262,29 +262,31 @@
 <script type="text/javascript">
 
     function saltaADespuesDeVisita(){
-        disableId("b3");
+        if (confirm("Si avanza no puede hacer cambios en Agenda.")) {
+            botonEnProceso("b3");
 //        alert("1");
-        pnRemoto.saltaADespuesDeVisita(function(data){
-//            alert("data = " + data);
-            if(data == 1){
-                alert("Cambio de Etapa Correcto");
-                window.location = "evalItemsDespuesVisita.htm";
-            } else {
-                alert("Problemas !");
-            }
-            enableId("b3");
-        });
+            pnRemoto.saltaADespuesDeVisita(function(data){
+    //            alert("data = " + data);
+                if(data == 1){
+                    alert("Cambio de Etapa Correcto");
+                    window.location = "evalItemsDespuesVisita.htm";
+                } else {
+                    alert("Problemas !");
+                }
+                botonOperativo("b3");
+            });
 //        alert("2");
-        var a = 9;
+            var a = 9;
+        }
     }
 
     function definaFecha(){
-        disableId("b1");
+        botonEnProceso("b1");
 
         var tmpFechaDesde = dwr.util.getValue("tmpFechaDesde");
         if(tmpFechaDesde == ''){
             alert("Por seleccione una fecha");
-            enableId("b1");
+            botonOperativo("b1");
         } else {
             pnRemoto.saveAgenda(tmpFechaDesde, function(data){
                 if(data == 1){
@@ -293,7 +295,7 @@
                 } else {
                     alert("Problemas !");
                 }
-                enableId("b1");
+                botonOperativo("b1");
             });
         }
     }

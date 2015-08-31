@@ -22,6 +22,21 @@
     );
 //    categoriasCriterio.remove(categoriasCriterio.size()-1);
 
+    List<PnCapitulo> pnCapitulos = pnManager.getPnCapitulos(
+            empleo.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getTipoPremioById().getId()
+    );
+
+    List<PnValoracion> fromParticipante = pnManager.getValoracionIndividualCapitulosFromEmpleado(
+            empleo.getIdEmpleado());
+
+    List<PnCualitativa> cualitativas = pnManager.getPnCualitativasFromEmpleadoTipoFormato(
+            empleo.getIdEmpleado(), 2 // FORMATO 2 INDIVIDUALPOR CAPITULO
+    );
+
+    empleo = pnManager.getEmpleado(empleo.getIdEmpleado());
+
+    if(empleo.isEvaluaGlobal()){  //  IF COMPLETO LA GLOBAL
+
 %>
 
 <individual>
@@ -33,12 +48,6 @@
                 <br>
                 <br>
                 <%
-                    List<PnValoracion> fromParticipante = pnManager.getValoracionIndividualCapitulosFromEmpleado(
-                            empleo.getIdEmpleado());
-
-                    List<PnCualitativa> cualitativas = pnManager.getPnCualitativasFromEmpleadoTipoFormato(
-                            empleo.getIdEmpleado(), 2 // FORMATO 2 INDIVIDUALPOR CAPITULO
-                    );
                     System.out.println("fromParticipante.size() = " + fromParticipante.size());
                     if(fromParticipante.size()==0){
                 %>
@@ -73,9 +82,6 @@
                     }
 
                     //MEGA FOR DE CAPITULOS
-                    List<PnCapitulo> pnCapitulos = pnManager.getPnCapitulos(
-                            empleo.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getTipoPremioById().getId()
-                    );
                     for (PnCapitulo capitulo: pnCapitulos){
                         String bg;
                         if(capitulo.getId()%2 == 1){
@@ -215,9 +221,7 @@
                     if (!empleo.isEvaluaCapitulos()) {
                 %>
                 <br>
-
-                <%--<button id="b1" class="btn  btn-primary" onclick="guardaIndividualCapitulos(false);">Guardar Avance</button>--%>
-                <button id="b2" class="btn  btn-primary" onclick="guardaIndividualCapitulos(true);">Guardar Final</button>
+                <button id="b2" class="btn  btn-primary" onclick="guardaFinal();">Guardar Final</button>
                 <%
                     }
                 %>
@@ -229,10 +233,30 @@
     </div>
 </individual>
 
+<%
+
+    }  //  END IF COMPLETO LA GLOBAL
+    else {
+%>
+<div class="alert alert-danger">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    Debe completar la Eval. Global Individual
+</div>
+<%
+    }
+%>
 
 <jsp:include page="c_footer_r.jsp"/>
 
 <script type="text/javascript">
+
+    function guardaFinal(){
+        if (confirm("Si acepta, no podra hacer mas cambios")) {
+            if (confirm("Seguro")) {
+                guardaIndividualCapitulos(true);
+            }
+        }
+    }
 
     function guardaIndividualCapitulos(definitivo){
 

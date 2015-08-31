@@ -429,20 +429,7 @@ function guardaCertamenNew(page, idCertamen){
     alrt("Coming soon, contacta con @elramireza");
 }
 
-function botonEnProceso(idBoton){
-    var bTmp = dwr.util.byId(idBoton);
-    window["botonEnProcesoId"] = idBoton;
-    window["botonEnProcesoValueOld"] = bTmp.value;
-    bTmp.value = "Procesando";
-    bTmp.disabled = true;
-}
 
-function botonOperativo(){
-    var bTmp = dwr.util.byId(window["botonEnProcesoId"]);
-//    alrt("bTmp = " + bTmp);
-    bTmp.value = window["botonEnProcesoValueOld"];
-    bTmp.disabled = false;
-}
 
 function guardaCertamen(page, idCertamen){
 

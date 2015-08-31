@@ -1,10 +1,12 @@
 <%@ page import="java.util.Date" %>
 <%@ page import="co.com.elramireza.pn.model.*" %>
+<%@ page import="java.util.List" %>
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 
 <%
     Empleado empleo = (Empleado) session.getAttribute("empleo");
     PnAgenda pnAgenda = pnManager.getPnAgendaFromParticipante(empleo.getParticipanteByIdParticipante().getIdParticipante());
+    List<Empleado> evaluadores = pnManager.getEvaluadoresFromParticipante(empleo.getParticipanteByIdParticipante().getIdParticipante());
 
     if (pnAgenda==null) {
 %>
@@ -13,17 +15,37 @@
     No hay fecha asignada
 </div>
 <%
-    } else {
+    } else {  //  SI HAY AGENDA
 
-    if (empleo.getParticipanteByIdParticipante().getPnEtapaParticipanteByIdEtapaParticipante().getIdEtapaParticipante() == 3
+        if (empleo.getParticipanteByIdParticipante().getPnEtapaParticipanteByIdEtapaParticipante().getIdEtapaParticipante() == 3
             &&
             empleo.getPerfilByIdPerfil().getId() == 7){
 %>
+<button id="b10" onclick="window.location = 'agendaVisita.htm';"  type="button" class="btn btn-primary">Volver a definir Agenda</button>
 <button id="b3" onclick="saltaADespuesDeVisita();"  type="button" class="btn btn-primary">Avanza a Eval. Final</button>
 <%
-    }
+        }  //  END IF ALGO DEL PERFIL
 %>
 
+<h4>
+    Visita programada para:  <%=pnManager.dfNameMonth.format(pnAgenda.getFechaAgenda())%>
+</h4>
+<br>
+<h5>
+    Evaluadores:
+</h5>
+<blockquote><ul  type = disc style="margin-left: 20px;">
+<%
+    for (Empleado evaluador: evaluadores){
+%>
+<li style="text-transform: capitalize;"><%=evaluador.getPersonaByIdPersona().getNombreCompleto()%></li>
+
+<%
+    }  //  END FOR EVALUADORES
+%>
+</ul></blockquote>
+<br>
+<h5>Agenda Planeada</h5>
 <table cellpadding="0" cellspacing="0" border="0"  id="invitados" class="table table-hover table-striped" >
     <thead>
     <tr>
@@ -87,7 +109,7 @@
 
 <%
         }  //  END IF NOTAS LIDER
-    }
+    }  //  FIN SI HAY AGENDA
 %>
 
 <jsp:include page="c_footer_r.jsp"/>
@@ -108,20 +130,22 @@
     }
 
     function saltaADespuesDeVisita(){
-        disableId("b3");
+        if (confirm("Si avanza no puede hacer cambios en Agenda.")) {
+            botonEnProceso("b3");
 //        alert("1");
-        pnRemoto.saltaADespuesDeVisita(function(data){
-//            alert("data = " + data);
-            if(data == 1){
-                alert("Cambio de Etapa Correcto");
-                window.location = "evalItemsDespuesVisita.htm";
-            } else {
-                alert("Problemas !");
-            }
-            enableId("b3");
-        });
+            pnRemoto.saltaADespuesDeVisita(function(data){
+    //            alert("data = " + data);
+                if(data == 1){
+                    alert("Cambio de Etapa Correcto");
+                    window.location = "evalItemsDespuesVisita.htm";
+                } else {
+                    alert("Problemas !");
+                }
+                botonOperativo("b3");
+            });
 //        alert("2");
-        var a = 9;
+            var a = 9;
+        }
     }
 
 </script>

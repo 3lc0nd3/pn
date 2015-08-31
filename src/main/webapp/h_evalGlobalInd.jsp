@@ -177,7 +177,9 @@
 
     function guardaFinal(){
         if (confirm("Si acepta, no podra hacer mas cambios")) {
-            guardaIndividual(true);
+            if (confirm("Seguro")) {
+                guardaIndividual(true);
+            }
         }
     }
 

@@ -82,7 +82,7 @@
                             <%=item.getPnCapituloByIdCapitulo().getNumeroCapitulo()%>
                         </th>
                         <th colspan="1">
-                            <img style="cursor: pointer;" src="images/help.png" onclick="muestraAyudaGeneral('evaluaCap-<%=item.getPnCapituloByIdCapitulo().getId()%>');" width="24" alt="Contenido" title="Contenido">
+
                             <%=item.getPnCapituloByIdCapitulo().getNombreCapitulo()%>
                         </th>
                         <th width="50" >Puntaje</th>
@@ -93,11 +93,22 @@
                             <span class="color" id="t-<%=item.getPnCapituloByIdCapitulo().getId()%>"></span>
                         </th>
                     </tr>
-                    <tr id="evaluaCap-<%=item.getPnCapituloByIdCapitulo().getId()%>" style="display:none;">
-                        <td colspan="5">
-                            <div class="textoCapitulos"><%=item.getPnCapituloByIdCapitulo().getEvaluaCapitulo()%></div>
+                    <%--<tr>
+                        <th colspan="5" class="alert-info">Fortalezas</th>
+                    </tr>
+                    <tr>
+                        <td  colspan="5">
+                            <textarea id="fortalezas<%=item.getPnCapituloByIdCapitulo().getId()%>" class="field span6" placeholder="<%=texto19.getTexto1()%>" rows="4" cols="10"></textarea>
                         </td>
                     </tr>
+                    <tr>
+                        <th colspan="5" class="alert-info">Oportunidades de Mejora</th>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <textarea id="oportunidades<%=item.getPnCapituloByIdCapitulo().getId()%>" class="field span6" placeholder="<%=texto19.getTexto2()%>" rows="4" cols="10"></textarea>
+                        </td>
+                    </tr>--%>
                     <%
                         for (PnPrincipioCualitativo principioCualitativo: principioCualitativos){
                             if(
@@ -242,6 +253,14 @@
 <jsp:include page="c_footer_r.jsp"/>
 
 <script type="text/javascript">
+
+    <%
+    if(cuantitativas.size()==0){  //  NO HAY VALORES
+    %>
+    $(".selEval option[value=50]").attr('selected','selected');
+    <%
+    }
+    %>
 
     function saltaAVisita(){
         disableId("b2");

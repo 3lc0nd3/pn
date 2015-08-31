@@ -1,13 +1,13 @@
 
 dwr.engine.setErrorHandler(errp4s);
 
-var muestraExec = true;
+var muestraExec = false;
 var cuantosExec = 3;
 
 function errp4s(msg, exc){
-    alrtError(dwr.util.toDescriptiveString(exc, 2));
-    alrtError(exc.stackTrace[0].className);
     if(muestraExec){
+        alrtError(dwr.util.toDescriptiveString(exc, 2));
+        alrtError(exc.stackTrace[0].className);
 //        msg += "<br>" + dwr.util.toDescriptiveString(exc, 3);
         for (var i = 0; i<cuantosExec; i++) {
             msg += "<br>" + exc.stackTrace[i].className;
@@ -103,4 +103,25 @@ function utf8_decode (str_data) {
     }
 
     return tmp_arr.join('');
+}
+
+/**
+ * hace que el boton se ponga en modo espera
+ * @param idBoton
+ */
+function botonEnProceso(idBoton){
+    var bTmp = dwr.util.byId(idBoton);
+    window["botonEnProcesoId"] = idBoton;
+    window["botonEnProcesoValueOld"] = bTmp.value;
+    bTmp.value = "Procesando";
+    bTmp.disabled = true;
+}
+/**
+ * retorna a la normalidad
+ */
+function botonOperativo(){
+    var bTmp = dwr.util.byId(window["botonEnProcesoId"]);
+//    alrt("bTmp = " + bTmp);
+    bTmp.value = window["botonEnProcesoValueOld"];
+    bTmp.disabled = false;
 }

@@ -269,7 +269,13 @@
 <jsp:include page="c_footer_r.jsp"/>
 
 <script type="text/javascript">
-
+    <%
+   if(cuantitativas.size()==0){  //  NO HAY VALORES
+   %>
+    $(".selEval option[value=50]").attr('selected','selected');
+    <%
+    }
+    %>
 
 
     function saltaAVisita(){
