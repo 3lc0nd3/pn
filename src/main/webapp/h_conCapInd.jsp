@@ -108,7 +108,7 @@
                             for (PnPrincipioCualitativo principioCualitativo: principioCualitativos){
                         %>
                         <tr><th class="alert-info">
-                            <img src="images/help.png" onclick="muestraAyudaCualitativa('<%=principioCualitativo.getCampo()%>','<%=capitulo.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
+                            <img style="cursor: pointer;" src="images/help.png" onclick="muestraAyudaCualitativa('<%=principioCualitativo.getCampo()%>','<%=capitulo.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
                             <%=principioCualitativo.getNombreCualitativa()%></th>
                         </tr>
                         <tr>
