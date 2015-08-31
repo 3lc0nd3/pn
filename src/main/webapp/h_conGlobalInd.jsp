@@ -101,7 +101,7 @@
                     %>
                     <tr>
                         <td class=" btn-primary">
-                            <img src="images/help.png" onclick="muestraAyudaCriterio('<%=criterio.getId()%>',1, true);" width="24" alt="Contenido" title="Contenido">
+                            <img style="cursor: pointer;" src="images/help.png" onclick="muestraAyudaCriterio('<%=criterio.getId()%>',1, true);" width="24" alt="Contenido" title="Contenido">
                             <%=criterio.getCriterio()%>
                         </td>
                         <td class="btn-primary">
