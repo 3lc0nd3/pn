@@ -89,7 +89,10 @@
                 <br>
                 <div class="esquinasRedondas" style="background-color:<%=bg%>; text-align:center;">
                     <br>
-                    <h4 class="color"><%=capitulo.getNombreCapitulo()%></h4>
+                    <h4 class="color">
+                        <img style="cursor: pointer;" src="images/help.png" onclick="muestraAyudaGeneral('evaluaCap-<%=capitulo.getId()%>');" width="24" alt="Contenido" title="Contenido">
+                        <%=capitulo.getNombreCapitulo()%></h4>
+                    <div id="evaluaCap-<%=capitulo.getId()%>" class="textoCapitulos" style="display:none;"><%=capitulo.getEvaluaCapitulo()%></div>
                     <br>
                     <table border="1" width="70%" align="center">
                         <%
@@ -134,117 +137,6 @@
                         <%
                             }  //  END FOR principioCualitativos
                         %>
-                        <%--
-                        <tr><th class="alert-info">
-                            <img src="images/help.png" onclick="muestraAyudaCualitativa('v','<%=capitulo.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
-                            <%=texto20.getTexto1()%></th>
-                        </tr>
-                        <tr>
-                            <td class="contenido" bgcolor="white">
-                            <span id="vision-<%=capitulo.getId()%>">
-                                <%=cualitativa.getVision()%>
-                            </span>
-                                <br>
-                                <br>
-                                <a onclick="editarCualitativa('vision', <%=capitulo.getId()%>);">
-                                    <img src="images/edit.png" alt="Editar">
-                                    Editar
-                                </a>
-                            </td>
-                        </tr>
-                        <tr id="vision-tr-<%=capitulo.getId()%>" style="display:none;"><td>
-                            <textarea id="vision-text-<%=capitulo.getId()%>" class="field span6" placeholder="" rows="4" cols="10"></textarea>
-                            <img  style="margin-bottom: 12px;" src="img/atencion.gif" width="25" height="25" alt="">
-                            <a style="margin-bottom: 15px;" class="btn btn-danger" onclick="guardaCualitativa('vision', <%=capitulo.getId()%>);">Guardar</a>
-                        </td></tr>
-                        <tr id="v-<%=capitulo.getId()%>-contenido" style="display:none;">
-                            <td  class="contenido">
-                                <%=texto20.getTexto2()%>
-                            </td>
-                        </tr>
-
-                        <tr><th class="alert-info">
-                            <img src="images/help.png" onclick="muestraAyudaCualitativa('f','<%=capitulo.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
-                            Fortalezas</th></tr>
-                        <tr>
-                            <td class="contenido" bgcolor="white">
-                            <span id="fortalezas-<%=capitulo.getId()%>">
-                                <%=cualitativa.getFortalezas()%>
-                            </span>
-                                <br>
-                                <br>
-                                <a onclick="editarCualitativa('fortalezas', <%=capitulo.getId()%>);">
-                                    <img src="images/edit.png" alt="Editar">
-                                    Editar
-                                </a>
-                            </td>
-                        </tr>
-                        <tr id="fortalezas-tr-<%=capitulo.getId()%>" style="display:none;"><td>
-                            <textarea id="fortalezas-text-<%=capitulo.getId()%>" class="field span6" placeholder="" rows="4" cols="10"></textarea>
-                            <img  style="margin-bottom: 12px;" src="img/atencion.gif" width="25" height="25" alt="">
-                            <a style="margin-bottom: 15px;" class="btn btn-danger" onclick="guardaCualitativa('fortalezas', <%=capitulo.getId()%>);">Guardar</a>
-                        </td></tr>
-                        <tr id="f-<%=capitulo.getId()%>-contenido" style="display:none;">
-                            <td class="contenido">
-                                <%=texto19.getTexto1()%>
-                            </td>
-                        </tr>
-
-                        <tr><th class="alert-info">
-                            <img src="images/help.png" onclick="muestraAyudaCualitativa('o','<%=capitulo.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
-                            Oportunidades de Mejora</th></tr>
-                        <tr>
-                            <td class="contenido" bgcolor="white">
-                            <span id="oportunidades-<%=capitulo.getId()%>">
-                                <%=cualitativa.getOportunidades()%>
-                            </span>
-                                <br>
-                                <br>
-                                <a onclick="editarCualitativa('oportunidades', <%=capitulo.getId()%>);">
-                                    <img src="images/edit.png" alt="Editar">
-                                    Editar
-                                </a>
-                            </td>
-                        </tr>
-                        <tr id="oportunidades-tr-<%=capitulo.getId()%>" style="display:none;"><td>
-                            <textarea id="oportunidades-text-<%=capitulo.getId()%>" class="field span6" placeholder="" rows="4" cols="10"></textarea>
-                            <img  style="margin-bottom: 12px;" src="img/atencion.gif" width="25" height="25" alt="">
-                            <a style="margin-bottom: 15px;" class="btn btn-danger" onclick="guardaCualitativa('oportunidades', <%=capitulo.getId()%>);">Guardar</a>
-                        </td></tr>
-                        <tr id="o-<%=capitulo.getId()%>-contenido" style="display:none;">
-                            <td colspan="2" class="contenido">
-                                <%=texto19.getTexto2()%>
-                            </td>
-                        </tr>
-
-                        <tr><th class="alert-info">
-                            <img src="images/help.png" onclick="muestraAyudaCualitativa('p','<%=capitulo.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
-                            Puntos Pendientes Visita de Campo</th></tr>
-                        <tr>
-                            <td class="contenido" bgcolor="white">
-                            <span id="pendientesVisita-<%=capitulo.getId()%>">
-                                <%=cualitativa.getPendientesVisita()%>
-                            </span>
-                                <br>
-                                <br>
-                                <a onclick="editarCualitativa('pendientesVisita', <%=capitulo.getId()%>);">
-                                    <img src="images/edit.png" alt="Editar">
-                                    Editar
-                                </a>
-                            </td>
-                        </tr>
-                        <tr id="pendientesVisita-tr-<%=capitulo.getId()%>" style="display:none;"><td>
-                            <textarea id="pendientesVisita-text-<%=capitulo.getId()%>" class="field span6" placeholder="" rows="4" cols="10"></textarea>
-                            <img  style="margin-bottom: 12px;" src="img/atencion.gif" width="25" height="25" alt="">
-                            <a style="margin-bottom: 15px;" class="btn btn-danger" onclick="guardaCualitativa('pendientesVisita', <%=capitulo.getId()%>);">Guardar</a>
-                        </td></tr>
-                        <tr id="p-<%=capitulo.getId()%>-contenido" style="display:none;">
-                            <td colspan="2" class="contenido">
-                                Puntos para tener en cuenta
-                            </td>
-                        </tr>--%>
-
-
                     </table>
                     <br>
                     <table border="1" align="center" width="90%">

@@ -1342,3 +1342,9 @@ table .vertical {
     vertical-align:text-top;
     padding: 5px;
 }
+
+.textoCapitulos{
+    text-align: justify;
+    width: 90%;
+    margin: auto;
+}

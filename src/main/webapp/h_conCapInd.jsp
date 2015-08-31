@@ -101,7 +101,10 @@
                 <br>
                 <div class="esquinasRedondas" style="background-color:<%=bg%>; text-align:center;">
                     <br>
-                    <h4 class="color"><%=capitulo.getNombreCapitulo()%></h4>
+                    <h4 class="color">
+                        <img style="cursor: pointer;" src="images/help.png" onclick="muestraAyudaGeneral('evaluaCap-<%=capitulo.getId()%>');" width="24" alt="Contenido" title="Contenido">
+                        <%=capitulo.getNombreCapitulo()%></h4>
+                    <div id="evaluaCap-<%=capitulo.getId()%>" class="textoCapitulos" style="display:none;"><%=capitulo.getEvaluaCapitulo()%></div>
                     <br>
                     <table border="1" width="70%" align="center">
                         <%

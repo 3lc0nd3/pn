@@ -104,6 +104,10 @@ function contenidoAyudaCriterio(id, idCapitulo){
     dwr.util.setValue(idCapitulo+"-ayuda" + id,  replaceAll(ayuda,    "\n", "<br>"), { escapeHtml:false });
 }
 
+function muestraAyudaGeneral(id){
+    $("#" + id).toggle();
+}
+
 function muestraAyudaCualitativa(idCualitativa, idCapitulo){
     $("#"+idCualitativa+"-"+idCapitulo+"-contenido").toggle();
 }

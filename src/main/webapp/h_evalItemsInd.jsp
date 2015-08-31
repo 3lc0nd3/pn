@@ -70,6 +70,7 @@
                             <%=item.getPnCapituloByIdCapitulo().getNumeroCapitulo()%>
                         </th>
                         <th colspan="1">
+                            <img style="cursor: pointer;" src="images/help.png" onclick="muestraAyudaGeneral('evaluaCap-<%=item.getPnCapituloByIdCapitulo().getId()%>');" width="24" alt="Contenido" title="Contenido">
                             <%=item.getPnCapituloByIdCapitulo().getNombreCapitulo()%>
                         </th>
                         <th width="50" >Puntaje</th>
@@ -79,6 +80,11 @@
                             <br>
                             <span class="color" id="t-<%=item.getPnCapituloByIdCapitulo().getId()%>"></span>
                         </th>
+                    </tr>
+                    <tr id="evaluaCap-<%=item.getPnCapituloByIdCapitulo().getId()%>" style="display:none;">
+                        <td colspan="5">
+                            <div class="textoCapitulos"><%=item.getPnCapituloByIdCapitulo().getEvaluaCapitulo()%></div>
+                        </td>
                     </tr>
                     <%
                             }
