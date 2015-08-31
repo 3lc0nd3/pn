@@ -272,7 +272,7 @@
     <%
    if(cuantitativas.size()==0){  //  NO HAY VALORES
    %>
-    $(".selEval option[value=50]").attr('selected','selected');
+//    $(".selEval option[value=50]").attr('selected','selected');
     <%
     }
     %>
