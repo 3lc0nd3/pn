@@ -117,7 +117,7 @@
 
                     %>
                     <tr><th colspan="5" class="alert-info">
-                        <img src="images/help.png" onclick="muestraAyudaCualitativa('<%=principioCualitativo.getCampo()%>','<%=idCapituloOld%>');" width="24" alt="Contenido" title="Contenido">
+                        <img style="cursor: pointer;" src="images/help.png" onclick="muestraAyudaCualitativa('<%=principioCualitativo.getCampo()%>','<%=idCapituloOld%>');" width="24" alt="Contenido" title="Contenido">
                         <%=principioCualitativo.getNombreCualitativa()%></th>
                     </tr>
                     <tr>
@@ -176,7 +176,7 @@
                         <td>
                             <%=item.getCodigoItem()%>
                             <br>
-                            <img src="images/help.png" onclick="muestraAyuda('<%=item.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
+                            <img style="cursor: pointer;" src="images/help.png" onclick="muestraAyuda('<%=item.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
                         </td>
                         <td>
                             <%=item.getSubCapitulo()%>
