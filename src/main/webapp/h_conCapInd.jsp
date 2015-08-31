@@ -267,7 +267,7 @@
                         %>
                         <tr>
                             <td class=" btn-primary">
-                                <img src="images/help.png" onclick="muestraAyudaCriterio('<%=criterio.getId()%>','<%=capitulo.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
+                                <img style="cursor: pointer;" src="images/help.png" onclick="muestraAyudaCriterio('<%=criterio.getId()%>','<%=capitulo.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
                                 <%
                                     if (criterio.getId()!=15){
                                 %>
