@@ -147,17 +147,18 @@
 <br>
 <blockquote>
     <span class="color">Evaluaci&oacute;n Consenso </span> <%=lider!=null?lider.getPersonaByIdPersona().getNombreCompleto():""%>
-    <blockquote><span onclick="cargaResultado(<%=lider.getIdEmpleado()%>,'evalGlobalCons', 16);"><img src="<%=imgSrcRepor%>" width="36">
+    <blockquote>
+        <span style="cursor: pointer;" onclick="cargaResultado(<%=lider.getIdEmpleado()%>,'evalGlobalCons', 16);"><img src="<%=imgSrcRepor%>" width="36">
         Eval. Global Individual
         <img width="28" src="img/<%=datosConsensoGlobalFromEmpleado.size()!=0?"ok":"stop"%>.png" alt="">
         </span>
         <br>
-        <span onclick="cargaResultado(<%=lider.getIdEmpleado()%>,'evalCapCons', 17);"><img src="<%=imgSrcRepor%>" width="36">
+        <span style="cursor: pointer;" onclick="cargaResultado(<%=lider.getIdEmpleado()%>,'evalCapCons', 17);"><img src="<%=imgSrcRepor%>" width="36">
         Eval. Cap&iacute;tulos Individual
         <img width="28" src="img/<%=datosConsensoCapitulosFromEmpleado.size()!=0?"ok":"stop"%>.png" alt="">
         </span>
         <br>
-        <span  onclick="cargaResultado(<%=lider.getIdEmpleado()%>,'evalItemsCons', 18);"><img src="<%=imgSrcRepor%>" width="36">
+        <span style="cursor: pointer;"  onclick="cargaResultado(<%=lider.getIdEmpleado()%>,'evalItemsCons', 18);"><img src="<%=imgSrcRepor%>" width="36">
         Eval.&Iacute;tems Individual
         <img width="28" src="img/<%=datosCuantitativaConsensoFromEmpleado.size()!=0?"ok":"stop"%>.png" alt="">
         </span>
@@ -175,17 +176,18 @@
     %>
     <span class="color"><%=evaluador.getPerfilByIdPerfil().getPerfil()%></span>
     <%=evaluador.getPersonaByIdPersona().getNombreCompleto()%>
-    <blockquote><span onclick="cargaResultado(<%=evaluador.getIdEmpleado()%>,'evalGlobalInd', 16);"><img src="<%=imgSrcRepor%>" width="36">
+    <blockquote>
+        <span style="cursor: pointer;" onclick="cargaResultado(<%=evaluador.getIdEmpleado()%>,'evalGlobalInd', 16);"><img src="<%=imgSrcRepor%>" width="36">
         Eval. Global Individual
         <img width="28" src="img/<%=evaluador.isEvaluaGlobal()?"ok":"stop"%>.png" alt="">
         </span>
         <br>
-        <span onclick="cargaResultado(<%=evaluador.getIdEmpleado()%>,'evalCapInd', 17);"><img src="<%=imgSrcRepor%>" width="36">
+        <span style="cursor: pointer;" onclick="cargaResultado(<%=evaluador.getIdEmpleado()%>,'evalCapInd', 17);"><img src="<%=imgSrcRepor%>" width="36">
         Eval. Cap&iacute;tulos Individual
         <img width="28" src="img/<%=evaluador.isEvaluaCapitulos()?"ok":"stop"%>.png" alt="">
         </span>
         <br>
-        <span  onclick="cargaResultado(<%=evaluador.getIdEmpleado()%>,'evalItemsInd', 18);"><img src="<%=imgSrcRepor%>" width="36">
+        <span style="cursor: pointer;"  onclick="cargaResultado(<%=evaluador.getIdEmpleado()%>,'evalItemsInd', 18);"><img src="<%=imgSrcRepor%>" width="36">
         Eval.&Iacute;tems Individual
         <img width="28" src="img/<%=evaluador.isEvaluaItems()?"ok":"stop"%>.png" alt="">
         </span>
