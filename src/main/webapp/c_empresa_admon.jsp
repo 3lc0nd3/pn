@@ -147,8 +147,7 @@
 <br>
 <blockquote>
     <span class="color">Evaluaci&oacute;n Consenso </span> <%=lider!=null?lider.getPersonaByIdPersona().getNombreCompleto():""%>
-    <blockquote>
-        <span style="cursor: pointer;" onclick="cargaResultado(<%=lider.getIdEmpleado()%>,'evalGlobalCons', 16);"><img src="<%=imgSrcRepor%>" width="36">
+    <blockquote><span style="cursor: pointer;" onclick="cargaResultado(<%=lider.getIdEmpleado()%>,'evalGlobalCons', 16);"><img src="<%=imgSrcRepor%>" width="36">
         Eval. Global Individual
         <img width="28" src="img/<%=datosConsensoGlobalFromEmpleado.size()!=0?"ok":"stop"%>.png" alt="">
         </span>
@@ -176,8 +175,7 @@
     %>
     <span class="color"><%=evaluador.getPerfilByIdPerfil().getPerfil()%></span>
     <%=evaluador.getPersonaByIdPersona().getNombreCompleto()%>
-    <blockquote>
-        <span style="cursor: pointer;" onclick="cargaResultado(<%=evaluador.getIdEmpleado()%>,'evalGlobalInd', 16);"><img src="<%=imgSrcRepor%>" width="36">
+    <blockquote><span style="cursor: pointer;" onclick="cargaResultado(<%=evaluador.getIdEmpleado()%>,'evalGlobalInd', 16);"><img src="<%=imgSrcRepor%>" width="36">
         Eval. Global Individual
         <img width="28" src="img/<%=evaluador.isEvaluaGlobal()?"ok":"stop"%>.png" alt="">
         </span>
