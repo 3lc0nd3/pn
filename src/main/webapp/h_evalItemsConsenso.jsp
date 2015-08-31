@@ -135,7 +135,7 @@
                         <td>
                             <%=item.getCodigoItem()%>
                             <br>
-                            <img src="images/help.png" onclick="muestraAyuda('<%=item.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
+                            <img style="cursor: pointer;" src="images/help.png" onclick="muestraAyuda('<%=item.getId()%>', true);" width="24" alt="Contenido" title="Contenido">
                         </td>
                         <td class="contenido">
                             <%=item.getSubCapitulo()%>
