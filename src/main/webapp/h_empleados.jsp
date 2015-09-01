@@ -130,6 +130,7 @@
     <table cellpadding="0" cellspacing="0" border="0" class="display" id="participantesT">
         <thead>
         <tr>
+            <th>id</th>
             <th>Premio</th>
             <th>Empresa</th>
             <th>Cargo</th>
@@ -156,6 +157,7 @@
                 }
         %>
         <tr>
+            <td> <%=empleado.getIdEmpleado()%></td>
             <td> <%=participante.getPnPremioByIdConvocatoria().getNombrePremio()%></td>
             <td> <%=participante.getEmpresaByIdEmpresa().getNombreEmpresa()%></td>
             <td> <%=empleado.getCargoEmpleadoByIdCargo().getCargo()%></td>
