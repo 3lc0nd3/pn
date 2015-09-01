@@ -163,6 +163,7 @@
             <td> <%=empleado.getCargoEmpleadoByIdCargo().getCargo()%></td>
             <td> <%=empleado.getPerfilByIdPerfil().getPerfil()%></td>
             <td>
+                <%=persona.getIdPersona()%>
                 <%=persona.getNombreCompleto()%>
                 <br>
                 <%=persona.getEmailPersonal()%>
