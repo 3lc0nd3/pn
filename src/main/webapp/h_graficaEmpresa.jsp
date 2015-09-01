@@ -51,6 +51,7 @@
         List<Object[]> sumas = pnManager.getHibernateTemplate().find(
                 hql,
                 o);
+        System.out.println("sumas.size() = " + sumas.size());
 //        List<MyKey> totales = new ArrayList<MyKey>();
         for (Object[] objects : sumas) {
             MyKey key = new MyKey();
