@@ -3,9 +3,11 @@
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 
 <%
+
+    Texto texto22 = pnManager.getTexto(22);
     Empleado empleo = (Empleado) session.getAttribute("empleo");
     Empresa empresa = empleo.getParticipanteByIdParticipante().getEmpresaByIdEmpresa();
-
+    Participante participante = pnManager.getParticipante(empleo.getParticipanteByIdParticipante().getIdParticipante());
     List<PnRetroalimentacion> retros = pnManager.getPnRetroalimentaciones(
             empleo.getParticipanteByIdParticipante().getIdParticipante()
     );
@@ -24,25 +26,36 @@
                 para <strong><%=empresa.getNombreEmpresa()%></strong>
 
                 <%
-                    if(retros.size()==0){
+                    //  SOLO PARA ETAPA 5
+                    if (participante.getPnEtapaParticipanteByIdEtapaParticipante().getIdEtapaParticipante() != 5) {
+                %>
+                <div class="alert">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <%=texto22.getTexto1()%>
+                    <img src="img/stop.png" width="50">
+                </div>
+                <%
+                    } else {
+
+                        if(retros.size()==0){
                 %>
                 <div class="alert">
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
                     no hay valores
                 </div>
                 <%
-                    } else {
+                        } else {
                 %>
 
                 <div class="alert alert-success">
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
                     Datos ingresados el <%=pnManager.dfDateTime.format(retros.get(0).getFechaCreacion())%>
                 </div>
-                <a href="h_informeRetroW.jsp">Exportar <img src="img/word.png" alt="Word" title="Word" width="36"></a>
+                <%--<a href="h_informeRetroW.jsp">Exportar <img src="img/word.png" alt="Word" title="Word" width="36"></a>--%>
                 <br>
                 <br>
                 <%
-                    }
+                        }
                 %>
                 <table border="1" width="100%" align="center">
                 <%
@@ -71,6 +84,9 @@
                     }
                 %>
                 </table>
+                <%
+                    }  //  END IF ETAPA 5
+                %>
             </div>
             <div class="span4">
                 <jsp:include page="c_empresa_admon.jsp"    />

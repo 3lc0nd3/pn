@@ -6,11 +6,12 @@
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 
 <%
+    int hacerCambios = 1;
     Texto texto16 = pnManager.getTexto(18);
     Texto texto19 = pnManager.getTexto(19);
     Texto texto22 = pnManager.getTexto(22);
     Empleado empleo = (Empleado) session.getAttribute("empleo");
-    Participante participanteByIdParticipante = empleo.getParticipanteByIdParticipante();
+    Participante participanteByIdParticipante = pnManager.getParticipante(empleo.getParticipanteByIdParticipante().getIdParticipante());
     Empresa empresa = empleo.getParticipanteByIdParticipante().getEmpresaByIdEmpresa();
 
     List<PnSubCapitulo> items = pnManager.getPnSubCapitulos(
@@ -36,7 +37,15 @@
                     List<PnCuantitativa> cuantitativas = pnManager.getCuantitativaDespuesVisitaFromEmpleado(
                             empleo.getIdEmpleado());
 
+                    if(cuantitativas.size()>0
+                            && participanteByIdParticipante.getPnEtapaParticipanteByIdEtapaParticipante().getIdEtapaParticipante() == 4  //  retro DESPUES DE VISITA
+                            ){ // SOLO SI HAY DATA y DESPUES DE VISITA
+                %>
+                <button id="b3" class="btn  btn-primary" onclick="saltaAEtapaFinal();">Finaliza el Proceso de Evaluaci&oacute;n</button>
+                <%
+                    }  //  END IF HAY DATA y DESPUES DE VISITA
                     if (participanteByIdParticipante.getPnEtapaParticipanteByIdEtapaParticipante().getIdEtapaParticipante() != 4) {
+                        hacerCambios=0;
                 %>
                 <div class="alert">
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -44,7 +53,8 @@
                     <img src="img/stop.png" width="50">
                 </div>
                 <%
-                    }
+                    }  //  END IF ETAPA 4
+
                     if(cuantitativas.size()==0){ // NO HAY DATA
                 %>
 
@@ -148,10 +158,17 @@
                             </span>
                             <br>
                             <br>
-                            <a onclick="editarCualitativa('<%=principioCualitativo.getCampo()%>', <%=idCapituloOld%>, <%=participanteByIdParticipante.getIdParticipante()%>);">
+                            <%
+                                if(hacerCambios==1){
+
+                            %>
+                            <a style="cursor:pointer;" onclick="editarCualitativa('<%=principioCualitativo.getCampo()%>', <%=idCapituloOld%>, <%=participanteByIdParticipante.getIdParticipante()%>);">
                                 <img src="images/edit.png" alt="Editar">
                                 Editar
                             </a>
+                            <%
+                                }
+                            %>
                         </td>
                     </tr>
                     <tr id="<%=principioCualitativo.getCampo()%>-tr-<%=idCapituloOld%>" style="display:none;">
@@ -186,7 +203,7 @@
                             <%=item.getPonderacion()%>
                         </td>
                         <td width="70">
-                            <select onchange="sValorItem(<%=item.getId()%>);" name="i<%=item.getId()%>" id="i<%=item.getId()%>" class="selEval">
+                            <select <%=hacerCambios==0?"disabled":""%> onchange="sValorItem(<%=item.getId()%>);" name="i<%=item.getId()%>" id="i<%=item.getId()%>" class="selEval">
                             <%
                                 for (Integer v: pnManager.getValoresValoracion()){
                             %>
@@ -232,9 +249,14 @@
                         </th>
                     </tr>
                 </table>
+                <%
+                    if(hacerCambios==1){
+
+                %>
                 <br>
                 <button id="b1" class="btn  btn-primary" onclick="guardaItems();">Guardar</button>
                 <%
+                    }
                     if(cuantitativas.size()>0){ // SOLO SI HAY DATA
                 %>
                 <%
@@ -262,16 +284,22 @@
     }
     %>
 
-    function saltaAVisita(){
-        disableId("b2");
-        pnRemoto.saltaAVisita(function(data){
-            if(data == 1){
-                alert("Cambio de Etapa Correcto");
-            } else {
-                alert("Problemas !");
+    function saltaAEtapaFinal(){
+        if (confirm("Si finaliza no puede hacer cambios.")) {
+            if (confirm("Seguro?")) {
+                botonEnProceso("b3");
+                pnRemoto.saltaAFinalDelProceso(function(data){
+                    //            alert("data = " + data);
+                    if(data == 1){
+                        alert("Cambio de Etapa Correcto");
+                        window.location = "graficaEmpresa.htm";
+                    } else {
+                        alert("Problemas !");
+                    }
+                    botonOperativo("b3");
+                });
             }
-            enableId("b2");
-        });
+        }
     }
 
     <%

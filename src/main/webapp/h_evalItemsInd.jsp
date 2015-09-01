@@ -184,7 +184,7 @@
     <br>
     y
     <br>
-    Debe completar la Eval. Capítulos Individual
+    Debe completar la Eval. Cap&iacute;tulos Individual
 </div>
 <%
     }

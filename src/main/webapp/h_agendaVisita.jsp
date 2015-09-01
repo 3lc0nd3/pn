@@ -5,7 +5,7 @@
 
 <%
     Empleado empleo = (Empleado) session.getAttribute("empleo");
-    Participante participanteByIdParticipante = empleo.getParticipanteByIdParticipante();
+    Participante participanteByIdParticipante = pnManager.getParticipante(empleo.getParticipanteByIdParticipante().getIdParticipante());
     Texto texto22 = pnManager.getTexto(22);
 %>
 
@@ -276,6 +276,7 @@
             });
         }
     }
+
     function saltaADespuesDeVisita(){
         if (confirm("Si avanza no puede hacer cambios en Agenda.")) {
             botonEnProceso("b3");

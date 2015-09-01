@@ -8,7 +8,7 @@
     Texto texto16 = pnManager.getTexto(18);
     Texto texto22 = pnManager.getTexto(22);
     Empleado empleo = (Empleado) session.getAttribute("empleo");
-    Participante participanteByIdParticipante = empleo.getParticipanteByIdParticipante();
+    Participante participanteByIdParticipante = pnManager.getParticipante(empleo.getParticipanteByIdParticipante().getIdParticipante());
     Empresa empresa = participanteByIdParticipante.getEmpresaByIdEmpresa();
 
     List<PnSubCapitulo> items = pnManager.getPnSubCapitulos(
@@ -283,7 +283,7 @@
         pnRemoto.saltaAVisita(function(data){
             if(data == 1){
                 alert("Cambio de Etapa Correcto");
-                window.location = "evalItemsConsenso.htm";
+                window.location = "agendaVisita.htm";
             } else {
                 alert("Problemas !");
             }

@@ -8,11 +8,14 @@
 <%
     Empresa empresa;
     Participante participante;
+    int vieneDeFront = 0;
 
+    Texto texto22 = pnManager.getTexto(22);
     Participante participante1Req = (Participante) request.getAttribute("participante");
     if (participante1Req != null) { // VIENE DE FRONT CONTROLLER
         participante = participante1Req;
         empresa = participante.getEmpresaByIdEmpresa();
+        vieneDeFront =1;
 
     } else {
         Empleado empleo = (Empleado) session.getAttribute("empleo");
@@ -21,8 +24,8 @@
         participante = pnManager.getParticipante(empleo.getParticipanteByIdParticipante().getIdParticipante());
     }
 
-    System.out.println("participante = " + participante);
-    System.out.println("empresa = " + empresa);
+    System.out.println("graphics participante = " + participante);
+    System.out.println("graphics empresa = " + empresa);
 
 
     List<Empleado> evaluadoresFromParticipante = null;
@@ -86,8 +89,18 @@
     }
 
 //    System.out.println("totalesItems.size() = " + totalesItems.size());
-%>
 
+    //  SOLO PARA ETAPA 5
+    if (participante.getPnEtapaParticipanteByIdEtapaParticipante().getIdEtapaParticipante() != 5) {
+%>
+<div class="alert">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <%=texto22.getTexto1()%>
+    <img src="img/stop.png" width="50">
+</div>
+<%
+    } else { //  END IF ETAPA 5
+%>
 <div class="container">
     <div class="row">
         <div class="span8">
@@ -132,8 +145,10 @@
             <%}%>
         </div>
     </div>
-</div>
-
+</div>  <%--  END CONTAINER  --%>
+            <%
+                }  // END ELSE ETAPA 5
+            %>
 
 
 <jsp:include page="c_footer_r.jsp"/>
@@ -167,7 +182,7 @@
             <%
             int c_a=0;
                 for (MyKey capitulo : totalesItems){
-                System.out.println(c_a++ +"capitulo.getId() = " + capitulo.getId());
+//                System.out.println(c_a++ +"capitulo.getId() = " + capitulo.getId());
                 PnCapitulo capi = pnManager.getPnCapitulo(capitulo.getId());
 
             %>
@@ -183,7 +198,7 @@
             c_a=0;
                 for (MyKey capitulo : totalesItems){
 
-                System.out.println(c_a++ +"capitulo.getId() = " + capitulo.getId());
+//                System.out.println(c_a++ +"capitulo.getId() = " + capitulo.getId());
                 PnCapitulo capi = pnManager.getPnCapitulo(capitulo.getId());
 
             %>
@@ -203,7 +218,7 @@
             "<%=capitulo.getText().trim()%>",
             <%
 
-                System.out.println(c_a++ +"capitulo.getId() = " + capitulo.getId());
+//                System.out.println(c_a++ +"capitulo.getId() = " + capitulo.getId());
                 }
             %>
         ];

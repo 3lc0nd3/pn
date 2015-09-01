@@ -59,7 +59,7 @@ public class PnDAO extends HibernateDaoSupport{
 	public SimpleDateFormat dfNameMonthHour = new SimpleDateFormat("dd MMMMMM yyyy KK:mm aaa");
 
 	public String test(String s){
-		logger.info("s = " + s);
+		logger.debug("s = " + s);
 		return "Hola " + s;
 	}
 
@@ -505,7 +505,7 @@ public class PnDAO extends HibernateDaoSupport{
                 if (!t.equals("PnCriterio") && !t.equals("PnSubCapitulo")) {
                     s +=" and pnTipoPremioById.id =?";
                 }
-                logger.info("s = " + s);
+                logger.debug("s = " + s);
                 Query query = session.createQuery(
                         s
                 );
@@ -964,7 +964,7 @@ public class PnDAO extends HibernateDaoSupport{
     }
 
     public int saltaADespuesDeVisita(){
-		logger.info("entro = ");
+		logger.debug("entro = ");
         try {
             WebContext wctx = WebContextFactory.get();
             HttpSession session = wctx.getSession(true);
@@ -983,10 +983,33 @@ public class PnDAO extends HibernateDaoSupport{
 
     }
 
+    /**
+     * salta a Etapa 5
+     * @return
+     */
+    public int saltaAFinalDelProceso(){
+        logger.debug("entro = saltaAFinalDelProceso");
+        try {
+            WebContext wctx = WebContextFactory.get();
+            HttpSession session = wctx.getSession(true);
+            final Empleado empleado = (Empleado) session.getAttribute("empleo");
+
+            Participante participanteByIdParticipante = empleado.getParticipanteByIdParticipante();
+            PnEtapaParticipante pnEtapaParticipante = getPnEtapaParticipante(5); // FINAL
+            participanteByIdParticipante.setPnEtapaParticipanteByIdEtapaParticipante(pnEtapaParticipante);
+            getHibernateTemplate().update(participanteByIdParticipante);
+            return 1;
+        } catch (DataAccessException e) {
+//            e.printStackTrace();
+            logger.debug(e.getMessage());
+            return 0;
+        }
+    }
+
     public int saveValoracionIndividualCapitulos(boolean definitivo,
                                                  List<MyKey> valores
                                                  ){
-		logger.info("definitivo = " + definitivo);
+		logger.debug("definitivo = " + definitivo);
         try {
             WebContext wctx = WebContextFactory.get();
             HttpSession session = wctx.getSession(true);
@@ -1020,7 +1043,7 @@ public class PnDAO extends HibernateDaoSupport{
 
 			TipoFormato tipoFormato = getTipoFormato(2);
 			for (MyKey key : valores) {
-    //            logger.info("ints = " + ints[0] + "\t" + ints[1]);
+    //            logger.debug("ints = " + ints[0] + "\t" + ints[1]);
                 PnValoracion valor = new PnValoracion();
                 valor.setEmpleadoByIdEmpleado(empleado);
                 valor.setTipoFormatoByIdTipoFormato(tipoFormato);
@@ -1058,7 +1081,7 @@ public class PnDAO extends HibernateDaoSupport{
 											   List<MyKey> pendientes,*/
 											   List<MyKey> valores
 	){
-//		logger.info("definitivo = " + definitivo);
+//		logger.debug("definitivo = " + definitivo);
         try {
             WebContext wctx = WebContextFactory.get();
             HttpSession session = wctx.getSession(true);
@@ -1098,7 +1121,7 @@ public class PnDAO extends HibernateDaoSupport{
 
 			TipoFormato tipoFormato = getTipoFormato(7); // CONSENSO CAPS
 			for (MyKey key : valores) {
-    //            logger.info("ints = " + ints[0] + "\t" + ints[1]);
+    //            logger.debug("ints = " + ints[0] + "\t" + ints[1]);
                 PnValoracion valor = new PnValoracion();
                 valor.setEmpleadoByIdEmpleado(empleado);
                 valor.setTipoFormatoByIdTipoFormato(tipoFormato);
@@ -1117,7 +1140,7 @@ public class PnDAO extends HibernateDaoSupport{
                 MyKey keyOportunidad    = opertunidades.get(i);
                 MyKey keyPendiente      = pendientes.get(i);
 
-    //            logger.info("e.getKey() = " + keyFortaleza.getId() + "\te.getValue() = " + keyFortaleza.getValue() + "\tname " + keyFortaleza.getText());
+    //            logger.debug("e.getKey() = " + keyFortaleza.getId() + "\te.getValue() = " + keyFortaleza.getValue() + "\tname " + keyFortaleza.getText());
 
                 PnCapitulo capitulo = getPnCapitulo(keyFortaleza.getId());
                 logger.debug("");
@@ -1132,7 +1155,7 @@ public class PnDAO extends HibernateDaoSupport{
                 cualitativa.setPnCapituloByIdCapitulo(capitulo);
                 cualitativa.setFechaCreacion(timestamp);
 
-				logger.info("vision cap = " + keyVision.getText());
+				logger.debug("vision cap = " + keyVision.getText());
 				cualitativa.setVision(keyVision.getText());
                 logger.debug("fortalezas = " + keyFortaleza.getText());
                 cualitativa.setFortalezas(keyFortaleza.getText());
@@ -1170,7 +1193,7 @@ public class PnDAO extends HibernateDaoSupport{
 										String fortalezas,
 										String oportunidades,
 										String pendientesVisita){
-		logger.info("definitivo = " + definitivo);
+		logger.debug("definitivo = " + definitivo);
 		try {
             WebContext wctx = WebContextFactory.get();
             HttpSession session = wctx.getSession(true);
@@ -1229,7 +1252,7 @@ public class PnDAO extends HibernateDaoSupport{
             cualitativa.setEmpleadoByIdEmpleado(empleado);
             cualitativa.setPnCapituloByIdCapitulo(null);
             cualitativa.setFechaCreacion(timestamp);
-			logger.info("vision = " + vision);
+			logger.debug("vision = " + vision);
 			cualitativa.setVision(vision);
             logger.debug("fortalezas = " + fortalezas);
             cualitativa.setFortalezas(fortalezas);
@@ -1270,7 +1293,7 @@ public class PnDAO extends HibernateDaoSupport{
 											String fortalezas,
 											String oportunidades,
 											String pendientesVisita){
-//		logger.info("definitivo = " + definitivo);
+//		logger.debug("definitivo = " + definitivo);
 		try {
 			//Borro los datos Anteriores
 			WebContext wctx = WebContextFactory.get();
@@ -1329,7 +1352,7 @@ public class PnDAO extends HibernateDaoSupport{
             cualitativa.setEmpleadoByIdEmpleado(empleado);
             cualitativa.setPnCapituloByIdCapitulo(null);
             cualitativa.setFechaCreacion(timestamp);
-			logger.info("vision = " + vision);
+			logger.debug("vision = " + vision);
 			cualitativa.setVision(vision);
             logger.debug("fortalezas = " + fortalezas);
             cualitativa.setFortalezas(fortalezas);
@@ -1491,7 +1514,7 @@ public class PnDAO extends HibernateDaoSupport{
 									int idParticipante,
 									int idCargo,
 									int idPerfil){
-		logger.info("idParticipante = " + idParticipante);
+		logger.debug("idParticipante = " + idParticipante);
 		try {
 			Empleado empleado = new Empleado();
 			empleado.setPerfilByIdPerfil(getPerfil(idPerfil));
@@ -1516,23 +1539,23 @@ public class PnDAO extends HibernateDaoSupport{
 //			System.out.println("idEmpleado = " + idEmpleado);
 			return empleado;
 		} catch (ConstraintViolationException e) {
-			logger.info(e.getMessage());
+			logger.debug(e.getMessage());
 			return null;
 		} catch (DataAccessException e) {
-			logger.info(e.getMessage());
+			logger.debug(e.getMessage());
 			return null;
 		} catch (Exception e){
-			logger.info(e.getMessage());
+			logger.debug(e.getMessage());
 			return null;
 		}
 	}
 
 	public void notificaEmpleadoVinculo(Empleado empleado){
 		Persona personaByIdPersona = getPersona(empleado.getPersonaByIdPersona().getIdPersona());
-		logger.info("personaByIdPersona = " + personaByIdPersona);
+		logger.debug("personaByIdPersona = " + personaByIdPersona);
 		String asunto = "Vinculado - " + empleado.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getNombrePremio()+
                 ", " + empleado.getParticipanteByIdParticipante().getEmpresaByIdEmpresa().getNombreEmpresa();
-		logger.info("asunto = " + asunto);
+		logger.debug("asunto = " + asunto);
 		String mensaje =
 				"Cordial saludo" +
 						"<br>" +
@@ -1551,16 +1574,16 @@ public class PnDAO extends HibernateDaoSupport{
 						"<br>" +
 						""
 				;
-		logger.info("mensaje = " + mensaje);
+		logger.debug("mensaje = " + mensaje);
 		if (personaByIdPersona.getPassword() == null || personaByIdPersona.getPassword().equals("")) { //  SI NO TIENE PASSWORD
-			logger.info("no tiene password");
+			logger.debug("no tiene password");
 			String password = getRandomPassword();
-			logger.info("password = " + password);
+			logger.debug("password = " + password);
 			personaByIdPersona.setPassword(getMD5(password));
 			getHibernateTemplate().update(personaByIdPersona);
 			mensaje += "Password: " + password;
 		}
-		logger.info("mensaje = " + mensaje);
+		logger.debug("mensaje = " + mensaje);
 		String[] emails = {personaByIdPersona.getEmailPersonal()};
 		enviaEmail(emails, asunto, mensaje, null, SUSCRIBE);
 	}
@@ -1765,9 +1788,9 @@ public class PnDAO extends HibernateDaoSupport{
             HttpSession session = wctx.getSession(true);
             Empleado empleadoOld = (Empleado) session.getAttribute("empleo");
             if(empleadoOld != null){
-                logger.info("empleadoOld.getPerfilByIdPerfil() = " + empleadoOld.getPerfilByIdPerfil());
+                logger.debug("empleadoOld.getPerfilByIdPerfil() = " + empleadoOld.getPerfilByIdPerfil());
             } else {
-                logger.info("No habia empleo en session");
+                logger.debug("No habia empleo en session");
             }
             session.setAttribute("empleo", empleado);
             return empleado;
@@ -1795,8 +1818,8 @@ public class PnDAO extends HibernateDaoSupport{
     }
 
     public int registroAspirante(Persona personaAspirante){
-        logger.info("aspirante.getNombre = " + personaAspirante.getNombrePersona());
-        logger.info("aspirante.getApellido() = " + personaAspirante.getApellido());
+        logger.debug("aspirante.getNombre = " + personaAspirante.getNombrePersona());
+        logger.debug("aspirante.getApellido() = " + personaAspirante.getApellido());
         WebContext wctx = WebContextFactory.get();
         HttpSession session = wctx.getSession(true);
         PnTipoPremio tipoPremio = (PnTipoPremio) session.getAttribute("tipoPremio");
@@ -1902,7 +1925,7 @@ public class PnDAO extends HibernateDaoSupport{
 				personaDirectivo.setIdPersona(idDirectivo);
 			}
 
-			logger.info("personaDirectivo.getIdPersona() = " 			+ personaDirectivo.getIdPersona());
+			logger.debug("personaDirectivo.getIdPersona() = " 			+ personaDirectivo.getIdPersona());
 			logger.debug("personaDirectivo.getDocumentoIdentidad() = " 	+ personaDirectivo.getDocumentoIdentidad());
 			logger.debug("personaDirectivo.getNombrePersona() = " 		+ personaDirectivo.getNombrePersona());
 			logger.debug("personaDirectivo.getApellido() = " 			+ personaDirectivo.getApellido());
@@ -1980,7 +2003,7 @@ public class PnDAO extends HibernateDaoSupport{
 				empresa.setFileEstadoFinanciero(fileEstadoFinanciero);
 				empresa.setFileConsignacion(fileConsignacion);
 */
-				logger.info("est 1");
+				logger.debug("est 1");
 
 				int idEmpresa = (Integer) saveEmpresa(empresa);
 				empresa.setIdEmpresa(idEmpresa);
@@ -2039,14 +2062,14 @@ public class PnDAO extends HibernateDaoSupport{
 
 			return 1;
 		} catch (DataAccessException e) {
-			logger.info("e.getMessage() = " + e.getMessage());
+			logger.debug("e.getMessage() = " + e.getMessage());
 			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 			return 0;
 		}
 	} /*  FIN INSCRIPCION  */
 
     public int subeArchivoPostula(byte[] fileInformePostulacionFile){
-//        logger.info("fileInformePostulacionFile = " + fileInformePostulacionFile);
+//        logger.debug("fileInformePostulacionFile = " + fileInformePostulacionFile);
 
         WebContext wctx = WebContextFactory.get();
         HttpSession session = wctx.getSession(true);
@@ -2348,11 +2371,11 @@ public class PnDAO extends HibernateDaoSupport{
 		logger.debug("Entro");
 		logger.debug("premio.getIdPnPremio() = " + premio.getIdPnPremio());
         PnPremio pnPremioOld = getPnPremio(premio.getIdPnPremio());
-        logger.info("pnPremioOld = " + pnPremioOld);
+        logger.debug("pnPremioOld = " + pnPremioOld);
         try {
             if (pnPremioOld==null) {  // NEW
-                logger.info("es nuevo");
-                logger.info("pnPremioOld = " + pnPremioOld);
+                logger.debug("es nuevo");
+                logger.debug("pnPremioOld = " + pnPremioOld);
                 premio.setTipoPremioById(tipoPremio);
                 premio.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
                 getHibernateTemplate().save(premio);
@@ -2381,7 +2404,7 @@ public class PnDAO extends HibernateDaoSupport{
 				"from Empleado where personaByIdPersona.idPersona = ? order by participanteByIdParticipante.pnPremioByIdConvocatoria.fechaDesde desc ", 
                 idPersona
 		);
-		logger.info("empleados nro = " + empleados.size());
+		logger.debug("empleados nro = " + empleados.size());
 		return empleados;
 	}
 
@@ -2416,7 +2439,7 @@ public class PnDAO extends HibernateDaoSupport{
 				if (hex.length() == 1) hexString.append('0');
 				hexString.append(hex);
 			}
-			logger.info("Digest(in hex format):: " + hexString.toString());
+			logger.debug("Digest(in hex format):: " + hexString.toString());
 			return hexString.toString();
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
@@ -2479,7 +2502,7 @@ public class PnDAO extends HibernateDaoSupport{
 		String desde = 			email[emailDesde][0];
 		String desdeNombre = 	email[emailDesde][2];
 		logger.debug("desde = " + desde);
-		logger.info("desdeNombre = " + desdeNombre);
+		logger.debug("desdeNombre = " + desdeNombre);
 		String passwd = email[emailDesde][1];
 //        logger.debug("passwd = " + passwd);
 
@@ -2655,11 +2678,11 @@ public class PnDAO extends HibernateDaoSupport{
 			logger.debug("r = " + r);
 			while (r > SECURE_CHARS.length-1) {
 				r = r/2;
-//                logger.info("r int = " + r);
+//                logger.debug("r int = " + r);
 			}
 			s += SECURE_CHARS[r];
-//            logger.info("s.le = " + s.length());
-//            logger.info("i = " + i+"\tr = " + r + "\t s:"+s);
+//            logger.debug("s.le = " + s.length());
+//            logger.debug("i = " + i+"\tr = " + r + "\t s:"+s);
 			i++;
 		}
 
@@ -2780,10 +2803,11 @@ public class PnDAO extends HibernateDaoSupport{
             mensaje += "";
             mensaje += "";
             String sigla = participante.getPnPremioByIdConvocatoria().getTipoPremioById().getSigla();
-            logger.info("sigla = " + sigla);
+            logger.debug("sigla = " + sigla);
             String version = participante.getPnPremioByIdConvocatoria().getVersion();
-            logger.info("version = " + version);
+            logger.debug("version = " + version);
 
+            //  TODOS LOS EMPLEADOS
             for (int i = 0; i < empleados.size(); i++) {
                 Empleado empleado = empleados.get(i);
                 String emailPersonal = empleado.getPersonaByIdPersona().getEmailPersonal();
