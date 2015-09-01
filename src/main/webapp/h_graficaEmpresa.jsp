@@ -47,7 +47,9 @@
                 " where tipoFormatoByIdTipoFormato.id = ? and empleadoByIdEmpleado.idEmpleado = ? " +
                 " group by pnSubCapituloByIdSubCapitulo.pnCapituloByIdCapitulo" +
                 " order by pnSubCapituloByIdSubCapitulo.pnCapituloByIdCapitulo.numeroCapitulo";
-        Object o[] = {5, evaluadoresFromParticipante.get(0).getIdEmpleado()};
+        int idEmpleado = evaluadoresFromParticipante.get(0).getIdEmpleado();
+        System.out.println("idEmpleado guardo eval FINAL = " + idEmpleado);
+        Object o[] = {5, idEmpleado};
         List<Object[]> sumas = pnManager.getHibernateTemplate().find(
                 hql,
                 o);
