@@ -49,7 +49,7 @@
                                     <%
                                         for (Persona persona: pnManager.getPersonas()){
                                     %>
-                                    <option value="<%=persona.getIdPersona()%>"><%=persona.getNombrePersona()%> <%=persona.getApellido()%></option>
+                                    <option value="<%=persona.getIdPersona()%>"><%=persona.getNombrePersona()%> <%=persona.getApellido()%> - <%=persona.getEmailPersonal()%></option>
                                     <%
                                         }
                                     %>
