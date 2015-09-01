@@ -170,6 +170,7 @@
     <table cellpadding="0" cellspacing="0" border="0" class="display" id="miembros">
         <thead>
         <tr>
+            <th> id. </th>
             <th> Doc. </th>
             <th> Nombre </th>
             <th> Apellido </th>
@@ -194,6 +195,7 @@
                 }
         %>
         <tr>
+            <td> <%=persona.getIdPersona() %></td>
             <td> <%=persona.getDocumentoIdentidad() %></td>
             <td> <%=persona.getNombrePersona() %></td>
             <td> <%=persona.getApellido() %></td>
