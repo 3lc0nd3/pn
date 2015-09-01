@@ -101,6 +101,7 @@
     <table cellpadding="0" cellspacing="0" border="0" class="display" id="participantesT">
         <thead>
         <tr>
+            <th>id</th>
             <th>Participante</th>
             <th>Etapa</th>
             <th>Fecha</th>
@@ -126,6 +127,7 @@
                 PnPremio premio = participante.getPnPremioByIdConvocatoria();
         %>
         <tr>
+            <td><%=participante.getIdParticipante()%></td>
             <td><%=empresa.getNombreEmpresa()%><br><%=premio.getNombrePremio()%></td>
             <td><%=participante.getPnEtapaParticipanteByIdEtapaParticipante().getEtapaParticipante()%></td>
             <TD>
