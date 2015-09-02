@@ -12,7 +12,7 @@
     if(premioActivo != null){
         mensajePremios = premioActivo.getNombrePremio();
         participantes =pnManager.getHibernateTemplate().find(
-                "from Participante where pnPremioByIdConvocatoria.id = ? ",
+                "from Participante where pnPremioByIdConvocatoria.id = ? order by empresaByIdEmpresa.nombreEmpresa",
                 premioActivo.getIdPnPremio()
         );
 
@@ -69,6 +69,7 @@
                                         <%=participante.getPnPremioByIdConvocatoria().getTipoPremioById().getSigla()%>
                                         -
                                         <%=empresa.getNombreEmpresa()%>
+                                        <%=empresa.getNit()%>
                                     </option>
                                     <%
                                         }
@@ -159,11 +160,16 @@
         <tr>
             <td> <%=empleado.getIdEmpleado()%></td>
             <td> <%=participante.getPnPremioByIdConvocatoria().getNombrePremio()%></td>
-            <td> <%=participante.getEmpresaByIdEmpresa().getNombreEmpresa()%></td>
+            <td>
+                <%=participante.getEmpresaByIdEmpresa().getIdEmpresa()%>.
+                <%=participante.getEmpresaByIdEmpresa().getNombreEmpresa()%>
+                <br>
+                <%=participante.getEmpresaByIdEmpresa().getNit()%>
+            </td>
             <td> <%=empleado.getCargoEmpleadoByIdCargo().getCargo()%></td>
             <td> <%=empleado.getPerfilByIdPerfil().getPerfil()%></td>
             <td>
-                <%=persona.getIdPersona()%>
+                <%=persona.getIdPersona()%>.
                 <%=persona.getNombreCompleto()%>
                 <br>
                 <%=persona.getEmailPersonal()%>

@@ -67,7 +67,11 @@
                                                 "from Empresa where idEmpresa > 1 and estado = true order by nombreEmpresa");
                                         for (Empresa empresa: empresaActivas){
                                     %>
-                                    <option value="<%=empresa.getIdEmpresa()%>"><%=empresa.getNombreEmpresa()%></option>
+                                    <option value="<%=empresa.getIdEmpresa()%>">
+                                        <%=empresa.getIdEmpresa()%>.
+                                        <%=empresa.getNombreEmpresa()%>
+                                        <%=empresa.getNit()%>
+                                    </option>
                                     <%
                                         }
                                     %>
@@ -129,6 +133,7 @@
         <tr>
             <td><%=participante.getIdParticipante()%></td>
             <td>
+                <%=empresa.getIdEmpresa()%>.
                 <%=empresa.getNombreEmpresa()%>
                 <%=empresa.getNit()%>
                 <br><%=premio.getNombrePremio()%></td>

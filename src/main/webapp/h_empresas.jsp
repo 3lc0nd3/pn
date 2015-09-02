@@ -231,6 +231,7 @@
     <table cellpadding="0" cellspacing="0" border="0" class="display" id="empresas" style="width:100%;">
         <thead>
         <tr>
+            <th> Id </th>
             <th> Nit </th>
             <th> Nombre </th>
             <th> Direcci&oacute;n </th>
@@ -259,8 +260,10 @@
                 }
         %>
         <tr>
+            <td> <%=empresa.getIdEmpresa() %></td>
             <td> <%=empresa.getNit() %></td>
-            <td> <%=empresa.getNombreEmpresa() %></td>
+            <td> <%=empresa.getNombreEmpresa() %>
+            </td>
             <td> <%=empresa.getDireccionEmpresa() %></td>
             <td> <%=empresa.getEmpresaCategoriaByIdCategoriaEmpresa().getCategoria() %></td>
             <%--<td> <%=empresa.getEmpresaCategoriaTamanoByIdCategoriaTamanoEmpresa().getTamano() %></td>--%>
