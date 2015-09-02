@@ -128,7 +128,10 @@
         %>
         <tr>
             <td><%=participante.getIdParticipante()%></td>
-            <td><%=empresa.getNombreEmpresa()%><br><%=premio.getNombrePremio()%></td>
+            <td>
+                <%=empresa.getNombreEmpresa()%>
+                <%=empresa.getNit()%>
+                <br><%=premio.getNombrePremio()%></td>
             <td><%=participante.getPnEtapaParticipanteByIdEtapaParticipante().getEtapaParticipante()%></td>
             <TD>
                 <%=pnManager.dfDateTime.format(participante.getFechaIngreso())%>
