@@ -240,9 +240,16 @@
                     <td colspan="2">
                         Evalua:
                     </td>
-
                     <td>
                         <p class="editable_textarea" id="PnCapitulo_evaluaCapitulo_<%=capitulo.getId()%>" ><%=capitulo.getEvaluaCapitulo()%></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        Puntaje M&aacute;ximo:
+                    </td>
+                    <td>
+                        <p class="editable_textarea" id="PnCapitulo_maximo_<%=capitulo.getId()%>" ><%=capitulo.getMaximo()%></p>
                     </td>
                 </tr>
                 <%
