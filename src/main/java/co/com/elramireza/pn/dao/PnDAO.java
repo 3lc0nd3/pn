@@ -1491,7 +1491,7 @@ public class PnDAO extends HibernateDaoSupport{
             getHibernateTemplate().update(laPersona);
 
             //  2. notifica y envia password.
-            notificaEmpleadoVinculo(empleado);
+//            notificaEmpleadoVinculo(empleado);
 
 			return "";
 		} catch (ConstraintViolationException e) {
@@ -1529,7 +1529,7 @@ public class PnDAO extends HibernateDaoSupport{
 
 			if(idEmpleado != null){
 				try {
-					notificaEmpleadoVinculo(empleado);
+//					notificaEmpleadoVinculo(empleado);
 				} catch (Exception e) {
 					e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 				}
