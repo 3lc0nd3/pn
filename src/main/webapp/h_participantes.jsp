@@ -17,7 +17,9 @@
 
     PnPremio premioActivo = (PnPremio) session.getAttribute("premioActivo");
     if(premioActivo != null){
-        mensajePremios = premioActivo.getNombrePremio();
+        mensajePremios =
+                premioActivo.getNombrePremio() + " V. " +
+                premioActivo.getVersion();
         participantes =pnManager.getHibernateTemplate().find(
                 "from Participante where pnPremioByIdConvocatoria.id = ? ",
                 premioActivo.getIdPnPremio()
@@ -99,7 +101,9 @@
 <div class="border"></div>
 
 <h3 style="color: darkslategray;">Participantes seg&uacute;n: <span class="color"><%=mensajePremios%></span></h3>
-
+<b>
+    <a href="r_participantesE.jsp">Exportar a Excel <img src="img/excel.png" alt="Participantes excel" title="Participantes excel" width="36"></a>
+    </b>
 <div class="row-fluid">
     <br>
     <table cellpadding="0" cellspacing="0" border="0" class="display" id="participantesT">
