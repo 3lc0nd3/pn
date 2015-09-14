@@ -125,7 +125,9 @@
 <div class="border"></div>
 
 <h3 style="color: darkslategray;">Empleados seg&uacute;n: <span class="color"><%=mensajePremios%></span></h3>
-
+<b>
+    <a href="r_empleadosE.jsp">Exportar a Excel <img src="img/excel.png" alt="Empleados excel" title="Empleados excel" width="36"></a>
+</b>
 <div class="row-fluid">
     <br>
     <table cellpadding="0" cellspacing="0" border="0" class="display" id="participantesT">
