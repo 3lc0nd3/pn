@@ -163,7 +163,7 @@
                 <tr>
                     <th><img src="images/help.png" onclick="muestraValoresCriterios('<%=criterio.getId()%>');" width="24" alt="Contenido" title="Contenido"></th>
                     <td><p class="editable_textarea" id="PnCriterio_criterio_<%=criterio.getId()%>"><%=criterio.getCriterio()%></p></td>
-                    <td><span onclick="deleteCriterio('<%=criterio.getId()%>');"><img src="images/drop.png" width="24" alt="Borrar este Criterio" title="Borrar este Criterio">
+                    <td><span style="cursor:pointer;" onclick="deleteCriterio('<%=criterio.getId()%>');"><img src="images/drop.png" width="24" alt="Borrar este Criterio" title="Borrar este Criterio">
                         Borrar este Criterio</span>
                     </td>
                 </tr>
@@ -381,14 +381,18 @@
     }
 
     function deleteCriterio(idCriterio){
-        pnRemoto.deleteCriterioAdmin(idCriterio, function(data){
-            if(data==0){
-                alrtError("Problemas");
-            } else {
-                alrtError("Eliminado");
-                revisaTipoPremio(<%=tipoPremio.getId()%>);
-            }
-        });
+        if (confirm("Desea borrar este criterio?")) {
+            pnRemoto.deleteCriterioAdmin(idCriterio, function(data){
+                if(data==0){
+                    alrtError("Problemas");
+                } else if(data==2){
+                    alrtError("No se puede eliminar, ya tiene valores");
+                } else {
+                    alrtError("Eliminado");
+                    revisaTipoPremio(<%=tipoPremio.getId()%>);
+                }
+            });
+        }
     }
 
 </script>

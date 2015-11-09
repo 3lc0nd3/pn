@@ -36,6 +36,7 @@
     System.out.println("evaluadoresFromParticipante.size() = " + evaluadoresFromParticipante.size());
 
     List<MyKey> totalesItems= new ArrayList<MyKey>();;
+    List <PnCuantitativa> cuantitativaDespues= new ArrayList<PnCuantitativa>();
     if (evaluadoresFromParticipante != null &&
             evaluadoresFromParticipante.size()>0) {
 //        TODO CAMBIAR ESTO
@@ -50,6 +51,8 @@
         int idEmpleado = evaluadoresFromParticipante.get(0).getIdEmpleado();
         System.out.println("idEmpleado guardo eval FINAL = " + idEmpleado);
         Object o[] = {5, idEmpleado};
+
+        cuantitativaDespues = pnManager.getCuantitativaDespuesVisitaFromEmpleado(idEmpleado);
         List<Object[]> sumas = pnManager.getHibernateTemplate().find(
                 hql,
                 o);
@@ -109,36 +112,58 @@
         <div class="span8">
             <div id="chart2" style="height:400px;/*width:100%;*/ "></div>
             <div id="chart1" style="height:400px;/*width:100%;*/ "></div>
+
             <br>
-            <table class="table table-hover table-striped" width="50%">
-                <tr>
-                    <th>Cap&iacute;tulo</th>
-                    <th>Puntaje</th>
-                    <th>%</th>
+            <table class="table table-hover " width="100%">
+                <tr style="color: #ffffff; background-color: #002a80; font-weight: bolder;">
+                    <tH colspan="2" >
+                    Cap&iacute;tulo
+                    </tH>
+                    <th></th>
+                    <th style=" text-align: right;">Puntaje</th>
+                    <th style=" text-align: right;">%</th>
                 </tr>
                 <%
-                    int total = 0;
-                    for (MyKey key : totalesItems){
-                        total += key.getValue();
-                        PnCapitulo capitulo = pnManager.getPnCapitulo(key.getId());
-//                        System.out.println("key.getId() = " + key.getId());
-//                        System.out.println("key.getText() = " + key.getText());
-//                        System.out.println("capitulo = " + capitulo);
-//                        System.out.println("capitulo.getMaximo() = " + capitulo.getMaximo());
+                    int idCapOld = 0;
+                    int contCapitulos = -1;
+                    int total=0;
+                    for(PnCuantitativa pnCuantitativa: cuantitativaDespues){
+                        if(idCapOld != pnCuantitativa.getPnSubCapituloByIdSubCapitulo().getPnCapituloByIdCapitulo().getId()){
+                            idCapOld = pnCuantitativa.getPnSubCapituloByIdSubCapitulo().getPnCapituloByIdCapitulo().getId();
+                            contCapitulos++;
+                            MyKey myKey = totalesItems.get(contCapitulos);
+                            total+= myKey.getValue();
                 %>
-                <tr>
-                    <td><%=key.getText()%></td>
-                    <td><%=key.getValue()%></td>
-                    <td><%=capitulo.getMaximo()!=0?(100*key.getValue()/capitulo.getMaximo()):0%></td>
+                <tr style="color: #ffffff; background-color: #002a80; font-weight: bolder;">
+                    <td><%=pnCuantitativa.getPnSubCapituloByIdSubCapitulo().getPnCapituloByIdCapitulo().getNumeroCapitulo()%></td>
+                    <td><%=pnCuantitativa.getPnSubCapituloByIdSubCapitulo().getPnCapituloByIdCapitulo().getNombreCapitulo()%></td>
+                    <td><%=pnCuantitativa.getPnSubCapituloByIdSubCapitulo().getPnCapituloByIdCapitulo().getMaximo()%></td>
+                    <td style=" text-align: right"><%=myKey.getValue()%></td>
+                    <td style=" text-align: right"><%=pnCuantitativa.getPnSubCapituloByIdSubCapitulo().getPnCapituloByIdCapitulo().getMaximo()!=0?(100* myKey.getValue()/pnCuantitativa.getPnSubCapituloByIdSubCapitulo().getPnCapituloByIdCapitulo().getMaximo()):0%>%</td>
                 </tr>
                 <%
-                    }
+                        }  //  END IF NUEVO CAPITULO
                 %>
                 <tr>
+                    <td style="font-weight: bold;"><%=pnCuantitativa.getPnSubCapituloByIdSubCapitulo().getCodigoItem()%></td>
+                    <td style="font-weight: bold;"><%=pnCuantitativa.getPnSubCapituloByIdSubCapitulo().getSubCapitulo()%></td>
+                    <td style="font-weight: normal;"><%=pnCuantitativa.getPnSubCapituloByIdSubCapitulo().getPonderacion()%></td>
+                    <td style="font-weight: bold; text-align: right"><%=pnCuantitativa.getTotal()%></td>
+                    <td style="font-weight: bold; text-align: right"><%=pnCuantitativa.getValor()%>%</td>
+                </tr>
+                <%
+                    }  //  END FOR CUANTITATIVAS
+                %>
+
+                <tr style="color: #ffffff; background-color: #002a80; font-weight: bolder;">
+                    <TH COLSPAN="2"></TH>
                     <th>Total</th>
-                    <th><%=total%></th>
+                    <th style="font-weight: bold; text-align: right"><%=total%></th>
+                    <Th></Th>
                 </tr>
             </table>
+            <br>
+
         </div>
         <div class="span4">
             <%

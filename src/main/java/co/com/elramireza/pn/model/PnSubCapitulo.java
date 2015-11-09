@@ -16,6 +16,11 @@ import javax.persistence.*;
 @Table( name = "pn_sub_capitulo")
 public class PnSubCapitulo {
     private int id;
+    private String evalua;
+    private int ponderacion;
+    private String subCapitulo;
+    private PnCapitulo pnCapituloByIdCapitulo;
+    private String codigoItem;
 
     @Id
     @GenericGenerator(name = "generator", strategy = "increment")
@@ -29,8 +34,6 @@ public class PnSubCapitulo {
         this.id = id;
     }
 
-    private String evalua;
-
     @Basic
     @Column(name = "evalua_item")
     public String getEvalua() {
@@ -40,8 +43,6 @@ public class PnSubCapitulo {
     public void setEvalua(String evalua) {
         this.evalua = evalua;
     }
-
-    private int ponderacion;
 
     @Basic
     @Column(name = "ponderacion")
@@ -53,8 +54,6 @@ public class PnSubCapitulo {
         this.ponderacion = ponderacion;
     }
 
-    private String subCapitulo;
-
     @Basic
     @Column(name = "sub_capitulo")
     public String getSubCapitulo() {
@@ -65,8 +64,6 @@ public class PnSubCapitulo {
         this.subCapitulo = subCapitulo;
     }
 
-    private PnCapitulo pnCapituloByIdCapitulo;
-
     @ManyToOne
     @JoinColumn(name = "id_capitulo", referencedColumnName = "id", nullable = false)
     public PnCapitulo getPnCapituloByIdCapitulo() {
@@ -76,8 +73,6 @@ public class PnSubCapitulo {
     public void setPnCapituloByIdCapitulo(PnCapitulo pnCapituloByIdCapitulo) {
         this.pnCapituloByIdCapitulo = pnCapituloByIdCapitulo;
     }
-
-    private String codigoItem;
 
     @Basic
     @Column(name = "codigo_item")

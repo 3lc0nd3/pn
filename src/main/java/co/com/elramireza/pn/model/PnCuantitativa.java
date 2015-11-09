@@ -15,6 +15,13 @@ import java.sql.Timestamp;
 @Table( name = "pn_cuantitativa")
 public class PnCuantitativa {
     private int id;
+    private int valor;
+    private int total;
+    private Timestamp fechaCreacion;
+    private Participante participanteByIdParticipante;
+    private TipoFormato tipoFormatoByIdTipoFormato;
+    private PnSubCapitulo pnSubCapituloByIdSubCapitulo;
+    private Empleado empleadoByIdEmpleado;
 
     @Id
     @Column(name = "id")
@@ -26,8 +33,6 @@ public class PnCuantitativa {
         this.id = id;
     }
 
-    private int valor;
-
     @Basic
     @Column(name = "valor")
     public int getValor() {
@@ -38,8 +43,6 @@ public class PnCuantitativa {
         this.valor = valor;
     }
 
-    private int total;
-
     @Basic
     @Column(name = "total")
     public int getTotal() {
@@ -49,8 +52,6 @@ public class PnCuantitativa {
     public void setTotal(int total) {
         this.total = total;
     }
-
-    private Timestamp fechaCreacion;
 
     @Basic
     @Column(name = "fecha_creacion")
@@ -85,7 +86,6 @@ public class PnCuantitativa {
         return result;
     }
 
-    private Participante participanteByIdParticipante;
 
     @ManyToOne
     @JoinColumn(name = "id_participante", referencedColumnName = "id", nullable = false)
@@ -97,8 +97,6 @@ public class PnCuantitativa {
         this.participanteByIdParticipante = participanteByIdParticipante;
     }
 
-    private TipoFormato tipoFormatoByIdTipoFormato;
-
     @ManyToOne
     @JoinColumn(name = "id_tipo_formato", referencedColumnName = "id", nullable = false)
     public TipoFormato getTipoFormatoByIdTipoFormato() {
@@ -109,8 +107,6 @@ public class PnCuantitativa {
         this.tipoFormatoByIdTipoFormato = tipoFormatoByIdTipoFormato;
     }
 
-    private PnSubCapitulo pnSubCapituloByIdSubCapitulo;
-
     @ManyToOne
     @JoinColumn(name = "id_sub_capitulo", referencedColumnName = "id", nullable = false)
     public PnSubCapitulo getPnSubCapituloByIdSubCapitulo() {
@@ -120,8 +116,6 @@ public class PnCuantitativa {
     public void setPnSubCapituloByIdSubCapitulo(PnSubCapitulo pnSubCapituloByIdSubCapitulo) {
         this.pnSubCapituloByIdSubCapitulo = pnSubCapituloByIdSubCapitulo;
     }
-
-    private Empleado empleadoByIdEmpleado;
 
     @ManyToOne
     @JoinColumn(name = "id_empleado", referencedColumnName = "id", nullable = false)
