@@ -168,11 +168,11 @@
             <version>1.4</version>
         </dependency>
 
-        <dependency>
+        <!--<dependency>
             <groupId>opensymphony</groupId>
             <artifactId>quartz-all</artifactId>
             <version>1.6.3</version>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>commons-collections</groupId>

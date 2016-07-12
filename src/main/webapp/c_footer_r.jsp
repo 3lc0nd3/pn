@@ -150,6 +150,7 @@
 <script src="js/datePicker/locales/bootstrap-datepicker.es.js"></script>
 
 <script src="js/jquery.jeditable.js"></script>
+<%--<script src="js/jquery.jeditable.tinymce.js"></script>--%>
 
 
     <%-- Data Table--%>

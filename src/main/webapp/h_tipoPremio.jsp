@@ -59,21 +59,24 @@
                             <div class="control-group">
                                 <label class="control-label" for="descripcion">Descripci&oacute;n</label>
                                 <div class="controls">
-                                    <input type="text" class="input-large required" name="descripcion" id="descripcion">
+                                    <%--<input type="text" class="input-large required" name="descripcion" id="descripcion">--%>
+                                    <textarea  name="descripcion" id="descripcion"></textarea>
                                 </div>
                             </div>
                             <!-- postulese -->
                             <div class="control-group">
                                 <label class="control-label" for="postulese">Post&uacute;lese</label>
                                 <div class="controls">
-                                    <input type="text" class="input-large required" name="postulese" id="postulese">
+                                    <%--<input type="text" class="input-large required" name="postulese" id="postulese">--%>
+                                    <textarea  name="postulese" id="postulese"></textarea>
                                 </div>
                             </div>
                             <!-- registroEvaluador -->
                             <div class="control-group">
                                 <label class="control-label" for="registroEvaluador">Registro Evaluador</label>
                                 <div class="controls">
-                                    <input type="text" class="input-large required" name="registroEvaluador" id="registroEvaluador">
+                                    <%--<input type="text" class="input-large required" name="registroEvaluador" id="registroEvaluador">--%>
+                                    <textarea  name="registroEvaluador" id="registroEvaluador"></textarea>
                                 </div>
                             </div>
                             <!-- Buttons -->
@@ -154,6 +157,8 @@
 
 <script src="scripts/interpretadorAjax.js"></script>
 
+<script src="//tinymce.cachefly.net/4.1/tinymce.min.js"></script>
+
 <script type="text/javascript">
 
     function activaDesactiva(id){
@@ -189,6 +194,10 @@
             if(data!=null){
 //                alert("Guardado");
                 dwr.util.setValues(data);
+//                alrt(data.descripcion);
+                tinyMCE.get('descripcion').setContent(data.descripcion);
+                tinyMCE.get('postulese').setContent(data.postulese);
+                tinyMCE.get('registroEvaluador').setContent(data.registroEvaluador);
                 window.location = '#formPremio';
             } else {
 //                alert("Problema!");
@@ -215,6 +224,11 @@
         };
 
         dwr.util.getValues(premio);
+
+        tinyMCE.triggerSave();
+        premio.descripcion= $('#descripcion').val();
+        premio.postulese= $('#postulese').val();
+        premio.registroEvaluador= $('#registroEvaluador').val();
 
 //        alert("premio.color = " + premio.color);
 
@@ -286,6 +300,38 @@
 
     }
 
+    tinymce.init({
+        selector: "textarea",
+        height: 125,
+        doctype: '',
+        convert_urls: false,
+        plugins: [
+            "advlist autolink autosave link image lists charmap print preview hr anchor pagebreak spellchecker",
+            "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+            "table contextmenu directionality emoticons template textcolor paste textcolor colorpicker textpattern code"
+        ],
 
+        toolbar1: "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | styleselect formatselect fontselect fontsizeselect",
+        toolbar2: "cut copy paste | searchreplace | bullist numlist | outdent indent blockquote | undo redo | link unlink | insertdatetime preview ",
+        toolbar3: "forecolor backcolor | hr removeformat | subscript superscript | charmap emoticons | fullscreen ",
+
+        menubar: false,
+        toolbar_items_size: 'small',
+
+        style_formats: [
+            {title: 'Bold text', inline: 'b'},
+            {title: 'Red text', inline: 'span', styles: {color: '#ff0000'}},
+            {title: 'Red header', block: 'h1', styles: {color: '#ff0000'}},
+            {title: 'Example 1', inline: 'span', classes: 'example1'},
+            {title: 'Example 2', inline: 'span', classes: 'example2'},
+            {title: 'Table styles'},
+            {title: 'Table row 1', selector: 'tr', classes: 'tablerow1'}
+        ],
+
+        templates: [
+            {title: 'Test template 1', content: 'Test 1'},
+            {title: 'Test template 2', content: 'Test 2'}
+        ]
+    });
 
 </script>
