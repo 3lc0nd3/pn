@@ -217,6 +217,8 @@
             <dwr:include method="activeDesactiveEmpresa"/>
             <dwr:include method="activeDesactivePersona"/>
             <dwr:include method="activeDesactivePremioN"/>
+            <dwr:include method="activeDesactiveTipoPremioN"/>
+            <dwr:include method="subeLogoTipoPremio"/>
             <dwr:include method="activeDesactiveParticipante"/>
             <dwr:include method="vinculeParticipantePremio"/>
             <dwr:include method="desvincularParticipante"/>

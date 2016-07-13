@@ -15,7 +15,8 @@
         <div class="row">
             <div class="span6">
                 <div class="formy">
-                    <a name="formPremio"></a><h5>Tipos de Premios</h5>
+                    <a name="formPremio"></a>
+                    <h5>Tipos de Premios</h5>
                     <div class="form">
                         <!-- Login form (not working)-->
                         <form id="formPremiof" class="form-inline">
@@ -116,6 +117,7 @@
             <th>Nombre</th>
             <th>Color</th>
             <th>Fecha</th>
+            <th>Estado</th>
             <th>Editar</th>
         </tr>
         </thead>
@@ -123,7 +125,17 @@
             SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 
             List<PnTipoPremio> list = pnManager.getHibernateTemplate().find("from PnTipoPremio order by nombreTipoPremio");
+
+            String imageActive;
+            String messaActive;
             for (PnTipoPremio pnTipoPremio : list){
+                if(pnTipoPremio.isActivo()){
+                    imageActive = "img/positive.png";
+                    messaActive = "Desactivar?";
+                } else {
+                    imageActive = "img/negative.png";
+                    messaActive = "Activar?";
+                }
         %>
         <tr>
             <td><%=pnTipoPremio.getId()%></td>
@@ -131,6 +143,9 @@
             <td><%=pnTipoPremio.getNombreTipoPremio()%></td>
             <td><%=pnTipoPremio.getColor()%></td>
             <td><%=df.format(pnTipoPremio.getFechaCreacion())%></td>
+            <td>
+                <img id="imgActiveInscripcion<%=pnTipoPremio.getId()%>" width="28" onclick="activaDesactiva(<%=pnTipoPremio.getId()%>);" src="<%=imageActive%>" alt="<%=messaActive%>" title="<%=messaActive%>">
+            </td>
             <td>
                 <img width="36" onclick="editaPremio(<%=pnTipoPremio.getId()%>);" src="img/edit.png" alt="edita" title="edita">
                 <img width="36" onclick="revisaTipoPremio(<%=pnTipoPremio.getId()%>);" src="img/view.png" alt="ver" title="ver">
@@ -166,7 +181,7 @@
             alert("Para uso interno, no lo puedes activar.");
         } else {
             $("#imgActiveInscripcion" + id).attr("src", "images/loading.gif");
-            pnRemoto.activeDesactivePremioN(id, <%=tipoPremio.getId()%>,function(data) {
+            pnRemoto.activeDesactiveTipoPremioN(id,function(data) {
                 if (data == 3) {
                     alert("Problemas !");
                 } else if (data == 2) {
@@ -333,5 +348,6 @@
             {title: 'Test template 2', content: 'Test 2'}
         ]
     });
+
 
 </script>

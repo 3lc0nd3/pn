@@ -108,9 +108,39 @@
     }
 %>
 <h2><%=tipoPremio.getSigla()%> - <%=tipoPremio.getNombreTipoPremio()%></h2>
+<img id="logoTipoPremio" src="<%=tipoPremio.getUrlLogo()%>" alt="<%=tipoPremio.getSigla()%>">
+<%
+    if (tipoPremio.getUrlLogo()==null || tipoPremio.getUrlLogo().equals("")){
+%>
+<span class="label alert-danger">No hay Logo del Tipo Premio</span>
+<%
+    }
+%>
+
+<%
+//    }  //  END IF HAY LOGO
+%>
+
+<form class="formy">
+    <h5>Tipos de Premios</h5>
+    <div class="control-group">
+        <label class="control-label" for="fileFoto">Archivo</label>
+        <div class="controls">
+            <input type="file" class=" required"  name="fileFoto" id="fileFoto">
+        </div>
+    </div>
+    <div class="form-actions">
+        <!-- Buttons -->
+        <input type="button" id="bgFoto" onclick="guardaLogoTipoPremio();" value="Actualizar Logo">
+        <%--<button type="submit" class="btn">Modificar</button>--%>
+    </div>
+
+</form>
+
 <h4>
     <img src="images/help.png" onclick="muestraSeccion('cualitativaT');" width="24" alt="Cualitativa" title="Cualitativa">
     Individual Global (Cualitativa)</h4>
+
 <table id="cualitativaT" class="table-bordered table" style="display:none;">
     <tr>
         <th>Nombre</th>
@@ -395,4 +425,24 @@
         }
     }
 
+function guardaLogoTipoPremio() {
+//    alrt("Hola 2");
+    botonEnProceso("bgFoto");
+    var o = jQuery("#fileFoto").val();
+    if (o == '') {
+        alrtError("Por favor seleccione un archivo <%--<%=tipoPremio.getId()%>--%>");
+        botonOperativo();
+    } else
+        pnRemoto.subeLogoTipoPremio(<%=tipoPremio.getId()%>, dwr.util.getValue('fileFoto'),function(data){
+        if(data!=null){
+            alrt("Bien");
+            botonOperativo();
+//            alrtError(data.urlLogo);
+            jQuery("#logoTipoPremio").attr("src", data.urlLogo);
+        } else {
+            botonOperativo();
+            alrtError("Problemas");
+        }
+    });
+}
 </script>

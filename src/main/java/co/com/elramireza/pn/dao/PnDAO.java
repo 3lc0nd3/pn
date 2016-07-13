@@ -2326,6 +2326,29 @@ public class PnDAO extends HibernateDaoSupport{
 		}
 	}
 
+    /**
+     * Activa Tipo Premio
+     * @param idTipoPremio
+     * @return
+     */
+	public int activeDesactiveTipoPremioN(int idTipoPremio){
+		try {
+
+            PnTipoPremio pnTipoPremio = getPnTipoPremio(idTipoPremio);
+            pnTipoPremio.setActivo(!pnTipoPremio.isActivo());
+            getHibernateTemplate().update(pnTipoPremio);
+            if(pnTipoPremio.isActivo()){
+                return 1;
+            } else {
+                return 0;
+            }
+
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            return 3;
+		}
+	}
+
 	public Boolean activeDesactivePersona(int idPersona){
 		try {
 			Persona persona = getPersona(idPersona);
@@ -2912,5 +2935,33 @@ public class PnDAO extends HibernateDaoSupport{
         Matcher matcher = patt.matcher(converted);
         converted = matcher.replaceAll("<a href=\"$1\">$1</a>");
         return converted;
+    }
+
+    public PnTipoPremio subeLogoTipoPremio(int idPnTipoPremio,
+                                           byte[] fileFotoFile){
+        try {
+            WebContext wctx = WebContextFactory.get();
+            ServletContext context = wctx.getServletContext();
+            String path = context.getRealPath("/img/slider01");
+
+            PnTipoPremio tipoPremio = getPnTipoPremio(idPnTipoPremio);
+
+
+            String fileName = "f-"+tipoPremio.getSigla()+"-"+System.currentTimeMillis()+".jpg";
+            String filePath = path + "/" + fileName;
+
+            FileOutputStream outputStream = new FileOutputStream(filePath);
+            outputStream.write(fileFotoFile);
+            outputStream.close();
+
+            tipoPremio.setUrlLogo("img/slider01/"+fileName);
+            getHibernateTemplate().update(tipoPremio);
+            return tipoPremio;
+        } catch (IOException e) {
+            e.printStackTrace();
+            logger.debug(e.getMessage());
+            return null;
+        }
+
     }
 }

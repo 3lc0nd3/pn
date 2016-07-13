@@ -1,5 +1,7 @@
 package co.com.elramireza.pn.model;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
@@ -29,7 +31,7 @@ public class PnTipoPremio {
     private String postulese;
     private String registroEvaluador;
     private Timestamp fechaCreacion;
-    private int activo;
+    private boolean activo;
 
     @Id
     @Column(name = "id")
@@ -163,11 +165,12 @@ public class PnTipoPremio {
 
     @Basic
     @Column(name = "activo")
-    public int getActivo() {
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    public boolean isActivo() {
         return activo;
     }
 
-    public void setActivo(int activo) {
+    public void setActivo(boolean activo) {
         this.activo = activo;
     }
 }
