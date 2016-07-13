@@ -1,3 +1,6 @@
+ALTER TABLE `pn_tipo_premio` ADD `activo` INT NOT NULL DEFAULT '1' AFTER `id_usuario`;
+
+
 Premio Version
 
 ALTER TABLE `pn_premio` ADD `version` VARCHAR( 200 ) NOT NULL AFTER `nombre` ;

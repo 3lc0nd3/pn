@@ -29,6 +29,7 @@ public class PnTipoPremio {
     private String postulese;
     private String registroEvaluador;
     private Timestamp fechaCreacion;
+    private int activo;
 
     @Id
     @Column(name = "id")
@@ -160,37 +161,13 @@ public class PnTipoPremio {
         this.fechaCreacion = fechaCreacion;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        PnTipoPremio that = (PnTipoPremio) o;
-
-        if (id != that.id) return false;
-        if (color != null ? !color.equals(that.color) : that.color != null) return false;
-        if (descripcion != null ? !descripcion.equals(that.descripcion) : that.descripcion != null) return false;
-        if (fechaCreacion != null ? !fechaCreacion.equals(that.fechaCreacion) : that.fechaCreacion != null)
-            return false;
-        if (postulese != null ? !postulese.equals(that.postulese) : that.postulese != null) return false;
-        if (registroEvaluador != null ? !registroEvaluador.equals(that.registroEvaluador) : that.registroEvaluador != null)
-            return false;
-        if (nombreTipoPremio != null ? !nombreTipoPremio.equals(that.nombreTipoPremio) : that.nombreTipoPremio != null) return false;
-        if (urlLogo != null ? !urlLogo.equals(that.urlLogo) : that.urlLogo != null) return false;
-
-        return true;
+    @Basic
+    @Column(name = "activo")
+    public int getActivo() {
+        return activo;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (nombreTipoPremio != null ? nombreTipoPremio.hashCode() : 0);
-        result = 31 * result + (urlLogo != null ? urlLogo.hashCode() : 0);
-        result = 31 * result + (color != null ? color.hashCode() : 0);
-        result = 31 * result + (descripcion != null ? descripcion.hashCode() : 0);
-        result = 31 * result + (postulese != null ? postulese.hashCode() : 0);
-        result = 31 * result + (registroEvaluador != null ? registroEvaluador.hashCode() : 0);
-        result = 31 * result + (fechaCreacion != null ? fechaCreacion.hashCode() : 0);
-        return result;
+    public void setActivo(int activo) {
+        this.activo = activo;
     }
 }

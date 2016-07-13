@@ -897,7 +897,7 @@
 
     } else {  // NO HAY PREMIO
         List<PnTipoPremio> tiposPremio = pnManager.getHibernateTemplate().find(
-                "from PnTipoPremio order by nombreTipoPremio"
+                "from PnTipoPremio where activo=1 order by nombreTipoPremio"
         );
 %>
 <div class="register">
